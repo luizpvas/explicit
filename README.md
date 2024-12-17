@@ -1,12 +1,11 @@
-# Spec::API
+# Schema::API
 
-`spec-api` is a documentation and validation library for JSON APIs. It allows
-you to document and specify the format of requests and responses, and test your
-endpoints to make sure the specs are being followed.
+`schema-api` is a documentation and validation library for JSON APIs. It allows
+you to document, test and specify request and response schemas.
 
 1. [Installation](#installation)
-1. [Defining specs](#defining-specs)
-2. [Reusing specs](#reusing-specs)
+1. [Defining schemas](#defining-schemas)
+2. [Reusing schemas](#reusing-schemas)
 3. [Writing tests](#writing-tests)
 4. Types
     * [String](#string)
@@ -26,32 +25,30 @@ endpoints to make sure the specs are being followed.
 Add the following line to your Gemfile:
 
 ```ruby
-gem "spec-api", "~> 0.1"
+gem "schema-api", "~> 0.1"
 ```
 
-# Defining specs
+# Defining schemas
 
-You define API specs by inheriting from `Spec::API`. Inside the class you add
-documentation, param specs and response specs.
+You define API schemas by inheriting from `Schema::API`. The following methods
+are available:
 
-The following methods are available:
-
-* `get(path)` - Adds a route to the spec. Use the syntax `/:param` for path
+* `get(path)` - Adds a route to the schema. Use the syntax `/:param` for path
   params. For example: `get "/customers/:customer_id"`.
     * There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
       other HTTP verbs.
 * `description(text)` - Adds a description to the endpoint. Markdown supported.
-* `header(name, spec)` - Adds a spec to the header.
-* `param(name, spec)` - Adds a spec to the param. Works with request body
-  payload, query strings and path params.
-* `response(status, spec)` - Adds a response spec. You can add multiple
-  responses with different formats. One of them must match in order to be valid.
+* `header(name, schema)` - Adds a schema to the header.
+* `param(name, spec)` - Adds a schema to the request param. It Works for params
+  in the request body, query string and path params.
+* `response(status, spec)` - Adds a response schema. You can add multiple
+  responses with different formats.
 
 For example:
 
 ```ruby
 class RegistrationsController < ApplicationController
-  class Spec < Spec::API
+  class Schema < Schema::API
     post "/api/registrations"
 
     description <<-MD
@@ -70,7 +67,7 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    validated_params = Spec.validate!(params)
+    validated_params = Schema.validate!(params)
 
     user = User.create!(validated_params)
 
@@ -83,13 +80,13 @@ class RegistrationsController < ApplicationController
 end
 ```
 
-# Reusing specs
+# Reusing schemas
 
-Specs are just data. You can reuse specs the same way you reuse any constants
-or config in your app. For example:
+Schemas are just data. You can reuse schemas the same way you reuse any
+constant or config in your app. For example:
 
 ```ruby
-module MyApp::Spec
+module MyApp::Schema
   UUID = [:string, { format: /^\h{8}-(\h{4}-){3}\h{12}$/ }].freeze
   EMAIL = [:string, { format: URI::MailTo::EMAIL_REGEXP }, strip: true }].freeze
 
@@ -99,20 +96,19 @@ module MyApp::Spec
   }.freeze
 end
 
-class Spec < Spec::API
-  param :uuid, MyApp::Spec::UUID
-  param :email, MyApp::Spec::EMAIL
-  param :address, MyApp::Spec::ADDRESS
+class Schema < Schema::API
+  param :uuid, MyApp::Schema::UUID
+  param :email, MyApp::Schema::EMAIL
+  param :address, MyApp::Schema::ADDRESS
 end
 ```
 
 # Writing tests
 
-Include `Spec::API::TestHelper` in your `test_helper.rb`. This module
-provides the method `request(spec, params)` to test your JSON controllers.
-When you test your endpoint using the `request` helper you verify that your app
-works as expected (of course), but you also ensure you're following response
-specs.
+Include `Schema::API::TestHelper` in your `test_helper.rb`. This module
+provides the method `request(schema, params)` to test your JSON controllers.
+By using the `request` helper you verify that your app works as expected (of
+course), but you also ensure you're following the response schema.
 
 Add the following line to your `test/test_helper.rb`.
 
@@ -124,29 +120,29 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
-+   include Spec::API::RequestHelper
++   include Schema::API::TestHelper
   end
 end
 ```
 
-To test your endpoint, call `request(spec, params)` and write assertions against
-the response. If the endpoint sends a response that does not match expected
-formats the test fails with `Spec::API::InvalidResponseFormat`.
+To test your endpoint, call `request(schema, params)` and write assertions
+against the response. If the endpoint sends a response that does not match
+expected formats the test fails with `Schema::API::InvalidResponseFormat`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
 
-> You can pass both body and path params, just make sure the names match. For
-example, for the endpoint `put "/customers/:customer_id"` you must call as
-`request(CustomersController::Spec, { customer_id: 123 })`.
+> Path params are matched by name, so if you have a schema with, let's say,
+`put "/customers/:customer_id"` you must call request with
+`request(CustomerController::Schema, { customer_id: 123 })`.
 
-> Note: Response format verification only runs in test environment with no
+> Note: Response format is only verified in test environment with no
 performance penalty when running in production.
 
 ```ruby
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "registers a user" do
-    response = request(RegistrationsController::Spec, {
+    response = request(RegistrationsController::Schema, {
       name: "Bilbo Baggins",
       email: "bilbo@shire.com",
       payment_type: "free_trial",
