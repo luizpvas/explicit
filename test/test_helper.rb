@@ -13,3 +13,11 @@ if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
   ActiveSupport::TestCase.file_fixture_path = File.expand_path("fixtures", __dir__) + "/files"
   ActiveSupport::TestCase.fixtures :all
 end
+
+require_relative "support/result_helper"
+require_relative "support/validation_helper"
+
+class ActiveSupport::TestCase
+  include ResultHelper
+  include ValidationHelper
+end
