@@ -2,7 +2,7 @@ require_relative "lib/schema/api/version"
 
 Gem::Specification.new do |spec|
   spec.name        = "schema-api"
-  spec.version     = Schema::Api::VERSION
+  spec.version     = Schema::API::VERSION
   spec.authors     = ["Luiz Vasconcellos"]
   spec.email       = ["luizpvasc@gmail.com"]
   spec.homepage    = "https://github.com/luizpvas/schema-api"

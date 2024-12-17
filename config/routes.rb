@@ -1,2 +1,2 @@
-Schema::Api::Engine.routes.draw do
+Schema::API::Engine.routes.draw do
 end

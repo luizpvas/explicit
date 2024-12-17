@@ -1,7 +1,7 @@
 module Schema
-  module Api
+  module API
     class Engine < ::Rails::Engine
-      isolate_namespace Schema::Api
+      isolate_namespace Schema::API
     end
   end
 end

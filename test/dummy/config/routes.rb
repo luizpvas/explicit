@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount Schema::Api::Engine => "/schema-api"
+  mount Schema::API::Engine => "/schema-api"
 end
