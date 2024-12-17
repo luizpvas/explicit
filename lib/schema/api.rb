@@ -12,7 +12,7 @@ require "schema/type/default"
 require "schema/type/inclusion"
 require "schema/type/integer"
 require "schema/type/nilable"
-require "schema/type/schema"
+require "schema/type/record"
 require "schema/type/string"
 
 module Schema

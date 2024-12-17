@@ -14,7 +14,7 @@ you to document, test and specify request and response schemas.
     * [Date Time ISO8601](#date-time-iso8601)
     * [Date Time Posix](#date-time-posix)
     * [Array](#array)
-    * [Schema](#schema)
+    * [Record](#record)
     * [Inclusion](#inclusion)
     * [Agreement](#agreement)
     * [Nilable](#nilable)
@@ -245,28 +245,28 @@ Value must be present in the set of allowed values.
 All items in the array must be valid according to the subspec. If at least one
 value is invalid then the array is invalid.
 
-### Schema
+### Record
 
 ```ruby
-user_spec = {
+user_schema = {
   name: :string,
   email: [:string, format: URI::MailTo::EMAIL_REGEXP]
 }
 
-address_spec = {
+address_schema = {
   country_name: :string,
   zipcode: [:string, { format: /\d{6}-\d{3}/, strip: true }]
 }
 
-payment_spec = {
+payment_schema = {
   currency: [:nilable, :string], # use :nilable for optional attribute
   amount: :bigdecimal
 }
 ```
 
-Schemas are hashes with predefined attributes. All specs support recursive
-definitions, that is, you can have schemas inside schemas, array of schemas,
-schemas with array of schemas, etc.
+Records are hashes with predefined attributes. Records support recursive
+definitions, that is, you can have records inside records , array of records,
+records with array of records, etc.
 
 ### Nilable
 

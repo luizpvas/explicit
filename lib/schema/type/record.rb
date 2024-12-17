@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Schema::Type::Schema
+module Schema::Type::Record
   extend self
 
   def build(attributes)

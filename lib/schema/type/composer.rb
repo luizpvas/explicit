@@ -45,7 +45,7 @@ module Schema::Type::Composer
       Schema::Type::String.build(options)
 
     in ::Hash
-      Schema::Type::Schema.build(spec_name)
+      Schema::Type::Record.build(spec_name)
     end
   end
 end
