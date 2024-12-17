@@ -3,8 +3,8 @@
 module Schema::Type::Array
   extend self
 
-  def build(spec, options)
-    subspec = Schema::Type::Composer.compose(spec)
+  def build(schema, options)
+    subschema = Schema::Type::Composer.compose(schema)
 
     lambda do |values|
       return [:error, :array] if !values.is_a?(::Array)
@@ -16,7 +16,7 @@ module Schema::Type::Array
       validated = []
 
       values.each do |value|
-        case subspec.call(value)
+        case subschema.call(value)
         in [:ok, value]  then validated << value
         in [:error, err] then return [:error, [:array, err]]
         end

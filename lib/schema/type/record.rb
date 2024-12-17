@@ -4,8 +4,8 @@ module Schema::Type::Record
   extend self
 
   def build(attributes)
-    attribute_specs = attributes.map do |attribute_name, spec|
-      [attribute_name, Schema::Type::Composer.compose(spec)]
+    attribute_specs = attributes.map do |attribute_name, schema|
+      [attribute_name, Schema::Type::Composer.compose(schema)]
     end
 
     lambda do |data|
@@ -18,7 +18,7 @@ module Schema::Type::Record
         in [:ok, validated_value]
           validated_data[attribute_name] = validated_value
         in [:error, err]
-          return [:error, { attribute_name => err}]
+          return [:error, { attribute_name => err }]
         end
       end
 

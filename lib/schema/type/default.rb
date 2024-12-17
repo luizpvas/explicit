@@ -3,8 +3,8 @@
 module Schema::Type::Default
   extend self
 
-  def build(defaultval, spec)
-    subspec = Schema::Type::Composer.compose(spec)
+  def build(defaultval, schema)
+    subschema = Schema::Type::Composer.compose(schema)
 
     lambda do |value|
       value =
@@ -14,7 +14,7 @@ module Schema::Type::Default
           value
         end
 
-      subspec.call(value)
+      subschema.call(value)
     end
   end
 end

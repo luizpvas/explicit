@@ -3,13 +3,13 @@
 module Schema::Type::Nilable
   extend self
 
-  def build(spec)
-    subspec = Schema::Type::Composer.compose(spec)
+  def build(schema)
+    subschema = Schema::Type::Composer.compose(schema)
 
     lambda do |value|
       return [:ok, nil] if value.nil?
 
-      subspec.call(value)
+      subschema.call(value)
     end
   end
 end

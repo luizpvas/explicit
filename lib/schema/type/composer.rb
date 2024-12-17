@@ -3,8 +3,8 @@
 module Schema::Type::Composer
   extend self
 
-  def compose(spec_name)
-    case spec_name
+  def compose(schema_name)
+    case schema_name
     in :agreement
       Schema::Type::Agreement.build({})
     in [:agreement, options]
@@ -45,7 +45,7 @@ module Schema::Type::Composer
       Schema::Type::String.build(options)
 
     in ::Hash
-      Schema::Type::Record.build(spec_name)
+      Schema::Type::Record.build(schema_name)
     end
   end
 end
