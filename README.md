@@ -4,21 +4,21 @@
 you to document, test and specify request and response schemas.
 
 1. [Installation](#installation)
-1. [Defining schemas](#defining-schemas)
-2. [Reusing schemas](#reusing-schemas)
-3. [Writing tests](#writing-tests)
-4. Types
-    * [String](#string)
-    * [Integer](#integer)
-    * [Boolean](#boolean)
-    * [Date Time ISO8601](#date-time-iso8601)
-    * [Date Time Posix](#date-time-posix)
-    * [Array](#array)
-    * [Record](#record)
-    * [Inclusion](#inclusion)
-    * [Agreement](#agreement)
-    * [Nilable](#nilable)
-    * [Default](#default)
+2. [Defining schemas](#defining-schemas)
+3. [Reusing schemas](#reusing-schemas)
+4. [Writing tests](#writing-tests)
+5. Types
+   - [String](#string)
+   - [Integer](#integer)
+   - [Boolean](#boolean)
+   - [Date Time ISO8601](#date-time-iso8601)
+   - [Date Time Posix](#date-time-posix)
+   - [Array](#array)
+   - [Record](#record)
+   - [Inclusion](#inclusion)
+   - [Agreement](#agreement)
+   - [Nilable](#nilable)
+   - [Default](#default)
 
 # Installation
 
@@ -33,15 +33,15 @@ gem "schema-api", "~> 0.1"
 You define API schemas by inheriting from `Schema::API`. The following methods
 are available:
 
-* `get(path)` - Adds a route to the schema. Use the syntax `/:param` for path
+- `get(path)` - Adds a route to the schema. Use the syntax `/:param` for path
   params. For example: `get "/customers/:customer_id"`.
-    * There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
-      other HTTP verbs.
-* `description(text)` - Adds a description to the endpoint. Markdown supported.
-* `header(name, schema)` - Adds a schema to the header.
-* `param(name, spec)` - Adds a schema to the request param. It Works for params
+  - There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
+    other HTTP verbs.
+- `description(text)` - Adds a description to the endpoint. Markdown supported.
+- `header(name, schema)` - Adds a schema to the header.
+- `param(name, spec)` - Adds a schema to the request param. It Works for params
   in the request body, query string and path params.
-* `response(status, spec)` - Adds a response schema. You can add multiple
+- `response(status, spec)` - Adds a response schema. You can add multiple
   responses with different formats.
 
 For example:
@@ -127,21 +127,21 @@ end
 
 To test your endpoint, call `request(schema, params)` and write assertions
 against the response. If the endpoint sends a response that does not match
-expected formats the test fails with `Schema::API::InvalidResponseFormat`.
+expected format the test fails with `Schema::API::InvalidResponseFormat`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
 
 > Path params are matched by name, so if you have a schema with, let's say,
-`put "/customers/:customer_id"` you must call request with
-`request(CustomerController::Schema, { customer_id: 123 })`.
+> `put "/customers/:customer_id"` you must call request with
+> `request(CustomerController::Schema, { customer_id: 123 })`.
 
 > Note: Response format is only verified in test environment with no
-performance penalty when running in production.
+> performance penalty when running in production.
 
 ```ruby
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
-  test "registers a user" do
+  test "user registration" do
     response = request(RegistrationsController::Schema, {
       name: "Bilbo Baggins",
       email: "bilbo@shire.com",
@@ -265,7 +265,7 @@ payment_schema = {
 ```
 
 Records are hashes with predefined attributes. Records support recursive
-definitions, that is, you can have records inside records , array of records,
+definitions, that is, you can have records inside records, array of records,
 records with array of records, etc.
 
 ### Nilable
