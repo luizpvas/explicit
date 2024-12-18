@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ValidationHelper
-  def validate(value, spec_name)
-    ::Schema::Type::Composer.compose(spec_name).call(value)
+  def validate(value, schema)
+    ::Schema::Type::Builder.build(schema).call(value)
   end
 end

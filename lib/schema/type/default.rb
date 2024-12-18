@@ -4,7 +4,7 @@ module Schema::Type::Default
   extend self
 
   def build(defaultval, schema)
-    subschema = Schema::Type::Composer.compose(schema)
+    subschema = Schema::Type::Builder.build(schema)
 
     lambda do |value|
       value =

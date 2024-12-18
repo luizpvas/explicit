@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-module Schema::Type::Composer
+module Schema::Type::Builder
   extend self
 
-  def compose(schema_name)
-    case schema_name
+  def build(schema)
+    case schema
     in :agreement
       Schema::Type::Agreement.build({})
     in [:agreement, options]
@@ -45,7 +45,7 @@ module Schema::Type::Composer
       Schema::Type::String.build(options)
 
     in ::Hash
-      Schema::Type::Record.build(schema_name)
+      Schema::Type::Record.build(schema)
     end
   end
 end

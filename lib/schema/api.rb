@@ -5,7 +5,7 @@ require "schema/type"
 require "schema/type/agreement"
 require "schema/type/array"
 require "schema/type/boolean"
-require "schema/type/composer"
+require "schema/type/builder"
 require "schema/type/date_time_iso8601"
 require "schema/type/date_time_posix"
 require "schema/type/default"
@@ -31,7 +31,7 @@ module Schema
       end
 
       def validate!(values)
-        schema = Schema::Type::Composer.compose(params)
+        schema = Schema::Type::Builder.build(params)
 
         case schema.call(values)
         in [:ok, validated_data] then validated_data

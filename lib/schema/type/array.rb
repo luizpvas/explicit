@@ -4,7 +4,7 @@ module Schema::Type::Array
   extend self
 
   def build(schema, options)
-    subschema = Schema::Type::Composer.compose(schema)
+    subschema = Schema::Type::Builder.build(schema)
 
     lambda do |values|
       return [:error, :array] if !values.is_a?(::Array)

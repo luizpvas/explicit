@@ -4,7 +4,7 @@ module Schema::Type::Nilable
   extend self
 
   def build(schema)
-    subschema = Schema::Type::Composer.compose(schema)
+    subschema = Schema::Type::Builder.build(schema)
 
     lambda do |value|
       return [:ok, nil] if value.nil?

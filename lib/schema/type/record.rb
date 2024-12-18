@@ -5,7 +5,7 @@ module Schema::Type::Record
 
   def build(attributes)
     attribute_specs = attributes.map do |attribute_name, schema|
-      [attribute_name, Schema::Type::Composer.compose(schema)]
+      [attribute_name, Schema::Type::Builder.build(schema)]
     end
 
     lambda do |data|
