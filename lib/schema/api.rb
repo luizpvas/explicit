@@ -17,6 +17,36 @@ require "schema/type/string"
 
 module Schema
   class API
-    # Your code goes here...
+    InvalidParamsError = ::Class.new(::RuntimeError)
+
+    class << self
+      def header(name, spec)
+        headers << { name:, spec: }
+      end
+
+      def param(name, spec)
+        raise ArgumentError("duplicated param #{name}") if params.key?(name)
+
+        params[name] = spec
+      end
+
+      def validate!(values)
+        schema = Schema::Type::Composer.compose(params)
+
+        case schema.call(values)
+        in [:ok, validated_data] then validated_data
+        in [:error, err] then raise InvalidParamsError.new(err)
+        end
+      end
+
+      private
+        def headers
+          @headers ||= []
+        end
+
+        def params
+          @params ||= {}
+        end
+    end
   end
 end

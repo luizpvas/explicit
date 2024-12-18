@@ -7,7 +7,9 @@ you to document, test and specify request and response schemas.
 2. [Defining schemas](#defining-schemas)
 3. [Reusing schemas](#reusing-schemas)
 4. [Writing tests](#writing-tests)
-5. Types
+5. [Publishing docs](#publishing-docs)
+6. [Performance benchmark](#performance-benchmark)
+7. Types
    - [String](#string)
    - [Integer](#integer)
    - [Boolean](#boolean)
