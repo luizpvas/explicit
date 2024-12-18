@@ -35,14 +35,14 @@ gem "schema-api", "~> 0.1"
 You define API schemas by inheriting from `Schema::API`. The following methods
 are available:
 
-- `get(path)` - Adds a route to the schema. Use the syntax `/:param` for path
+- `get(path)` - Adds a route to the schema. Use the syntax `:param` for path
   params. For example: `get "/customers/:customer_id"`.
   - There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
     other HTTP verbs.
 - `description(text)` - Adds a description to the endpoint. Markdown supported.
-- `header(name, schema)` - Adds a schema to the header.
-- `param(name, spec)` - Adds a schema to the request param. It Works for params
-  in the request body, query string and path params.
+- `header(name, schema)` - Adds a header to the endpoint.
+- `param(name, spec)` - Adds the request param to the endpoint. It works for
+  params in the request body, query string and path params.
 - `response(status, spec)` - Adds a response schema. You can add multiple
   responses with different formats.
 
@@ -107,10 +107,10 @@ end
 
 # Writing tests
 
-Include `Schema::API::TestHelper` in your `test_helper.rb`. This module
-provides the method `request(schema, params)` to test your JSON controllers.
-By using the `request` helper you verify that your app works as expected (of
-course), but you also ensure you're following the response schema.
+Include `Schema::API::TestHelper` in your `test/test_helper.rb` or
+`spec/rails_helper.rb`. This module provides the method
+`request(schema, params)` that let's you verify the endpoint works as expected
+and the response follows the specified schema.
 
 Add the following line to your `test/test_helper.rb`.
 
@@ -134,11 +134,11 @@ expected format the test fails with `Schema::API::InvalidResponseFormat`.
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
 
-> Path params are matched by name, so if you have a schema with, let's say,
+> Path params are matched by name, so if you have an endpoint configured with
 > `put "/customers/:customer_id"` you must call request with
-> `request(CustomerController::Schema, { customer_id: 123 })`.
+> `request(CustomerController::UpdateSchema, { customer_id: 123 })`.
 
-> Note: Response format is only verified in test environment with no
+> Note: Responses are only verified in test environment with no
 > performance penalty when running in production.
 
 ```ruby
