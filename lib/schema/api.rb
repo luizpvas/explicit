@@ -1,5 +1,6 @@
 require "schema/api/version"
 require "schema/api/engine"
+require "schema/api/documentation"
 
 require "schema/type"
 require "schema/type/agreement"
