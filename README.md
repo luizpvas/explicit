@@ -289,9 +289,8 @@ Value must be `nil` or valid according to the subspec.
 [:default, -> { Time.current.iso8601 }, :date_time_iso8601]
 ```
 
-Provides a default value the param is not present in the request or the value is
-nil. All other falsy values such as an empty string or zero have precedence over
+Provides a default value for the param if the value is not present or it is
+`nil`. Other falsy values such as empty string or zero have precedence over
 the default value.
 
-If you provide a lambda as the default value, the lambda gets executed everytime
-`validate!` is called.
+If you provide a lambda it will execute in every `validate!` call.
