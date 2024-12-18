@@ -21,7 +21,7 @@ module Schema
 
     class << self
       def header(name, spec)
-        headers << { name:, spec: }
+        headers[name] = spec
       end
 
       def param(name, spec)
@@ -41,7 +41,7 @@ module Schema
 
       private
         def headers
-          @headers ||= []
+          @headers ||= {}
         end
 
         def params
