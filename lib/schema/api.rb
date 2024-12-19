@@ -21,6 +21,14 @@ module Schema
     InvalidParamsError = ::Class.new(::RuntimeError)
 
     class << self
+      def title(text)
+        # TODO
+      end
+
+      def description(markdown)
+        # TODO
+      end
+
       def header(name, spec)
         headers[name] = spec
       end

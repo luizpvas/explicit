@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
-class API::V1 < Schema::API::Documentation
-  section "Introduction" do
-    # add title: "Introduction", partial: "api/v1/introduction"
-  end
+module API::V1
+  Documentation = Schema::API::Documentation.publish do
+    section "Introduction" do
+      # add title: "About", partial: "api/v1/introduction"
+    end
 
-  section "Auth" do
-    # add API::V1::SessionsController::CreateSchema
-    # add API::V1::RegistrationsController::CreateSchema
-  end
+    section "Auth" do
+      # add API::V1::SessionsController::CreateRequest
+      # add API::V1::RegistrationsController::CreateRequest
+    end
 
-  section "Posts" do
-    # add API::V1::PostsController::CreateSchema
-    # add API::V1::PostsController::UpdateSchema
-    # add API::V1::PostsController::DestroySchema
+    section "Posts" do
+      # add API::V1::PostsController::CreateRequest
+      # add API::V1::PostsController::CreateRequest
+      # add API::V1::PostsController::DestroyRequest
+    end
   end
 end

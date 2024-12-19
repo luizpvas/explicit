@@ -1,13 +1,15 @@
 # Schema::API
 
+Request::Endpoint
+
 `schema-api` is a documentation and validation library for JSON APIs. It allows
-you to document, test and specify request and response schemas.
+you to document, test and validate request formats and response formats.
 
 1. [Installation](#installation)
 2. [Defining schemas](#defining-schemas)
 3. [Reusing schemas](#reusing-schemas)
 4. [Writing tests](#writing-tests)
-5. [Publishing docs](#publishing-docs)
+5. [Writing documentation](#writing-documentation)
 6. [Performance benchmark](#performance-benchmark)
 7. Types
    - [String](#string)
@@ -39,6 +41,7 @@ are available:
   params. For example: `get "/customers/:customer_id"`.
   - There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
     other HTTP verbs.
+- `title(text)` - Adds a title to the request. Displayed in the navigation menu.
 - `description(text)` - Adds a description to the endpoint. Markdown supported.
 - `header(name, schema)` - Adds a header to the endpoint.
 - `param(name, spec)` - Adds the request param to the endpoint. It works for
@@ -99,7 +102,7 @@ module MyApp::Schema
 end
 
 class Schema < Schema::API
-  param :uuid, MyApp::Schema::UUID
+  param :customer_uuid, MyApp::Schema::UUID
   param :email, MyApp::Schema::EMAIL
   param :address, MyApp::Schema::ADDRESS
 end
@@ -110,7 +113,7 @@ end
 Include `Schema::API::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
 `request(schema, params)` that let's you verify the endpoint works as expected
-and the response follows the specified schema.
+and the response follows the expected format.
 
 Add the following line to your `test/test_helper.rb`.
 
@@ -127,7 +130,7 @@ module ActiveSupport
 end
 ```
 
-To test your endpoint, call `request(schema, params)` and write assertions
+To test your endpoints, call `request(schema, params)` and write assertions
 against the response. If the endpoint sends a response that does not match
 expected format the test fails with `Schema::API::InvalidResponseFormat`.
 
@@ -135,7 +138,7 @@ The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
 
 > Path params are matched by name, so if you have an endpoint configured with
-> `put "/customers/:customer_id"` you must call request with
+> `put "/customers/:customer_id"` you must request with
 > `request(CustomerController::UpdateSchema, { customer_id: 123 })`.
 
 > Note: Responses are only verified in test environment with no
@@ -144,7 +147,7 @@ The response object has a `status`, an integer value for the http status, and
 ```ruby
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "user registration" do
-    response = request(RegistrationsController::Schema, {
+    response = request(RegistrationsController::Request, {
       name: "Bilbo Baggins",
       email: "bilbo@shire.com",
       payment_type: "free_trial",
@@ -155,6 +158,30 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
     assert response.data[:id]
     assert_equal "bilbo@shire.com", response.data[:email]
+  end
+end
+```
+
+# Writing documentation
+
+You can group API schemas into a documentation page that you. To build a
+documentation page you inherit from `Schema::API::Documentation`. For example:
+
+```ruby
+class API::V1::Documentation < Schema::API::Documentation
+  section "Introduction" do
+    add title: "About", partial: "api/v1/introduction/about"
+  end
+
+  section "Auth" do
+    add SessionsController::Request
+    add RegistrationsController::Request
+  end
+
+  section "Posts" do
+    add PostsController::CreateRequest
+    add PostsController::UpdateRequest
+    add PostsController::DestroyRequest
   end
 end
 ```
