@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  mount Schema::API::Engine => "/schema-api"
+  resources :sessions, only: %i[create]
+
+  mount API::V1::Documentation => "/api/v1/docs"
 end
