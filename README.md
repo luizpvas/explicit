@@ -3,7 +3,9 @@
 Request::Endpoint
 
 `schema-api` is a documentation and validation library for JSON APIs. It allows
-you to document, test and validate request formats and response formats.
+you to document, test and validate request and response formats. Documentation
+becomes 10x more valuable when it is not just words, but instead enforced
+during runtime and checked in tests.
 
 1. [Installation](#installation)
 2. [Defining schemas](#defining-schemas)
