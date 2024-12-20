@@ -9,6 +9,8 @@ gem "sqlite3"
 
 gem "sprockets-rails"
 
+gem "bcrypt"
+
 # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
 gem "rubocop-rails-omakase", require: false
 

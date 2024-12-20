@@ -36,7 +36,7 @@ class Schema::Type::RecordTest < ActiveSupport::TestCase
     )
 
     assert_error(
-      { name: :string },
+      { name: :string, age: :integer },
       validate({}, USER_SCHEMA)
     )
   end

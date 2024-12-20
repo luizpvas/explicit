@@ -1,5 +1,5 @@
 require "schema/api/version"
-require "schema/api/engine"
+require "schema/api/test_helper"
 require "schema/api/documentation"
 
 require "schema/type"
@@ -18,9 +18,26 @@ require "schema/type/string"
 
 module Schema
   class API
-    InvalidParamsError = ::Class.new(::RuntimeError)
+    class InvalidParamsError < RuntimeError
+      attr_reader :errors
+
+      def initialize(errors)
+        @errors = errors
+      end
+    end
+
+    Route = ::Data.define(:method, :path)
+    Response = ::Data.define(:status, :format)
 
     class << self
+      def get(path)     = routes << Route.new(method: :get, path:)
+      def head(path)    = routes << Route.new(method: :head, path:)
+      def post(path)    = routes << Route.new(method: :post, path:)
+      def put(path)     = routes << Route.new(method: :put, path:)
+      def delete(path)  = routes << Route.new(method: :delete, path:)
+      def options(path) = routes << Route.new(method: :options, path:)
+      def patch(path)   = routes << Route.new(method: :patch, path:)
+
       def title(text)
         # TODO
       end
@@ -29,14 +46,20 @@ module Schema
         # TODO
       end
 
-      def header(name, spec)
-        headers[name] = spec
+      def header(name, format)
+        raise ArgumentError("duplicated header #{name}") if headers.key?(name)
+
+        headers[name] = format
       end
 
-      def param(name, spec)
+      def param(name, format, **options)
         raise ArgumentError("duplicated param #{name}") if params.key?(name)
 
-        params[name] = spec
+        params[name] = format
+      end
+
+      def response(status, format)
+        responses << Response.new(status:, format:)
       end
 
       def validate!(values)
@@ -49,12 +72,20 @@ module Schema
       end
 
       private
+        def routes
+          @routes ||= []
+        end
+
         def headers
           @headers ||= {}
         end
 
         def params
           @params ||= {}
+        end
+
+        def responses
+          @responses ||= []
         end
     end
   end

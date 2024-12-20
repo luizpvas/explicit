@@ -25,6 +25,7 @@ during runtime and checked in tests.
    - [Agreement](#agreement)
    - [Nilable](#nilable)
    - [Default](#default)
+   - [Literal strings](#literal-strings)
 
 # Installation
 
@@ -323,3 +324,7 @@ Provides a default value for the param if the value is not present or it is
 the default value.
 
 If you provide a lambda it will execute in every `validate!` call.
+
+### Literal strings
+
+TODO

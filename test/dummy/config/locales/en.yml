@@ -28,4 +28,6 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  schema:
+    errors:
+      string: "must be a string"

@@ -10,6 +10,7 @@ module Schema::Type::Record
 
     lambda do |data|
       validated_data = {}
+      errors = {}
 
       attribute_specs.each do |attribute_name, spec|
         value = data[attribute_name]
@@ -18,9 +19,11 @@ module Schema::Type::Record
         in [:ok, validated_value]
           validated_data[attribute_name] = validated_value
         in [:error, err]
-          return [:error, { attribute_name => err }]
+          errors[attribute_name] = err
         end
       end
+
+      return [:error, errors] if errors.any?
 
       [:ok, validated_data]
     end

@@ -20,4 +20,6 @@ require_relative "support/validation_helper"
 class ActiveSupport::TestCase
   include ResultHelper
   include ValidationHelper
+
+  include Schema::API::TestHelper
 end
