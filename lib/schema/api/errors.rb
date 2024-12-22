@@ -3,13 +3,13 @@
 module Schema::API::Errors
   extend self
 
-  I18n = ->(error, **context) do
+  RailsI18n = ->(error, **context) do
     key = "schema.errors.#{error}"
 
     ::I18n.t(key, **context)
   end
 
-  def translate(error, translator)
+  def translate(error, translator = RailsI18n)
     case error
     in :agreement
       translator.call(:agreement)
