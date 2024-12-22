@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Schema::API::TestHelper
-  Response = ::Data.define(:status, :data)
+  Response = ::Data.define(:status, :data) do
+    def dig(...) = data.dig(...)
+  end
 
   def fetch(request, params:, headers: nil)
     route = request.send(:routes).first
@@ -21,9 +23,17 @@ module Schema::API::TestHelper
 
     process(route.method, route.path, params:, headers:)
 
-    Response.new(
+    response = Response.new(
       status: @response.status,
-      data: @response.parsed_body.with_indifferent_access
+      data: @response.parsed_body.deep_symbolize_keys
     )
+
+    ensure_response_matches_schema!(request, response)
+
+    response
+  end
+
+  def ensure_response_matches_schema!(request, response)
+    allowed_responses = request.send(:responses)
   end
 end

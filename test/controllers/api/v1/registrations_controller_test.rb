@@ -24,13 +24,39 @@ class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "registration attempt when email address is taken" do
+    User.create!(
+      name: "Luiz",
+      email_address: "luiz@example.org",
+      password: "mystrongpassword"
+    )
+
+    response = fetch(API::V1::RegistrationsController::CreateRequest,
+      params: {
+        name: "Luiz",
+        email_address: "luiz@example.org",
+        password: "mystrongpassword",
+        terms_of_use: true
+      }
+    )
+
+    assert_equal 422, response.status
+    assert_equal "email_already_taken", response.data[:error]
+  end
+
   test "invalid params" do
     response = fetch(API::V1::RegistrationsController::CreateRequest, params: {})
 
     assert_equal 422,  response.status
 
     assert_equal response.data, {
-      name: "must be a string"
+      error: "invalid_params",
+      params: {
+        name: "must be a string",
+        email_address: "must be a string",
+        password: "must be a string",
+        terms_of_use: "must be accepted"
+      }
     }
   end
 end

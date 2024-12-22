@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   rescue_from Schema::API::InvalidParamsError do |err|
-    errors = Schema::API::Errors.translate(err.errors)
+    params = Schema::API::Errors.translate(err.errors)
 
-    render json: { error: "invalid_params", errors: }, status: 422
+    render json: { error: "invalid_params", params: }, status: 422
   end
 end
