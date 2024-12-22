@@ -44,8 +44,15 @@ class Schema::API::ErrorsTest < ActiveSupport::TestCase
     assert_equal "must have format /(foo|bar)/", translate_error([:format, /(foo|bar)/])
   end
 
+  test "record" do
+    assert_equal(
+      { name: "must be a string", age: "must be an integer" },
+      translate_error({ name: :string, age: :integer })
+    )
+  end
+
   private
     def translate_error(error)
-      Schema::API::Errors.translate(error, Schema::API::Errors::I18n)
+      Schema::API::Errors.translate(error)
     end
 end
