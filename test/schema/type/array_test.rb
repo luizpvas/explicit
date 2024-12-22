@@ -16,10 +16,10 @@ class Schema::Type::ArrayTest < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error [:array, :string], validate(["foo", 10], [:array, :string])
-    assert_error [:array, :string], validate(["foo", "bar", nil], [:array, :string])
-    assert_error [:array, :string], validate([10], [:array, :string])
-    assert_error [:array, :string], validate([nil], [:array, :string])
-    assert_error [:array, :string], validate([["foo"]], [:array, :string])
+    assert_error [:array, 1, :string], validate(["foo", 10], [:array, :string])
+    assert_error [:array, 2, :string], validate(["foo", "bar", nil], [:array, :string])
+    assert_error [:array, 0, :string], validate([10], [:array, :string])
+    assert_error [:array, 0, :string], validate([nil], [:array, :string])
+    assert_error [:array, 0, :string], validate([["foo"]], [:array, :string])
   end
 end

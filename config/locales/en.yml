@@ -1,0 +1,19 @@
+en:
+  schema:
+    errors:
+      agreement: "must be accepted"
+      array: "invalid item at index(%{index}): %{error}"
+      boolean: "must be a boolean"
+      date_time_iso8601: "must be a valid iso8601 date time"
+      date_time_posix: "must be a valid posix timestamps"
+      inclusion: "must be one of: %{values}"
+      integer: "must be an integer"
+      min: "must be bigger than or equal to %{min}"
+      max: "must be smaller than or equal to %{max}"
+      negative: "must not be negative"
+      positive: "must not be positive"
+      string: "must be a string"
+      empty: "must not be empty"
+      minlength: "length must be greater than or equal to %{minlength}"
+      maxlength: "length must be smaller than or equal to %{maxlength}"
+      format: "must have format %{regex}"

@@ -1,6 +1,8 @@
-require "schema/api/version"
-require "schema/api/test_helper"
 require "schema/api/documentation"
+require "schema/api/engine"
+require "schema/api/errors"
+require "schema/api/test_helper"
+require "schema/api/version"
 
 require "schema/type"
 require "schema/type/agreement"

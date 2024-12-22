@@ -15,10 +15,10 @@ module Schema::Type::Array
 
       validated = []
 
-      values.each do |value|
+      values.each.with_index do |value, index|
         case subschema.call(value)
         in [:ok, value]  then validated << value
-        in [:error, err] then return [:error, [:array, err]]
+        in [:error, err] then return [:error, [:array, index, err]]
         end
       end
 

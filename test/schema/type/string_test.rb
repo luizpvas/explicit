@@ -29,21 +29,21 @@ class Schema::Type::StringTest < ActiveSupport::TestCase
     assert_ok "foo", validate("foo", [:string, minlength: 3])
     assert_ok "", validate("", [:string, minlength: 0])
 
-    assert_error [:minlength, 4], validate("foo", [:string, minlength: 4])
+    assert_error [:minlength, minlength: 4], validate("foo", [:string, minlength: 4])
   end
 
   test "maxlength" do
     assert_ok "foo", validate("foo", [:string, maxlength: 3])
     assert_ok "", validate("", [:string, maxlength: 0])
 
-    assert_error [:maxlength, 2], validate("foo", [:string, maxlength: 2])
+    assert_error [:maxlength, maxlength: 2], validate("foo", [:string, maxlength: 2])
   end
 
   test "format" do
     assert_ok "foo", validate("foo", [:string, format: /(foo|bar)/])
     assert_ok "bar", validate("bar", [:string, format: /(foo|bar)/])
 
-    assert_error [:format, /(foo|bar)/], validate("qux", [:string, format: /(foo|bar)/])
+    assert_error [:format, format: /(foo|bar)/], validate("qux", [:string, format: /(foo|bar)/])
   end
 
   test "error" do

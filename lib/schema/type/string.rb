@@ -14,15 +14,15 @@ module Schema::Type::String
       end
 
       if (minlength = options[:minlength]) && !validate_minlength(value, minlength)
-        return [:error, [:minlength, minlength]]
+        return [:error, [:minlength, minlength:]]
       end
 
       if (maxlength = options[:maxlength]) && !validate_maxlength(value, maxlength)
-        return [:error, [:maxlength, maxlength]]
+        return [:error, [:maxlength, maxlength:]]
       end
 
       if (format = options[:format]) && !validate_format(value, format)
-        return [:error, [:format, format]]
+        return [:error, [:format, format:]]
       end
 
       [:ok, value]

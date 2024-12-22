@@ -28,6 +28,3 @@
 #       enabled: "ON"
 
 en:
-  schema:
-    errors:
-      string: "must be a string"
