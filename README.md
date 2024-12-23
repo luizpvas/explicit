@@ -20,6 +20,7 @@ during runtime and checked in tests.
    - [Date Time ISO8601](#date-time-iso8601)
    - [Date Time Posix](#date-time-posix)
    - [Default](#default)
+   - [Hash](#hash)
    - [Inclusion](#inclusion)
    - [Integer](#integer)
    - [Literal](#literal)
@@ -258,6 +259,20 @@ the default value.
 
 If you provide a lambda it will execute in every `validate!` call.
 
+### Hash
+
+```ruby
+[:hash, keyspec, valuespec, options = {}]
+[:hash, :string, :string]
+[:hash, :string, :integer]
+[:hash, :string, :integer, empty: false]
+[:hash, :string, [:array, :date_time_iso8601]]
+```
+
+Hashes are key value pairs where all keys must match keyspec and all values must
+match valuespec. If you are expecting a hash with a specific set of keys it is
+best to use a [record](#record) instead.
+
 ### Inclusion
 
 ```ruby
@@ -312,9 +327,9 @@ Value must be `nil` or valid according to the subspec.
 [:one_of, { email: :string }, { phone_number: :string }]
 ```
 
-Attempts to validate the value against each spec in order stopping at the first
-spec that successfully matches the value. If none of the specs match, an error
-is returned.
+Attempts to validate against each spec in order stopping at the first spec that
+successfully matches the value. If none of the specs match, an error is
+returned.
 
 ### Record
 

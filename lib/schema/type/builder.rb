@@ -28,6 +28,11 @@ module Schema::Type::Builder
     in [:default, defaultval, options]
       Schema::Type::Default.build(defaultval, options)
 
+    in [:hash, keyspec, valuespec]
+      Schema::Type::Hash.build(keyspec, valuespec, {})
+    in [:hash, keyspec, valuespec, options]
+      Schema::Type::Hash.build(keyspec, valuespec, options)
+
     in [:inclusion, options]
       Schema::Type::Inclusion.build(options)
 
