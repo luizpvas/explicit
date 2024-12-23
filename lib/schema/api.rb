@@ -16,6 +16,7 @@ require "schema/type/inclusion"
 require "schema/type/integer"
 require "schema/type/literal"
 require "schema/type/nilable"
+require "schema/type/one_of"
 require "schema/type/record"
 require "schema/type/string"
 

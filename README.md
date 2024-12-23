@@ -14,18 +14,19 @@ during runtime and checked in tests.
 5. [Writing documentation](#writing-documentation)
 6. [Performance benchmark](#performance-benchmark)
 7. Types
-   - [String](#string)
-   - [Integer](#integer)
+   - [Agreement](#agreement)
+   - [Array](#array)
    - [Boolean](#boolean)
    - [Date Time ISO8601](#date-time-iso8601)
    - [Date Time Posix](#date-time-posix)
-   - [Array](#array)
-   - [Record](#record)
-   - [Inclusion](#inclusion)
-   - [Agreement](#agreement)
-   - [Nilable](#nilable)
    - [Default](#default)
-   - [Literals](#literals)
+   - [Inclusion](#inclusion)
+   - [Integer](#integer)
+   - [Literal](#literal)
+   - [Nilable](#nilable)
+   - [One of](#one-of)
+   - [Record](#record)
+   - [String](#string)
 
 # Installation
 
@@ -191,30 +192,27 @@ end
 
 # Types
 
-### String
+### Agreement
 
 ```ruby
-:string
-[:string, strip: true]
-[:string, empty: false]
-[:string, format: URI::MailTo::EMAIL_REGEXP]
-[:string, minlength: 8] # inclusive
-[:string, maxlength: 20] # inclusive
+:agreement
+[:agreement, parse: true]
 ```
 
-### Integer
+The `agreement` type is a boolean that must always be true. Useful for terms of
+use or agreement acceptances. If `parse: true` is specified then the following
+values are accepted alongisde `true`: "`true`", `"on"` and `"1"`.
+
+### Array
 
 ```ruby
-:integer
-[:integer, parse: true]
-[:integer, negative: false]
-[:integer, positive: false]
-[:integer, min: 0] # inclusive
-[:integer, max: 10] # inclusive
+[:array, subspec, options = {}]
+[:array, :string]
+[:array, :integer, empty: false]
 ```
 
-If `parse: true` is specified then integer encoded string values such as "10" or
-"-2" are automatically converted to integer.
+All items in the array must be valid according to the subspec. If at least one
+value is invalid then the array is invalid.
 
 ### Boolean
 
@@ -245,16 +243,20 @@ String encoded date time following the ISO 8601 spec. For example:
 The number of elapsed seconds since January 1, 1970 in timezone UTC. For
 example: `1733923153`
 
-### Agreement
+### Default
 
 ```ruby
-:agreement
-[:agreement, parse: true]
+[:default, default_value, subspec]
+[:default, "USD", :string]
+[:default, 0, :integer]
+[:default, -> { Time.current.iso8601 }, :date_time_iso8601]
 ```
 
-The `agreement` type is a boolean that must always be true. Useful for terms of
-use or agreement acceptances. If `parse: true` is specified then the following
-values are accepted alongisde `true`: "`true`", `"on"` and `"1"`.
+Provides a default value for the param if the value is not present or it is
+`nil`. Other falsy values such as empty string or zero have precedence over
+the default value.
+
+If you provide a lambda it will execute in every `validate!` call.
 
 ### Inclusion
 
@@ -266,16 +268,53 @@ values are accepted alongisde `true`: "`true`", `"on"` and `"1"`.
 
 Value must be present in the set of allowed values.
 
-### Array
+### Integer
 
 ```ruby
-[:array, subspec, options = {}]
-[:array, :string]
-[:array, :integer, empty: false]
+:integer
+[:integer, parse: true]
+[:integer, negative: false]
+[:integer, positive: false]
+[:integer, min: 0] # inclusive
+[:integer, max: 10] # inclusive
 ```
 
-All items in the array must be valid according to the subspec. If at least one
-value is invalid then the array is invalid.
+If `parse: true` is specified then integer encoded string values such as "10" or
+"-2" are automatically converted to integer.
+
+### Literal
+
+```ruby
+[:literal, value]
+[:literal, 6379]
+[:literal, "value"]
+"value" # literal strings can use shorter syntax
+```
+
+A literal value behaves similar to inclusion with a single value. Useful for
+declaring multiple types in `one_of`.
+
+### Nilable
+
+```ruby
+[:nilable, subspec]
+[:nilable, :string]
+[:nilable, [:array, :integer]]
+```
+
+Value must be `nil` or valid according to the subspec.
+
+### One of
+
+```ruby
+[:one_of, spec1, spec2, ..., specN]
+[:one_of, :string, :integer]
+[:one_of, { email: :string }, { phone_number: :string }]
+```
+
+Attempts to validate the value against each spec in order stopping at the first
+spec that successfully matches the value. If none of the specs match, an error
+is returned.
 
 ### Record
 
@@ -300,39 +339,13 @@ Records are hashes with predefined attributes. Records support recursive
 definitions, that is, you can have records inside records, array of records,
 records with array of records, etc.
 
-### Nilable
+### String
 
 ```ruby
-[:nilable, subspec]
-[:nilable, :string]
-[:nilable, [:array, :integer]]
+:string
+[:string, strip: true]
+[:string, empty: false]
+[:string, format: URI::MailTo::EMAIL_REGEXP]
+[:string, minlength: 8] # inclusive
+[:string, maxlength: 20] # inclusive
 ```
-
-Value must be `nil` or valid according to the subspec.
-
-### Default
-
-```ruby
-[:default, default_value, subspec]
-[:default, "USD", :string]
-[:default, 0, :integer]
-[:default, -> { Time.current.iso8601 }, :date_time_iso8601]
-```
-
-Provides a default value for the param if the value is not present or it is
-`nil`. Other falsy values such as empty string or zero have precedence over
-the default value.
-
-If you provide a lambda it will execute in every `validate!` call.
-
-### Literals
-
-```ruby
-[:literal, value]
-[:literal, 6379]
-[:literal, "value"]
-"value" # literal strings can use shorter syntax
-```
-
-A literal value behaves similar to inclusion with a single value. Useful for
-declaring multiple types in `one_of`.

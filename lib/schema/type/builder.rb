@@ -44,6 +44,9 @@ module Schema::Type::Builder
     in [:nilable, options]
       Schema::Type::Nilable.build(options)
 
+    in [:one_of, *schemas]
+      Schema::Type::OneOf.build(schemas)
+
     in :string
       Schema::Type::String.build({})
     in [:string, options]
