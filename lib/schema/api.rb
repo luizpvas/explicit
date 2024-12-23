@@ -89,8 +89,16 @@ module Schema
           @params ||= {}
         end
 
+        INVALID_PARAMS_SPEC = {
+          status: [:literal, 422],
+          data: {
+            error: "invalid_params",
+            params: [:hash, :string, :string]
+          }
+        }.freeze
+
         def responses
-          @responses ||= []
+          @responses ||= [INVALID_PARAMS_SPEC]
         end
     end
   end

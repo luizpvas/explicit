@@ -58,7 +58,7 @@ For example:
 
 ```ruby
 class RegistrationsController < ApplicationController
-  class Schema < Schema::API
+  class Request < Schema::API
     post "/api/registrations"
 
     description <<-MD
@@ -77,9 +77,9 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    validated_params = Schema.validate!(params)
+    Request.validate!(params) => { name:, email:, payment_type: }
 
-    user = User.create!(validated_params)
+    user = User.create!(name:, email:, payment_type:)
 
     render json: user: { user.as_json(:id, :email) }
   rescue User::EmailTaken
@@ -117,8 +117,8 @@ end
 
 Include `Schema::API::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
-`request(schema, params)` that let's you verify the endpoint works as expected
-and the response follows the expected format.
+`fetch(request, params)` that let's you verify the endpoint works as expected
+he responses follow expected formats.
 
 Add the following line to your `test/test_helper.rb`.
 
@@ -135,7 +135,7 @@ module ActiveSupport
 end
 ```
 
-To test your endpoints, call `request(schema, params)` and write assertions
+To test your endpoints, call `fetch(request, params)` and write assertions
 against the response. If the endpoint sends a response that does not match
 expected format the test fails with `Schema::API::InvalidResponseFormatError`.
 
@@ -143,8 +143,8 @@ The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
 
 > Path params are matched by name, so if you have an endpoint configured with
-> `put "/customers/:customer_id"` you must request with
-> `request(CustomerController::UpdateSchema, { customer_id: 123 })`.
+> `put "/customers/:customer_id"` you must call as
+> `fetch(CustomerController::UpdateRequest, { customer_id: 123 })`.
 
 > Note: Responses are only verified in test environment with no
 > performance penalty when running in production.
@@ -152,7 +152,7 @@ The response object has a `status`, an integer value for the http status, and
 ```ruby
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "user registration" do
-    response = request(RegistrationsController::Request, {
+    response = fetch(RegistrationsController::Request, {
       name: "Bilbo Baggins",
       email: "bilbo@shire.com",
       payment_type: "free_trial",

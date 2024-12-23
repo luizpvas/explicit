@@ -14,15 +14,13 @@ module Schema::Type::Hash
       validated_hash = {}
 
       value.each do |key, value|
-        case keyspec.call(key)
-        in [:ok, validated_key]
-          case valuespec.call(value)
-          in [:ok, validated_value] then validated_hash[validated_key] = validated_value
-          in [:error, err] then return [:error, [:hash_value, key, err]]
-          end
-
-        in [:error, err]
+        case [keyspec.call(key), valuespec.call(value)]
+        in [[:ok, validated_key], [:ok, validated_value]]
+          validated_hash[validated_key] = validated_value
+        in [[:error, err], _]
           return [:error, [:hash_key, key, err]]
+        in [_, [:error, err]]
+          return [:error, [:hash_value, key, err]]
         end
       end
 
