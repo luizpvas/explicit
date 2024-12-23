@@ -25,7 +25,7 @@ during runtime and checked in tests.
    - [Agreement](#agreement)
    - [Nilable](#nilable)
    - [Default](#default)
-   - [Literal strings](#literal-strings)
+   - [Literals](#literals)
 
 # Installation
 
@@ -325,6 +325,14 @@ the default value.
 
 If you provide a lambda it will execute in every `validate!` call.
 
-### Literal strings
+### Literals
 
-TODO
+```ruby
+[:literal, value]
+[:literal, 6379]
+[:literal, "value"]
+"value" # literal strings can use shorter syntax
+```
+
+A literal value behaves similar to inclusion with a single value. Useful for
+declaring multiple types in `one_of`.

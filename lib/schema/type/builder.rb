@@ -36,6 +36,11 @@ module Schema::Type::Builder
     in [:integer, options]
       Schema::Type::Integer.build(options)
 
+    in [:literal, value]
+      Schema::Type::Literal.build(value)
+    in String
+      Schema::Type::Literal.build(schema)
+
     in [:nilable, options]
       Schema::Type::Nilable.build(options)
 
