@@ -136,7 +136,7 @@ end
 
 To test your endpoints, call `request(schema, params)` and write assertions
 against the response. If the endpoint sends a response that does not match
-expected format the test fails with `Schema::API::InvalidResponseFormat`.
+expected format the test fails with `Schema::API::InvalidResponseFormatError`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.

@@ -1,6 +1,7 @@
 require "schema/api/documentation"
 require "schema/api/engine"
 require "schema/api/errors"
+require "schema/api/invalid_response_format_error"
 require "schema/api/test_helper"
 require "schema/api/version"
 
@@ -31,7 +32,6 @@ module Schema
     end
 
     Route = ::Data.define(:method, :path)
-    Response = ::Data.define(:status, :format)
 
     class << self
       def get(path)     = routes << Route.new(method: :get, path:)
@@ -63,7 +63,7 @@ module Schema
       end
 
       def response(status, format)
-        responses << Response.new(status:, format:)
+        responses << { status: [:literal, status], data: format }
       end
 
       def validate!(values)

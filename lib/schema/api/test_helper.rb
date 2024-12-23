@@ -35,5 +35,11 @@ module Schema::API::TestHelper
 
   def ensure_response_matches_schema!(request, response)
     allowed_responses = request.send(:responses)
+    response_spec = Schema::Type::Builder.build([:one_of, *allowed_responses])
+
+    case response_spec.call({ status: response.status, data: response.data })
+    in [:ok, _] then :all_good
+    in [:error, err] then raise Schema::API::InvalidResponseFormatError.new(response, err)
+    end
   end
 end
