@@ -2,6 +2,9 @@
 
 module API::V1
   Documentation = Schemax::Documentation.build do
+    page_title "Articles Inc."
+    primary_color "#6366f1"
+
     section "Introduction" do
       # add title: "About", partial: "api/v1/introduction"
     end

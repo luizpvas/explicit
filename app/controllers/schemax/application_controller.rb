@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module Schemax
-  module API
-    module ApplicationHelper
-    end
+  class ApplicationController < ActionController::Base
   end
 end

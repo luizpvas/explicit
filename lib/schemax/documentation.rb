@@ -2,6 +2,14 @@
 
 module Schemax::Documentation
   class Builder
+    def page_title(page_title)
+      @page_title = page_title
+    end
+
+    def primary_color(primary_color)
+      @primary_color = primary_color
+    end
+
     def section(name)
     end
 
@@ -9,9 +17,9 @@ module Schemax::Documentation
     end
 
     def call(request)
-      response = ["Hello, world!"]
+      html = Schemax::ApplicationController.render("foo")
 
-      [200, {}, response]
+      [200, {}, [html]]
     end
   end
 
