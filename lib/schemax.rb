@@ -4,7 +4,7 @@ require "schemax/test_helper"
 require "schemax/version"
 
 require "schemax/request"
-require "schemax/request/invalid_params_error"
+require "schemax/request/invalid_params"
 require "schemax/request/invalid_response_error"
 
 require "schemax/spec"

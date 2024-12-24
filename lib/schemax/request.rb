@@ -41,7 +41,7 @@ class Schemax::Request
 
       case params_validator.call(values)
       in [:ok, validated_data] then validated_data
-      in [:error, err] then raise InvalidParamsError.new(err)
+      in [:error, err] then raise InvalidParams::Error.new(err)
       end
     end
 
