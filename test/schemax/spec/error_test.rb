@@ -24,6 +24,12 @@ class Schemax::Spec::ErrorTest < ActiveSupport::TestCase
     assert_equal "must be a valid posix timestamps", translate_error(:date_time_posix)
   end
 
+  test "hash" do
+    assert_equal "must be a map", translate_error(:hash)
+    assert_equal "invalid key (foo): must be an integer", translate_error([:hash_key, "foo", :integer])
+    assert_equal "invalid value at key (foo): must be an integer", translate_error([:hash_value, "foo", :integer])
+  end
+
   test "inclusion" do
     assert_equal 'must be one of: ["foo", "bar"]', translate_error([:inclusion, ["foo", "bar"]])
   end
@@ -36,12 +42,20 @@ class Schemax::Spec::ErrorTest < ActiveSupport::TestCase
     assert_equal "must not be positive", translate_error(:positive)
   end
 
+  test "literal" do
+    assert_equal 'must be "foo"', translate_error([:literal, "foo"])
+  end
+
   test "string" do
     assert_equal "must be a string", translate_error(:string)
     assert_equal "must not be empty", translate_error(:empty)
     assert_equal "length must be greater than or equal to 2", translate_error([:minlength, 2])
     assert_equal "length must be smaller than or equal to 2", translate_error([:maxlength, 2])
     assert_equal "must have format /(foo|bar)/", translate_error([:format, /(foo|bar)/])
+  end
+
+  test "one_of" do
+    assert_equal "must be a string OR must be an integer", translate_error([:one_of, :string, :integer])
   end
 
   test "record" do
