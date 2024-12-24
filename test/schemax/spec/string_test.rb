@@ -43,7 +43,7 @@ class Schemax::Spec::StringTest < ActiveSupport::TestCase
     assert_ok "foo", validate("foo", [:string, format: /(foo|bar)/])
     assert_ok "bar", validate("bar", [:string, format: /(foo|bar)/])
 
-    assert_error [:format, format: /(foo|bar)/], validate("qux", [:string, format: /(foo|bar)/])
+    assert_error [:format, /(foo|bar)/], validate("qux", [:string, format: /(foo|bar)/])
   end
 
   test "error" do

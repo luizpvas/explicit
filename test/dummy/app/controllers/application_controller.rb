@@ -1,7 +1,4 @@
-class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
-
+class ApplicationController < ActionController::API
   rescue_from Schemax::Request::InvalidParamsError do |err|
     params = Schemax::Spec::Error.translate(err.errors)
 

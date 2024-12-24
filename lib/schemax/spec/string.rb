@@ -22,7 +22,7 @@ module Schemax::Spec::String
       end
 
       if (format = options[:format]) && !validate_format(value, format)
-        return [:error, [:format, format:]]
+        return [:error, [:format, format]]
       end
 
       [:ok, value]
