@@ -1,15 +1,13 @@
-# Schema::API
+# Schemax
 
-Request::Endpoint
-
-`schema-api` is a documentation and validation library for JSON APIs. It allows
+`schemax` is a documentation and validation library for JSON APIs. It allows
 you to document, test and validate request and response formats. Documentation
-becomes 10x more valuable when it is not just words, but instead enforced
-during runtime and checked in tests.
+becomes 10x more valuable when it is enforced during runtime and checked in
+tests.
 
 1. [Installation](#installation)
-2. [Defining schemas](#defining-schemas)
-3. [Reusing schemas](#reusing-schemas)
+2. [Defining specs](#defining-specs)
+3. [Reusing specs](#reusing-specs)
 4. [Writing tests](#writing-tests)
 5. [Writing documentation](#writing-documentation)
 6. [Performance benchmark](#performance-benchmark)
@@ -37,20 +35,20 @@ Add the following line to your Gemfile:
 gem "schema-api", "~> 0.1"
 ```
 
-# Defining schemas
+# Defining specs
 
-You define API schemas by inheriting from `Schema::API`. The following methods
-are available:
+You define request specs by inheriting from `Schemax::Request`. The following
+methods are available:
 
-- `get(path)` - Adds a route to the schema. Use the syntax `:param` for path
+- `get(path)` - Adds a route to the request. Use the syntax `:param` for path
   params. For example: `get "/customers/:customer_id"`.
   - There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
     other HTTP verbs.
 - `title(text)` - Adds a title to the request. Displayed in the navigation menu.
 - `description(text)` - Adds a description to the endpoint. Markdown supported.
 - `header(name, schema)` - Adds a header to the endpoint.
-- `param(name, spec)` - Adds the request param to the endpoint. It works for
-  params in the request body, query string and path params.
+- `param(name, spec, options = {})` - Adds the request param to the endpoint.
+  It works for params in the request body, query string and path params.
 - `response(status, spec)` - Adds a response schema. You can add multiple
   responses with different formats.
 
@@ -58,7 +56,7 @@ For example:
 
 ```ruby
 class RegistrationsController < ApplicationController
-  class Request < Schema::API
+  class Request < Schemax::Request
     post "/api/registrations"
 
     description <<-MD
@@ -90,13 +88,13 @@ class RegistrationsController < ApplicationController
 end
 ```
 
-# Reusing schemas
+# Reusing specs
 
-Schemas are just data. You can reuse schemas the same way you reuse any
-constant or config in your app. For example:
+Specs are just data. You can reuse specs the same way you reuse any constant or
+config in your app. For example:
 
 ```ruby
-module MyApp::Schema
+module MyApp::Spec
   UUID = [:string, { format: /^\h{8}-(\h{4}-){3}\h{12}$/ }].freeze
   EMAIL = [:string, { format: URI::MailTo::EMAIL_REGEXP }, strip: true }].freeze
 
@@ -106,19 +104,19 @@ module MyApp::Schema
   }.freeze
 end
 
-class Schema < Schema::API
-  param :customer_uuid, MyApp::Schema::UUID
-  param :email, MyApp::Schema::EMAIL
-  param :address, MyApp::Schema::ADDRESS
+class Request < Schemax::Request
+  param :customer_uuid, MyApp::Spec::UUID
+  param :email, MyApp::Spec::EMAIL
+  param :address, MyApp::Spec::ADDRESS
 end
 ```
 
 # Writing tests
 
-Include `Schema::API::TestHelper` in your `test/test_helper.rb` or
+Include `Schemax::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
-`fetch(request, params)` that let's you verify the endpoint works as expected
-he responses follow expected formats.
+`fetch(request, params)` that let's you verify the endpoint works and that it
+responds with a valid response according to the spec.
 
 Add the following line to your `test/test_helper.rb`.
 
@@ -130,14 +128,14 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
-+   include Schema::API::TestHelper
++   include Schemax::TestHelper
   end
 end
 ```
 
 To test your endpoints, call `fetch(request, params)` and write assertions
 against the response. If the endpoint sends a response that does not match
-expected format the test fails with `Schema::API::InvalidResponseFormatError`.
+expected spec the test fails with `Schemax::InvalidResponseError`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
@@ -146,7 +144,7 @@ The response object has a `status`, an integer value for the http status, and
 > `put "/customers/:customer_id"` you must call as
 > `fetch(CustomerController::UpdateRequest, { customer_id: 123 })`.
 
-> Note: Responses are only verified in test environment with no
+> Note: Response specs are only verified in test environment with no
 > performance penalty when running in production.
 
 ```ruby
@@ -169,27 +167,46 @@ end
 
 # Writing documentation
 
-You can group API schemas into a documentation page that you. To build a
-documentation page you inherit from `Schema::API::Documentation`. For example:
+Documentation should be as close as possible to the code, so each request
+define its own title and description and each param can also have a description.
+To publish your documentation and make it available to users you must configure
+a documentation bundle with `Schemax::Documentation.publish`. You then add
+sections, requests and partials with any HTML content.
+
+For example:
 
 ```ruby
-class API::V1::Documentation < Schema::API::Documentation
-  section "Introduction" do
-    add title: "About", partial: "api/v1/introduction/about"
-  end
+module MyApp::API::V1
+  Documentation = Schemax::Documentation.publish do
+    section "Introduction" do
+      add title: "About", partial: "api/v1/introduction/about"
+    end
 
-  section "Auth" do
-    add SessionsController::Request
-    add RegistrationsController::Request
-  end
+    section "Auth" do
+      add SessionsController::Request
+      add RegistrationsController::Request
+    end
 
-  section "Posts" do
-    add PostsController::CreateRequest
-    add PostsController::UpdateRequest
-    add PostsController::DestroyRequest
+    section "Posts" do
+      add PostsController::CreateRequest
+      add PostsController::UpdateRequest
+      add PostsController::DestroyRequest
+    end
   end
 end
 ```
+
+`Schemax::Documentation.publish` returns a rails engine that you can mount in
+your `config/routes.rb`. For example:
+
+```ruby
+Rails.application.routes.draw do
+  mount MyApp::API::V1::Documentation => "api/v1/docs"
+end
+```
+
+The response from the documentation sets a long lived public-cache header, which
+makes it very efficient if you're running behind thurster.
 
 # Types
 
