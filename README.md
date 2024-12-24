@@ -1,9 +1,7 @@
 # Schemax
 
-`schemax` is a documentation and validation library for JSON APIs. It allows
-you to document, test and validate request and response formats. Documentation
-becomes 10x more valuable when it is enforced during runtime and checked in
-tests.
+Schemax is a validation and documentation library for JSON APIs that enforces
+documented specs in tests and during runtime.
 
 1. [Installation](#installation)
 2. [Defining requests](#defining-requests)
