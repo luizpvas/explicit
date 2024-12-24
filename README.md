@@ -6,12 +6,12 @@ becomes 10x more valuable when it is enforced during runtime and checked in
 tests.
 
 1. [Installation](#installation)
-2. [Defining specs](#defining-specs)
+2. [Defining requests](#defining-requests)
 3. [Reusing specs](#reusing-specs)
 4. [Writing tests](#writing-tests)
 5. [Writing documentation](#writing-documentation)
 6. [Performance benchmark](#performance-benchmark)
-7. Types
+7. Specs
    - [Agreement](#agreement)
    - [Array](#array)
    - [Boolean](#boolean)
@@ -29,13 +29,13 @@ tests.
 
 # Installation
 
-Add the following line to your Gemfile:
+Add the following line to your Gemfile and then run `bundle install`:
 
 ```ruby
-gem "schema-api", "~> 0.1"
+gem "schemax", "~> 0.1"
 ```
 
-# Defining specs
+# Defining requests
 
 You define request specs by inheriting from `Schemax::Request`. The following
 methods are available:
@@ -44,7 +44,7 @@ methods are available:
   params. For example: `get "/customers/:customer_id"`.
   - There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
     other HTTP verbs.
-- `title(text)` - Adds a title to the request. Displayed in the navigation menu.
+- `title(text)` - Adds a title to the request. Displayed in the documentation.
 - `description(text)` - Adds a description to the endpoint. Markdown supported.
 - `header(name, schema)` - Adds a header to the endpoint.
 - `param(name, spec, options = {})` - Adds the request param to the endpoint.
@@ -115,8 +115,8 @@ end
 
 Include `Schemax::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
-`fetch(request, params)` that let's you verify the endpoint works and that it
-responds with a valid response according to the spec.
+`fetch(request, params)` that let's you verify the endpoint works as expected
+and that it responds with a valid response according to the spec.
 
 Add the following line to your `test/test_helper.rb`.
 
@@ -133,9 +133,9 @@ module ActiveSupport
 end
 ```
 
-To test your endpoints, call `fetch(request, params)` and write assertions
+To test your controller, call `fetch(request, params)` and write assertions
 against the response. If the endpoint sends a response that does not match
-expected spec the test fails with `Schemax::InvalidResponseError`.
+expected spec the test fails with `Schemax::Request::InvalidResponseError`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
@@ -167,8 +167,7 @@ end
 
 # Writing documentation
 
-Documentation should be as close as possible to the code, so each request
-define its own params and descriptions. To make documentation available to users
+Documentation is written . To make documentation available to users
 you must configure it via `Schemax::Documentation.build` and then publish it
 mounting it in `routes.rb`.
 
@@ -210,10 +209,10 @@ Rails.application.routes.draw do
 end
 ```
 
-The response from the documentation sets a long lived public-cache header, which
-makes it very efficient if you're running behind thurster.
+The response from the documentation sets a long lived public-cache header which
+makes it very efficient especially if you're running behind thurster.
 
-# Types
+# Specs
 
 ### Agreement
 

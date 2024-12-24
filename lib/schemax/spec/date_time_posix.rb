@@ -5,15 +5,17 @@ require "time"
 module Schemax::Spec::DateTimePosix
   extend self
 
+  ERROR_INVALID = [:error, :date_time_posix].freeze
+
   def call(value)
     if !value.is_a?(::Integer) && !value.is_a?(::String)
-      return [:error, :date_time_posix]
+      return ERROR_INVALID
     end
 
     datetimeval = DateTime.strptime(value.to_s, "%s")
 
     [:ok, datetimeval]
   rescue Date::Error
-    [:error, :date_time_posix]
+    ERROR_INVALID
   end
 end

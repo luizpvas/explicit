@@ -4,7 +4,7 @@ module Schemax::Spec::Error
   extend self
 
   RailsI18n = ->(error, **context) do
-    key = "schema.errors.#{error}"
+    key = "schemax.errors.#{error}"
 
     ::I18n.t(key, **context)
   end

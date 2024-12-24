@@ -1,5 +1,5 @@
 en:
-  schema:
+  schemax:
     errors:
       agreement: "must be accepted"
       array: "invalid item at index(%{index}): %{error}"
