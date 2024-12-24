@@ -171,7 +171,9 @@ mounting it in `routes.rb`.
 
 Inside `Schemax::Documentation.build` you have access to the following methods:
 
-- `section`
+- `page_title(text)`
+- `primary_color(hexcode)`
+- `section(&block)`
 - `add(request)`
 - `add(title:, partial:)`
 
@@ -180,6 +182,9 @@ For example:
 ```ruby
 module MyApp::API::V1
   Documentation = Schemax::Documentation.build do
+    page_title "Acme Co. | API Docs"
+    primary_color "#6366f1"
+
     section "Introduction" do
       add title: "About", partial: "api/v1/introduction/about"
     end

@@ -17,14 +17,21 @@ module Schemax::Documentation
     end
 
     def call(request)
-      html = Schemax::ApplicationController.render("foo")
+      html = Schemax::ApplicationController.render(
+        partial: "documentation",
+        locals: {
+          page_title: @page_title,
+          primary_color: @primary_color,
+          sections: @sections
+        }
+      )
 
       [200, {}, [html]]
     end
   end
 
   def self.build(&block)
-    builder = Builder.new
+    builder = Builder.new.tap { _1.instance_eval &block }
 
     ::Class.new(::Rails::Engine).tap do |engine|
       engine.routes.draw { root to: builder }
