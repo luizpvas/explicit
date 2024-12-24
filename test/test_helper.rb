@@ -21,5 +21,5 @@ class ActiveSupport::TestCase
   include ResultHelper
   include ValidationHelper
 
-  include Schema::API::TestHelper
+  include Schemax::TestHelper
 end

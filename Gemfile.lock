@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    schema-api (0.1.0)
+    schemax (0.1.0)
       rails (>= 7.2.1)
 
 GEM
@@ -233,7 +233,7 @@ DEPENDENCIES
   bcrypt
   puma
   rubocop-rails-omakase
-  schema-api!
+  schemax!
   sprockets-rails
   sqlite3
 

@@ -168,23 +168,28 @@ end
 # Writing documentation
 
 Documentation should be as close as possible to the code, so each request
-define its own title and description and each param can also have a description.
-To publish your documentation and make it available to users you must configure
-a documentation bundle with `Schemax::Documentation.publish`. You then add
-sections, requests and partials with any HTML content.
+define its own params and descriptions. To make documentation available to users
+you must configure it via `Schemax::Documentation.build` and then publish it
+mounting it in `routes.rb`.
+
+Inside `Schemax::Documentation.build` you have access to the following methods:
+
+- `section`
+- `add(request)`
+- `add(title:, partial:)`
 
 For example:
 
 ```ruby
 module MyApp::API::V1
-  Documentation = Schemax::Documentation.publish do
+  Documentation = Schemax::Documentation.build do
     section "Introduction" do
       add title: "About", partial: "api/v1/introduction/about"
     end
 
     section "Auth" do
-      add SessionsController::Request
-      add RegistrationsController::Request
+      add SessionsController::CreateRequest
+      add RegistrationsController::CreateRequest
     end
 
     section "Posts" do
@@ -196,7 +201,7 @@ module MyApp::API::V1
 end
 ```
 
-`Schemax::Documentation.publish` returns a rails engine that you can mount in
+`Schemax::Documentation.build` returns a rails engine that you can mount in
 your `config/routes.rb`. For example:
 
 ```ruby

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class API::V1::SessionsController < ApplicationController
-  class Schema < Schema::API
+  class Request < Schemax::Request
     post "/api/v1/sessions"
 
     description "Attempts to sign in a user to the system."
@@ -14,7 +14,7 @@ class API::V1::SessionsController < ApplicationController
   end
 
   def create
-    Schema.validate!(params) => { email_address:, password: }
+    Request.validate!(params) => { email_address:, password: }
 
     if (user = User.authenticate_by(email_address:, password:))
       authentication_token = ::SecureRandom.alphanumeric(20)

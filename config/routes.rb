@@ -1,2 +1,2 @@
-Schema::API::Engine.routes.draw do
+Schemax::Engine.routes.draw do
 end
