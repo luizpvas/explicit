@@ -1,4 +1,4 @@
-module Schema
+module Schemax
   module Api
     class ApplicationController < ActionController::Base
     end
