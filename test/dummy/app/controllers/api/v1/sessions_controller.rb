@@ -11,7 +11,7 @@ class API::V1::SessionsController < ApplicationController
     MD
 
     param :email_address, [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true]
-    param :password, [:string, empty: false]
+    param :password, [:string, minlength: 8]
 
     response 200, { token: :string }
     response 422, { error: "invalid_credentials" }
