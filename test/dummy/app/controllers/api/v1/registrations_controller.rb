@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class API::V1::RegistrationsController < ApplicationController
+class API::V1::RegistrationsController < API::V1::BaseController
   class CreateRequest < Explicit::Request
     post "/api/v1/registrations"
 

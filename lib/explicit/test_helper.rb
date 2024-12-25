@@ -5,7 +5,7 @@ module Explicit::TestHelper
     def dig(...) = data.dig(...)
   end
 
-  def fetch(request, params:, headers: nil)
+  def fetch(request, params: nil, headers: nil)
     route = request.send(:routes).first
 
     if route.nil?
@@ -35,6 +35,11 @@ module Explicit::TestHelper
 
   def ensure_response_matches_spec!(request, response)
     allowed_responses = request.send(:responses)
+
+    puts "++++++++++++++++++++++++"
+    puts allowed_responses.inspect
+    binding.irb
+
     response_validator = Explicit::Spec.build([:one_of, *allowed_responses])
 
     case response_validator.call({ status: response.status, data: response.data.with_indifferent_access })

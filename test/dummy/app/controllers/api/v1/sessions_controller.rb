@@ -1,21 +1,7 @@
 # frozen_string_literal: true
 
-class API::V1::SessionsController < ApplicationController
-  class CreateRequest < Explicit::Request
-    post "/api/v1/sessions"
-
-    description <<-MD
-    Attempts to sign in a user to the system. If sign in succeeds an
-    authentication token is returned. Use this token to authenticate requests
-    with the header `Authorization: Bearer <token>`.
-    MD
-
-    param :email_address, [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true]
-    param :password, [:string, minlength: 8]
-
-    response 200, { token: :string }
-    response 422, { error: "invalid_credentials" }
-  end
+class API::V1::SessionsController < API::V1::BaseController
+  before_action :authenticate_request!, only: :destroy
 
   def create
     CreateRequest.validate!(params) => { email_address:, password: }
@@ -31,5 +17,11 @@ class API::V1::SessionsController < ApplicationController
     else
       render json: { error: "invalid_credentials" }, status: 422
     end
+  end
+
+  def destroy
+    current_token.revoke
+
+    render json: { message: "session revoked" }
   end
 end
