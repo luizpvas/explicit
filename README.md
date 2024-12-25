@@ -45,10 +45,11 @@ methods are available:
   params. For example: `get "/customers/:customer_id"`.
   - There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
     other HTTP verbs.
-- `title(text)` - Adds a title to the request. Displayed in the documentation.
-- `description(text)` - Adds a description to the endpoint. Markdown supported.
-- `header(name, spec)` - Adds a header to the endpoint.
-- `param(name, spec, options = {})` - Adds the request param to the endpoint.
+- `title(text)` - Adds a title to the request. Displayed in documentation.
+- `description(text)` - Adds a description to the endpoint. Displayed in
+  documentation. Markdown supported.
+- `header(name, spec)` - Adds a spec to the request header.
+- `param(name, spec, options = {})` - Adds a spec to the request param.
   It works for params in the request body, query string and path params.
 - `response(status, spec)` - Adds a response spec. You can add multiple
   responses with different formats.
