@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API::V1
-  Documentation = Schemax::Documentation.build do
+  Documentation = Explicit::Documentation.build do
     page_title "Articles Inc."
     primary_color "#6366f1"
 

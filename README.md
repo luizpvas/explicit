@@ -1,6 +1,6 @@
-# Schemax
+# Explicit
 
-Schemax is a validation and documentation library for JSON APIs that enforces
+Explicit is a validation and documentation library for JSON APIs that enforces
 documented specs during runtime.
 
 1. [Installation](#installation)
@@ -33,12 +33,12 @@ documented specs during runtime.
 Add the following line to your Gemfile and then run `bundle install`:
 
 ```ruby
-gem "schemax", "~> 0.1"
+gem "explicit", "~> 0.1"
 ```
 
 # Defining requests
 
-You define request specs by inheriting from `Schemax::Request`. The following
+You define request specs by inheriting from `Explicit::Request`. The following
 methods are available:
 
 - `get(path)` - Adds a route to the request. Use the syntax `:param` for path
@@ -57,7 +57,7 @@ For example:
 
 ```ruby
 class RegistrationsController < ActionController::API
-  class Request < Schemax::Request
+  class Request < Explicit::Request
     post "/api/registrations"
 
     description <<-MD
@@ -103,7 +103,7 @@ module MyApp::Spec
 end
 
 # ... and then reference the shared specs when needed
-class Request < Schemax::Request
+class Request < Explicit::Request
   param :customer_uuid, MyApp::Spec::UUID
   param :email, MyApp::Spec::EMAIL
   param :address, MyApp::Spec::ADDRESS
@@ -112,7 +112,7 @@ end
 
 # Writing tests
 
-Include `Schemax::TestHelper` in your `test/test_helper.rb` or
+Include `Explicit::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
 `fetch(request, params:, headers:)` that let's you verify the endpoint works as
 expected and that it responds with a valid response according to the spec.
@@ -127,7 +127,7 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
-+   include Schemax::TestHelper
++   include Explicit::TestHelper
   end
 end
 ```
@@ -135,7 +135,7 @@ end
 To test your controller, call `fetch(request, params:, headers:)` and write
 assertions against the response. If the endpoint sends a response that does not
 match expected spec the test fails with
-`Schemax::Request::InvalidResponseError`.
+`Explicit::Request::InvalidResponseError`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
@@ -168,10 +168,10 @@ end
 # Writing documentation
 
 Documentation is written . To make documentation available to users
-you must configure it via `Schemax::Documentation.build` and then publish it
+you must configure it via `Explicit::Documentation.build` and then publish it
 mounting it in `routes.rb`.
 
-Inside `Schemax::Documentation.build` you have access to the following methods:
+Inside `Explicit::Documentation.build` you have access to the following methods:
 
 - `page_title(text)`
 - `primary_color(hexcode)`
@@ -183,7 +183,7 @@ For example:
 
 ```ruby
 module MyApp::API::V1
-  Documentation = Schemax::Documentation.build do
+  Documentation = Explicit::Documentation.build do
     page_title "Acme Co. | API Docs"
     primary_color "#6366f1"
 
@@ -205,7 +205,7 @@ module MyApp::API::V1
 end
 ```
 
-`Schemax::Documentation.build` returns a rails engine that you can mount in
+`Explicit::Documentation.build` returns a rails engine that you can mount in
 your `config/routes.rb`. For example:
 
 ```ruby

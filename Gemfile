@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in schema-api.gemspec.
+# Specify your gem's dependencies in explicit.gemspec.
 gemspec
 
 gem "puma"

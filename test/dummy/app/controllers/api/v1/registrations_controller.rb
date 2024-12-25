@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class API::V1::RegistrationsController < ApplicationController
-  class CreateRequest < Schemax::Request
+  class CreateRequest < Explicit::Request
     post "/api/v1/registrations"
 
     description <<-MD

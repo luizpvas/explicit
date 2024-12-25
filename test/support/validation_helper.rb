@@ -2,7 +2,7 @@
 
 module ValidationHelper
   def validate(value, spec)
-    result = ::Schemax::Spec.build(spec).call(value)
+    result = ::Explicit::Spec.build(spec).call(value)
 
     ensure_error_has_translation!(result)
 
@@ -13,7 +13,7 @@ module ValidationHelper
     def ensure_error_has_translation!(result)
       case result
       in [:ok, value] then :all_good
-      in [:error, err] then Schemax::Spec::Error.translate(err)
+      in [:error, err] then Explicit::Spec::Error.translate(err)
       end
     end
 end

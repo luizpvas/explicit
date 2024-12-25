@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class API::V1::SessionsController < ApplicationController
-  class CreateRequest < Schemax::Request
+  class CreateRequest < Explicit::Request
     post "/api/v1/sessions"
 
     description <<-MD

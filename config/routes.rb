@@ -1,2 +1,2 @@
-Schemax::Engine.routes.draw do
+Explicit::Engine.routes.draw do
 end
