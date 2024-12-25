@@ -393,15 +393,15 @@ records with array of records, etc.
 # Advanced configuration
 
 If you need to customize behaviour a
-Add the initializer `explicit.rb` to your `config/initializers` directory with
-the following code:
+Add the initializer file `config/initializers/explicit.rb` with the following
+code, and then make the desired changes to the config.
 
 ```ruby
 Explicit.configure do |config|
-  # change the config here
+  # change config here...
 end
 ```
 
-### Recording request examples from tests
+### Save request examples from tests
 
-Set `config.record_request_examples = true`
+Set `config.save_request_examples_from_tests = true` to save all requests

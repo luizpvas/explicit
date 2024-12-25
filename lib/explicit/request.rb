@@ -33,12 +33,11 @@ class Explicit::Request
     end
 
     def response(status, format)
-      puts "adding a request with status #{status}"
-
       responses << { status: [:literal, status], data: format }
     end
 
     def validate!(values)
+      # TODO: cache the validator instead of building it in every request
       params_validator = Explicit::Spec.build(params)
 
       case params_validator.call(values)
