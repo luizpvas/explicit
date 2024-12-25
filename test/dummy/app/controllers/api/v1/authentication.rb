@@ -7,14 +7,10 @@ module API::V1::Authentication
     attr_reader :current_user, :current_token
   end
   
-  module Request
-    extend ActiveSupport::Concern
+  Request = Explicit::Request.new do
+    header "Authorization", [:string, format: /[a-zA-Z0-9]{20}/]
 
-    included do
-      header "Authorization", [:string, format: /[a-zA-Z0-9]{20}/]
-
-      response 403, { error: "unauthorized" }
-    end
+    response 403, { error: "unauthorized" }
   end
 
   def authenticate_request!

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class API::V1::RegistrationsController < API::V1::BaseController
-  class CreateRequest < Explicit::Request
+  CreateRequest = Explicit::Request.new do
     post "/api/v1/registrations"
 
     description <<-MD

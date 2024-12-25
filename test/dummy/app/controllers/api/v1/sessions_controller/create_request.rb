@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class API::V1::SessionsController
-  class CreateRequest < Explicit::Request
+  CreateRequest = Explicit::Request.new do
     post "/api/v1/sessions"
 
     description <<-MD

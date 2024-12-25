@@ -58,7 +58,7 @@ For example:
 
 ```ruby
 class RegistrationsController < ActionController::API
-  class Request < Explicit::Request
+  Request = Explicit::Request.new do
     post "/api/registrations"
 
     description <<-MD
@@ -104,7 +104,7 @@ module MyApp::Spec
 end
 
 # ... and then reference the shared specs when needed
-class Request < Explicit::Request
+Request = Explicit::Request.new do
   param :customer_uuid, MyApp::Spec::UUID
   param :email, MyApp::Spec::EMAIL
   param :address, MyApp::Spec::ADDRESS
@@ -169,10 +169,10 @@ end
 # Writing documentation
 
 Documentation is written . To make documentation available to users
-you must configure it via `Explicit::Documentation.build` and then publish it
+you must configure it using `Explicit::Documentation.new` and then publish it
 mounting it in `routes.rb`.
 
-Inside `Explicit::Documentation.build` you have access to the following methods:
+Inside `Explicit::Documentation.new` you have access to the following methods:
 
 - `page_title(text)`
 - `primary_color(hexcode)`
@@ -184,7 +184,7 @@ For example:
 
 ```ruby
 module MyApp::API::V1
-  Documentation = Explicit::Documentation.build do
+  Documentation = Explicit::Documentation.new do
     page_title "Acme Co. | API Docs"
     primary_color "#6366f1"
 
@@ -206,7 +206,7 @@ module MyApp::API::V1
 end
 ```
 
-`Explicit::Documentation.build` returns a rails engine that you can mount in
+`Explicit::Documentation.new` returns a rails engine that you can mount in
 your `config/routes.rb`. For example:
 
 ```ruby

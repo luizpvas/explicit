@@ -7,6 +7,7 @@ require "explicit/version"
 require "explicit/request"
 require "explicit/request/invalid_params"
 require "explicit/request/invalid_response_error"
+require "explicit/request/route"
 
 require "explicit/spec"
 require "explicit/spec/agreement"
