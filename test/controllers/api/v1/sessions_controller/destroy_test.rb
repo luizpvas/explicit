@@ -3,14 +3,14 @@
 require "test_helper"
 
 class API::V1::SessionsController::DestroyTest < ActionDispatch::IntegrationTest
-  DestroyRequest = API::V1::SessionsController::DestroyRequest
+  Request = API::V1::SessionsController::DestroyRequest
 
   setup { freeze_time }
 
   test "successful logout" do
     token = tokens(:luiz_authentication)
 
-    response = fetch(DestroyRequest, headers: {
+    response = fetch(Request, headers: {
       Authorization: "Bearer #{token.value}"
     })
 
@@ -20,7 +20,7 @@ class API::V1::SessionsController::DestroyTest < ActionDispatch::IntegrationTest
   end
 
   test "unauthenticated request" do
-    response = fetch(DestroyRequest, headers: {
+    response = fetch(Request, headers: {
       Authorization: "Bearer non-existing-token"
     })
 

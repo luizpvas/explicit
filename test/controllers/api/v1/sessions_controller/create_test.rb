@@ -3,10 +3,10 @@
 require "test_helper"
 
 class API::V1::SessionsController::CreateTest < ActionDispatch::IntegrationTest
-  CreateRequest = API::V1::SessionsController::CreateRequest
+  Request = API::V1::SessionsController::CreateRequest
 
   test "successful login" do
-    response = fetch(CreateRequest, params: {
+    response = fetch(Request, params: {
       email_address: "luiz@example.org",
       password: "mystrongpassword"
     })
@@ -16,7 +16,7 @@ class API::V1::SessionsController::CreateTest < ActionDispatch::IntegrationTest
   end
 
   test "email does not belong to any user" do
-    response = fetch(CreateRequest, params: {
+    response = fetch(Request, params: {
       email_address: "non-existing-user@example.org",
       password: "any-password"
     })
@@ -26,7 +26,7 @@ class API::V1::SessionsController::CreateTest < ActionDispatch::IntegrationTest
   end
 
   test "wrong password" do
-    response = fetch(CreateRequest, params: {
+    response = fetch(Request, params: {
       email_address: "luiz@example.org",
       password: "wrong-password"
     })
@@ -36,7 +36,7 @@ class API::V1::SessionsController::CreateTest < ActionDispatch::IntegrationTest
   end
 
   test "invalid params" do
-    response = fetch(CreateRequest, params: {})
+    response = fetch(Request, params: {})
     
     assert_equal 422, response.status
     assert_equal response.data, {
