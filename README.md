@@ -1,7 +1,7 @@
 # Schemax
 
 Schemax is a validation and documentation library for JSON APIs that enforces
-documented specs in tests and during runtime.
+documented specs during runtime.
 
 1. [Installation](#installation)
 2. [Defining requests](#defining-requests)
@@ -24,6 +24,9 @@ documented specs in tests and during runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
+8. Advanced configuration
+   - [Customizing error messages](#customizing-error-messages)
+   - [Customizing error serialization](#customizing-error-serialization)
 
 # Installation
 
@@ -53,13 +56,13 @@ methods are available:
 For example:
 
 ```ruby
-class RegistrationsController < ApplicationController
+class RegistrationsController < ActionController::API
   class Request < Schemax::Request
     post "/api/registrations"
 
     description <<-MD
     Attempts to register a new user in the system. If `payment_type` is not
-    specified a trial period of 30 days is started for the account.
+    specified a trial period of 30 days is started.
     MD
 
     param :name, [:string, empty: false]
@@ -69,7 +72,6 @@ class RegistrationsController < ApplicationController
 
     response 200, { user: { id: :integer, email: :string } }
     response 422, { error: "email_already_taken" }
-    response 422, { error: "email_domain_blocked" }
   end
 
   def create
@@ -78,18 +80,16 @@ class RegistrationsController < ApplicationController
     user = User.create!(name:, email:, payment_type:)
 
     render json: user: { user.as_json(:id, :email) }
-  rescue User::EmailTaken
+  rescue ActiveRecord::RecordNotUnique
     render json: { error: "email_already_taken" }, status: 422
-  rescue User::BlockedEmailDomain
-    render json: { error: "email_domain_blocked" }, status: 422
   end
 end
 ```
 
 # Reusing specs
 
-Specs are just data. You can reuse specs the same way you reuse any constant or
-config in your app. For example:
+Specs are just data. You can reuse specs the same way you reuse constants or
+configs in your app. For example:
 
 ```ruby
 module MyApp::Spec
@@ -131,9 +131,10 @@ module ActiveSupport
 end
 ```
 
-To test your controller, call `fetch(request, params)` and write assertions
-against the response. If the endpoint sends a response that does not match
-expected spec the test fails with `Schemax::Request::InvalidResponseError`.
+To test your controller, call `fetch(request, params:, headers:)` and write
+assertions against the response. If the endpoint sends a response that does not
+match expected spec the test fails with
+`Schemax::Request::InvalidResponseError`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
@@ -147,8 +148,8 @@ The response object has a `status`, an integer value for the http status, and
 
 ```ruby
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
-  test "user registration" do
-    response = fetch(RegistrationsController::Request, {
+  test "successful registration" do
+    response = fetch(RegistrationsController::Request, params: {
       name: "Bilbo Baggins",
       email: "bilbo@shire.com",
       payment_type: "free_trial",
@@ -211,9 +212,6 @@ Rails.application.routes.draw do
   mount MyApp::API::V1::Documentation => "api/v1/docs"
 end
 ```
-
-The response from the documentation sets a long lived public-cache header which
-makes it very efficient especially if you're running behind thurster.
 
 # Specs
 
