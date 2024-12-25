@@ -1,3 +1,4 @@
+require "explicit/configuration"
 require "explicit/documentation"
 require "explicit/engine"
 require "explicit/test_helper"
@@ -25,4 +26,11 @@ require "explicit/spec/record"
 require "explicit/spec/string"
 
 module Explicit
+  extend self
+
+  @configuration = Configuration.new
+
+  def configure(&block)
+    block.call(@configuration)
+  end
 end

@@ -25,7 +25,6 @@ documented specs during runtime.
    - [Record](#record)
    - [String](#string)
 8. Advanced configuration
-   - [Recording request examples from tests](#recording-request-examples-from-tests)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
 

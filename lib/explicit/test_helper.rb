@@ -5,7 +5,7 @@ module Explicit::TestHelper
     def dig(...) = data.dig(...)
   end
 
-  def fetch(request, params: nil, headers: nil)
+  def fetch(request, params: nil, headers: nil, **options)
     route = request.send(:routes).first
 
     if route.nil?
