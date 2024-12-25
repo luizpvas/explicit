@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class API::V1::SessionsController
-  DestroyRequest = API::V1::Authentication::Request.new do
+  DestroyRequest = API::V1::Authentication::AuthenticatedRequest.new do
     delete "/api/v1/sessions"
 
     description <<-MD

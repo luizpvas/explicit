@@ -19,7 +19,7 @@ class API::V1::ArticlesController < API::V1::BaseController
     render json: {}, status: 404
   end
 
-  CreateRequest = API::V1::Authentication::Request.new do
+  CreateRequest = API::V1::Authentication::AuthenticatedRequest.new do
     post "/api/v1/articles"
 
     param :title, [:string, empty: false]
@@ -37,7 +37,7 @@ class API::V1::ArticlesController < API::V1::BaseController
     render json: { article: Serialize[article] }, status: 201
   end
   
-  ShowRequest = API::V1::Authentication::Request.new do
+  ShowRequest = API::V1::Authentication::AuthenticatedRequest.new do
     get "/api/v1/articles/:article_id"
 
     param :article_id, [:integer, negative: false, parse: true]
@@ -54,7 +54,7 @@ class API::V1::ArticlesController < API::V1::BaseController
     render json: { article: Serialize[article] }
   end
 
-  UpdateRequest = API::V1::Authentication::Request.new do
+  UpdateRequest = API::V1::Authentication::AuthenticatedRequest.new do
     put "/api/v1/articles/:article_id"
 
     param :article_id, [:integer, negative: false, parse: true]
