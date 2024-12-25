@@ -39,8 +39,12 @@ class API::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
     response = fetch(Request, params: {})
     
     assert_equal 422, response.status
-    assert_equal "invalid_params", response.data[:error]
-    assert_equal "must be a string", response.dig(:params, :email_address)
-    assert_equal "must be a string", response.dig(:params, :password)
+    assert_equal response.data, {
+      error: "invalid_params",
+      params: {
+        email_address: "must be a string",
+        password: "must be a string"
+      }
+    }
   end
 end

@@ -3,18 +3,17 @@
 require "test_helper"
 
 class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
+  Request = API::V1::RegistrationsController::CreateRequest
+
   setup { freeze_time }
 
   test "successful user registration" do
-    response = fetch(
-      API::V1::RegistrationsController::CreateRequest,
-      params: {
-        name: "Yukihiro Matsumoto",
-        email_address: "matz@ruby.org",
-        password: "mystrongpassword",
-        terms_of_use: true
-      }
-    )
+    response = fetch(Request, params: {
+      name: "Yukihiro Matsumoto",
+      email_address: "matz@ruby.org",
+      password: "mystrongpassword",
+      terms_of_use: true
+    })
 
     assert_equal 200, response.status
 
@@ -26,25 +25,19 @@ class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "registration attempt when email address is taken" do
-    response = fetch(
-      API::V1::RegistrationsController::CreateRequest,
-      params: {
-        name: "Luiz",
-        email_address: "luiz@example.org",
-        password: "mystrongpassword",
-        terms_of_use: true
-      }
-    )
+    response = fetch(Request, params: {
+      name: "Luiz",
+      email_address: "luiz@example.org",
+      password: "mystrongpassword",
+      terms_of_use: true
+    })
 
     assert_equal 422, response.status
     assert_equal "email_already_taken", response.data[:error]
   end
 
   test "invalid params" do
-    response = fetch(
-      API::V1::RegistrationsController::CreateRequest,
-      params: {}
-    )
+    response = fetch(Request, params: {})
 
     assert_equal 422,  response.status
 
