@@ -47,10 +47,10 @@ methods are available:
     other HTTP verbs.
 - `title(text)` - Adds a title to the request. Displayed in the documentation.
 - `description(text)` - Adds a description to the endpoint. Markdown supported.
-- `header(name, schema)` - Adds a header to the endpoint.
+- `header(name, spec)` - Adds a header to the endpoint.
 - `param(name, spec, options = {})` - Adds the request param to the endpoint.
   It works for params in the request body, query string and path params.
-- `response(status, spec)` - Adds a response schema. You can add multiple
+- `response(status, spec)` - Adds a response spec. You can add multiple
   responses with different formats.
 
 For example:
@@ -93,15 +93,16 @@ configs in your app. For example:
 
 ```ruby
 module MyApp::Spec
-  UUID = [:string, { format: /^\h{8}-(\h{4}-){3}\h{12}$/ }].freeze
-  EMAIL = [:string, { format: URI::MailTo::EMAIL_REGEXP }, strip: true }].freeze
+  UUID = [:string, format: /^\h{8}-(\h{4}-){3}\h{12}$/].freeze
+  EMAIL = [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true].freeze
 
   ADDRESS = {
     country_name: :string,
-    zipcode: [:string, { format: /\d{6}-\d{3}/, strip: true }]
+    zipcode: [:string, format: /\d{6}-\d{3}/]
   }.freeze
 end
 
+# ... and then reference the shared specs when needed
 class Request < Schemax::Request
   param :customer_uuid, MyApp::Spec::UUID
   param :email, MyApp::Spec::EMAIL
@@ -113,8 +114,8 @@ end
 
 Include `Schemax::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
-`fetch(request, params)` that let's you verify the endpoint works as expected
-and that it responds with a valid response according to the spec.
+`fetch(request, params:, headers:)` that let's you verify the endpoint works as
+expected and that it responds with a valid response according to the spec.
 
 Add the following line to your `test/test_helper.rb`.
 
@@ -356,17 +357,17 @@ returned.
 ### Record
 
 ```ruby
-user_schema = {
+user_spec = {
   name: :string,
   email: [:string, format: URI::MailTo::EMAIL_REGEXP]
 }
 
-address_schema = {
+address_spec = {
   country_name: :string,
   zipcode: [:string, { format: /\d{6}-\d{3}/, strip: true }]
 }
 
-payment_schema = {
+payment_spec = {
   currency: [:nilable, :string], # use :nilable for optional attribute
   amount: :bigdecimal
 }
