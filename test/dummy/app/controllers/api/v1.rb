@@ -2,19 +2,20 @@
 
 module API::V1
   Documentation = Explicit::Documentation.build do
-    page_title "Articles Inc."
+    page_title "Acme API"
     primary_color "#6366f1"
 
     section "Introduction" do
-      # add title: "About", partial: "api/v1/introduction"
+      add title: "About", partial: "api/v1/introduction"
     end
 
     section "Auth" do
-      # add API::V1::SessionsController::CreateRequest
-      # add API::V1::RegistrationsController::CreateRequest
+      add API::V1::RegistrationsController::CreateRequest
+      add API::V1::SessionsController::CreateRequest
+      add API::V1::SessionsController::DestroyRequest
     end
 
-    section "Posts" do
+    section "Articles" do
       # add API::V1::PostsController::CreateRequest
       # add API::V1::PostsController::CreateRequest
       # add API::V1::PostsController::DestroyRequest
