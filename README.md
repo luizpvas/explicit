@@ -25,6 +25,7 @@ documented specs during runtime.
    - [Record](#record)
    - [String](#string)
 8. Advanced configuration
+   - [Recording request examples from tests](#recording-request-examples-from-tests)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
 
@@ -41,8 +42,8 @@ gem "explicit", "~> 0.1"
 You define request specs by inheriting from `Explicit::Request`. The following
 methods are available:
 
-- `get(path)` - Adds a route to the request. Use the syntax `:param` for path
-  params. For example: `get "/customers/:customer_id"`.
+- `get(path)` - Adds a route to the request. Use the syntax `/:param` for path
+  params.
   - There is also `head`, `post`, `put`, `delete`, `options` and `patch` for
     other HTTP verbs.
 - `title(text)` - Adds a title to the request. Displayed in documentation.
@@ -388,3 +389,19 @@ records with array of records, etc.
 [:string, minlength: 8] # inclusive
 [:string, maxlength: 20] # inclusive
 ```
+
+# Advanced configuration
+
+If you need to customize behaviour a
+Add the initializer `explicit.rb` to your `config/initializers` directory with
+the following code:
+
+```ruby
+Explicit.configure do |config|
+  # change the config here
+end
+```
+
+### Recording request examples from tests
+
+Set `config.record_request_examples = true`
