@@ -9,6 +9,8 @@ module Explicit::Spec::Record
     end
 
     lambda do |data|
+      return [:error, :hash] if !data.respond_to?(:[])
+
       validated_data = {}
       errors = {}
 

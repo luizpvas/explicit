@@ -8,8 +8,7 @@ documented specs during runtime.
 3. [Reusing specs](#reusing-specs)
 4. [Writing tests](#writing-tests)
 5. [Writing documentation](#writing-documentation)
-6. [Performance benchmark](#performance-benchmark)
-7. Specs
+6. Specs
    - [Agreement](#agreement)
    - [Array](#array)
    - [Boolean](#boolean)
@@ -24,9 +23,10 @@ documented specs during runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
-8. Advanced configuration
+7. Advanced configuration
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
+8. [Performance benchmark](#performance-benchmark)
 
 # Installation
 

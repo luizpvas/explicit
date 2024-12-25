@@ -27,9 +27,16 @@ class Explicit::Spec::RecordTest < ActiveSupport::TestCase
       { company: { name: :string } },
       validate({ name: "John", company: {} }, customer_schema)
     )
+
+    assert_error(
+      { company: :hash },
+      validate({ name: "John" }, customer_schema)
+    )
   end
 
   test "error" do
+    assert_error :hash, validate(nil, USER_SCHEMA)
+
     assert_error(
       { age: :integer },
       validate({ name: "Bilbo" }, USER_SCHEMA)

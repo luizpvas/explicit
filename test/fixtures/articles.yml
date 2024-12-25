@@ -1,0 +1,6 @@
+published_by_luiz:
+  user: luiz
+  title: Title
+  content: Content
+  published_at: <%= Time.current %>
+  read_count: 0
