@@ -3,7 +3,7 @@
 require "test_helper"
 
 class API::V1::ArticlesController::ShowTest < ActionDispatch::IntegrationTest
-  test "returns an article authored by authenticated user" do
+  test "responds with article authored by authenticated user" do
     token = users(:luiz).tokens.first
     article = articles(:published_by_luiz)
 
@@ -26,7 +26,7 @@ class API::V1::ArticlesController::ShowTest < ActionDispatch::IntegrationTest
     assert_equal article.read_count, response.dig(:article, :read_count)
   end
 
-  test "returns not found when article belongs to another user" do
+  test "responds with not found when article belongs to another user" do
     token = users(:mario).tokens.first
     article = articles(:published_by_luiz)
 
@@ -44,7 +44,7 @@ class API::V1::ArticlesController::ShowTest < ActionDispatch::IntegrationTest
     assert_equal 404, response.status
   end
 
-  test "unauthorized" do
+  test "unauthenticated" do
     article = articles(:published_by_luiz)
 
     response = fetch(
