@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors     = ["Luiz Vasconcellos"]
   spec.email       = ["luizpvasc@gmail.com"]
   spec.homepage    = "https://github.com/luizpvas/explicit"
-  spec.summary     = "explicit is a documentation and validation library for JSON APIs"
-  spec.description = "explicit allows you to document, test and specify requests and responses schemas"
+  spec.summary     = "Explicit is a validation and documentation library for JSON APIs"
+  spec.description = "Explicit is a validation and documentation library for JSON APIs that enforces documented specs during runtime."
   spec.license     = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage
