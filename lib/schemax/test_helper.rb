@@ -39,7 +39,7 @@ module Schemax::TestHelper
 
     case response_validator.call({ status: response.status, data: response.data.with_indifferent_access })
     in [:ok, _] then :all_good
-    in [:error, err] then raise Schemax::Request::InvalidResponseFormatError.new(response, err)
+    in [:error, err] then raise Schemax::Request::InvalidResponseError.new(response, err)
     end
   end
 end

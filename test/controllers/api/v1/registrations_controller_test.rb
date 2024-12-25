@@ -6,10 +6,11 @@ class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   setup { freeze_time }
 
   test "successful user registration" do
-    response = fetch(API::V1::RegistrationsController::CreateRequest,
+    response = fetch(
+      API::V1::RegistrationsController::CreateRequest,
       params: {
-        name: "Luiz",
-        email_address: "luiz@example.org",
+        name: "Yukihiro Matsumoto",
+        email_address: "matz@ruby.org",
         password: "mystrongpassword",
         terms_of_use: true
       }
@@ -25,13 +26,8 @@ class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "registration attempt when email address is taken" do
-    User.create!(
-      name: "Luiz",
-      email_address: "luiz@example.org",
-      password: "mystrongpassword"
-    )
-
-    response = fetch(API::V1::RegistrationsController::CreateRequest,
+    response = fetch(
+      API::V1::RegistrationsController::CreateRequest,
       params: {
         name: "Luiz",
         email_address: "luiz@example.org",
@@ -45,7 +41,10 @@ class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "invalid params" do
-    response = fetch(API::V1::RegistrationsController::CreateRequest, params: {})
+    response = fetch(
+      API::V1::RegistrationsController::CreateRequest,
+      params: {}
+    )
 
     assert_equal 422,  response.status
 

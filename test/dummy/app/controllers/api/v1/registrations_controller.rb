@@ -6,11 +6,22 @@ class API::V1::RegistrationsController < ApplicationController
 
     description <<-MD
     Attempts to register a new user in the system. Email address must be unique.
+    If registration succeeds an authentication token is returned. Use this token
+    to authenticate requests with the header `Authorization: Bearer <token>`.
     MD
 
-    param :name, [:string, empty: false]
-    param :email_address, [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true]
-    param :password, [:string, minlength: 8]
+    param :name,
+      [:string, empty: false],
+      description: "Full name"
+
+    param :email_address,
+      [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true],
+      description: "Email address used to login. Case insensitive."
+
+    param :password,
+      [:string, minlength: 8],
+      description: "Minimum 8 characters. No other rules."
+
     param :terms_of_use, [:agreement, parse: true]
 
     response 200, { token: :string }

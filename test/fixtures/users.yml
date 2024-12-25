@@ -1,0 +1,4 @@
+luiz:
+  name: Luiz Vasconcellos
+  email_address: luiz@example.org
+  password_digest: "$2a$12$IaZJP6haC9AstsyHaq/RN.7MUS//MCj0vP0bLpgNgqLWrYEyQvNyO" # mystrongpassword
