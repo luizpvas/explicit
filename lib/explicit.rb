@@ -5,6 +5,7 @@ require "explicit/test_helper"
 require "explicit/version"
 
 require "explicit/request"
+require "explicit/request/examples"
 require "explicit/request/invalid_params"
 require "explicit/request/invalid_response_error"
 require "explicit/request/route"
@@ -29,6 +30,7 @@ require "explicit/spec/string"
 module Explicit
   extend self
 
+  attr_reader :configuration
   @configuration = Configuration.new
 
   def configure(&block)
