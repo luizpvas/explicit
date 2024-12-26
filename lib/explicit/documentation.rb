@@ -1,7 +1,41 @@
 # frozen_string_literal: true
 
 module Explicit::Documentation
+  Section = ::Data.define(:name, :pages)
+
+  module Page
+    class Partial
+      attr_reader :title, :partial
+
+      def initialize(title:, partial:)
+        @title = title
+        @partial = partial
+      end
+
+      def partial? = true
+      def request? = false
+    end
+
+    class Request
+      attr_reader :request
+
+      def initialize(request:)
+        @request = request
+      end
+
+      def partial? = false
+      def request? = true
+    end
+  end
+
   class Builder
+    attr_reader :sections
+
+    def initialize
+      @sections = []
+      @current_section = nil
+    end
+
     def page_title(page_title)
       @page_title = page_title
     end
@@ -10,10 +44,24 @@ module Explicit::Documentation
       @primary_color = primary_color
     end
 
-    def section(name)
+    def section(name, &block)
+      @current_section = Section.new(name:, pages: [])
+
+      block.call
+
+      @sections << @current_section
+
+      @current_section = nil
     end
 
-    def add(**opts)
+    def add(*requests, **opts)
+      if requests.one?
+        @current_section.pages << Page::Request.new(request: requests.first)
+      elsif opts[:partial]
+        @current_section.pages << Page::Partial.new(title: opts[:title], partial: opts[:partial])
+      else
+        raise ArgumentError("expected request or a partial")
+      end
     end
 
     def call(request)
