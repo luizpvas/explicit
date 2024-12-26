@@ -38,11 +38,19 @@ class Explicit::Request
   def patch(path)   = @routes << Route.new(method: :patch, path:)
 
   def title(text)
-    # TODO
+    @title = text
+  end
+
+  def get_title
+    @title || @routes.first.to_s
   end
 
   def description(markdown)
-    # TODO
+    @description = markdown
+  end
+
+  def get_description
+    @description
   end
 
   def header(name, format)

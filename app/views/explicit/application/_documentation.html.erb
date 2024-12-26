@@ -2,9 +2,32 @@
 <html>
 <head>
   <title><%= local_assigns[:page_title] || "API Documentation" %></title>
+
+  <style>
+    .navigation {
+    }
+    .navigation__section {
+    }
+    .navigation__section__page {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Hello world</h1>
+  <section class="navigation">
+    <% sections.each do |section| %>
+      <details class="navigation__section" open>
+        <summary><%= section.name %></summary>
+
+        <% section.pages.each do |page| %>
+          <%= link_to page.title, "##{page.anchor}", class: "navigation__section__page" %>
+        <% end %>
+      </details>
+    <% end %>
+  </section>
+
+  <main>
+  </main>
 </body>
 </html>

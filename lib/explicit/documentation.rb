@@ -14,6 +14,10 @@ module Explicit::Documentation
 
       def partial? = true
       def request? = false
+
+      def anchor
+        title.dasherize
+      end
     end
 
     class Request
@@ -21,6 +25,14 @@ module Explicit::Documentation
 
       def initialize(request:)
         @request = request
+      end
+
+      def title
+        @request.get_title
+      end
+
+      def anchor
+        title.dasherize
       end
 
       def partial? = false
