@@ -24,6 +24,7 @@ documented specs at runtime.
    - [Record](#record)
    - [String](#string)
 7. Configuration
+   - [Request examples file path](#request-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
 8. [Performance benchmark](#performance-benchmark)
@@ -396,6 +397,8 @@ Explicit.configure do |config|
 end
 ```
 
-### Save request examples from tests
+### Request examples file path
 
-Set `config.save_request_examples_from_tests = true` to save all requests
+```ruby
+config.request_examples_file_path = Rails.root.join("storage/request_examples.json")
+```
