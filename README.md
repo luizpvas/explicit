@@ -1,11 +1,11 @@
 # Explicit
 
 Explicit is a validation and documentation library for JSON APIs that enforces
-documented specs during runtime.
+documented specs at runtime.
 
 1. [Installation](#installation)
 2. [Defining requests](#defining-requests)
-3. [Reusing specs](#reusing-specs)
+3. [Sharing specs](#sharing-specs)
 4. [Writing tests](#writing-tests)
 5. [Writing documentation](#writing-documentation)
 6. Specs
@@ -38,7 +38,7 @@ gem "explicit", "~> 0.1"
 
 # Defining requests
 
-You define request specs by inheriting from `Explicit::Request`. The following
+You define request specs by instantiating `Explicit::Request`. The following
 methods are available:
 
 - `get(path)` - Adds a route to the request. Use the syntax `/:param` for path
@@ -80,16 +80,16 @@ class RegistrationsController < ActionController::API
 
     user = User.create!(name:, email:, payment_type:)
 
-    render json: user: { user.as_json(:id, :email) }
+    render json: { user: user.as_json(:id, :email) }
   rescue ActiveRecord::RecordNotUnique
     render json: { error: "email_already_taken" }, status: 422
   end
 end
 ```
 
-# Reusing specs
+# Sharing specs
 
-Specs are just data. You can reuse specs the same way you reuse constants or
+Specs are just data. You can share specs the same way you reuse constants or
 configs in your app. For example:
 
 ```ruby
@@ -115,7 +115,7 @@ end
 
 Include `Explicit::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
-`fetch(request, params:, headers:)` that let's you verify the endpoint works as
+`fetch(request, **options)` that let's you verify the endpoint works as
 expected and that it responds with a valid response according to the spec.
 
 Add the following line to your `test/test_helper.rb`.
@@ -133,7 +133,7 @@ module ActiveSupport
 end
 ```
 
-To test your controller, call `fetch(request, params:, headers:)` and write
+To test your controller, call `fetch(request, **options)` and write
 assertions against the response. If the endpoint sends a response that does not
 match expected spec the test fails with
 `Explicit::Request::InvalidResponseError`.
@@ -168,8 +168,9 @@ end
 
 # Writing documentation
 
+You write request documentation using `title` and `description`. To publish
 Documentation is written . To make documentation available to users
-you must configure it using `Explicit::Documentation.new` and then publish it
+To publish a web page with your `Explicit::Documentation.new` and then publish it
 mounting it in `routes.rb`.
 
 Inside `Explicit::Documentation.new` you have access to the following methods:
