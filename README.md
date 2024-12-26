@@ -23,7 +23,7 @@ documented specs at runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
-7. Advanced configuration
+7. Configuration
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
 8. [Performance benchmark](#performance-benchmark)
@@ -38,8 +38,8 @@ gem "explicit", "~> 0.1"
 
 # Defining requests
 
-You define request specs by instantiating `Explicit::Request`. The following
-methods are available:
+Call `Explicit::Request.new` to define a request. The following methods are
+available:
 
 - `get(path)` - Adds a route to the request. Use the syntax `/:param` for path
   params.
@@ -134,9 +134,8 @@ end
 ```
 
 To test your controller, call `fetch(request, **options)` and write
-assertions against the response. If the endpoint sends a response that does not
-match expected spec the test fails with
-`Explicit::Request::InvalidResponseError`.
+assertions against the response. If the response is invalid according to the
+spec the test fails with `Explicit::Request::InvalidResponseError`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data.
@@ -168,18 +167,14 @@ end
 
 # Writing documentation
 
-You write request documentation using `title` and `description`. To publish
-Documentation is written . To make documentation available to users
-To publish a web page with your `Explicit::Documentation.new` and then publish it
-mounting it in `routes.rb`.
+Call `Explicit::Documentation.new` to group, organize and publish API
+documentations. The following methods are available:
 
-Inside `Explicit::Documentation.new` you have access to the following methods:
-
-- `page_title(text)`
-- `primary_color(hexcode)`
-- `section(&block)`
-- `add(request)`
-- `add(title:, partial:)`
+- `page_title(text)` - Sets the web page title.
+- `primary_color(hexcode)` - Sets the web page theme.
+- `section(name, &block)` - Adds a section to the navigation menu.
+- `add(request)` - Adds a request to the section
+- `add(title:, partial:)` - Adds a partial to the section
 
 For example:
 
@@ -390,7 +385,7 @@ records with array of records, etc.
 [:string, maxlength: 20] # inclusive
 ```
 
-# Advanced configuration
+# Configuration
 
 If you need to customize behaviour a
 Add the initializer file `config/initializers/explicit.rb` with the following
