@@ -138,7 +138,8 @@ assertions against the response. If the response is invalid according to the
 spec the test fails with `Explicit::Request::InvalidResponseError`.
 
 The response object has a `status`, an integer value for the http status, and
-`data`, a hash with the response data.
+`data`, a hash with the response data. It also provides `dig` for a
+slighly shorter syntax when accessing nested attributes.
 
 > Path params are matched by name, so if you have an endpoint configured with
 > `put "/customers/:customer_id"` you must call as
@@ -158,9 +159,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     })
 
     assert_equal 200, response.status
-
-    assert response.data[:id]
-    assert_equal "bilbo@shire.com", response.data[:email]
+    assert_equal "bilbo@shire.com", response.dig(:user, :email)
   end
 end
 ```
