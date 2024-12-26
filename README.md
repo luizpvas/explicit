@@ -181,7 +181,7 @@ For example:
 ```ruby
 module MyApp::API::V1
   Documentation = Explicit::Documentation.new do
-    page_title "Acme Co. | API Docs"
+    page_title "Acme API Docs"
     primary_color "#6366f1"
 
     section "Introduction" do
@@ -189,14 +189,15 @@ module MyApp::API::V1
     end
 
     section "Auth" do
-      add SessionsController::CreateRequest
       add RegistrationsController::CreateRequest
+      add SessionsController::CreateRequest
+      add SessionsController::DestroyRequest
     end
 
-    section "Posts" do
-      add PostsController::CreateRequest
-      add PostsController::UpdateRequest
-      add PostsController::DestroyRequest
+    section "Articles" do
+      add ArticlesController::CreateRequest
+      add ArticlesController::UpdateRequest
+      add ArticlesController::DestroyRequest
     end
   end
 end
