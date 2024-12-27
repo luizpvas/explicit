@@ -78,4 +78,8 @@ class Explicit::Request
     in [:error, err] then raise InvalidParams::Error.new(err)
     end
   end
+
+  def gid
+    routes.first.to_s
+  end
 end

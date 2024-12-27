@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Explicit::Configuration
-  attr_accessor :request_examples_file_path
+  def request_examples_file_path=(path)
+    @request_examples_file_path = path
+  end
 
-  def initialize
-    @request_examples_file_path = ::Rails.root&.join("storage/explicit_request_examples.jsonl")
+  def request_examples_file_path
+    @request_examples_file_path ||= ::Rails.root&.join("storage/explicit_request_examples.json")
   end
 end

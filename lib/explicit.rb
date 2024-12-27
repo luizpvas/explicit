@@ -6,6 +6,7 @@ require "explicit/version"
 
 require "explicit/request"
 require "explicit/request/example"
+require "explicit/request/example/recorder"
 require "explicit/request/invalid_params"
 require "explicit/request/invalid_response_error"
 require "explicit/request/response"

@@ -3,6 +3,22 @@
 module Explicit::TestHelper
   extend ActiveSupport::Concern
 
+  module Global
+    extend self
+
+    def recorder
+      @recorder ||= Explicit::Request::Example::Recorder.new
+    end
+  end
+
+  included do
+    puts "called here?"
+
+    Minitest.after_run do
+      Global.recorder.save!
+    end
+  end
+
   def fetch(request, params: nil, headers: nil, **opts)
     route = request.send(:routes).first
 
@@ -29,7 +45,7 @@ module Explicit::TestHelper
     ensure_response_matches_spec!(request, response)
 
     if opts[:save_as_example]
-      save_request_example!(request:, params:, headers:, response:)
+      Global.recorder.add(request:, params:, headers:, response:)
     end
 
     response
@@ -44,11 +60,5 @@ module Explicit::TestHelper
     in [:ok, _] then :all_good
     in [:error, err] then raise Explicit::Request::InvalidResponseError.new(response, err)
     end
-  end
-
-  def save_request_example!(request:, params:, headers:, response:)
-    route = request.routes.first
-
-    Explicit::Request::Example.new(route:, params:, headers:, response:).save!
   end
 end
