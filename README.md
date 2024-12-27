@@ -339,7 +339,7 @@ matching against multiple specs in [`one_of`](#one-of).
 [:nilable, [:array, :integer]]
 ```
 
-Value must be `nil` or valid according to the subspec.
+Value must either match the subspec or be nil.
 
 ### One of
 
