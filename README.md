@@ -8,7 +8,8 @@ documented specs at runtime.
 3. [Sharing specs](#sharing-specs)
 4. [Writing tests](#writing-tests)
 5. [Writing documentation](#writing-documentation)
-6. Specs
+6. [Adding examples](#adding-examples)
+7. Specs
    - [Agreement](#agreement)
    - [Array](#array)
    - [Boolean](#boolean)
@@ -23,11 +24,11 @@ documented specs at runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
-7. Configuration
+8. Configuration
    - [Request examples file path](#request-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
-8. [Performance benchmark](#performance-benchmark)
+9. [Performance benchmark](#performance-benchmark)
 
 # Installation
 
@@ -167,8 +168,8 @@ end
 
 # Writing documentation
 
-Call `Explicit::Documentation.new` to group, organize and publish API
-documentations. The following methods are available:
+Call `Explicit::Documentation.new` to group, organize and publish the
+documentation for your API. The following methods are available:
 
 - `page_title(text)` - Sets the web page title.
 - `primary_color(hexcode)` - Sets the web page theme.
@@ -211,6 +212,97 @@ Rails.application.routes.draw do
   mount MyApp::API::V1::Documentation => "api/v1/docs"
 end
 ```
+
+# Adding examples
+
+Showing examples of requests and responses is always a big help to users. You
+can add examples in two different ways:
+
+1. Manually add an example by calling `add_example(request:, response:)`
+2. Automatically saving examples from tests
+
+### 1. Manually adding examples
+
+Call `add_example(request:, response:)` to add the example. The
+request must be a hash with `params` and, optionally, `headers`. The
+response must be a hash with `status` and `data`.
+
+> You'll get an error if you try to add an example that doesn't follow the
+> request spec.
+
+```ruby
+Request = Explicit::Request.new do
+  # ... other configs, params and responses
+
+  add_example(
+    request: {
+      params: {
+        name: "Bilbo baggins",
+        email: "bilbo@shire.com",
+        payment_type: "free_trial",
+        terms_of_use: true
+      }
+    },
+    response: {
+      status: 200,
+      data: {
+        user: {
+          id: 15123,
+          email: "bilbo@shire.com"
+        }
+      }
+    }
+  )
+end
+```
+
+Request examples are just data, so you can extract and reference them in any
+way you like. For example:
+
+```ruby
+Request = Explicit::Request.new do
+  # ... other configs, params and responses
+
+  add_example MyApp::Examples::REQUEST_1
+  add_example MyApp::Examples::REQUEST_2
+end
+```
+
+### 2. Automatically saving examples from tests
+
+The `fetch` method provided by `Explicit::TestHelper` accepts the option
+`add_as_example` that persists the request to display later in the
+documentation. For example:
+
+```ruby
+class RegistrationsControllerTest < ActionDispatch::IntegrationTest
+  test "successful registration" do
+    response = fetch(
+      RegistrationsController::Request,
+      params: {
+        name: "Bilbo Baggins",
+        email: "bilbo@shire.com",
+        payment_type: "free_trial",
+        terms_of_use: true
+      },
+      add_as_example: true # <-- add this line
+    )
+
+    assert_equal 200, response.status
+    assert_equal "bilbo@shire.com", response.dig(:user, :email)
+  end
+end
+```
+
+Then run your test suite with the ENV `EXPLICIT_PERSIST_EXAMPLES`. For example
+`EXPLICIT_PERSIST_EXAMPLES=true bin/rails test` or
+`EXPLICIT_PERSIST_EXAMPLES=true bin/rspec`. The test suite will executed and, if
+all tests pass, a file is written with the examples. The file is located at
+`#{Rails.root}/storage/explicit_request_examples.json` by default, but you can
+[change this path](#request-examples-file-path).
+
+**Important: double check you're not leaking any sensitive data when persisting
+examples from tests**
 
 # Specs
 
