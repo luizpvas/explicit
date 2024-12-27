@@ -12,9 +12,6 @@ class Explicit::Request::Example::Recorder
   def save!
     file_path = Explicit.configuration.request_examples_file_path
 
-    puts file_path
-    puts @examples.to_json
-
     ::File.write(file_path, @examples.to_json, mode: "w")
   end
 end
