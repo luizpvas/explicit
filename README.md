@@ -99,7 +99,7 @@ module MyApp::Spec
   EMAIL = [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true].freeze
 
   ADDRESS = {
-    country_name: :string,
+    country_name: [:string, empty: false],
     zipcode: [:string, format: /\d{6}-\d{3}/]
   }.freeze
 end
@@ -388,8 +388,7 @@ records with array of records, etc.
 
 # Configuration
 
-If you need to customize behaviour a
-Add the initializer file `config/initializers/explicit.rb` with the following
+Add the initializer `config/initializers/explicit.rb` with the following
 code, and then make the desired changes to the config.
 
 ```ruby
@@ -401,5 +400,5 @@ end
 ### Request examples file path
 
 ```ruby
-config.request_examples_file_path = Rails.root.join("storage/request_examples.jsonl")
+config.request_examples_file_path = Rails.root.join("storage/request_examples.json")
 ```
