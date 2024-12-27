@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 module Explicit::TestHelper
-  Response = ::Data.define(:status, :data) do
-    def dig(...) = data.dig(...)
-  end
+  extend ActiveSupport::Concern
 
-  def fetch(request, params: nil, headers: nil, **options)
+  def fetch(request, params: nil, headers: nil, **opts)
     route = request.send(:routes).first
 
     if route.nil?
@@ -23,12 +21,16 @@ module Explicit::TestHelper
 
     process(route.method, route.path, params:, headers:)
 
-    response = Response.new(
+    response = Explicit::Request::Response.new(
       status: @response.status,
       data: @response.parsed_body.deep_symbolize_keys
     )
 
     ensure_response_matches_spec!(request, response)
+
+    if opts[:save_as_example]
+      save_request_example!(request:, params:, headers:, response:)
+    end
 
     response
   end
@@ -42,5 +44,11 @@ module Explicit::TestHelper
     in [:ok, _] then :all_good
     in [:error, err] then raise Explicit::Request::InvalidResponseError.new(response, err)
     end
+  end
+
+  def save_request_example!(request:, params:, headers:, response:)
+    route = request.routes.first
+
+    Explicit::Request::Example.new(route:, params:, headers:, response:).save!
   end
 end

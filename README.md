@@ -401,5 +401,5 @@ end
 ### Request examples file path
 
 ```ruby
-config.request_examples_file_path = Rails.root.join("storage/request_examples.json")
+config.request_examples_file_path = Rails.root.join("storage/request_examples.jsonl")
 ```
