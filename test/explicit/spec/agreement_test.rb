@@ -10,6 +10,7 @@ class Explicit::Spec::AgreementTest < ActiveSupport::TestCase
   test "parse" do
     assert_ok true, validate("true", [:agreement, parse: true])
     assert_ok true, validate("1", [:agreement, parse: true])
+    assert_ok true, validate(1, [:agreement, parse: true])
     assert_ok true, validate("on", [:agreement, parse: true])
   end
 

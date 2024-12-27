@@ -3,19 +3,15 @@
 module Explicit::Spec::Agreement
   extend self
 
-  VALUES = {
-    "true" => true,
-    "on" => true,
-    "1" => true
-  }.freeze
+  VALUES = ["true", "on", "1", 1].freeze
 
   def build(options)
     lambda do |value|
       value =
         if value.is_a?(TrueClass)
           value
-        elsif value.is_a?(::String) && options[:parse]
-          VALUES[value]
+        elsif VALUES.include?(value)
+          true
         else
           nil
         end

@@ -7,9 +7,11 @@ module Explicit::Spec::Boolean
     "true" => true,
     "on" => true,
     "1" => true,
+    1 => true,
     "false" => false,
     "off" => false,
-    "0" => false
+    "0" => false,
+    0 => false
   }.freeze
 
   def build(options)
@@ -17,8 +19,8 @@ module Explicit::Spec::Boolean
       value =
         if value.is_a?(TrueClass) || value.is_a?(FalseClass)
           value
-        elsif value.is_a?(::String)
-          VALUES[value]
+        elsif VALUES.key?(value)
+          VALUES.fetch(value)
         else
           nil
         end

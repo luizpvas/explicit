@@ -12,10 +12,12 @@ class Explicit::Spec::TestBoolean < ActiveSupport::TestCase
     assert_ok true, validate("true", [:boolean, parse: true])
     assert_ok true, validate("1", [:boolean, parse: true])
     assert_ok true, validate("on", [:boolean, parse: true])
+    assert_ok true, validate(1, [:boolean, parse: true])
 
     assert_ok false, validate("false", [:boolean, parse: true])
     assert_ok false, validate("0", [:boolean, parse: true])
     assert_ok false, validate("off", [:boolean, parse: true])
+    assert_ok false, validate(0, [:boolean, parse: true])
   end
 
   test "error" do

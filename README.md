@@ -223,7 +223,7 @@ end
 
 The `agreement` type is a boolean that must always be true. Useful for terms of
 use or agreement acceptances. If `parse: true` is specified then the following
-values are accepted alongisde `true`: "`true`", `"on"` and `"1"`.
+values are accepted: `true`, `"true"`, `"on"`, `"1"` and `1`.
 
 ### Array
 
@@ -244,8 +244,8 @@ value is invalid then the array is invalid.
 ```
 
 If `parse: true` is specified then the following values are converted to `true`:
-`"true"`, `"on"` and `"1"`, and the following values are converted to `false`:
-`"false"`, `"off"` and `"0"`.
+`"true"`, `"on"`, `"1"` and `1`, and the following values are converted to
+`false`: `"false"`, `"off"`, `"0"` and `0`.
 
 ### Date Time ISO8601
 
