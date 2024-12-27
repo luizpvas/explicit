@@ -278,7 +278,8 @@ Provides a default value for the param if the value is not present or it is
 `nil`. Other falsy values such as empty string or zero have precedence over
 the default value.
 
-If you provide a lambda it will execute in every `validate!` call.
+If you provide a lambda it will execute every time `Request.validate!` is
+called.
 
 ### Hash
 
@@ -291,8 +292,8 @@ If you provide a lambda it will execute in every `validate!` call.
 ```
 
 Hashes are key value pairs where all keys must match keyspec and all values must
-match valuespec. If you are expecting a hash with a specific set of keys it is
-best to use a [record](#record) instead.
+match valuespec. If you are expecting a hash with a specific set of keys use a
+[record](#record) instead.
 
 ### Inclusion
 
@@ -324,11 +325,11 @@ If `parse: true` is specified then integer encoded string values such as "10" or
 [:literal, value]
 [:literal, 6379]
 [:literal, "value"]
-"value" # literal strings can use shorter syntax
+"value" # strings work like a literal specs, so you can use this shorter syntax.
 ```
 
 A literal value behaves similar to inclusion with a single value. Useful for
-declaring multiple types in `one_of`.
+matching against multiple specs in [`one_of`](#one-of).
 
 ### Nilable
 
