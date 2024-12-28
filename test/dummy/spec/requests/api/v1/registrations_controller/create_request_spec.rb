@@ -2,13 +2,13 @@
 
 require "rails_helper"
 
-describe API::V1::RegistrationsController, type: :request do
-  context "POST /api/v1/registrations" do
-    before { freeze_time }
+describe API::V1::RegistrationsController::CreateRequest, type: :request do
+  before { freeze_time }
 
+  context "when params are valid" do
     it "registers a new user" do
       response = fetch(
-        API::V1::RegistrationsController::CreateRequest,
+        described_class,
         params: {
           name: "Yukihiro Matsumoto",
           email_address: "matz@ruby.org",
@@ -20,16 +20,18 @@ describe API::V1::RegistrationsController, type: :request do
 
       expect(response.status).to eql(200)
 
-      Token.find_by!(value: response.data[:token]).tap do |token|
+      Token.find_by!(value: response.dig(:token)).tap do |token|
         expect(token.purpose).to eql("authentication")
         expect(token.expires_at).to eql(30.days.from_now)
         expect(token.revoked_at).to be_nil
       end
     end
+  end
 
+  context "when email_address belongs to an existing user" do
     it "responds with :email_already_token" do
       response = fetch(
-        API::V1::RegistrationsController::CreateRequest,
+        described_class,
         params: {
           name: "Luiz",
           email_address: "luiz@example.org",
@@ -42,10 +44,12 @@ describe API::V1::RegistrationsController, type: :request do
       expect(response.status).to eql(422)
       expect(response.dig(:error)).to eql("email_already_taken")
     end
+  end
 
+  context "when params are invalid" do
     it "responds with :invalid_params" do
       response = fetch(
-        API::V1::RegistrationsController::CreateRequest,
+        described_class,
         params: {},
         save_as_example: true
       )
