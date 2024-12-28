@@ -12,8 +12,9 @@ module Explicit::Documentation
         @partial = partial
       end
 
-      def partial? = true
-      def request? = false
+      def request?
+        false
+      end
 
       def anchor
         title.dasherize
@@ -27,6 +28,10 @@ module Explicit::Documentation
         @request = request
       end
 
+      def request?
+        true
+      end
+
       def title
         @request.get_title
       end
@@ -35,8 +40,9 @@ module Explicit::Documentation
         title.dasherize
       end
 
-      def partial? = false
-      def request? = true
+      def partial
+        "request"
+      end
     end
   end
 
