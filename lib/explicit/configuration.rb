@@ -6,6 +6,6 @@ class Explicit::Configuration
   end
 
   def request_examples_file_path
-    @request_examples_file_path ||= ::Rails.root&.join("storage/explicit_request_examples.json")
+    @request_examples_file_path ||= ::Rails.root&.join("public/explicit_request_examples.json")
   end
 end
