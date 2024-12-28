@@ -3,8 +3,18 @@
 module Explicit::TestHelper
   extend ActiveSupport::Concern
 
-  included do
-    include Explicit::TestHelper::Minitest
+  if Explicit.configuration.request_examples_persistance_enabled?
+    if Explicit.configuration.test_runner == :rspec
+      ::RSpec.configure do |config|
+        config.after(:suite) do
+          Explicit::TestHelper::ExampleRecorder.instance.save!
+        end
+      end
+    else
+      ::Minitest.after_run do
+        Explicit::TestHelper::ExampleRecorder.instance.save!
+      end
+    end
   end
 
   def fetch(request, params: nil, headers: nil, **opts)

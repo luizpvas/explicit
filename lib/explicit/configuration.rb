@@ -1,15 +1,34 @@
 # frozen_string_literal: true
 
-class Explicit::Configuration
-  def request_examples_file_path=(path)
-    @request_examples_file_path = path
+module Explicit
+  extend self
+
+  class Configuration
+    def request_examples_file_path=(path)
+      @request_examples_file_path = path
+    end
+
+    def request_examples_file_path
+      @request_examples_file_path ||= ::Rails.root&.join("public/explicit_request_examples.json")
+    end
+
+    def request_examples_persistance_enabled?
+      ENV["EXPLICIT_PERSIST_EXAMPLES"].in? %w[true 1 on]
+    end
+
+    def test_runner
+      if defined?(RSpec) && ::RSpec.respond_to?(:configure)
+        :rspec
+      else
+        :minitest
+      end
+    end
   end
 
-  def request_examples_file_path
-    @request_examples_file_path ||= ::Rails.root&.join("public/explicit_request_examples.json")
-  end
+  attr_reader :configuration
+  @configuration = Configuration.new
 
-  def request_examples_persistance_enabled?
-    ENV["EXPLICIT_PERSIST_EXAMPLES"].in? %w[true 1 on]
+  def configure(&block)
+    block.call(@configuration)
   end
 end

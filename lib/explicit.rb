@@ -33,14 +33,3 @@ require "explicit/spec/nilable"
 require "explicit/spec/one_of"
 require "explicit/spec/record"
 require "explicit/spec/string"
-
-module Explicit
-  extend self
-
-  attr_reader :configuration
-  @configuration = Configuration.new
-
-  def configure(&block)
-    block.call(@configuration)
-  end
-end
