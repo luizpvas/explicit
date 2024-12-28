@@ -67,6 +67,14 @@ module Explicit::Documentation
     end
 
     def add(*requests, **opts)
+      raise ArgumentError(<<-MD) if @current_section.nil?
+        You must define a section before adding a page. For example:
+
+          section "Customers" do
+            add CustomersController::CreateRequest
+          end
+      MD
+
       if requests.one?
         @current_section.pages << Page::Request.new(request: requests.first)
       elsif opts[:partial]
