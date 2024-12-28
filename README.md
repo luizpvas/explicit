@@ -281,8 +281,8 @@ end
 
 You can add request examples in two different ways:
 
-1. Manually add an example by calling `add_example(params:, headers:, response:)`
-2. Automatically saving examples from tests
+1. Manually add an example with `add_example(params:, headers:, response:)`
+2. Automatically save examples from tests
 
 ### 1. Manually adding examples
 
