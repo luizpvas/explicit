@@ -2,10 +2,6 @@
 
 class Explicit::TestHelper::ExampleRecorder
   class << self
-    def add(...)
-      instance.add(...)
-    end
-
     def instance
       @instance ||= new
     end

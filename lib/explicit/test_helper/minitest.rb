@@ -12,8 +12,6 @@ module Explicit::TestHelper::Minitest
   # end
 
   included do
-    puts "included???????"
-
     ::Minitest.after_run do
       next if !Explicit.configuration.request_examples_persistance_enabled?
 

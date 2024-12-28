@@ -33,7 +33,7 @@ module Explicit::TestHelper
     ensure_response_matches_spec!(request, response)
 
     if opts[:save_as_example]
-      ExampleRecorder.add(request:, params:, headers:, response:)
+      ExampleRecorder.instance.add(request:, params:, headers:, response:)
     end
 
     response
