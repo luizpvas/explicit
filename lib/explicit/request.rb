@@ -4,6 +4,8 @@ class Explicit::Request
   attr_reader :routes, :headers, :params, :responses, :examples
 
   def initialize(&block)
+    @host = ""
+    @path_prefix = ""
     @routes = []
     @headers = {}
     @params = {}
@@ -22,11 +24,13 @@ class Explicit::Request
   def new(&block)
     subrequest = self.class.new { }
 
-    subrequest.instance_variable_set(:@routes,    @routes.dup)
-    subrequest.instance_variable_set(:@headers,   @headers.dup)
-    subrequest.instance_variable_set(:@params,    @params.dup)
-    subrequest.instance_variable_set(:@responses, @responses.dup)
-    subrequest.instance_variable_set(:@examples,  @examples.dup)
+    subrequest.instance_variable_set(:@host,        @host)
+    subrequest.instance_variable_set(:@path_prefix, @path_prefix)
+    subrequest.instance_variable_set(:@routes,      @routes.dup)
+    subrequest.instance_variable_set(:@headers,     @headers.dup)
+    subrequest.instance_variable_set(:@params,      @params.dup)
+    subrequest.instance_variable_set(:@responses,   @responses.dup)
+    subrequest.instance_variable_set(:@examples,    @examples.dup)
 
     subrequest.tap { _1.instance_eval(&block) }
   end
@@ -39,21 +43,17 @@ class Explicit::Request
   def options(path) = @routes << Route.new(method: :options, path:)
   def patch(path)   = @routes << Route.new(method: :patch, path:)
 
-  def title(text)
-    @title = text
-  end
+  def host(url) = (@host = url)
+  def get_host = @host
 
-  def get_title
-    @title || @routes.first.to_s
-  end
+  def path_prefix(prefix) = (@path_prefix = prefix)
+  def get_path_prefix = @path_prefix
 
-  def description(markdown)
-    @description = markdown
-  end
+  def title(text) = (@title = text)
+  def get_title = @title || @routes.first.to_s
 
-  def get_description
-    @description
-  end
+  def description(markdown) = (@description = markdown)
+  def get_description = @description
 
   def header(name, format)
     raise ArgumentError("duplicated header #{name}") if @headers.key?(name)

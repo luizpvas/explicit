@@ -20,7 +20,7 @@ class Explicit::DocumentationTest < ActiveSupport::TestCase
 
     section_1 = documentation.sections.first
     assert_equal "one", section_1.name
-    assert section_1.pages.first.partial?
+    assert_not section_1.pages.first.request?
     assert_equal "one", section_1.pages.first.partial
 
     section_2 = documentation.sections.second

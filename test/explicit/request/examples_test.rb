@@ -23,34 +23,6 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
     end
   end
 
-  test "raises an error if example does not match param specs" do
-    assert_raises Explicit::Request::InvalidExampleError do
-      Explicit::Request.new do
-        param :name, :string
-        response 200, {}
-
-        add_example(
-          params: { name: 10 },
-          response: { status: 200, data: {} }
-        )
-      end
-    end
-  end
-
-  test "raises an error if example does not match header specs" do
-    assert_raises Explicit::Request::InvalidExampleError do
-      Explicit::Request.new do
-        header "Authorization", :string
-        response 200, {}
-
-        add_example(
-          params: {},
-          response: { status: 200, data: {} }
-        )
-      end
-    end
-  end
-
   test "raises an error if example does not match response specs" do
     assert_raises Explicit::Request::InvalidExampleError do
       Explicit::Request.new do

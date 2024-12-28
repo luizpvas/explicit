@@ -8,8 +8,8 @@ documented specs at runtime.
 3. [Reusing specs](#reusing-specs)
 4. [Reusing requests](#reusing-requests)
 5. [Writing tests](#writing-tests)
-6. [Writing documentation](#writing-documentation)
-   - [Adding request-response examples](#adding-request-response-examples)
+6. [Publishing documentation](#publishing-documentation)
+   - [Adding request examples](#adding-request-examples)
 7. Specs
    - [Agreement](#agreement)
    - [Array](#array)
@@ -57,6 +57,12 @@ available:
   It works for params in the request body, query string and path params.
 - `response(status, spec)` - Adds a response spec. You can add multiple
   responses with different formats.
+- `add_example(params:, headers:, response:)` - Adds an example to the
+  documentation. [See more details here](#adding-request-examples).
+- `host(url)` - Sets the host for this API. For example: "https://api.myapp.com".
+  Meant to be used with [request composition](#reusing-requests).
+- `path_prefix(prefix)` - Sets a prefix for the routes. Meant to be used with
+  [request composition](#reusing-requests).
 
 For example:
 
@@ -230,7 +236,7 @@ end
 
 </details>
 
-# Writing documentation
+# Publishing documentation
 
 Call `Explicit::Documentation.new` to group, organize and publish the
 documentation for your API. The following methods are available:
@@ -277,7 +283,7 @@ Rails.application.routes.draw do
 end
 ```
 
-## Adding request-response examples
+## Adding request examples
 
 You can add request examples in two different ways:
 
