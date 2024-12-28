@@ -3,23 +3,8 @@
 module Explicit::TestHelper
   extend ActiveSupport::Concern
 
-  # TODO: figure out how to make the recorder available globally for
-  # 1. minitest serial
-  # 2. minitest parallel with threads
-  # 3. minitest parallel with processes
-  # 4. rspec
-  module Global
-    extend self
-
-    def recorder
-      @recorder ||= Explicit::Request::Example::Recorder.new
-    end
-  end
-
   included do
-    Minitest.after_run do
-      Global.recorder.save!
-    end
+    include Explicit::TestHelper::Minitest
   end
 
   def fetch(request, params: nil, headers: nil, **opts)
@@ -38,17 +23,12 @@ module Explicit::TestHelper
       DESC
     end
 
-    process(route.method, route.path, params:, headers:)
-
-    response = Explicit::Request::Response.new(
-      status: @response.status,
-      data: @response.parsed_body.deep_symbolize_keys
-    )
+    response = request_via_test_provider(route:, params:, headers:)
 
     ensure_response_matches_spec!(request, response)
 
     if opts[:save_as_example]
-      Global.recorder.add(request:, params:, headers:, response:)
+      ExampleRecorder.add(request:, params:, headers:, response:)
     end
 
     response

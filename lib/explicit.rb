@@ -1,12 +1,14 @@
 require "explicit/configuration"
 require "explicit/documentation"
 require "explicit/engine"
-require "explicit/test_helper"
 require "explicit/version"
+
+require "explicit/test_helper"
+require "explicit/test_helper/example_recorder"
+require "explicit/test_helper/minitest"
 
 require "explicit/request"
 require "explicit/request/example"
-require "explicit/request/example/recorder"
 require "explicit/request/invalid_example_error"
 require "explicit/request/invalid_params"
 require "explicit/request/invalid_response_error"

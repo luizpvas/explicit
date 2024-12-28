@@ -18,6 +18,8 @@ require_relative "support/result_helper"
 require_relative "support/validation_helper"
 
 class ActiveSupport::TestCase
+  parallelize(workers: :number_of_processors)
+
   include ResultHelper
   include ValidationHelper
 

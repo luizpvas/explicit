@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
-class Explicit::Request::Example::Recorder
+class Explicit::TestHelper::ExampleRecorder
+  class << self
+    def add(...)
+      instance.add(...)
+    end
+
+    def instance
+      @instance ||= new
+    end
+  end
+
   def initialize
     @examples = Hash.new { |hash, key| hash[key] = [] }
   end
