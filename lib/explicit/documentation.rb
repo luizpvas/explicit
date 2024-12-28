@@ -85,6 +85,9 @@ module Explicit::Documentation
     end
 
     def call(request)
+      # read and merge request examples from file
+      # contents = ::File.read(Explicit.configuration.request_examples_file_path)
+
       html = Explicit::ApplicationController.render(
         partial: "documentation",
         locals: {

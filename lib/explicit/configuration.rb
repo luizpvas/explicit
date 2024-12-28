@@ -3,7 +3,7 @@
 module Explicit
   extend self
 
-  class Config
+  class Configuration
     def request_examples_file_path=(path)
       @request_examples_file_path = path
     end
@@ -30,10 +30,10 @@ module Explicit
     end
   end
 
-  attr_reader :config
-  @config = Config.new
+  attr_reader :configuration
+  @configuration = Configuration.new
 
   def configure(&block)
-    block.call(@config)
+    block.call(@configuration)
   end
 end

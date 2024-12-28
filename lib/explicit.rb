@@ -1,4 +1,4 @@
-require "explicit/config"
+require "explicit/configuration"
 require "explicit/documentation"
 require "explicit/engine"
 require "explicit/version"

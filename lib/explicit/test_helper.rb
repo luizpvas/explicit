@@ -3,8 +3,8 @@
 module Explicit::TestHelper
   extend ActiveSupport::Concern
 
-  if Explicit.config.request_examples_persistance_enabled?
-    if Explicit.config.test_runner == :rspec
+  if Explicit.configuration.request_examples_persistance_enabled?
+    if Explicit.configuration.test_runner == :rspec
       ::RSpec.configure do |config|
         config.after(:suite) do
           Explicit::TestHelper::ExampleRecorder.instance.save!
