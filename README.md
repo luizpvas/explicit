@@ -5,11 +5,12 @@ documented specs at runtime.
 
 1. [Installation](#installation)
 2. [Defining requests](#defining-requests)
-3. [Sharing specs](#sharing-specs)
-4. [Writing tests](#writing-tests)
-5. [Writing documentation](#writing-documentation)
-6. [Adding request-response examples](#adding-request-response-examples)
-7. Specs
+3. [Reusing specs](#reusing-specs)
+4. [Reusing requests](#reusing-requests)
+5. [Writing tests](#writing-tests)
+6. [Writing documentation](#writing-documentation)
+7. [Adding request-response examples](#adding-request-response-examples)
+8. Specs
    - [Agreement](#agreement)
    - [Array](#array)
    - [BigDecimal](#bigdecimal)
@@ -25,11 +26,11 @@ documented specs at runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
-8. Configuration
+9. Configuration
    - [Request examples file path](#request-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
-9. [Performance benchmark](#performance-benchmark)
+10. [Performance benchmark](#performance-benchmark)
 
 # Installation
 
@@ -90,7 +91,7 @@ class RegistrationsController < ActionController::API
 end
 ```
 
-# Sharing specs
+# Reusing specs
 
 Specs are just data. You can share specs the same way you reuse constants or
 configs in your app. For example:
@@ -111,6 +112,26 @@ Request = Explicit::Request.new do
   param :customer_uuid, MyApp::Spec::UUID
   param :email, MyApp::Spec::EMAIL
   param :address, MyApp::Spec::ADDRESS
+end
+```
+
+# Reusing requests
+
+Sometimes it is useful to share a group of params, headers or responses between
+requests. You can achieve this by instantiating requests from an existing
+request instead of `Explicit::Request`. For example:
+
+```ruby
+AuthenticatedRequest = Explicit::Request.new do
+  header "Authorization", [:string, format: /Bearer [a-zA-Z0-9]{20}/]
+
+  response 403, { error: "unauthorized" }
+end
+
+Request = AuthenticatedRequest.new do
+  # Request inherits all definitions from AuthenticatedRequest.
+  # Any change you make to params, headers, responses or examples will add to
+  # existing definitions.
 end
 ```
 
