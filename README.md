@@ -211,10 +211,10 @@ end
   <summary>RSpec example</summary>
 
 ```ruby
-describe RegistrationsController, type: :request do
-  context "POST /api/v1/registrations" do
-    it "registers a new user" do
-      response = fetch(RegistrationsController::Request, params: {
+describe RegistrationsController::Request, type: :request do
+  context "when request params are valid" do
+    it "successfully registers a new user" do
+      response = fetch(described_class, params: {
         name: "Bilbo Baggins",
         email: "bilbo@shire.com",
         payment_type: "free_trial",
