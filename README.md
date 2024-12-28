@@ -237,9 +237,9 @@ can add examples in two different ways:
 
 ### 1. Manually adding examples
 
-In a request, call `add_example(request:, response:)` **after** declaring params
-and responses. It's important the example comes after to make sure it
-is valid according to the params and responses specs.
+In a request, call `add_example(request:, response:)` after declaring params
+and responses. It's important the example comes after params and responses to
+make sure it is valid.
 
 The request must be a hash with `params` and, optionally, `headers`. The
 response must be a hash with `status` and `data`.
@@ -311,7 +311,7 @@ end
 Whenever you wish to refresh the examples file run the test suite with the ENV
 `EXPLICIT_PERSIST_EXAMPLES` set. For example
 `EXPLICIT_PERSIST_EXAMPLES=true bin/rails test` or
-`EXPLICIT_PERSIST_EXAMPLES=true bin/rspec`. The file is located at
+`EXPLICIT_PERSIST_EXAMPLES=true bin/rspec`. The examples file is located at
 `#{Rails.root}/public/explicit_request_examples.json` by default, but you can
 [change it here](#request-examples-file-path).
 
