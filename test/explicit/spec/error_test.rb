@@ -13,7 +13,7 @@ class Explicit::Spec::ErrorTest < ActiveSupport::TestCase
   end
 
   test "bigdecimal" do
-    assert_equal "must be a decimal number", translate_error(:bigdecimal)
+    assert_equal "must be a string-encoded decimal number", translate_error(:bigdecimal)
   end
 
   test "boolean" do

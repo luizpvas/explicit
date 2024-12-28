@@ -3,7 +3,7 @@ en:
     errors:
       agreement: "must be accepted"
       array: "invalid item at index(%{index}): %{error}"
-      bigdecimal: "must be an integer or a string-encoded decimal number"
+      bigdecimal: "must be a string-encoded decimal number"
       boolean: "must be a boolean"
       date_time_iso8601: "must be a valid iso8601 date time"
       date_time_posix: "must be a valid posix timestamps"
