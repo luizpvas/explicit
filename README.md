@@ -8,7 +8,7 @@ documented specs at runtime.
 3. [Sharing specs](#sharing-specs)
 4. [Writing tests](#writing-tests)
 5. [Writing documentation](#writing-documentation)
-6. [Adding examples](#adding-examples)
+6. [Adding request-response examples](#adding-request-response-examples)
 7. Specs
    - [Agreement](#agreement)
    - [Array](#array)
@@ -213,7 +213,7 @@ Rails.application.routes.draw do
 end
 ```
 
-# Adding examples
+# Adding request-response examples
 
 Showing examples of requests and responses is always a big help to users. You
 can add examples in two different ways:
@@ -223,15 +223,12 @@ can add examples in two different ways:
 
 ### 1. Manually adding examples
 
-Call `add_example(request:, response:)` to add the example **after** declaring
-params and responses. It's important the example comes after to make sure it
+In a request, call `add_example(request:, response:)` **after** declaring params
+and responses. It's important the example comes after to make sure it
 is valid according to the params and responses specs.
 
 The request must be a hash with `params` and, optionally, `headers`. The
 response must be a hash with `status` and `data`.
-
-> You'll get an error if you try to add an example that doesn't follow the
-> request spec.
 
 ```ruby
 Request = Explicit::Request.new do
@@ -274,8 +271,8 @@ end
 ### 2. Automatically saving examples from tests
 
 The `fetch` method provided by `Explicit::TestHelper` accepts the option
-`add_as_example` that persists the request to display later in the
-documentation. For example:
+`add_as_example`. When set to true, the request is persisted to a local
+file and displayed in the documentation. For example:
 
 ```ruby
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
@@ -297,14 +294,14 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 end
 ```
 
-Then run your test suite with the ENV `EXPLICIT_PERSIST_EXAMPLES`. For example
+Whenever you wish to refresh the examples file run the test suite with the ENV
+`EXPLICIT_PERSIST_EXAMPLES` set. For example
 `EXPLICIT_PERSIST_EXAMPLES=true bin/rails test` or
-`EXPLICIT_PERSIST_EXAMPLES=true bin/rspec`. The test suite will executed and, if
-all tests pass, a file is written with the examples. The file is located at
-`#{Rails.root}/storage/explicit_request_examples.json` by default, but you can
-[change this path](#request-examples-file-path).
+`EXPLICIT_PERSIST_EXAMPLES=true bin/rspec`. The file is located at
+`#{Rails.root}/public/explicit_request_examples.json` by default, but you can
+[change it here](#request-examples-file-path).
 
-**Important: double check you're not leaking any sensitive data when persisting
+**Important: be careful not to leak any sensitive data when persisting
 examples from tests**
 
 # Specs
