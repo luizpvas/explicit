@@ -3,6 +3,11 @@
 module Explicit::TestHelper
   extend ActiveSupport::Concern
 
+  # TODO: figure out how to make the recorder available globally for
+  # 1. minitest serial
+  # 2. minitest parallel with threads
+  # 3. minitest parallel with processes
+  # 4. rspec
   module Global
     extend self
 
@@ -12,8 +17,6 @@ module Explicit::TestHelper
   end
 
   included do
-    puts "called here?"
-
     Minitest.after_run do
       Global.recorder.save!
     end
@@ -52,11 +55,12 @@ module Explicit::TestHelper
   end
 
   def ensure_response_matches_spec!(request, response)
-    allowed_responses = request.send(:responses)
+    response_data = {
+      status: response.status,
+      data: response.data.with_indifferent_access
+    }
 
-    response_validator = Explicit::Spec.build([:one_of, *allowed_responses])
-
-    case response_validator.call({ status: response.status, data: response.data.with_indifferent_access })
+    case request.send(:responses_validator).call(response_data)
     in [:ok, _] then :all_good
     in [:error, err] then raise Explicit::Request::InvalidResponseError.new(response, err)
     end

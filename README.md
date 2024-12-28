@@ -223,8 +223,11 @@ can add examples in two different ways:
 
 ### 1. Manually adding examples
 
-Call `add_example(request:, response:)` to add the example. The
-request must be a hash with `params` and, optionally, `headers`. The
+Call `add_example(request:, response:)` to add the example **after** declaring
+params and responses. It's important the example comes after to make sure it
+is valid according to the params and responses specs.
+
+The request must be a hash with `params` and, optionally, `headers`. The
 response must be a hash with `status` and `data`.
 
 > You'll get an error if you try to add an example that doesn't follow the

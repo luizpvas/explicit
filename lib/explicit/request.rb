@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Explicit::Request
-  attr_reader :routes, :headers, :params, :responses
+  attr_reader :routes, :headers, :params, :responses, :examples
 
   def initialize(&block)
     @routes = []
@@ -14,6 +14,7 @@ class Explicit::Request
         params: [:hash, :string, :string]
       }
     }]
+    @examples = []
 
     instance_eval(&block)
   end
@@ -25,6 +26,7 @@ class Explicit::Request
     subrequest.instance_variable_set(:@headers,   @headers.dup)
     subrequest.instance_variable_set(:@params,    @params.dup)
     subrequest.instance_variable_set(:@responses, @responses.dup)
+    subrequest.instance_variable_set(:@examples,  @examples.dup)
 
     subrequest.tap { _1.instance_eval(&block) }
   end
@@ -69,10 +71,34 @@ class Explicit::Request
     @responses << { status: [:literal, status], data: format }
   end
 
-  def validate!(values)
-    # TODO: cache the validator instead of building it in every request
-    params_validator = Explicit::Spec.build(@params)
+  def add_example(request:, response:)
+    raise ArgumentError("missing :params in request")  if !request.key?(:params)
+    raise ArgumentError("missing :status in response") if !response.key?(:status)
+    raise ArgumentError("missing :data in response")   if !response.key?(:data)
 
+    case params_validator.call(request[:params])
+    in [:ok, _] then nil
+    in [:error, err] then raise InvalidExampleError.new(err)
+    end
+
+    case headers_validator.call(request[:headers] || {})
+    in [:ok, _] then nil
+    in [:error, err] then raise InvalidExampleError.new(err)
+    end
+
+    case responses_validator.call(response)
+    in [:ok, _] then nil
+    in [:error, err] then raise InvalidExampleError.new(err)
+    end
+
+    @examples << Example.new(
+      params: request[:params],
+      headers: request[:headers],
+      response: Response.new(response[:status], response[:data])
+    )
+  end
+
+  def validate!(values)
     case params_validator.call(values)
     in [:ok, validated_data] then validated_data
     in [:error, err] then raise InvalidParams::Error.new(err)
@@ -82,4 +108,17 @@ class Explicit::Request
   def gid
     routes.first.to_s
   end
+
+  private
+    def params_validator
+      @params_validator ||= Explicit::Spec.build(@params)
+    end
+
+    def headers_validator
+      @headers_validator ||= Explicit::Spec.build(@headers)
+    end
+
+    def responses_validator
+      @responses_validator ||= Explicit::Spec.build([:one_of, *@responses])
+    end
 end
