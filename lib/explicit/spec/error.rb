@@ -15,6 +15,8 @@ module Explicit::Spec::Error
       translator.call(:agreement)
     in [:array, index, suberr]
       translator.call(:array, index:, error: translate(suberr, translator))
+    in :bigdecimal
+      translator.call(:bigdecimal)
     in :boolean
       translator.call(:boolean)
     in :date_time_iso8601

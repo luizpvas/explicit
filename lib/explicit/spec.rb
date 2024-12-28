@@ -15,6 +15,11 @@ module Explicit::Spec
     in [:array, itemspec, options]
       Explicit::Spec::Array.build(itemspec, options)
 
+    in :bigdecimal
+      Explicit::Spec::Bigdecimal.build({})
+    in [:bigdecimal, options]
+      Explicit::Spec::Bigdecimal.build(options)
+
     in :boolean
       Explicit::Spec::Boolean.build({})
     in [:boolean, options]

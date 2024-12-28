@@ -12,6 +12,7 @@ documented specs at runtime.
 7. Specs
    - [Agreement](#agreement)
    - [Array](#array)
+   - [BigDecimal](#bigdecimal)
    - [Boolean](#boolean)
    - [Date Time ISO8601](#date-time-iso8601)
    - [Date Time Posix](#date-time-posix)
@@ -341,6 +342,18 @@ values are accepted: `true`, `"true"`, `"on"`, `"1"` and `1`.
 
 All items in the array must be valid according to the subspec. If at least one
 value is invalid then the array is invalid.
+
+### BigDecimal
+
+```ruby
+:bigdecimal
+[:bigdecimal, min: 0] # inclusive
+[:bigdecimal, max: 100] # inclusive
+```
+
+Value must be an integer or a string like `"0.2"` to avoid rounding errors.
+
+[Reference](https://ruby-doc.org/stdlib-3.1.0/libdoc/bigdecimal/rdoc/BigDecimal.html)
 
 ### Boolean
 

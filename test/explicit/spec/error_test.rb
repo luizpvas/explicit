@@ -12,6 +12,10 @@ class Explicit::Spec::ErrorTest < ActiveSupport::TestCase
     assert_equal "must not be empty", translate_error(:empty)
   end
 
+  test "bigdecimal" do
+    assert_equal "must be a decimal number", translate_error(:bigdecimal)
+  end
+
   test "boolean" do
     assert_equal "must be a boolean", translate_error(:boolean)
   end
