@@ -59,10 +59,10 @@ available:
   responses with different formats.
 - `add_example(params:, headers:, response:)` - Adds an example to the
   documentation. [See more details here](#adding-request-examples).
-- `host(url)` - Sets the host for this API. For example: "https://api.myapp.com".
+- `base_url(url)` - Sets the host for this API. For example: "https://api.myapp.com".
   Meant to be used with [request composition](#reusing-requests).
-- `path_prefix(prefix)` - Sets a prefix for the routes. Meant to be used with
-  [request composition](#reusing-requests).
+- `base_path(prefix)` - Sets a prefix for the routes. For example: "/api/v1".
+  Meant to be used with [request composition](#reusing-requests).
 
 For example:
 

@@ -4,8 +4,6 @@ class Explicit::Request
   attr_reader :routes, :headers, :params, :responses, :examples
 
   def initialize(&block)
-    @host = ""
-    @path_prefix = ""
     @routes = []
     @headers = {}
     @params = {}
@@ -24,13 +22,13 @@ class Explicit::Request
   def new(&block)
     subrequest = self.class.new { }
 
-    subrequest.instance_variable_set(:@host,        @host)
-    subrequest.instance_variable_set(:@path_prefix, @path_prefix)
-    subrequest.instance_variable_set(:@routes,      @routes.dup)
-    subrequest.instance_variable_set(:@headers,     @headers.dup)
-    subrequest.instance_variable_set(:@params,      @params.dup)
-    subrequest.instance_variable_set(:@responses,   @responses.dup)
-    subrequest.instance_variable_set(:@examples,    @examples.dup)
+    subrequest.instance_variable_set(:@base_url,  @base_url)
+    subrequest.instance_variable_set(:@base_path, @base_path)
+    subrequest.instance_variable_set(:@routes,    @routes.dup)
+    subrequest.instance_variable_set(:@headers,   @headers.dup)
+    subrequest.instance_variable_set(:@params,    @params.dup)
+    subrequest.instance_variable_set(:@responses, @responses.dup)
+    subrequest.instance_variable_set(:@examples,  @examples.dup)
 
     subrequest.tap { _1.instance_eval(&block) }
   end
@@ -43,11 +41,11 @@ class Explicit::Request
   def options(path) = @routes << Route.new(method: :options, path:)
   def patch(path)   = @routes << Route.new(method: :patch, path:)
 
-  def host(url) = (@host = url)
-  def get_host = @host
+  def base_url(url) = (@base_url = url)
+  def get_base_url = @base_url
 
-  def path_prefix(prefix) = (@path_prefix = prefix)
-  def get_path_prefix = @path_prefix
+  def base_path(prefix) = (@base_path = prefix)
+  def get_base_path = @base_path
 
   def title(text) = (@title = text)
   def get_title = @title || @routes.first.to_s
