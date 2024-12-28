@@ -20,7 +20,7 @@ class Explicit::TestHelper::ExampleRecorder
   end
 
   def initialize
-    @examples = Hash.new { |hash, key| hash[key] = [] }
+    @examples = Concurrent::Map.new { |hash, key| hash[key] = [] }
   end
 
   def add(request_gid:, params:, headers:, response:)
@@ -42,7 +42,6 @@ class Explicit::TestHelper::ExampleRecorder
     puts "  [Explicit] #{total_examples_count} requests recorded"
     puts "  [Explicit] ========="
     puts "" if Explicit.configuration.test_runner == :minitest
-
 
     ::File.write(file_path, @examples.to_json, mode: "w")
   end
