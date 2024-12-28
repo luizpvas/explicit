@@ -23,7 +23,12 @@ module Explicit::TestHelper
       DESC
     end
 
-    response = request_via_test_provider(route:, params:, headers:)
+    process(route.method, route.path, params:, headers:)
+
+    response = Explicit::Request::Response.new(
+      status: @response.status,
+      data: @response.parsed_body.deep_symbolize_keys
+    )
 
     ensure_response_matches_spec!(request, response)
 

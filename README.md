@@ -142,7 +142,7 @@ Include `Explicit::TestHelper` in your `test/test_helper.rb` or
 `fetch(request, **options)` that let's you verify the endpoint works as
 expected and that it responds with a valid response according to the spec.
 
-<details>
+<details open>
   <summary>For Minitest users, add the following line to your <code>test/test_helper.rb</code></summary>
 
 ```diff
@@ -160,7 +160,7 @@ end
 
 </details>
 
-<details>
+<details open>
   <summary>For RSpec users, add the following line to your <code>spec/rails_helper.rb</code></summary>
 
 ```diff
@@ -186,8 +186,11 @@ slighly shorter syntax when accessing nested attributes.
 > Note: Response specs are only verified in test environment with no
 > performance penalty when running in production.
 
+<details open>
+  <summary>Minitest example</summary>
+
 ```ruby
-class RegistrationsControllerTest < ActionDispatch::IntegrationTest
+class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "successful registration" do
     response = fetch(RegistrationsController::Request, params: {
       name: "Bilbo Baggins",
@@ -201,6 +204,31 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 end
 ```
+
+</details>
+
+<details open>
+  <summary>RSpec example</summary>
+
+```ruby
+describe RegistrationsController, type: :request do
+  context "POST /api/v1/registrations" do
+    it "registers a new user" do
+      response = fetch(RegistrationsController::Request, params: {
+        name: "Bilbo Baggins",
+        email: "bilbo@shire.com",
+        payment_type: "free_trial",
+        terms_of_use: true
+      })
+
+      expect(response.status).to eql(200)
+      expect(response.dig(:user, :email)).to eql("bilbo@shire.com")
+    end
+  end
+end
+```
+
+</details>
 
 # Writing documentation
 
