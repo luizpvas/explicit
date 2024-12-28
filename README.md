@@ -328,8 +328,8 @@ examples from tests**
 [:agreement, parse: true]
 ```
 
-The `agreement` type is a boolean that must always be true. Useful for terms of
-use or agreement acceptances. If `parse: true` is specified then the following
+A boolean that must always be true. Useful for terms of use or agreement
+acceptances. If `parse: true` is specified then the following
 values are accepted: `true`, `"true"`, `"on"`, `"1"` and `1`.
 
 ### Array
