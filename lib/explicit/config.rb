@@ -3,7 +3,7 @@
 module Explicit
   extend self
 
-  class Configuration
+  class Config
     def request_examples_file_path=(path)
       @request_examples_file_path = path
     end
@@ -16,19 +16,24 @@ module Explicit
       ENV["EXPLICIT_PERSIST_EXAMPLES"].in? %w[true 1 on]
     end
 
+    def test_runner=(test_runner)
+      @test_runner = test_runner
+    end
+
     def test_runner
-      if defined?(RSpec) && ::RSpec.respond_to?(:configure)
-        :rspec
-      else
-        :minitest
-      end
+      @test_runner ||=
+        if defined?(::RSpec) && ::RSpec.respond_to?(:configure)
+          :rspec
+        else
+          :minitest
+        end
     end
   end
 
-  attr_reader :configuration
-  @configuration = Configuration.new
+  attr_reader :config
+  @config = Config.new
 
   def configure(&block)
-    block.call(@configuration)
+    block.call(@config)
   end
 end

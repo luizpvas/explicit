@@ -1,12 +1,10 @@
-require "explicit/configuration"
+require "explicit/config"
 require "explicit/documentation"
 require "explicit/engine"
 require "explicit/version"
 
 require "explicit/test_helper"
 require "explicit/test_helper/example_recorder"
-require "explicit/test_helper/minitest"
-require "explicit/test_helper/rspec"
 
 require "explicit/request"
 require "explicit/request/example"
