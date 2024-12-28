@@ -121,7 +121,7 @@ Include `Explicit::TestHelper` in your `test/test_helper.rb` or
 expected and that it responds with a valid response according to the spec.
 
 <details>
-  <summary>For Minitest users, add the following line to your `test/test_helper.rb`.</summary>
+  <summary>For Minitest users, add the following line to your <code>test/test_helper.rb</code></summary>
 
 ```diff
 module ActiveSupport
@@ -139,7 +139,7 @@ end
 </details>
 
 <details>
-  <summary>For RSpec users, add the following line to your `test/rails_helper.rb`.</summary>
+  <summary>For RSpec users, add the following line to your <code>spec/rails_helper.rb</code></summary>
 
 ```diff
 RSpec.configure do |config|
