@@ -120,7 +120,8 @@ Include `Explicit::TestHelper` in your `test/test_helper.rb` or
 `fetch(request, **options)` that let's you verify the endpoint works as
 expected and that it responds with a valid response according to the spec.
 
-Add the following line to your `test/test_helper.rb`.
+<details>
+  <summary>For Minitest users, add the following line to your `test/test_helper.rb`.</summary>
 
 ```diff
 module ActiveSupport
@@ -134,6 +135,19 @@ module ActiveSupport
   end
 end
 ```
+
+</details>
+
+<details>
+  <summary>For RSpec users, add the following line to your `test/rails_helper.rb`.</summary>
+
+```diff
+RSpec.configure do |config|
++  config.include Explicit::TestHelper
+end
+```
+
+</details>
 
 To test your controller, call `fetch(request, **options)` and write
 assertions against the response. If the response is invalid according to the
