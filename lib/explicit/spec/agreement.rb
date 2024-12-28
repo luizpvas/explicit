@@ -3,22 +3,15 @@
 module Explicit::Spec::Agreement
   extend self
 
-  VALUES = ["true", "on", "1", 1].freeze
+  VALUES = [true, "true", "on", "1", 1].freeze
+  ERROR = [:error, :agreement].freeze
+  OK = [:ok, true].freeze
 
   def build(options)
     lambda do |value|
-      value =
-        if value.is_a?(TrueClass)
-          value
-        elsif VALUES.include?(value)
-          true
-        else
-          nil
-        end
+      return ERROR if !VALUES.include?(value)
 
-      return [:error, :agreement] if value.nil?
-
-      [:ok, value]
+      OK
     end
   end
 end
