@@ -9,8 +9,8 @@ documented specs at runtime.
 4. [Reusing requests](#reusing-requests)
 5. [Writing tests](#writing-tests)
 6. [Writing documentation](#writing-documentation)
-7. [Adding request-response examples](#adding-request-response-examples)
-8. Specs
+   - [Adding request-response examples](#adding-request-response-examples)
+7. Specs
    - [Agreement](#agreement)
    - [Array](#array)
    - [BigDecimal](#bigdecimal)
@@ -26,11 +26,11 @@ documented specs at runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
-9. Configuration
+8. Configuration
    - [Request examples file path](#request-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
-10. [Performance benchmark](#performance-benchmark)
+9. [Performance benchmark](#performance-benchmark)
 
 # Installation
 
@@ -277,36 +277,32 @@ Rails.application.routes.draw do
 end
 ```
 
-# Adding request-response examples
+## Adding request-response examples
 
-Showing examples of requests and responses is always a big help to users. You
-can add examples in two different ways:
+You can add request examples in two different ways:
 
-1. Manually add an example by calling `add_example(request:, response:)`
+1. Manually add an example by calling `add_example(params:, headers:, response:)`
 2. Automatically saving examples from tests
 
 ### 1. Manually adding examples
 
-In a request, call `add_example(request:, response:)` after declaring params
-and responses. It's important the example comes after params and responses to
-make sure it is valid.
+In a request, call `add_example(params:, headers:, response:)` after declaring
+params and responses. It's important the example comes after params and
+responses to make sure it actually follows the spec.
 
-The request must be a hash with `params` and, optionally, `headers`. The
-response must be a hash with `status` and `data`.
+For example:
 
 ```ruby
 Request = Explicit::Request.new do
   # ... other configs, params and responses
 
   add_example(
-    request: {
-      params: {
-        name: "Bilbo baggins",
-        email: "bilbo@shire.com",
-        payment_type: "free_trial",
-        terms_of_use: true
-      }
-    },
+    params: {
+      name: "Bilbo baggins",
+      email: "bilbo@shire.com",
+      payment_type: "free_trial",
+      terms_of_use: true
+    }
     response: {
       status: 200,
       data: {
@@ -361,8 +357,8 @@ end
 Whenever you wish to refresh the examples file run the test suite with the ENV
 `EXPLICIT_PERSIST_EXAMPLES` set. For example
 `EXPLICIT_PERSIST_EXAMPLES=true bin/rails test` or
-`EXPLICIT_PERSIST_EXAMPLES=true bin/rspec`. The examples file is located at
-`#{Rails.root}/public/explicit_request_examples.json` by default, but you can
+`EXPLICIT_PERSIST_EXAMPLES=true bundle exec rspec`. The examples file is located
+at `#{Rails.root}/public/explicit_request_examples.json` by default, but you can
 [change it here](#request-examples-file-path).
 
 **Important: be careful not to leak any sensitive data when persisting
