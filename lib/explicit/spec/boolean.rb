@@ -4,28 +4,25 @@ module Explicit::Spec::Boolean
   extend self
 
   VALUES = {
+    true => true,
     "true" => true,
     "on" => true,
     "1" => true,
     1 => true,
+    false => false,
     "false" => false,
     "off" => false,
     "0" => false,
     0 => false
   }.freeze
 
+  ERROR = [:error, :boolean].freeze
+
   def build(options)
     lambda do |value|
-      value =
-        if value.is_a?(TrueClass) || value.is_a?(FalseClass)
-          value
-        elsif VALUES.key?(value)
-          VALUES.fetch(value)
-        else
-          nil
-        end
+      value = VALUES[value]
 
-      return [:error, :boolean] if value.nil?
+      return ERROR if value.nil?
 
       [:ok, value]
     end
