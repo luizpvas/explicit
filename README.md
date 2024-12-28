@@ -307,8 +307,8 @@ end
 ### 2. Automatically saving examples from tests
 
 The `fetch` method provided by `Explicit::TestHelper` accepts the option
-`add_as_example`. When set to true, the request is persisted to a local
-file and displayed in the documentation. For example:
+`add_as_example`. When set to true, the request example is persisted to a local
+file. For example:
 
 ```ruby
 class RegistrationsControllerTest < ActionDispatch::IntegrationTest
