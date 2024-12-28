@@ -71,17 +71,16 @@ class Explicit::Request
     @responses << { status: [:literal, status], data: format }
   end
 
-  def add_example(request:, response:)
-    raise ArgumentError("missing :params in request")  if !request.key?(:params)
+  def add_example(params:, response:, headers: {})
     raise ArgumentError("missing :status in response") if !response.key?(:status)
     raise ArgumentError("missing :data in response")   if !response.key?(:data)
 
-    case params_validator.call(request[:params])
+    case params_validator.call(params)
     in [:ok, _] then nil
     in [:error, err] then raise InvalidExampleError.new(err)
     end
 
-    case headers_validator.call(request[:headers] || {})
+    case headers_validator.call(headers)
     in [:ok, _] then nil
     in [:error, err] then raise InvalidExampleError.new(err)
     end
@@ -91,11 +90,9 @@ class Explicit::Request
     in [:error, err] then raise InvalidExampleError.new(err)
     end
 
-    @examples << Example.new(
-      params: request[:params],
-      headers: request[:headers],
-      response: Response.new(response[:status], response[:data])
-    )
+    response = Response.new(response[:status], response[:data])
+
+    @examples << Example.new(params:, headers:, response:)
   end
 
   def validate!(values)

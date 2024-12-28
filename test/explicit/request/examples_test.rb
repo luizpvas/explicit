@@ -9,7 +9,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
       response 200, { name: :string }
 
       add_example(
-        request: { params: { name: "Luiz" } },
+        params: { name: "Luiz" },
         response: { status: 200, data: { name: "Luiz" } }
       )
     end
@@ -18,7 +18,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
 
     request.examples.first.tap do |example|
       assert_equal example.params, { name: "Luiz" }
-      assert_nil example.headers
+      assert_equal example.headers, {}
       assert_equal Explicit::Request::Response.new(200, { name: "Luiz" }), example.response
     end
   end
@@ -30,7 +30,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
         response 200, {}
 
         add_example(
-          request: { params: { name: 10 } },
+          params: { name: 10 },
           response: { status: 200, data: {} }
         )
       end
@@ -44,7 +44,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
         response 200, {}
 
         add_example(
-          request: { params: {} },
+          params: {},
           response: { status: 200, data: {} }
         )
       end
@@ -57,7 +57,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
         response 200, {}
 
         add_example(
-          request: { params: {} },
+          params: {},
           response: { status: 201, data: {} }
         )
       end
