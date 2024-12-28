@@ -72,18 +72,8 @@ class Explicit::Request
   end
 
   def add_example(params:, response:, headers: {})
-    raise ArgumentError("missing :status in response") if !response.key?(:status)
-    raise ArgumentError("missing :data in response")   if !response.key?(:data)
-
-    case params_validator.call(params)
-    in [:ok, _] then nil
-    in [:error, err] then raise InvalidExampleError.new(err)
-    end
-
-    case headers_validator.call(headers)
-    in [:ok, _] then nil
-    in [:error, err] then raise InvalidExampleError.new(err)
-    end
+    raise ArgumentError.new("missing :status in response") if !response.key?(:status)
+    raise ArgumentError.new("missing :data in response")   if !response.key?(:data)
 
     case responses_validator.call(response)
     in [:ok, _] then nil

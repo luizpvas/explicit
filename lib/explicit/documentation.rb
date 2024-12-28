@@ -85,8 +85,27 @@ module Explicit::Documentation
     end
 
     def call(request)
-      # read and merge request examples from file
-      # contents = ::File.read(Explicit.configuration.request_examples_file_path)
+      if ::File.file?(Explicit.configuration.request_examples_file_path)
+        examples_str = ::File.read(Explicit.configuration.request_examples_file_path)
+        examples = ::JSON.parse(examples_str)
+
+        @sections.each do |section|
+          section.pages.filter(&:request?).each do |page|
+            if examples.key?(page.request.gid)
+              examples[page.request.gid].each do |example|
+                page.request.add_example(
+                  params: example["params"].with_indifferent_access,
+                  headers: example["headers"],
+                  response: {
+                    status: example.dig("response", "status"),
+                    data: example.dig("response", "data").with_indifferent_access
+                  }
+                )
+              end
+            end
+          end
+        end
+      end
 
       html = Explicit::ApplicationController.render(
         partial: "documentation",

@@ -17,7 +17,7 @@ module Explicit::TestHelper
     end
   end
 
-  def fetch(request, params: nil, headers: nil, **opts)
+  def fetch(request, params: {}, headers: {}, **opts)
     route = request.send(:routes).first
 
     if route.nil?

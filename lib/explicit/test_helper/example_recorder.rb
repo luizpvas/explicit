@@ -12,7 +12,11 @@ class Explicit::TestHelper::ExampleRecorder
   end
 
   def add(request:, params:, headers:, response:)
-    @examples[request.gid] << Explicit::Request::Example.new(params:, headers:, response:)
+    @examples[request.gid] << Explicit::Request::Example.new(
+      params:,
+      headers:,
+      response:
+    )
   end
 
   def save!
