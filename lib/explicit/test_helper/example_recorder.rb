@@ -20,12 +20,14 @@ class Explicit::TestHelper::ExampleRecorder
   end
 
   def save!
+    total_examples_count = @examples.sum { |_, examples| examples.size }
+
+    puts ""
     puts ""
     puts "  [Explicit] ========="
     puts "  [Explicit] Saving request examples to #{Explicit.configuration.request_examples_file_path}"
-    puts "  [Explicit] #{@examples.size} requests recorded"
+    puts "  [Explicit] #{total_examples_count} requests recorded"
     puts "  [Explicit] ========="
-    puts ""
 
     file_path = Explicit.configuration.request_examples_file_path
 
