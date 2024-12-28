@@ -17,6 +17,21 @@ module Explicit::TestHelper
     end
   end
 
+  included do
+    if Explicit.configuration.test_runner == :minitest
+      # TODO: improve this logic
+      running_in_parallel = Minitest.parallel_executor.is_a?(ActiveSupport::Testing::ParallelizeExecutor)
+
+      if running_in_parallel
+        uri = Explicit::TestHelper::ExampleRecorder.start_service
+
+        parallelize_setup do
+          Explicit::TestHelper::ExampleRecorder.set_remote_instance(uri)
+        end
+      end
+    end
+  end
+
   def fetch(request, params: {}, headers: {}, **opts)
     route = request.send(:routes).first
 
@@ -43,7 +58,12 @@ module Explicit::TestHelper
     ensure_response_matches_spec!(request, response)
 
     if opts[:save_as_example]
-      ExampleRecorder.instance.add(request:, params:, headers:, response:)
+      ExampleRecorder.instance.add(
+        request_gid: request.gid,
+        params:,
+        headers:,
+        response:
+      )
     end
 
     response

@@ -2,8 +2,20 @@
 
 class Explicit::TestHelper::ExampleRecorder
   class << self
+    def start_service
+      ::DRb.start_service("drbunix:", instance).uri
+    end
+
+    def set_remote_instance(uri)
+      ::DRb.stop_service
+
+      @remote_instance = ::DRbObject.new_with_uri(uri)
+    end
+
     def instance
-      @instance ||= new
+      return @remote_instance if defined?(@remote_instance)
+
+      @local_instance ||= new
     end
   end
 
@@ -11,8 +23,8 @@ class Explicit::TestHelper::ExampleRecorder
     @examples = Hash.new { |hash, key| hash[key] = [] }
   end
 
-  def add(request:, params:, headers:, response:)
-    @examples[request.gid] << Explicit::Request::Example.new(
+  def add(request_gid:, params:, headers:, response:)
+    @examples[request_gid] << Explicit::Request::Example.new(
       params:,
       headers:,
       response:
