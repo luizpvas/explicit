@@ -28,7 +28,7 @@
   </div>
 
   <div class="page__response">
-    <% page.request.responses.each do |status, specs| %>
+    <% page.request.responses.map { |k, v| k }.sort.each do |status| %>
       <div>
         <%= status %>
       </div>
