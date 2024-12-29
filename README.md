@@ -243,7 +243,6 @@ Call `Explicit::Documentation.new` to group, organize and publish the
 documentation for your API. The following methods are available:
 
 - `page_title(text)` - Sets the web page title.
-- `primary_color(hexcode)` - Sets the web page theme.
 - `section(name, &block)` - Adds a section to the navigation menu.
 - `add(request)` - Adds a request to the section
 - `add(title:, partial:)` - Adds a partial to the section
@@ -254,7 +253,6 @@ For example:
 module MyApp::API::V1
   Documentation = Explicit::Documentation.new do
     page_title "Acme API Docs"
-    primary_color "#6366f1"
 
     section "Introduction" do
       add title: "About", partial: "api/v1/introduction/about"

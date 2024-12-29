@@ -3,6 +3,7 @@ require "explicit/engine"
 require "explicit/version"
 
 require "explicit/documentation"
+require "explicit/documentation/markdown"
 require "explicit/documentation/property"
 
 require "explicit/test_helper"

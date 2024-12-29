@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Explicit::Documentation::MarkdownSyntaxTest < ActiveSupport::TestCase
+class Explicit::Documentation::MarkdownTest < ActiveSupport::TestCase
   test "markdown syntax in request description" do
     request = Explicit::Request.new do
       description <<-MD

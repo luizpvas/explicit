@@ -39,23 +39,7 @@ module Explicit::Documentation
       end
 
       def description_html
-        inlined_markdown = request.get_description
-        offset = 0
-        inlined_markdown.each_char do |ch|
-          break if ch != " "
-
-          offset += 1
-        end
-
-        inlined_markdown = inlined_markdown.each_line.map do |line|
-          line[offset..-1] || "\n"
-        end
-
-        inlined_markdown = inlined_markdown.join
-
-        ::Commonmarker.to_html(inlined_markdown, options: {
-          parse: { smart: true }
-        }).html_safe
+        Explicit::Documentation::Markdown.render(@request.get_description).html_safe
       end
 
       def anchor
@@ -90,10 +74,6 @@ module Explicit::Documentation
 
     def page_title(page_title)
       @page_title = page_title
-    end
-
-    def primary_color(primary_color)
-      @primary_color = primary_color
     end
 
     def section(name, &block)
@@ -138,7 +118,6 @@ module Explicit::Documentation
           partial: "documentation",
           locals: {
             page_title: @page_title,
-            primary_color: @primary_color,
             sections: @sections
           }
         )
