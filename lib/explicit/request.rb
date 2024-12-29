@@ -57,16 +57,16 @@ class Explicit::Request
   def description(markdown) = (@description = markdown)
   def get_description = @description
 
-  def header(name, format)
+  def header(name, spec)
     raise ArgumentError("duplicated header #{name}") if @headers.key?(name)
 
-    @headers[name] = format
+    @headers[name] = spec
   end
 
-  def param(name, format, **options)
+  def param(name, spec, **options)
     raise ArgumentError("duplicated param #{name}") if @params.key?(name)
 
-    @params[name] = format
+    @params[name] = spec
   end
 
   def response(status, format)
