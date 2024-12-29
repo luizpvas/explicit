@@ -1,13 +1,33 @@
 <h1 id="<%= page.anchor %>"><%= page.title %></h1>
 
-<div class="">
-  <%= page.description_html %>
-</div>
-
-<div class="params">
-  <% page.params_properties.each do |property| %>
-    <div class="param">
-      <%= property.name %>
+<div class="page__container">
+  <div class="page__request">
+    <div class="page__request__description markdown">
+      <%= page.description_html %>
     </div>
-  <% end %>
+
+    <div class="params">
+      <div class="params__header">
+        <%= t("explicit.documentation.params_header") %>
+      </div>
+
+      <% page.params_properties.each do |property| %>
+        <div class="params__param">
+          <div class="params__param__name">
+            <%= property.name %>
+          </div>
+
+          <% if (description_html = property.description_html) %>
+            <div class="params__param__description markdown">
+              <%= description_html %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="page__response">
+    Response
+  </div>
 </div>
