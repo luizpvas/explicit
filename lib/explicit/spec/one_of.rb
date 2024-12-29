@@ -18,23 +18,7 @@ module Explicit::Spec::OneOf
         end
       end
 
-      errors.each do |err|
-        if looks_like_at_least_one_attribute_matched?(value, err)
-          return [:error, err]
-        end
-      end
-
       [:error, [:one_of, *errors]]
     end
   end
-
-  private
-    def looks_like_at_least_one_attribute_matched?(value, err)
-      return false if !value.is_a?(::Hash)
-      return false if !err.is_a?(::Hash)
-
-      keyset = value.keys - err.keys
-
-      keyset.empty?
-    end
 end

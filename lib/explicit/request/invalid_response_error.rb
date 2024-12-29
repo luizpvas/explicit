@@ -24,8 +24,6 @@ This response doesn't match any spec. Here are the errors:
     def translate_response_error(response, error)
       error = Explicit::Spec::Error.translate(error)
 
-      <<-TXT
-HTTP #{response.status} #{JSON.pretty_generate(error)}
-      TXT
+      "HTTP #{response.status} #{JSON.pretty_generate(error)}"
     end
 end
