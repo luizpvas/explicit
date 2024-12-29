@@ -11,7 +11,6 @@ require "explicit/test_helper/example_recorder"
 
 require "explicit/request"
 require "explicit/request/example"
-require "explicit/request/invalid_example_error"
 require "explicit/request/invalid_params_error"
 require "explicit/request/invalid_response_error"
 require "explicit/request/response"

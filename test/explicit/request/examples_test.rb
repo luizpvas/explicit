@@ -24,7 +24,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
   end
 
   test "raises an error if example does not match response specs" do
-    assert_raises Explicit::Request::InvalidExampleError do
+    assert_raises Explicit::Request::InvalidResponseError do
       Explicit::Request.new do
         response 200, {}
 

@@ -18,7 +18,6 @@ module Explicit::Spec::OneOf
         end
       end
 
-      # warning: weird heuristics below
       errors.each do |err|
         if looks_like_at_least_one_attribute_matched?(value, err)
           return [:error, err]

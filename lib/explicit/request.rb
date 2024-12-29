@@ -88,12 +88,12 @@ class Explicit::Request
 
     status, data = response.values_at(:status, :data)
 
+    response = Response.new(status:, data:)
+
     case responses_validator(status:).call(data)
     in [:ok, _] then nil
-    in [:error, err] then raise InvalidExampleError.new(err)
+    in [:error, err] then raise InvalidResponseError.new(response, err)
     end
-
-    response = Response.new(status:, data:)
 
     @examples[response.status] << Example.new(params:, headers:, response:)
   end
