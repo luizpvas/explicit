@@ -31,7 +31,6 @@ documented specs at runtime.
    - [Changing examples file path](#changing-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
-9. [Performance benchmark](#performance-benchmark)
 
 # Installation
 
