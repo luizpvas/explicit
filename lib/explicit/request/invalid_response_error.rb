@@ -3,7 +3,7 @@
 class Explicit::Request::InvalidResponseError < ::RuntimeError
   def initialize(response, error)
     error => [:one_of, *errs]
-    error = errs.map { format_response_spec(response, _1) }.join("\n")
+    error = errs.map { translate_response_error(response, _1) }.join("\n")
 
 
     super <<-TXT
@@ -21,7 +21,7 @@ This response doesn't match any spec. Here are the errors:
   end
 
   private
-    def format_response_spec(response, error)
+    def translate_response_error(response, error)
       error = Explicit::Spec::Error.translate(error)
 
       <<-TXT
