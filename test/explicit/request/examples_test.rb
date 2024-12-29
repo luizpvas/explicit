@@ -16,7 +16,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
 
     assert_equal 1, request.examples.size
 
-    request.examples.first.tap do |example|
+    request.examples[200].first.tap do |example|
       assert_equal example.params, { name: "Luiz" }
       assert_equal example.headers, {}
       assert_equal Explicit::Request::Response.new(200, { name: "Luiz" }), example.response

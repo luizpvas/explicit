@@ -7,16 +7,13 @@ class Explicit::Request
     @routes = []
     @headers = {}
     @params = {}
-    @responses = []
-    @examples = []
+    @responses = Hash.new { |hash, key| hash[key] = [] }
+    @examples = Hash.new { |hash, key| hash[key] = [] }
 
     if Explicit.configuration.rescue_from_invalid_params?
-      @responses << {
-        status: [:literal, 422],
-        data: {
-          error: "invalid_params",
-          params: [:hash, :string, :string]
-        }
+      @responses[422] << {
+        error: "invalid_params",
+        params: [:hash, :string, :string]
       }
     end
 
@@ -81,22 +78,24 @@ class Explicit::Request
     @params[name] = spec
   end
 
-  def response(status, format)
-    @responses << { status: [:literal, status], data: format }
+  def response(status, spec)
+    @responses[status] << spec
   end
 
   def add_example(params:, response:, headers: {})
     raise ArgumentError.new("missing :status in response") if !response.key?(:status)
     raise ArgumentError.new("missing :data in response")   if !response.key?(:data)
 
-    case responses_validator.call(response)
+    status, data = response.values_at(:status, :data)
+
+    case responses_validator(status:).call(data)
     in [:ok, _] then nil
     in [:error, err] then raise InvalidExampleError.new(err)
     end
 
-    response = Response.new(response[:status], response[:data])
+    response = Response.new(status:, data:)
 
-    @examples << Example.new(params:, headers:, response:)
+    @examples[response.status] << Example.new(params:, headers:, response:)
   end
 
   def validate!(values)
@@ -119,7 +118,7 @@ class Explicit::Request
       @headers_validator ||= Explicit::Spec.build(@headers)
     end
 
-    def responses_validator
-      @responses_validator ||= Explicit::Spec.build([:one_of, *@responses])
+    def responses_validator(status:)
+      Explicit::Spec.build([:one_of, *@responses[status]])
     end
 end
