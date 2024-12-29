@@ -66,12 +66,12 @@ class Explicit::Request
   def param(name, spec, **options)
     raise ArgumentError("duplicated param #{name}") if @params.key?(name)
 
-    if (defaultval = options[:default])
-      spec = [:default, defaultval, spec]
-    end
-
     if options[:optional]
       spec = [:nilable, spec]
+    end
+
+    if (defaultval = options[:default])
+      spec = [:default, defaultval, spec]
     end
 
     @params[name] = spec

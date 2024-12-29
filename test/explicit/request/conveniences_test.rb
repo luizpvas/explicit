@@ -18,4 +18,12 @@ class Explicit::Request::ConveniencesTest < ActiveSupport::TestCase
 
     assert_equal [:nilable, :string], request.params[:name]
   end
+
+  test "params default + optional" do
+    request = Explicit::Request.new do
+      param :name, :string, optional: true, default: "foo"
+    end
+
+    assert_equal [:default, "foo", [:nilable, :string]], request.params[:name]
+  end
 end
