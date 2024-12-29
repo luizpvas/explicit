@@ -28,7 +28,7 @@ documented specs at runtime.
    - [Record](#record)
    - [String](#string)
 8. [Configuration](#configuration)
-   - [Request examples file path](#request-examples-file-path)
+   - [Changing examples file path](#changing-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
 9. [Performance benchmark](#performance-benchmark)
@@ -579,7 +579,7 @@ Explicit.configure do |config|
 end
 ```
 
-### Request examples file path
+### Changing examples file path
 
 ```ruby
 config.request_examples_file_path = Rails.root.join("public/request_examples.json")

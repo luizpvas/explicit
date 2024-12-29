@@ -28,6 +28,10 @@
   </div>
 
   <div class="page__response">
-    Response
+    <% page.request.responses.each do |status, specs| %>
+      <div>
+        <%= status %>
+      </div>
+    <% end %>
   </div>
 </div>
