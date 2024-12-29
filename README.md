@@ -18,6 +18,7 @@ documented specs at runtime.
    - [Date Time ISO8601](#date-time-iso8601)
    - [Date Time Posix](#date-time-posix)
    - [Default](#default)
+   - [Description](#description)
    - [Hash](#hash)
    - [Inclusion](#inclusion)
    - [Integer](#integer)
@@ -450,6 +451,18 @@ the default value.
 
 If you provide a lambda it will execute every time `Request.validate!` is
 called.
+
+### Description
+
+```ruby
+[:description, markdown_text, subspec]
+[:description, "Customer full name", :string]
+[:description, "Rating score from 0 (bad) to 5 (good)", :integer]
+```
+
+Adds a description to the spec. Descriptions are displayed in documentation
+and do not affect validation in any way with. There is no overhead at runtime.
+Markdown supported.
 
 ### Hash
 

@@ -33,6 +33,9 @@ module Explicit::Spec
     in [:default, defaultval, subspec]
       Explicit::Spec::Default.build(defaultval, subspec)
 
+    in [:description, _, subspec]
+      Explicit::Spec.build(subspec)
+
     in [:hash, keyspec, valuespec]
       Explicit::Spec::Hash.build(keyspec, valuespec, {})
     in [:hash, keyspec, valuespec, options]

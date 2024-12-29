@@ -3,6 +3,14 @@
 require "test_helper"
 
 class Explicit::Request::ConveniencesTest < ActiveSupport::TestCase
+  test "param description" do
+    request = Explicit::Request.new do
+      param :name, :string, description: "User full name"
+    end
+
+    assert_equal [:description, "User full name", :string], request.params[:name]
+  end
+
   test "params default" do
     request = Explicit::Request.new do
       param :name, :string, default: "foo"

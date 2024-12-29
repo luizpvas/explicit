@@ -74,6 +74,10 @@ class Explicit::Request
       spec = [:default, defaultval, spec]
     end
 
+    if (description = options[:description])
+      spec = [:description, description, spec]
+    end
+
     @params[name] = spec
   end
 
