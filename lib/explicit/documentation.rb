@@ -39,7 +39,21 @@ module Explicit::Documentation
       end
 
       def description_html
-        ::Commonmarker.to_html(request.get_description.strip, options: {
+        inlined_markdown = request.get_description
+        offset = 0
+        inlined_markdown.each_char do |ch|
+          break if ch != " "
+
+          offset += 1
+        end
+
+        inlined_markdown = inlined_markdown.each_line.map do |line|
+          line[offset..-1] || "\n"
+        end
+
+        inlined_markdown = inlined_markdown.join
+
+        ::Commonmarker.to_html(inlined_markdown, options: {
           parse: { smart: true }
         }).html_safe
       end
