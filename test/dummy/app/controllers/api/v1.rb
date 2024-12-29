@@ -3,7 +3,6 @@
 module API::V1
   Documentation = Explicit::Documentation.build do
     page_title "Acme API"
-    primary_color "#6366f1"
 
     section "Introduction" do
       add title: "About", partial: "api/v1/introduction"

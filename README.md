@@ -91,7 +91,7 @@ class RegistrationsController < ActionController::API
 
     user = User.create!(name:, email:, payment_type:)
 
-    render json: { user: user.as_json(:id, :email) }
+    render json: { user: user.as_json(only: %[id email]) }
   rescue ActiveRecord::RecordNotUnique
     render json: { error: "email_already_taken" }, status: 422
   end
