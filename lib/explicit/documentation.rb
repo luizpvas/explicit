@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "commonmarker"
+
 module Explicit::Documentation
   Section = ::Data.define(:name, :pages)
 
@@ -36,14 +38,26 @@ module Explicit::Documentation
         @request.get_title
       end
 
+      def description_html
+        ::Commonmarker.to_html(request.get_description.strip, options: {
+          parse: { smart: true }
+        }).html_safe
+      end
+
       def anchor
         title.dasherize
       end
 
       def params_properties
+        @request.params.map do |name, spec|
+          Property.new(name:, spec:)
+        end
       end
 
       def headers_properties
+        @request.headers.map do |name, spec|
+          Property.new(name:, spec:)
+        end
       end
 
       def partial

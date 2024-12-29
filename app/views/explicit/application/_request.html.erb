@@ -1,3 +1,13 @@
-<%= page.request.routes.first.to_s %>
+<h1 id="<%= page.anchor %>"><%= page.title %></h1>
 
-Hello world!
+<div class="">
+  <%= page.description_html %>
+</div>
+
+<div class="params">
+  <% page.params_properties.each do |property| %>
+    <div class="param">
+      <%= property.name %>
+    </div>
+  <% end %>
+</div>

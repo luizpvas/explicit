@@ -8,6 +8,8 @@ class API::V1::RegistrationsController < API::V1::BaseController
     Attempts to register a new user in the system. Email address must be unique.
     If registration succeeds an authentication token is returned. Use this token
     to authenticate requests with the header `Authorization: Bearer <token>`.
+
+    This is another paragraph and stuff. Here it *goes*.
     MD
 
     param :name,
