@@ -38,7 +38,7 @@ documented specs at runtime.
 Add the following line to your Gemfile and then run `bundle install`:
 
 ```ruby
-gem "explicit", "~> 0.1"
+gem "explicit", "~> 0.2"
 ```
 
 # Defining requests
