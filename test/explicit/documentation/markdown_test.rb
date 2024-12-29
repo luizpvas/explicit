@@ -16,7 +16,7 @@ class Explicit::Documentation::MarkdownTest < ActiveSupport::TestCase
     page = Explicit::Documentation::Page::Request.new(request:)
 
     assert_equal [
-      "<p>This is the first paragraph.<br />",
+      "<p>This is the first paragraph.",
       "Second line of the first paragraph.</p>",
       "<p>Third paragraph</p>"
     ], page.description_html.split("\n")
@@ -35,7 +35,7 @@ class Explicit::Documentation::MarkdownTest < ActiveSupport::TestCase
     page = Explicit::Documentation::Page::Request.new(request:)
 
     assert_equal [
-      "<p>This is the first paragraph.<br />",
+      "<p>This is the first paragraph.",
       "Second line of the first paragraph.</p>",
       "<p>Third paragraph</p>"
     ], page.params_properties.first.description_html.split("\n")

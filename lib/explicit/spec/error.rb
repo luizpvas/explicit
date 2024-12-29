@@ -44,6 +44,7 @@ module Explicit::Spec::Error
     in [:literal, value]
       translator.call(:literal, value: value.inspect)
     in [:one_of, *errors]
+      # TODO
       errors.map { translate(_1, translator) }.join(" OR ")
     in :string
       translator.call(:string)
