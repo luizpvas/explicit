@@ -1,7 +1,9 @@
 require "explicit/configuration"
-require "explicit/documentation"
 require "explicit/engine"
 require "explicit/version"
+
+require "explicit/documentation"
+require "explicit/documentation/property"
 
 require "explicit/test_helper"
 require "explicit/test_helper/example_recorder"

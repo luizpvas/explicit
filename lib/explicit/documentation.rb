@@ -40,6 +40,12 @@ module Explicit::Documentation
         title.dasherize
       end
 
+      def params_properties
+      end
+
+      def headers_properties
+      end
+
       def partial
         "request"
       end
@@ -91,9 +97,30 @@ module Explicit::Documentation
     end
 
     def call(request)
-      if ::File.file?(Explicit.configuration.request_examples_file_path)
-        examples_str = ::File.read(Explicit.configuration.request_examples_file_path)
-        examples = ::JSON.parse(examples_str)
+      @html ||= render_documentation_page
+
+      [200, {}, [@html]]
+    end
+
+    private
+      def render_documentation_page
+        merge_request_examples_from_file!
+
+        Explicit::ApplicationController.render(
+          partial: "documentation",
+          locals: {
+            page_title: @page_title,
+            primary_color: @primary_color,
+            sections: @sections
+          }
+        )
+      end
+
+      def merge_request_examples_from_file!
+        return if !Explicit.configuration.request_examples_file_path
+
+        encoded = ::File.read(Explicit.configuration.request_examples_file_path)
+        examples = ::JSON.parse(encoded)
 
         @sections.each do |section|
           section.pages.filter(&:request?).each do |page|
@@ -112,18 +139,6 @@ module Explicit::Documentation
           end
         end
       end
-
-      html = Explicit::ApplicationController.render(
-        partial: "documentation",
-        locals: {
-          page_title: @page_title,
-          primary_color: @primary_color,
-          sections: @sections
-        }
-      )
-
-      [200, {}, [html]]
-    end
   end
 
   def self.build(&block)
