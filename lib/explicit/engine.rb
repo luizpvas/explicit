@@ -2,8 +2,10 @@
 
 class Explicit::Engine < ::Rails::Engine
   initializer "explicit.rescue_from_invalid_params" do
-    ActiveSupport.on_load(:action_controller_api) do
-      include Explicit::Request::InvalidParams::Handler
+    if Explicit.configuration.rescue_from_invalid_params?
+      ActiveSupport.on_load(:action_controller_api) do
+        include Explicit::Request::InvalidParamsError::Rescuer
+      end
     end
   end
 end

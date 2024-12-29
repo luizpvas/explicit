@@ -26,7 +26,7 @@ documented specs at runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
-8. Configuration
+8. [Configuration](#configuration)
    - [Request examples file path](#request-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
@@ -559,7 +559,7 @@ records with array of records, etc.
 
 # Configuration
 
-Add the initializer `config/initializers/explicit.rb` with the following
+Add an initializer `config/initializers/explicit.rb` with the following
 code, and then make the desired changes to the config.
 
 ```ruby
@@ -572,4 +572,30 @@ end
 
 ```ruby
 config.request_examples_file_path = Rails.root.join("public/request_examples.json")
+```
+
+### Customizing error messages
+
+Copy the [default error messages translations](https://github.com/luizpvas/explicit/blob/main/config/locales/en.yml)
+to your project and make the desired changes.
+
+### Customizing error serialization
+
+First disable the default response:
+
+```ruby
+config.rescue_from_invalid_params = false
+```
+
+and then add a custom `rescue_from Explicit::Request::InvalidParamsError` to
+your base controller. Use the following code as a starting point:
+
+```ruby
+class ApplicationController < ActionController::API
+  rescue_from Explicit::Request::InvalidParamsError do |err|
+    params = Explicit::Spec::Error.translate(err.errors)
+
+    render json: { error: "invalid_params", params: }, status: 422
+  end
+end
 ```

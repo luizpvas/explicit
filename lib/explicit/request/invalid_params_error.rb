@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
-module Explicit::Request::InvalidParams
-  class Error < ::RuntimeError
-    attr_reader :errors
+class Explicit::Request::InvalidParamsError < ::RuntimeError
+  attr_reader :errors
 
-    def initialize(errors)
-      @errors = errors
-    end
+  def initialize(errors)
+    @errors = errors
   end
 
-  module Handler
+  module Rescuer
     extend ::ActiveSupport::Concern
 
     included do
-      rescue_from Error do |err|
+      rescue_from Explicit::Request::InvalidParamsError do |err|
         params = Explicit::Spec::Error.translate(err.errors)
 
         render json: { error: "invalid_params", params: }, status: 422

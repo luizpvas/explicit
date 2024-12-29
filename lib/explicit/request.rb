@@ -7,14 +7,18 @@ class Explicit::Request
     @routes = []
     @headers = {}
     @params = {}
-    @responses = [{
-      status: [:literal, 422],
-      data: {
-        error: "invalid_params",
-        params: [:hash, :string, :string]
-      }
-    }]
+    @responses = []
     @examples = []
+
+    if Explicit.configuration.rescue_from_invalid_params?
+      @responses << {
+        status: [:literal, 422],
+        data: {
+          error: "invalid_params",
+          params: [:hash, :string, :string]
+        }
+      }
+    end
 
     instance_eval(&block)
   end
@@ -86,7 +90,7 @@ class Explicit::Request
   def validate!(values)
     case params_validator.call(values)
     in [:ok, validated_data] then validated_data
-    in [:error, err] then raise InvalidParams::Error.new(err)
+    in [:error, err] then raise InvalidParamsError.new(err)
     end
   end
 
