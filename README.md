@@ -361,8 +361,8 @@ end
 Whenever you wish to refresh the examples file run the test suite with the ENV
 `EXPLICIT_PERSIST_EXAMPLES` set. For example
 `EXPLICIT_PERSIST_EXAMPLES=true bin/rails test` or
-`EXPLICIT_PERSIST_EXAMPLES=true bundle exec rspec`. The examples file is located
-at `#{Rails.root}/public/explicit_request_examples.json` by default, but you can
+`EXPLICIT_PERSIST_EXAMPLES=true bundle exec rspec`. The file is located at
+`#{Rails.root}/public/explicit_request_examples.json` by default, but you can
 [change it here](#request-examples-file-path).
 
 **Important: be careful not to leak any sensitive data when persisting
@@ -401,7 +401,6 @@ value is invalid then the array is invalid.
 ```
 
 Value must be an integer or a string like `"0.2"` to avoid rounding errors.
-
 [Reference](https://ruby-doc.org/stdlib-3.1.0/libdoc/bigdecimal/rdoc/BigDecimal.html)
 
 ### Boolean
