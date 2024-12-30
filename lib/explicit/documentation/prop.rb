@@ -28,6 +28,22 @@ module Explicit::Documentation
         from_spec(subspec).with(default:)
       in [:description, description, subspec]
         from_spec(subspec).with(description:)
+      in [:hash, keyspec, valuespec]
+        with_details(
+          "hash",
+          "explicit/spec/hash",
+          keyprop: from_spec(keyspec),
+          valueprop: from_spec(valuespec),
+          options: {}
+        )
+      in [:hash, keyspec, valuespec, options]
+        with_details(
+          "hash",
+          "explicit/spec/hash",
+          keyprop: from_spec(keyspec),
+          valueprop: from_spec(valuespec),
+          options:
+        )
       in :string
         just_name("string")
       in [:string, options]

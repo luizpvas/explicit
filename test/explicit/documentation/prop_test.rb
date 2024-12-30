@@ -85,6 +85,36 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "hash" do
+    Prop.from_spec([:hash, :string, :string]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal(
+        Prop.with_details(
+          "hash",
+          "explicit/spec/hash",
+          keyprop: Prop.just_name("string"),
+          valueprop: Prop.just_name("string"),
+          options: {}
+        ),
+        prop
+      )
+    end
+
+    Prop.from_spec([:hash, :string, :string, empty: false]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal(
+        Prop.with_details(
+          "hash",
+          "explicit/spec/hash",
+          keyprop: Prop.just_name("string"),
+          valueprop: Prop.just_name("string"),
+          options: { empty: false }
+        ),
+        prop
+      )
+    end
+  end
+
   test "string" do
     Prop.from_spec(:string).tap do |prop|
       assert prop.renders_successfully?
