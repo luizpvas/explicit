@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-module Explicit::Spec::Literal
-  extend self
+class Explicit::Spec::Literal < Explicit::Spec
+  attr_reader :value
 
-  def build(literal_value)
-    lambda do |value|
-      if value == literal_value
-        [:ok, value]
-      else
-        [:error, [:literal, literal_value]]
-      end
+  def initialize(value:)
+    @value = value
+  end
+
+  def call(value)
+    if value == @value
+      [:ok, value]
+    else
+      [:error, [:literal, @value]]
     end
   end
 end

@@ -50,9 +50,9 @@ class Explicit::Spec
       Explicit::Spec::Integer.build(options)
 
     in [:literal, value]
-      Explicit::Spec::Literal.build(value)
+      Explicit::Spec::Literal.new(value:)
     in ::String
-      Explicit::Spec::Literal.build(spec)
+      Explicit::Spec::Literal.new(value: spec)
 
     in [:nilable, spec]
       Explicit::Spec::Nilable.apply(spec)
