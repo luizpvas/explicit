@@ -4,7 +4,6 @@ require "explicit/version"
 
 require "explicit/documentation"
 require "explicit/documentation/markdown"
-require "explicit/documentation/prop"
 
 require "explicit/test_helper"
 require "explicit/test_helper/example_recorder"
