@@ -8,7 +8,7 @@ class Explicit::Spec::Array < Explicit::Spec
     @empty = empty
   end
 
-  def call(values)
+  def validate(values)
     return [:error, :array] if !values.is_a?(::Array)
 
     if values.empty? && !empty
@@ -18,7 +18,7 @@ class Explicit::Spec::Array < Explicit::Spec
     validated = []
 
     values.each.with_index do |value, index|
-      case itemspec.call(value)
+      case itemspec.validate(value)
       in [:ok, value]  then validated << value
       in [:error, err] then return [:error, [:array, index, err]]
       end

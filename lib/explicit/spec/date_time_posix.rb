@@ -5,7 +5,7 @@ require "time"
 class Explicit::Spec::DateTimePosix < Explicit::Spec
   ERROR_INVALID = [:error, :date_time_posix].freeze
 
-  def call(value)
+  def validate(value)
     if !value.is_a?(::Integer) && !value.is_a?(::String)
       return ERROR_INVALID
     end

@@ -11,7 +11,7 @@ class Explicit::Spec::String < Explicit::Spec
     @maxlength = maxlength
   end
 
-  def call(value)
+  def validate(value)
     return [:error, :string] if !value.is_a?(::String)
 
     value = value.strip if strip

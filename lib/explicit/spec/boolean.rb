@@ -20,7 +20,7 @@ class Explicit::Spec::Boolean < Explicit::Spec
     @parse = parse
   end
 
-  def call(value)
+  def validate(value)
     value =
       if value == true || value == false
         value

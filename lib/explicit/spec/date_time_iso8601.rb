@@ -3,7 +3,7 @@
 require "time"
 
 class Explicit::Spec::DateTimeISO8601 < Explicit::Spec
-  def call(value)
+  def validate(value)
     return [:error, :date_time_iso8601] if !value.is_a?(::String)
 
     timeval = Time.iso8601(value)

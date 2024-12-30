@@ -7,11 +7,11 @@ class Explicit::Spec::OneOf < Explicit::Spec
     @subspecs = subspecs.map { Explicit::Spec.build(_1) }
   end
 
-  def call(value)
+  def validate(value)
     errors = []
 
     @subspecs.each do |subspec|
-      case subspec.call(value)
+      case subspec.validate(value)
       in [:ok, validated_value]
         return [:ok, validated_value]
       in [:error, err]

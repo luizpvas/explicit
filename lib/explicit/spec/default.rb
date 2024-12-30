@@ -7,9 +7,9 @@ module Explicit::Spec::Default
     Explicit::Spec.build(spec).tap do |spec|
       spec.default = default if spec.is_a?(Explicit::Spec) # TODO: remove check
 
-      original_call = spec.method(:call)
+      original_validate = spec.method(:validate)
 
-      spec.define_singleton_method(:call, lambda do |value|
+      spec.define_singleton_method(:validate, lambda do |value|
         value =
           if value.nil?
             default.respond_to?(:call) ? default.call : default
@@ -17,7 +17,7 @@ module Explicit::Spec::Default
             value
           end
 
-        original_call.(value)
+        original_validate.(value)
       end)
     end
   end

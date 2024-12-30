@@ -11,7 +11,7 @@ class Explicit::Spec::Agreement < Explicit::Spec
     @parse = parse
   end
 
-  def call(value)
+  def validate(value)
     if value == true
       OK
     elsif parse && VALUES.include?(value)

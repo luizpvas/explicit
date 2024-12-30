@@ -2,7 +2,7 @@
 
 module ValidationHelper
   def validate(value, spec)
-    result = ::Explicit::Spec.build(spec).call(value)
+    result = ::Explicit::Spec.build(spec).validate(value)
 
     ensure_error_has_translation!(result)
 

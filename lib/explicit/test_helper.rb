@@ -70,9 +70,9 @@ module Explicit::TestHelper
   end
 
   def ensure_response_matches_spec!(request, response)
-    validator = request.send(:responses_validator, status: response.status)
+    responses_spec = request.send(:responses_validator, status: response.status)
 
-    case validator.call(response.data.with_indifferent_access)
+    case responses_spec.validate(response.data.with_indifferent_access)
     in [:ok, _] then :all_good
     in [:error, err] then raise Explicit::Request::InvalidResponseError.new(response, err)
     end

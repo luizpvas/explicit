@@ -9,14 +9,14 @@ class Explicit::Spec::Hash < Explicit::Spec
     @empty = empty
   end
 
-  def call(value)
+  def validate(value)
     return [:error, :hash] if !value.is_a?(::Hash)
     return [:error, :empty] if value.empty? && empty == false
 
     validated_hash = {}
 
     value.each do |key, value|
-      case [keyspec.call(key), valuespec.call(value)]
+      case [keyspec.validate(key), valuespec.validate(value)]
       in [[:ok, validated_key], [:ok, validated_value]]
         validated_hash[validated_key] = validated_value
       in [[:error, err], _]

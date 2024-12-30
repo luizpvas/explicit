@@ -9,7 +9,7 @@ class Explicit::Spec::Record < Explicit::Spec
     end
   end
 
-  def call(data)
+  def validate(data)
     return [:error, :hash] if !data.respond_to?(:[])
 
     validated_data = {}
@@ -18,7 +18,7 @@ class Explicit::Spec::Record < Explicit::Spec
     @attributes.each do |attribute_name, spec|
       value = data[attribute_name]
 
-      case spec.call(value)
+      case spec.validate(value)
       in [:ok, validated_value]
         validated_data[attribute_name] = validated_value
       in [:error, err]

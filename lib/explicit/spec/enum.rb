@@ -7,7 +7,7 @@ class Explicit::Spec::Enum < Explicit::Spec
     @allowed_values = allowed_values
   end
 
-  def call(value)
+  def validate(value)
     if allowed_values.include?(value)
       [:ok, value]
     else

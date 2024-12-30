@@ -7,7 +7,7 @@ class Explicit::Spec::Literal < Explicit::Spec
     @value = value
   end
 
-  def call(value)
+  def validate(value)
     if value == @value
       [:ok, value]
     else

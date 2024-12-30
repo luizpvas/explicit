@@ -10,7 +10,7 @@ class Explicit::Spec::BigDecimal < Explicit::Spec
     @max = max
   end
 
-  def call(value)
+  def validate(value)
     return ERROR unless value.is_a?(::String) || value.is_a?(::Integer)
 
     decimalvalue = BigDecimal(value)

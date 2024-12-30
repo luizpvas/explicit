@@ -17,7 +17,7 @@ class Explicit::Spec::Integer < Explicit::Spec
     nil
   end
 
-  def call(value)
+  def validate(value)
     value =
       if value.is_a?(::Integer)
         value
