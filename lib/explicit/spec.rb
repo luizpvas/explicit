@@ -54,8 +54,8 @@ class Explicit::Spec
     in ::String
       Explicit::Spec::Literal.build(spec)
 
-    in [:nilable, options]
-      Explicit::Spec::Nilable.build(options)
+    in [:nilable, spec]
+      Explicit::Spec::Nilable.apply(spec)
 
     in [:one_of, *subspecs]
       Explicit::Spec::OneOf.new(subspecs:)
