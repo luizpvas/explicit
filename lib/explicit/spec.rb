@@ -33,8 +33,8 @@ class Explicit::Spec
     in [:default, default, subspec]
       Explicit::Spec::Default.apply(default, subspec)
 
-    in [:description, _, subspec]
-      Explicit::Spec.build(subspec)
+    in [:description, description, subspec]
+      Explicit::Spec::Description.apply(description, subspec)
 
     in [:hash, keyspec, valuespec]
       Explicit::Spec::Hash.new(keyspec:, valuespec:)
