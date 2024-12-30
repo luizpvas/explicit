@@ -21,9 +21,9 @@ class Explicit::Spec
       Explicit::Spec::Bigdecimal.build(options)
 
     in :boolean
-      Explicit::Spec::Boolean.build({})
+      Explicit::Spec::Boolean.new
     in [:boolean, options]
-      Explicit::Spec::Boolean.build(options)
+      Explicit::Spec::Boolean.new(**options)
 
     in :date_time_iso8601
       Explicit::Spec::DateTimeISO8601.new

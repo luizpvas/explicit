@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
-module Explicit::Spec::Boolean
-  extend self
-
+class Explicit::Spec::Boolean < Explicit::Spec
   VALUES = {
-    true => true,
     "true" => true,
     "on" => true,
     "1" => true,
     1 => true,
-    false => false,
     "false" => false,
     "off" => false,
     "0" => false,
@@ -18,13 +14,24 @@ module Explicit::Spec::Boolean
 
   ERROR = [:error, :boolean].freeze
 
-  def build(options)
-    lambda do |value|
-      value = VALUES[value]
+  attr_reader :parse
 
-      return ERROR if value.nil?
+  def initialize(parse: false)
+    @parse = parse
+  end
 
-      [:ok, value]
-    end
+  def call(value)
+    value =
+      if value == true || value == false
+        value
+      elsif parse && VALUES.key?(value)
+        VALUES[value]
+      else
+        nil
+      end
+
+    return ERROR if value.nil?
+
+    [:ok, value]
   end
 end
