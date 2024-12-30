@@ -6,9 +6,9 @@ class Explicit::Spec
   def self.build(spec)
     case spec
     in :agreement
-      Explicit::Spec::Agreement.build({})
+      Explicit::Spec::Agreement.new
     in [:agreement, options]
-      Explicit::Spec::Agreement.build(options)
+      Explicit::Spec::Agreement.new(**options)
 
     in [:array, itemspec]
       Explicit::Spec::Array.new(itemspec:)
