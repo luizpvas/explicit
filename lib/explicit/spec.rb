@@ -58,7 +58,7 @@ class Explicit::Spec
       Explicit::Spec::Nilable.build(options)
 
     in [:one_of, *subspecs]
-      Explicit::Spec::OneOf.build(subspecs)
+      Explicit::Spec::OneOf.new(subspecs:)
 
     in ::Hash
       Explicit::Spec::Record.new(attributes: spec)

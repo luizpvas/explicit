@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-module Explicit::Spec::OneOf
-  extend self
+class Explicit::Spec::OneOf < Explicit::Spec
+  attr_reader :subspecs
 
-  def build(subspecs)
-    subspec_validators = subspecs.map { Explicit::Spec.build(_1) }
+  def initialize(subspecs:)
+    @subspecs = subspecs.map { Explicit::Spec.build(_1) }
+  end
 
+  def call(value)
     errors = []
 
-    lambda do |value|
-      subspec_validators.each do |subspec_validator|
-        case subspec_validator.call(value)
-        in [:ok, validated_value]
-          return [:ok, validated_value]
-        in [:error, err]
-          errors << err
-        end
+    @subspecs.each do |subspec|
+      case subspec.call(value)
+      in [:ok, validated_value]
+        return [:ok, validated_value]
+      in [:error, err]
+        errors << err
       end
-
-      [:error, [:one_of, *errors]]
     end
+
+    [:error, [:one_of, *errors]]
   end
 end
