@@ -115,6 +115,21 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "inclusion" do
+    Prop.from_spec([:inclusion, ["foo", "bar"]]).tap do |prop|
+      assert prop.renders_successfully?
+
+      assert_equal(
+        Prop.with_details(
+          "enum",
+          "explicit/spec/inclusion",
+          allowed_values: ["foo", "bar"]
+        ).with(allowed_values: ["foo", "bar"]),
+        prop
+      )
+    end
+  end
+
   test "string" do
     Prop.from_spec(:string).tap do |prop|
       assert prop.renders_successfully?

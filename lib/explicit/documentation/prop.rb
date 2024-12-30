@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Explicit::Documentation
-  Prop = ::Data.define(:name, :description, :default, :partial, :locals) do
+  Prop = ::Data.define(:name, :description, :default, :allowed_values, :partial, :locals) do
     def self.from_spec(spec)
       case spec
       in :agreement
@@ -44,6 +44,8 @@ module Explicit::Documentation
           valueprop: from_spec(valuespec),
           options:
         )
+      in [:inclusion, allowed_values]
+        with_details("enum", "explicit/spec/inclusion", allowed_values:).with(allowed_values:)
       in :string
         just_name("string")
       in [:string, options]
@@ -52,11 +54,11 @@ module Explicit::Documentation
     end
 
     def self.just_name(name)
-      new(name:, description: nil, default: nil, partial: nil, locals: nil)
+      new(name:, description: nil, default: nil, allowed_values: nil, partial: nil, locals: nil)
     end
 
     def self.with_details(name, partial, locals)
-      new(name:, description: nil, default: nil, partial:, locals:)
+      new(name:, description: nil, default: nil, allowed_values: nil, partial:, locals:)
     end
 
     def renders_successfully?
