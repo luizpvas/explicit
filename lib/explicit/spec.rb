@@ -30,8 +30,8 @@ class Explicit::Spec
     in :date_time_posix
       Explicit::Spec::DateTimePosix
 
-    in [:default, defaultval, subspec]
-      Explicit::Spec::Default.build(defaultval, subspec)
+    in [:default, default, subspec]
+      Explicit::Spec::Default.apply(default, subspec)
 
     in [:description, _, subspec]
       Explicit::Spec.build(subspec)

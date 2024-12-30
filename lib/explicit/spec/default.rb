@@ -3,18 +3,22 @@
 module Explicit::Spec::Default
   extend self
 
-  def build(defaultval, subspec)
-    subspec_validator = Explicit::Spec::build(subspec)
+  def apply(default, spec)
+    Explicit::Spec.build(spec).tap do |spec|
+      spec.default = default if spec.is_a?(Explicit::Spec) # TODO: remove check
 
-    lambda do |value|
-      value =
-        if value.nil?
-          defaultval.respond_to?(:call) ? defaultval.call : defaultval
-        else
-          value
-        end
+      original_call = spec.method(:call)
 
-      subspec_validator.call(value)
+      spec.define_singleton_method(:call, lambda do |value|
+        value =
+          if value.nil?
+            default.respond_to?(:call) ? default.call : default
+          else
+            value
+          end
+
+        original_call.(value)
+      end)
     end
   end
 end
