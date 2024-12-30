@@ -154,6 +154,13 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "nilable" do
+    Prop.from_spec([:nilable, :string]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.just_name("string").with(nilable: true), prop
+    end
+  end
+
   test "string" do
     Prop.from_spec(:string).tap do |prop|
       assert prop.renders_successfully?
