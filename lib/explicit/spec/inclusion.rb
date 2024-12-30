@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-module Explicit::Spec::Inclusion
-  extend self
+class Explicit::Spec::Inclusion < Explicit::Spec
+  attr_reader :allowed_values
 
-  def build(values)
-    lambda do |value|
-      if values.include?(value)
-        [:ok, value]
-      else
-        [:error, [:inclusion, values]]
-      end
+  def initialize(allowed_values)
+    @allowed_values = allowed_values
+  end
+
+  def call(value)
+    if allowed_values.include?(value)
+      [:ok, value]
+    else
+      [:error, [:inclusion, allowed_values]]
     end
   end
 end
