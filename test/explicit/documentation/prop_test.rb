@@ -71,6 +71,13 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "default" do
+    Prop.from_spec([:default, "foo", :string]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.just_name("string").with(default: "foo"), prop
+    end
+  end
+
   test "description" do
     Prop.from_spec([:description, "hello", :string]).tap do |prop|
       assert prop.renders_successfully?

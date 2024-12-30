@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Explicit::Documentation
-  Prop = ::Data.define(:name, :description, :partial, :locals) do
+  Prop = ::Data.define(:name, :description, :default, :partial, :locals) do
     def self.from_spec(spec)
       case spec
       in :agreement
@@ -24,6 +24,8 @@ module Explicit::Documentation
         with_details("date_time_iso8601", "explicit/spec/date_time_iso8601", options: {})
       in :date_time_posix
         with_details("date_time_posix", "explicit/spec/date_time_posix", options: {})
+      in [:default, default, subspec]
+        from_spec(subspec).with(default:)
       in [:description, description, subspec]
         from_spec(subspec).with(description:)
       in :string
@@ -34,11 +36,11 @@ module Explicit::Documentation
     end
 
     def self.just_name(name)
-      new(name:, description: nil, partial: nil, locals: nil)
+      new(name:, description: nil, default: nil, partial: nil, locals: nil)
     end
 
     def self.with_details(name, partial, locals)
-      new(name:, description: nil, partial:, locals:)
+      new(name:, description: nil, default: nil, partial:, locals:)
     end
 
     def renders_successfully?
