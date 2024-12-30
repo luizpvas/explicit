@@ -5,6 +5,13 @@ require "test_helper"
 class Explicit::Documentation::PropTest < ActiveSupport::TestCase
   Prop = Explicit::Documentation::Prop
 
+  test "description" do
+    Prop.from_spec([:description, "hello", :string]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.just_name("string").with(description: "hello"), prop
+    end
+  end
+
   test "string" do
     Prop.from_spec(:string).tap do |prop|
       assert prop.renders_successfully?

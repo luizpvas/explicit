@@ -8,6 +8,8 @@ module Explicit::Documentation
         just_name("string")
       in [:string, options]
         with_details("string", "explicit/spec/string", { options: })
+      in [:description, description, subspec]
+        from_spec(subspec).with(description:)
       end
     end
 
