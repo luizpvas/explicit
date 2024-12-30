@@ -1,50 +1,37 @@
 # frozen_string_literal: true
 
-module Explicit::Spec::String
-  extend self
+class Explicit::Spec::String < Explicit::Spec
+  attr_reader :empty, :strip, :format, :minlength, :maxlength
 
-  def build(options)
-    lambda do |value|
-      return [:error, :string] if !value.is_a?(::String)
-
-      value = value.strip if options[:strip]
-
-      if options.key?(:empty) && !validate_empty(value, options[:empty])
-        return [:error, :empty]
-      end
-
-      if (minlength = options[:minlength]) && !validate_minlength(value, minlength)
-        return [:error, [:minlength, minlength:]]
-      end
-
-      if (maxlength = options[:maxlength]) && !validate_maxlength(value, maxlength)
-        return [:error, [:maxlength, maxlength:]]
-      end
-
-      if (format = options[:format]) && !validate_format(value, format)
-        return [:error, [:format, format]]
-      end
-
-      [:ok, value]
-    end
+  def initialize(empty: nil, strip: nil, format: nil, minlength: nil, maxlength: nil)
+    @empty = empty
+    @strip = strip
+    @format = format
+    @minlength = minlength
+    @maxlength = maxlength
   end
 
-  private
-    def validate_empty(value, allow_empty)
-      return true if allow_empty
+  def call(value)
+    return [:error, :string] if !value.is_a?(::String)
 
-      !value.empty?
+    value = value.strip if strip
+
+    if empty == false && value.empty?
+      return [:error, :empty]
     end
 
-    def validate_minlength(value, minlength)
-      value.length >= minlength
+    if minlength && value.length < minlength
+      return [:error, [:minlength, minlength:]]
     end
 
-    def validate_maxlength(value, maxlength)
-      value.length <= maxlength
+    if maxlength && value.length > maxlength
+      return [:error, [:maxlength, maxlength:]]
     end
 
-    def validate_format(value, format)
-      format.match?(value)
+    if format && !format.match?(value)
+      return [:error, [:format, format]]
     end
+
+    [:ok, value]
+  end
 end

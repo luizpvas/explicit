@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module Explicit::Spec
-  extend self
+class Explicit::Spec
+  attr_accessor :description, :default, :nilable
 
-  def build(spec)
+  def self.build(spec)
     case spec
     in :agreement
       Explicit::Spec::Agreement.build({})
@@ -60,13 +60,13 @@ module Explicit::Spec
     in [:one_of, *subspecs]
       Explicit::Spec::OneOf.build(subspecs)
 
-    in :string
-      Explicit::Spec::String.build({})
-    in [:string, options]
-      Explicit::Spec::String.build(options)
-
     in ::Hash
-      Explicit::Spec::Record.build(spec)
+      Explicit::Spec::Record.new(attributes: spec)
+
+    in :string
+      Explicit::Spec::String.new
+    in [:string, options]
+      Explicit::Spec::String.new(**options)
     end
   end
 end
