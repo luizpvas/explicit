@@ -130,6 +130,18 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "integer" do
+    Prop.from_spec(:integer).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.just_name("integer"), prop
+    end
+
+    Prop.from_spec([:integer, min: 0]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.with_details("integer", "explicit/spec/integer", options: { min: 0 }), prop
+    end
+  end
+
   test "string" do
     Prop.from_spec(:string).tap do |prop|
       assert prop.renders_successfully?

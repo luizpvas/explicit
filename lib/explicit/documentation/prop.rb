@@ -46,6 +46,10 @@ module Explicit::Documentation
         )
       in [:inclusion, allowed_values]
         with_details("enum", "explicit/spec/inclusion", allowed_values:).with(allowed_values:)
+      in :integer
+        just_name("integer")
+      in [:integer, options]
+        with_details("integer", "explicit/spec/integer", options:)
       in :string
         just_name("string")
       in [:string, options]
