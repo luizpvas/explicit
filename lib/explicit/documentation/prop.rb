@@ -50,6 +50,10 @@ module Explicit::Documentation
         just_name("integer")
       in [:integer, options]
         with_details("integer", "explicit/spec/integer", options:)
+      in [:literal, value]
+        just_name("constant #{value.inspect}")
+      in ::String
+        just_name("constant #{spec.inspect}")
       in :string
         just_name("string")
       in [:string, options]

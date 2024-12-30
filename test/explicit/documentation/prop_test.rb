@@ -142,6 +142,18 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "literal" do
+    Prop.from_spec("foo").tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.just_name("constant \"foo\""), prop
+    end
+
+    Prop.from_spec([:literal, "foo"]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.just_name("constant \"foo\""), prop
+    end
+  end
+
   test "string" do
     Prop.from_spec(:string).tap do |prop|
       assert prop.renders_successfully?
