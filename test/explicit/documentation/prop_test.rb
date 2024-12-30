@@ -17,6 +17,22 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "array" do
+    Prop.from_spec([:array, :string]).tap do |prop|
+      assert prop.renders_successfully?
+
+      subprop = Prop.from_spec(:string)
+      assert_equal Prop.with_details("array", "explicit/spec/array", subprop:, options: {}), prop
+    end
+
+    Prop.from_spec([:array, :string, empty: false]).tap do |prop|
+      assert prop.renders_successfully?
+
+      subprop = Prop.from_spec(:string)
+      assert_equal Prop.with_details("array", "explicit/spec/array", subprop:, options: { empty: false }), prop
+    end
+  end
+
   test "description" do
     Prop.from_spec([:description, "hello", :string]).tap do |prop|
       assert prop.renders_successfully?

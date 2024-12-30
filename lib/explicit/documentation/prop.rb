@@ -8,6 +8,10 @@ module Explicit::Documentation
         with_details("agreement", "explicit/spec/agreement", options: {})
       in [:agreement, options]
         with_details("agreement", "explicit/spec/agreement", options:)
+      in [:array, subspec]
+        with_details("array", "explicit/spec/array", subprop: from_spec(subspec), options: {})
+      in [:array, subspec, options]
+        with_details("array", "explicit/spec/array", subprop: from_spec(subspec), options:)
       in [:description, description, subspec]
         from_spec(subspec).with(description:)
       in :string
