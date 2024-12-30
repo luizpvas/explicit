@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Explicit::Spec::DescriptionTest < ActiveSupport::TestCase
+class Explicit::Spec::Modifiers::DescriptionTest < ActiveSupport::TestCase
   test "runs validation using subspec" do
     assert_ok "foo", validate("foo", [:description, "text here", :string])
     

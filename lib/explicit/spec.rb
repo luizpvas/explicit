@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Explicit::Spec
+  module Modifiers; end
+
   attr_accessor :description, :default, :nilable
 
   def self.build(spec)
@@ -30,12 +32,6 @@ class Explicit::Spec
     in :date_time_posix
       Explicit::Spec::DateTimePosix.new
 
-    in [:default, default, subspec]
-      Explicit::Spec::Default.apply(default, subspec)
-
-    in [:description, description, subspec]
-      Explicit::Spec::Description.apply(description, subspec)
-
     in [:hash, keyspec, valuespec]
       Explicit::Spec::Hash.new(keyspec:, valuespec:)
     in [:hash, keyspec, valuespec, options]
@@ -54,9 +50,6 @@ class Explicit::Spec
     in ::String
       Explicit::Spec::Literal.new(value: spec)
 
-    in [:nilable, spec]
-      Explicit::Spec::Nilable.apply(spec)
-
     in [:one_of, *subspecs]
       Explicit::Spec::OneOf.new(subspecs:)
 
@@ -67,6 +60,17 @@ class Explicit::Spec
       Explicit::Spec::String.new
     in [:string, options]
       Explicit::Spec::String.new(**options)
+
+    ## MODIFIERS
+
+    in [:default, default, subspec]
+      Explicit::Spec::Modifiers::Default.apply(default, subspec)
+
+    in [:description, description, subspec]
+      Explicit::Spec::Modifiers::Description.apply(description, subspec)
+
+    in [:nilable, spec]
+      Explicit::Spec::Modifiers::Nilable.apply(spec)
     end
   end
 end

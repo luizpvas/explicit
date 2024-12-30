@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Explicit::Spec::TestDefault < ActiveSupport::TestCase
+class Explicit::Spec::Modifiers::TestDefault < ActiveSupport::TestCase
   test "default value" do
     assert_ok "foo", validate(nil, [:default, "foo", :string])
     assert_ok "", validate("", [:default, "foo", :string])

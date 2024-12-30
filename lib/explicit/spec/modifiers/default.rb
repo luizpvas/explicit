@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Explicit::Spec::Default
+module Explicit::Spec::Modifiers::Default
   extend self
 
   def apply(default, spec)

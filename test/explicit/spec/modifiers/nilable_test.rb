@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Explicit::Spec::NilableTest < ActiveSupport::TestCase
+class Explicit::Spec::Modifiers::NilableTest < ActiveSupport::TestCase
   test "ok" do
     assert_ok nil, validate(nil, [:nilable, :string])
     assert_ok "foo", validate("foo", [:nilable, :string])

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Explicit::Spec::Nilable
+module Explicit::Spec::Modifiers::Nilable
   extend self
 
   def apply(spec)
