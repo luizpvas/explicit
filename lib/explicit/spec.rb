@@ -26,9 +26,9 @@ class Explicit::Spec
       Explicit::Spec::Boolean.build(options)
 
     in :date_time_iso8601
-      Explicit::Spec::DateTimeISO8601
+      Explicit::Spec::DateTimeISO8601.new
     in :date_time_posix
-      Explicit::Spec::DateTimePosix
+      Explicit::Spec::DateTimePosix.new
 
     in [:default, default, subspec]
       Explicit::Spec::Default.apply(default, subspec)

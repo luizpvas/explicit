@@ -2,9 +2,7 @@
 
 require "time"
 
-module Explicit::Spec::DateTimePosix
-  extend self
-
+class Explicit::Spec::DateTimePosix < Explicit::Spec
   ERROR_INVALID = [:error, :date_time_posix].freeze
 
   def call(value)

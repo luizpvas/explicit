@@ -2,9 +2,7 @@
 
 require "time"
 
-module Explicit::Spec::DateTimeISO8601
-  extend self
-
+class Explicit::Spec::DateTimeISO8601 < Explicit::Spec
   def call(value)
     return [:error, :date_time_iso8601] if !value.is_a?(::String)
 
