@@ -57,6 +57,13 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "date_time_iso8601" do
+    Prop.from_spec(:date_time_iso8601).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.with_details("date_time_iso8601", "explicit/spec/date_time_iso8601", options: {}), prop
+    end
+  end
+
   test "description" do
     Prop.from_spec([:description, "hello", :string]).tap do |prop|
       assert prop.renders_successfully?
