@@ -90,7 +90,7 @@ class Explicit::Request
 
     response = Response.new(status:, data:)
 
-    case responses_validator(status:).validate(data)
+    case responses_spec(status:).validate(data)
     in [:ok, _] then nil
     in [:error, err] then raise InvalidResponseError.new(response, err)
     end
@@ -99,7 +99,7 @@ class Explicit::Request
   end
 
   def validate!(values)
-    case params_validator.validate(values)
+    case params_spec.validate(values)
     in [:ok, validated_data] then validated_data
     in [:error, err] then raise InvalidParamsError.new(err)
     end
@@ -110,13 +110,11 @@ class Explicit::Request
   end
 
   private
-    # TODO: rename to params_spec
-    def params_validator
-      @params_validator ||= Explicit::Spec.build(@params)
+    def params_spec
+      @params_spec ||= Explicit::Spec.build(@params)
     end
 
-    # TODO: reanme to responses_spec
-    def responses_validator(status:)
+    def responses_spec(status:)
       Explicit::Spec.build([:one_of, *@responses[status]])
     end
 end

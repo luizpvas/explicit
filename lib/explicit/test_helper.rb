@@ -70,7 +70,7 @@ module Explicit::TestHelper
   end
 
   def ensure_response_matches_spec!(request, response)
-    responses_spec = request.send(:responses_validator, status: response.status)
+    responses_spec = request.send(:responses_spec, status: response.status)
 
     case responses_spec.validate(response.data.with_indifferent_access)
     in [:ok, _] then :all_good
