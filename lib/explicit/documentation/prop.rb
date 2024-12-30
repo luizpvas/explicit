@@ -22,6 +22,8 @@ module Explicit::Documentation
         with_details("boolean", "explicit/spec/boolean", options:)
       in :date_time_iso8601
         with_details("date_time_iso8601", "explicit/spec/date_time_iso8601", options: {})
+      in :date_time_posix
+        with_details("date_time_posix", "explicit/spec/date_time_posix", options: {})
       in [:description, description, subspec]
         from_spec(subspec).with(description:)
       in :string
