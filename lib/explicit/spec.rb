@@ -11,9 +11,9 @@ class Explicit::Spec
       Explicit::Spec::Agreement.build(options)
 
     in [:array, itemspec]
-      Explicit::Spec::Array.build(itemspec, {})
+      Explicit::Spec::Array.new(itemspec:)
     in [:array, itemspec, options]
-      Explicit::Spec::Array.build(itemspec, options)
+      Explicit::Spec::Array.new(itemspec:, **options)
 
     in :bigdecimal
       Explicit::Spec::BigDecimal.new
