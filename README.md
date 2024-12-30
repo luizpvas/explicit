@@ -19,8 +19,8 @@ documented specs at runtime.
    - [Date Time Posix](#date-time-posix)
    - [Default](#default)
    - [Description](#description)
+   - [Enum](#enum)
    - [Hash](#hash)
-   - [Inclusion](#inclusion)
    - [Integer](#integer)
    - [Literal](#literal)
    - [Nilable](#nilable)
@@ -78,7 +78,7 @@ class RegistrationsController < ActionController::API
 
     param :name, [:string, empty: false]
     param :email, [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true]
-    param :payment_type, [:inclusion, ["free_trial", "credit_card"]], default: "free_trial"
+    param :payment_type, [:enum, ["free_trial", "credit_card"]], default: "free_trial"
     param :terms_of_use, :agreement
 
     response 200, { user: { id: :integer, email: :string } }
@@ -474,12 +474,12 @@ Hashes are key value pairs where all keys must match keyspec and all values must
 match valuespec. If you are expecting a hash with a specific set of keys use a
 [record](#record) instead.
 
-### Inclusion
+### Enum
 
 ```ruby
-[:inclusion, allowed_values]
-[:inclusion, ["user", "admin"]]
-[:inclusion, [10, 20, 30, 40, 50]]
+[:enum, allowed_values]
+[:enum, ["user", "admin"]]
+[:enum, [10, 20, 30, 40, 50]]
 ```
 
 Value must be present in the set of allowed values.
@@ -507,7 +507,7 @@ If `parse: true` is specified then integer encoded string values such as "10" or
 "value" # strings work like a literal specs, so you can use this shorter syntax.
 ```
 
-A literal value behaves similar to inclusion with a single value. Useful for
+A literal value behaves similar to an enum with a single value. Useful for
 matching against multiple specs in [`one_of`](#one-of).
 
 ### Nilable

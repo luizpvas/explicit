@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Explicit::Spec::Inclusion < Explicit::Spec
+class Explicit::Spec::Enum < Explicit::Spec
   attr_reader :allowed_values
 
   def initialize(allowed_values)
@@ -11,7 +11,7 @@ class Explicit::Spec::Inclusion < Explicit::Spec
     if allowed_values.include?(value)
       [:ok, value]
     else
-      [:error, [:inclusion, allowed_values]]
+      [:error, [:enum, allowed_values]]
     end
   end
 end

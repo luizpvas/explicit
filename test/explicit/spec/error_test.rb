@@ -34,8 +34,8 @@ class Explicit::Spec::ErrorTest < ActiveSupport::TestCase
     assert_equal "invalid value at key (foo): must be an integer", translate_error([:hash_value, "foo", :integer])
   end
 
-  test "inclusion" do
-    assert_equal 'must be one of: ["foo", "bar"]', translate_error([:inclusion, ["foo", "bar"]])
+  test "enum" do
+    assert_equal 'must be one of: ["foo", "bar"]', translate_error([:enum, ["foo", "bar"]])
   end
 
   test "integer" do

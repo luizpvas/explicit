@@ -41,8 +41,8 @@ class Explicit::Spec
     in [:hash, keyspec, valuespec, options]
       Explicit::Spec::Hash.new(keyspec:, valuespec:, **options)
 
-    in [:inclusion, allowed_values]
-      Explicit::Spec::Inclusion.new(allowed_values)
+    in [:enum, allowed_values]
+      Explicit::Spec::Enum.new(allowed_values)
 
     in :integer
       Explicit::Spec::Integer.new

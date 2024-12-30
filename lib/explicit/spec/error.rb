@@ -29,8 +29,8 @@ module Explicit::Spec::Error
       translator.call(:hash_key, key:, error: translate(suberr, translator))
     in [:hash_value, key, suberr]
       translator.call(:hash_value, key:, error: translate(suberr, translator))
-    in [:inclusion, values]
-      translator.call(:inclusion, values: values.inspect)
+    in [:enum, values]
+      translator.call(:enum, values: values.inspect)
     in :integer
       translator.call(:integer)
     in [:min, min]
