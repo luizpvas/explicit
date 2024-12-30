@@ -45,9 +45,9 @@ class Explicit::Spec
       Explicit::Spec::Inclusion.build(options)
 
     in :integer
-      Explicit::Spec::Integer.build({})
+      Explicit::Spec::Integer.new
     in [:integer, options]
-      Explicit::Spec::Integer.build(options)
+      Explicit::Spec::Integer.new(**options)
 
     in [:literal, value]
       Explicit::Spec::Literal.new(value:)
