@@ -37,9 +37,9 @@ class Explicit::Spec
       Explicit::Spec.build(subspec)
 
     in [:hash, keyspec, valuespec]
-      Explicit::Spec::Hash.build(keyspec, valuespec, {})
+      Explicit::Spec::Hash.new(keyspec:, valuespec:)
     in [:hash, keyspec, valuespec, options]
-      Explicit::Spec::Hash.build(keyspec, valuespec, options)
+      Explicit::Spec::Hash.new(keyspec:, valuespec:, **options)
 
     in [:inclusion, allowed_values]
       Explicit::Spec::Inclusion.new(allowed_values)
