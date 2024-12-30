@@ -11,7 +11,7 @@ class Explicit::Documentation::Property
   def description_html
     case spec
     in [:description, markdown_text, _subspec]
-      Explicit::Documentation::Markdown.render(markdown_text).html_safe
+      Explicit::Documentation::Markdown.to_html(markdown_text).html_safe
     else
       nil
     end

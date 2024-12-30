@@ -5,7 +5,7 @@ require "test_helper"
 class Explicit::Documentation::MarkdownTest < ActiveSupport::TestCase
   test "markdown syntax in request description" do
     request = Explicit::Request.new do
-      description <<-MD
+      description <<~MD
         This is the first paragraph.
         Second line of the first paragraph.
 
@@ -24,7 +24,7 @@ class Explicit::Documentation::MarkdownTest < ActiveSupport::TestCase
 
   test "markdown syntax in param description" do
     request = Explicit::Request.new do
-      param :name, :string, description: <<-MD
+      param :name, :string, description: <<~MD
         This is the first paragraph.
         Second line of the first paragraph.
 

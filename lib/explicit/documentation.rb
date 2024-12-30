@@ -39,7 +39,7 @@ module Explicit::Documentation
       end
 
       def description_html
-        Explicit::Documentation::Markdown.render(@request.get_description).html_safe
+        Explicit::Documentation::Markdown.to_html(@request.get_description).html_safe
       end
 
       def anchor

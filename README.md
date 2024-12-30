@@ -71,7 +71,7 @@ class RegistrationsController < ActionController::API
   Request = Explicit::Request.new do
     post "/api/registrations"
 
-    description <<-MD
+    description <<~MD
     Attempts to register a new user in the system. If `payment_type` is not
     specified a trial period of 30 days is started.
     MD
