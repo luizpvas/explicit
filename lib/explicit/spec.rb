@@ -16,9 +16,9 @@ class Explicit::Spec
       Explicit::Spec::Array.build(itemspec, options)
 
     in :bigdecimal
-      Explicit::Spec::Bigdecimal.build({})
+      Explicit::Spec::BigDecimal.new
     in [:bigdecimal, options]
-      Explicit::Spec::Bigdecimal.build(options)
+      Explicit::Spec::BigDecimal.new(**options)
 
     in :boolean
       Explicit::Spec::Boolean.new
