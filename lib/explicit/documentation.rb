@@ -46,18 +46,6 @@ module Explicit::Documentation
         title.dasherize
       end
 
-      def params_properties
-        @request.params.map do |name, spec|
-          Property.new(name:, spec:)
-        end
-      end
-
-      def headers_properties
-        @request.headers.map do |name, spec|
-          Property.new(name:, spec:)
-        end
-      end
-
       def partial
         "request"
       end
