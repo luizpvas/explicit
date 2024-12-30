@@ -33,6 +33,18 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "bigdecimal" do
+    Prop.from_spec(:bigdecimal).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.with_details("bigdecimal", "explicit/spec/bigdecimal", options: {}), prop
+    end
+
+    Prop.from_spec([:bigdecimal, min: 1, max: 100]) do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.with_details("bigdecimal", "explicit/spec/bigdecimal", options: { min: 1, max: 100 }), prop
+    end
+  end
+
   test "description" do
     Prop.from_spec([:description, "hello", :string]).tap do |prop|
       assert prop.renders_successfully?

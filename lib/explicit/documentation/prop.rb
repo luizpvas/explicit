@@ -12,6 +12,10 @@ module Explicit::Documentation
         with_details("array", "explicit/spec/array", subprop: from_spec(subspec), options: {})
       in [:array, subspec, options]
         with_details("array", "explicit/spec/array", subprop: from_spec(subspec), options:)
+      in :bigdecimal
+        with_details("bigdecimal", "explicit/spec/bigdecimal", options: {})
+      in [:bigdecimal, options]
+        with_details("bigdecimal", "explicit/spec/bigdecimal", options:)
       in [:description, description, subspec]
         from_spec(subspec).with(description:)
       in :string
