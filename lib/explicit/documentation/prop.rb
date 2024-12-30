@@ -16,6 +16,10 @@ module Explicit::Documentation
         with_details("bigdecimal", "explicit/spec/bigdecimal", options: {})
       in [:bigdecimal, options]
         with_details("bigdecimal", "explicit/spec/bigdecimal", options:)
+      in :boolean
+        just_name("boolean")
+      in [:boolean, options]
+        with_details("boolean", "explicit/spec/boolean", options:)
       in [:description, description, subspec]
         from_spec(subspec).with(description:)
       in :string

@@ -45,6 +45,18 @@ class Explicit::Documentation::PropTest < ActiveSupport::TestCase
     end
   end
 
+  test "boolean" do
+    Prop.from_spec(:boolean).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.just_name("boolean"), prop
+    end
+
+    Prop.from_spec([:boolean, parse: true]).tap do |prop|
+      assert prop.renders_successfully?
+      assert_equal Prop.with_details("boolean", "explicit/spec/boolean", options: { parse: true }), prop
+    end
+  end
+
   test "description" do
     Prop.from_spec([:description, "hello", :string]).tap do |prop|
       assert prop.renders_successfully?
