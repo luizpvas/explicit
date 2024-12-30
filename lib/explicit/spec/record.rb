@@ -4,10 +4,8 @@ class Explicit::Spec::Record < Explicit::Spec
   attr_reader :attributes
 
   def initialize(attributes:)
-    @attributes = attributes
-
-    @validators = attributes.map do |attribute_name, attribute_spec|
-      [attribute_name, Explicit::Spec.build(attribute_spec)]
+    @attributes = attributes.map do |attribute_name, spec|
+      [attribute_name, Explicit::Spec.build(spec)]
     end
   end
 
@@ -17,10 +15,10 @@ class Explicit::Spec::Record < Explicit::Spec
     validated_data = {}
     errors = {}
 
-    @validators.each do |attribute_name, validator|
+    @attributes.each do |attribute_name, spec|
       value = data[attribute_name]
 
-      case validator.call(value)
+      case spec.call(value)
       in [:ok, validated_value]
         validated_data[attribute_name] = validated_value
       in [:error, err]
