@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API::V1
-  Documentation = Explicit::Documentation.build do
+  Documentation = Explicit::Documentation.new do
     page_title "Acme API"
 
     section "Introduction" do

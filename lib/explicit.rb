@@ -3,7 +3,11 @@ require "explicit/engine"
 require "explicit/version"
 
 require "explicit/documentation"
+require "explicit/documentation/builder"
 require "explicit/documentation/markdown"
+require "explicit/documentation/section"
+require "explicit/documentation/page/partial"
+require "explicit/documentation/page/request"
 
 require "explicit/test_helper"
 require "explicit/test_helper/example_recorder"
