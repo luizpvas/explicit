@@ -25,7 +25,7 @@ module Explicit::Documentation::Page
     end
 
     def partial
-      "request"
+      "explicit/documentation/request"
     end
   end
 end

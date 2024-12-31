@@ -17,7 +17,7 @@ module Explicit::Documentation::Output
     private
       def render_documentation_page
         Explicit::ApplicationController.render(
-          partial: "documentation",
+          partial: "explicit/documentation/page",
           locals: {
             page_title: builder.page_title,
             sections: builder.sections
