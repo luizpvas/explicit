@@ -11,7 +11,7 @@ class Explicit::Spec::Literal < Explicit::Spec
     if value == @value
       [:ok, value]
     else
-      [:error, [:literal, @value]]
+      [:error, error_i18n("literal", value: @value.inspect)]
     end
   end
 end

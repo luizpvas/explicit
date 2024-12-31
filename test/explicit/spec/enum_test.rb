@@ -12,9 +12,9 @@ class Explicit::Spec::EnumTest < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error [:enum, RGB], validate(nil, [:enum, RGB])
-    assert_error [:enum, RGB], validate(" red", [:enum, RGB])
-    assert_error [:enum, RGB], validate("RED", [:enum, RGB])
-    assert_error [:enum, RGB], validate(["red"], [:enum, RGB])
+    assert_error 'must be one of: ["red", "green", "blue"]', validate(nil, [:enum, RGB])
+    assert_error 'must be one of: ["red", "green", "blue"]', validate(" red", [:enum, RGB])
+    assert_error 'must be one of: ["red", "green", "blue"]', validate("RED", [:enum, RGB])
+    assert_error 'must be one of: ["red", "green", "blue"]', validate(["red"], [:enum, RGB])
   end
 end

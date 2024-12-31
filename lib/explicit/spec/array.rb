@@ -19,8 +19,10 @@ class Explicit::Spec::Array < Explicit::Spec
 
     values.each.with_index do |value, index|
       case itemspec.validate(value)
-      in [:ok, value]  then validated << value
-      in [:error, err] then return [:error, [:array, index, err]]
+      in [:ok, value]
+        validated << value
+      in [:error, error]
+        return [:error, error_i18n("array", index:, error:)]
       end
     end
 

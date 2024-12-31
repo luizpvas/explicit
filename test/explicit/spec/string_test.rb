@@ -21,36 +21,36 @@ class Explicit::Spec::StringTest < ActiveSupport::TestCase
     assert_ok "foo", validate("foo", [:string, empty: false])
     assert_ok "", validate("", [:string, empty: true])
 
-    assert_error :empty, validate("", [:string, empty: false])
-    assert_error :empty, validate("  ", [:string, empty: false, strip: true])
+    assert_error "must not be empty", validate("", [:string, empty: false])
+    assert_error "must not be empty", validate("  ", [:string, empty: false, strip: true])
   end
 
   test "minlength" do
     assert_ok "foo", validate("foo", [:string, minlength: 3])
     assert_ok "", validate("", [:string, minlength: 0])
 
-    assert_error [:minlength, minlength: 4], validate("foo", [:string, minlength: 4])
+    assert_error "length must be at least 4", validate("foo", [:string, minlength: 4])
   end
 
   test "maxlength" do
     assert_ok "foo", validate("foo", [:string, maxlength: 3])
     assert_ok "", validate("", [:string, maxlength: 0])
 
-    assert_error [:maxlength, maxlength: 2], validate("foo", [:string, maxlength: 2])
+    assert_error "length must be at most 2", validate("foo", [:string, maxlength: 2])
   end
 
   test "format" do
     assert_ok "foo", validate("foo", [:string, format: /(foo|bar)/])
     assert_ok "bar", validate("bar", [:string, format: /(foo|bar)/])
 
-    assert_error [:format, /(foo|bar)/], validate("qux", [:string, format: /(foo|bar)/])
+    assert_error "must have format /(foo|bar)/", validate("qux", [:string, format: /(foo|bar)/])
   end
 
   test "error" do
-    assert_error :string, validate(1, :string)
-    assert_error :string, validate(1.0, :string)
-    assert_error :string, validate(:symbol, :string)
-    assert_error :string, validate([], :string)
-    assert_error :string, validate(nil, :string)
+    assert_error "must be a string", validate(1, :string)
+    assert_error "must be a string", validate(1.0, :string)
+    assert_error "must be a string", validate(:symbol, :string)
+    assert_error "must be a string", validate([], :string)
+    assert_error "must be a string", validate(nil, :string)
   end
 end

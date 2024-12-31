@@ -10,8 +10,8 @@ class Explicit::Spec::Hash < Explicit::Spec
   end
 
   def validate(value)
-    return [:error, :hash] if !value.is_a?(::Hash)
-    return [:error, :empty] if value.empty? && empty == false
+    return [:error, error_i18n("hash")] if !value.is_a?(::Hash)
+    return [:error, error_i18n("empty")] if value.empty? && empty == false
 
     validated_hash = {}
 
@@ -19,10 +19,10 @@ class Explicit::Spec::Hash < Explicit::Spec
       case [keyspec.validate(key), valuespec.validate(value)]
       in [[:ok, validated_key], [:ok, validated_value]]
         validated_hash[validated_key] = validated_value
-      in [[:error, err], _]
-        return [:error, [:hash_key, key, err]]
-      in [_, [:error, err]]
-        return [:error, [:hash_value, key, err]]
+      in [[:error, error], _]
+        return [:error, error_i18n("hash_key", key:, error:)]
+      in [_, [:error, error]]
+        return [:error, error_i18n("hash_value", key:, error:)]
       end
     end
 

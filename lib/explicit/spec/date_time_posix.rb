@@ -3,17 +3,15 @@
 require "time"
 
 class Explicit::Spec::DateTimePosix < Explicit::Spec
-  ERROR_INVALID = [:error, :date_time_posix].freeze
-
   def validate(value)
     if !value.is_a?(::Integer) && !value.is_a?(::String)
-      return ERROR_INVALID
+      return [:error, error_i18n("date_time_posix")]
     end
 
     datetimeval = DateTime.strptime(value.to_s, "%s")
 
     [:ok, datetimeval]
   rescue Date::Error
-    ERROR_INVALID
+    return [:error, error_i18n("date_time_posix")]
   end
 end

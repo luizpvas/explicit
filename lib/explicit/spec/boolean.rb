@@ -12,8 +12,6 @@ class Explicit::Spec::Boolean < Explicit::Spec
     0 => false
   }.freeze
 
-  ERROR = [:error, :boolean].freeze
-
   attr_reader :parse
 
   def initialize(parse: false)
@@ -30,7 +28,7 @@ class Explicit::Spec::Boolean < Explicit::Spec
         nil
       end
 
-    return ERROR if value.nil?
+    return [:error, error_i18n("boolean")] if value.nil?
 
     [:ok, value]
   end

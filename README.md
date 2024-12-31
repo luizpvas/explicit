@@ -602,9 +602,7 @@ your base controller. Use the following code as a starting point:
 ```ruby
 class ApplicationController < ActionController::API
   rescue_from Explicit::Request::InvalidParamsError do |err|
-    params = Explicit::Spec::Error.translate(err.errors)
-
-    render json: { error: "invalid_params", params: }, status: 422
+    render json: { error: "invalid_params", params: err.errors }, status: 422
   end
 end
 ```

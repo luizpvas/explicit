@@ -27,22 +27,22 @@ class Explicit::Spec::Integer < Explicit::Spec
         nil
       end
 
-    return [:error, :integer] if value.nil?
+    return [:error, error_i18n("integer")] if value.nil?
 
     if min && value < min
-      return [:error, [:min, min]]
+      return [:error, error_i18n("min", min:)]
     end
 
     if max && value > max
-      return [:error, [:max, max]]
+      return [:error, error_i18n("max", max:)]
     end
 
     if negative == false && value < 0
-      return [:error, :negative]
+      return [:error, error_i18n("not_negative")]
     end
 
     if positive == false && value > 0
-      return [:error, :positive]
+      return [:error, error_i18n("not_positive")]
     end
 
     [:ok, value]

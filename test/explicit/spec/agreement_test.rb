@@ -15,13 +15,13 @@ class Explicit::Spec::AgreementTest < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error :agreement, validate(false, :agreement)
-    assert_error :agreement, validate("false", :agreement)
-    assert_error :agreement, validate("0", :agreement)
-    assert_error :agreement, validate("off", :agreement)
-    assert_error :agreement, validate(nil, :agreement)
-    assert_error :agreement, validate(10, :agreement)
-    assert_error :agreement, validate("foo", :agreement)
-    assert_error :agreement, validate([], :agreement)
+    assert_error "must be accepted", validate(false, :agreement)
+    assert_error "must be accepted", validate("false", :agreement)
+    assert_error "must be accepted", validate("0", :agreement)
+    assert_error "must be accepted", validate("off", :agreement)
+    assert_error "must be accepted", validate(nil, :agreement)
+    assert_error "must be accepted", validate(10, :agreement)
+    assert_error "must be accepted", validate("foo", :agreement)
+    assert_error "must be accepted", validate([], :agreement)
   end
 end

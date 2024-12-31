@@ -21,9 +21,9 @@ class Explicit::Spec::TestBoolean < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error :boolean, validate(nil, :boolean)
-    assert_error :boolean, validate(10, :boolean)
-    assert_error :boolean, validate("foo", :boolean)
-    assert_error :boolean, validate([], :boolean)
+    assert_error "must be a boolean", validate(nil, :boolean)
+    assert_error "must be a boolean", validate(10, :boolean)
+    assert_error "must be a boolean", validate("foo", :boolean)
+    assert_error "must be a boolean", validate([], :boolean)
   end
 end

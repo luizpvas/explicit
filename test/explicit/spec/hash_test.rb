@@ -22,26 +22,21 @@ class Explicit::Spec::HashTest < ActiveSupport::TestCase
     )
 
     assert_error(
-      :empty,
+      "must not be empty",
       validate({}, [:hash, :string, :string, empty: false])
     )
   end
 
   test "error key" do
     assert_error(
-      [:hash_key, 10, :string],
-      validate({ 10 => "foo" }, [:hash, :string, :string])
-    )
-
-    assert_error(
-      [:hash_key, 10, :string],
+      "invalid key (10): must be a string",
       validate({ 10 => "foo" }, [:hash, :string, :string])
     )
   end
 
   test "error value" do
     assert_error(
-      [:hash_value, "foo", :integer],
+      "invalid value at key (foo): must be an integer",
       validate({ "foo" => "bar" }, [:hash, :string, :integer])
     )
   end

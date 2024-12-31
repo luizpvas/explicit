@@ -2,7 +2,6 @@
 
 class Explicit::Spec::Agreement < Explicit::Spec
   VALUES = ["true", "on", "1", 1].freeze
-  ERROR = [:error, :agreement].freeze
   OK = [:ok, true].freeze
 
   attr_reader :parse
@@ -17,7 +16,7 @@ class Explicit::Spec::Agreement < Explicit::Spec
     elsif parse && VALUES.include?(value)
       OK
     else
-      ERROR
+      [:error, error_i18n("agreement")]
     end
   end
 end

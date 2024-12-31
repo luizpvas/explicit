@@ -9,7 +9,7 @@ class Explicit::Spec::OneOfTest < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error [:one_of, :string, :integer], validate(true, [:one_of, :string, :integer])
-    assert_error [:one_of, :empty, :integer], validate("", [:one_of, [:string, empty: false], :integer])
+    assert_error "must be a string OR must be an integer", validate(true, [:one_of, :string, :integer])
+    assert_error "must not be empty OR must be an integer", validate("", [:one_of, [:string, empty: false], :integer])
   end
 end

@@ -16,7 +16,7 @@ class Explicit::Spec::DateTimePosixTest < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error :date_time_posix, validate("foo", :date_time_posix)
-    assert_error :date_time_posix, validate(nil, :date_time_posix)
+    assert_error "must be a valid posix timestamp", validate("foo", :date_time_posix)
+    assert_error "must be a valid posix timestamp", validate(nil, :date_time_posix)
   end
 end

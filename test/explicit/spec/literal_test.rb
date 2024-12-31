@@ -10,8 +10,8 @@ class Explicit::Spec::LiteralTest < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error [:literal, "foo"], validate("FOO", "foo")
-    assert_error [:literal, 10], validate(15, [:literal, 10])
-    assert_error [:literal, "bar"], validate(" bar ", [:literal, "bar"])
+    assert_error 'must be "foo"', validate("FOO", "foo")
+    assert_error "must be 10", validate(15, [:literal, 10])
+    assert_error 'must be "bar"', validate(" bar ", [:literal, "bar"])
   end
 end

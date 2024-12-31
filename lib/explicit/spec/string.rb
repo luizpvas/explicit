@@ -12,24 +12,24 @@ class Explicit::Spec::String < Explicit::Spec
   end
 
   def validate(value)
-    return [:error, :string] if !value.is_a?(::String)
+    return [:error, error_i18n("string")] if !value.is_a?(::String)
 
     value = value.strip if strip
 
     if empty == false && value.empty?
-      return [:error, :empty]
+      return [:error, error_i18n("empty")]
     end
 
     if minlength && value.length < minlength
-      return [:error, [:minlength, minlength:]]
+      return [:error, error_i18n("minlength", minlength:)]
     end
 
     if maxlength && value.length > maxlength
-      return [:error, [:maxlength, maxlength:]]
+      return [:error, error_i18n("maxlength", maxlength:)]
     end
 
     if format && !format.match?(value)
-      return [:error, [:format, format]]
+      return [:error, error_i18n("format", regex: format.inspect)]
     end
 
     [:ok, value]

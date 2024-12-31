@@ -73,4 +73,10 @@ class Explicit::Spec
       Explicit::Spec::Modifiers::Nilable.apply(spec)
     end
   end
+
+  def error_i18n(name, context = {})
+    key = "explicit.errors.#{name}"
+
+    ::I18n.t(key, **context)
+  end
 end

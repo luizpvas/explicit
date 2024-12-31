@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Explicit::Spec::BigDecimal < Explicit::Spec
-  ERROR = [:error, :bigdecimal].freeze
-
   attr_reader :min, :max
 
   def initialize(min: nil, max: nil)
@@ -11,20 +9,22 @@ class Explicit::Spec::BigDecimal < Explicit::Spec
   end
 
   def validate(value)
-    return ERROR unless value.is_a?(::String) || value.is_a?(::Integer)
+    unless value.is_a?(::String) || value.is_a?(::Integer)
+      return [:error, error_i18n("bigdecimal")]
+    end
 
     decimalvalue = BigDecimal(value)
 
     if min && decimalvalue < min
-      return [:error, [:min, min]]
+      return [:error, error_i18n("min", min:)]
     end
 
     if max && decimalvalue > max
-      return [:error, [:max, max]]
+      return [:error, error_i18n("max", max:)]
     end
 
     [:ok, decimalvalue]
   rescue ArgumentError
-    ERROR
+    return [:error, error_i18n("bigdecimal")]
   end
 end

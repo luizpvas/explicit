@@ -19,6 +19,6 @@ class Explicit::Spec::OneOf < Explicit::Spec
       end
     end
 
-    [:error, [:one_of, *errors]]
+    [:error, errors.join(" OR ")]
   end
 end

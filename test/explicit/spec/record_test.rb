@@ -24,26 +24,26 @@ class Explicit::Spec::RecordTest < ActiveSupport::TestCase
     )
 
     assert_error(
-      { company: { name: :string } },
+      { company: { name: "must be a string" } },
       validate({ name: "John", company: {} }, customer_schema)
     )
 
     assert_error(
-      { company: :hash },
+      { company: "must be an object" },
       validate({ name: "John" }, customer_schema)
     )
   end
 
   test "error" do
-    assert_error :hash, validate(nil, USER_SCHEMA)
+    assert_error "must be an object", validate(nil, USER_SCHEMA)
 
     assert_error(
-      { age: :integer },
+      { age: "must be an integer" },
       validate({ name: "Bilbo" }, USER_SCHEMA)
     )
 
     assert_error(
-      { name: :string, age: :integer },
+      { name: "must be a string", age: "must be an integer" },
       validate({}, USER_SCHEMA)
     )
   end

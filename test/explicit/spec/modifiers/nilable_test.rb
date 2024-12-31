@@ -9,7 +9,7 @@ class Explicit::Spec::Modifiers::NilableTest < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error :string, validate(10, [:nilable, :string])
-    assert_error :string, validate(:foo, [:nilable, :string])
+    assert_error "must be a string", validate(10, [:nilable, :string])
+    assert_error "must be a string", validate(:foo, [:nilable, :string])
   end
 end

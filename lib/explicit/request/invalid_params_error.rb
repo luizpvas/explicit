@@ -12,9 +12,7 @@ class Explicit::Request::InvalidParamsError < ::RuntimeError
 
     included do
       rescue_from Explicit::Request::InvalidParamsError do |err|
-        params = Explicit::Spec::Error.translate(err.errors)
-
-        render json: { error: "invalid_params", params: }, status: 422
+        render json: { error: "invalid_params", params: err.errors }, status: 422
       end
     end
   end
