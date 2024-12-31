@@ -2,7 +2,7 @@
 
 class API::V1::SessionsController
   DestroyRequest = API::V1::Authentication::AuthenticatedRequest.new do
-    delete "/api/v1/sessions"
+    delete "/sessions"
 
     description <<~MD
     Revokes the authentication token used to authenticate the request, which

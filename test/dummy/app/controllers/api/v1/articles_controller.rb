@@ -20,7 +20,7 @@ class API::V1::ArticlesController < API::V1::BaseController
   end
 
   CreateRequest = API::V1::Authentication::AuthenticatedRequest.new do
-    post "/api/v1/articles"
+    post "/articles"
 
     param :title, [:string, empty: false]
     param :content, [:string, empty: false]
@@ -38,7 +38,7 @@ class API::V1::ArticlesController < API::V1::BaseController
   end
   
   ShowRequest = API::V1::Authentication::AuthenticatedRequest.new do
-    get "/api/v1/articles/:article_id"
+    get "/articles/:article_id"
 
     param :article_id, [:integer, negative: false, parse: true]
 
@@ -55,7 +55,7 @@ class API::V1::ArticlesController < API::V1::BaseController
   end
 
   UpdateRequest = API::V1::Authentication::AuthenticatedRequest.new do
-    put "/api/v1/articles/:article_id"
+    put "/articles/:article_id"
 
     param :article_id, [:integer, negative: false, parse: true]
     param :title, [:string, empty: false]

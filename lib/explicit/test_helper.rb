@@ -48,7 +48,10 @@ module Explicit::TestHelper
       DESC
     end
 
-    process(route.method, route.path, params:, headers:)
+    method = route.method
+    path = (request.get_base_path || "") + route.path
+
+    process(method, path, params:, headers:)
 
     response = Explicit::Request::Response.new(
       status: @response.status,

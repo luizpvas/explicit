@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class API::V1::RegistrationsController < API::V1::BaseController
-  CreateRequest = Explicit::Request.new do
-    post "/api/v1/registrations"
+  CreateRequest = API::V1::Request.new do
+    post "/registrations"
 
     description <<~MD
     Attempts to register a new user in the system. Email address must be unique.

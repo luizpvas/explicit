@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class API::V1::SessionsController
-  CreateRequest = Explicit::Request.new do
-    post "/api/v1/sessions"
+  CreateRequest = API::V1::Request.new do
+    post "/sessions"
 
     description <<~MD
     Attempts to sign in a user to the system. If sign in succeeds an

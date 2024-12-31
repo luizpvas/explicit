@@ -7,7 +7,7 @@ module API::V1::Authentication
     attr_reader :current_user, :current_token
   end
   
-  AuthenticatedRequest = Explicit::Request.new do
+  AuthenticatedRequest = API::V1::Request.new do
     header "Authorization", [:string, format: /[a-zA-Z0-9]{20}/]
 
     response 403, { error: "unauthorized" }
