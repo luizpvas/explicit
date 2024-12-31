@@ -40,6 +40,11 @@ class Explicit::Spec
     in [:enum, allowed_values]
       Explicit::Spec::Enum.new(allowed_values)
 
+    in :file
+      Explicit::Spec::File.new
+    in [:file, options]
+      Explicit::Spec::File.new(**options)
+
     in :integer
       Explicit::Spec::Integer.new
     in [:integer, options]

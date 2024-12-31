@@ -20,6 +20,7 @@ documented specs at runtime.
    - [Default](#default)
    - [Description](#description)
    - [Enum](#enum)
+   - [File](#file)
    - [Hash](#hash)
    - [Integer](#integer)
    - [Literal](#literal)
@@ -482,7 +483,15 @@ match valuespec. If you are expecting a hash with a specific set of keys use a
 [:enum, [10, 20, 30, 40, 50]]
 ```
 
-Value must be present in the set of allowed values.
+### File
+
+```ruby
+:file
+[:file, maxsize: 2.megabytes]
+[:file, mime: %w[image/png image/jpeg]]
+```
+
+Value must be an uploaded file using "multipart/form-data" encoding.
 
 ### Integer
 
