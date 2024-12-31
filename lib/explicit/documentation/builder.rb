@@ -2,11 +2,13 @@
 
 module Explicit::Documentation
   class Builder
-    attr_reader :sections
+    attr_reader :sections, :swagger, :webpage
 
     def initialize
       @sections = []
       @current_section = nil
+      @swagger = Output::Swagger.new(self)
+      @webpage = Output::Webpage.new(self)
     end
 
     def page_title(page_title)
@@ -41,47 +43,28 @@ module Explicit::Documentation
       end
     end
 
-    def call(request)
-      @html ||= render_documentation_page
+    def merge_request_examples_from_file!
+      return if !Explicit.configuration.request_examples_file_path
 
-      [200, {}, [@html]]
-    end
+      encoded = ::File.read(Explicit.configuration.request_examples_file_path)
+      examples = ::JSON.parse(encoded)
 
-    private
-      def render_documentation_page
-        merge_request_examples_from_file!
-
-        Explicit::ApplicationController.render(
-          partial: "documentation",
-          locals: {
-            page_title: @page_title,
-            sections: @sections
-          }
-        )
-      end
-
-      def merge_request_examples_from_file!
-        return if !Explicit.configuration.request_examples_file_path
-
-        encoded = ::File.read(Explicit.configuration.request_examples_file_path)
-        examples = ::JSON.parse(encoded)
-
-        @sections.each do |section|
-          section.pages.filter(&:request?).each do |page|
-            if examples.key?(page.request.gid)
-              examples[page.request.gid].each do |example|
-                page.request.add_example(
-                  params: example["params"].with_indifferent_access,
-                  headers: example["headers"],
-                  response: {
-                    status: example.dig("response", "status"),
-                    data: example.dig("response", "data").with_indifferent_access
-                  }
-                )
-              end
-            end
+      @sections.each do |section|
+        section.pages.filter(&:request?).each do |page|
+          examples[page.request.gid]&.each do |example|
+            page.request.add_example(
+              params: example["params"].with_indifferent_access,
+              headers: example["headers"],
+              response: {
+                status: example.dig("response", "status"),
+                data: example.dig("response", "data").with_indifferent_access
+              }
+            )
           end
         end
       end
+    rescue JSON::ParserError
+      ::Rails.logger.error("[Explicit] Could not parse JSON in request examples file at #{Explicit.configuration.request_examples_file_path}")
+    end
   end
 end

@@ -6,6 +6,8 @@ require "explicit/documentation"
 require "explicit/documentation/builder"
 require "explicit/documentation/markdown"
 require "explicit/documentation/section"
+require "explicit/documentation/output/swagger"
+require "explicit/documentation/output/webpage"
 require "explicit/documentation/page/partial"
 require "explicit/documentation/page/request"
 
