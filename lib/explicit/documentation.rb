@@ -12,7 +12,7 @@ module Explicit::Documentation
 
     ::Class.new(::Rails::Engine).tap do |engine|
       engine.routes.draw do
-        root to: builder.webpage
+        get "/", to: builder.webpage
         get "/swagger", to: builder.swagger
       end
     end
