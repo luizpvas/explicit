@@ -34,4 +34,18 @@ class Explicit::Spec::String < Explicit::Spec
 
     [:ok, value]
   end
+
+  def jsontype
+    "string"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/string"
+    end
+
+    def has_details?
+      !empty.nil? || format.present? || minlength.present? || maxlength.present?
+    end
+  end
 end

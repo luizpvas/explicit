@@ -4,7 +4,7 @@ class API::V1::SessionsController
   CreateRequest = Explicit::Request.new do
     post "/api/v1/sessions"
 
-    description <<-MD
+    description <<~MD
     Attempts to sign in a user to the system. If sign in succeeds an
     authentication token is returned. Use this token to authenticate requests
     with the header `Authorization: Bearer <token>`.

@@ -30,4 +30,10 @@ class Explicit::Spec::Record < Explicit::Spec
 
     [:ok, validated_data]
   end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/record"
+    end
+  end
 end

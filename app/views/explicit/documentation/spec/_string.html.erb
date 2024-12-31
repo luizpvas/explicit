@@ -1,1 +1,23 @@
-<!-- TODO -->
+<% if spec.empty == false %>
+  <span class="params__constraint">
+    not empty
+  </span>
+<% end %>
+
+<% if spec.minlength %>
+  <span class="params__constraint">
+    <%= "minlength #{spec.minlength}" %>
+  </span>
+<% end %>
+
+<% if spec.maxlength %>
+  <span class="params__constraint">
+    <%= "maxlength #{spec.maxlength}" %>
+  </span>
+<% end %>
+
+<% if spec.format %>
+  <span class="params__constraint">
+    <%= "format #{spec.format.inspect}" %>
+  </span>
+<% end %>

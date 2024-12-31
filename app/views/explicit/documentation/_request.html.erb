@@ -6,25 +6,7 @@
       <%= page.description_html %>
     </div>
 
-    <div class="params">
-      <div class="params__header">
-        <%= t("explicit.documentation.params_header") %>
-      </div>
-
-      <% page.params_properties.each do |property| %>
-        <div class="params__param">
-          <div class="params__param__name">
-            <%= property.name %>
-          </div>
-
-          <% if (description_html = property.description_html) %>
-            <div class="params__param__description markdown">
-              <%= description_html %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+    <%= spec_render page.request.send(:params_spec) %>
   </div>
 
   <div class="page__response">

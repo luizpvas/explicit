@@ -10,6 +10,7 @@
       margin: 0;
       padding: 0;
 
+      --color-neutral-50: #fafafa;
       --color-neutral-100: #f5f5f5;
       --color-neutral-200: #e5e5e5;
       --color-neutral-300: #d4d4d8;
@@ -77,19 +78,7 @@
       margin-top: 1rem;
       border: 1px solid var(--color-neutral-200);
       border-radius: 8px;
-    }
-    .params__header {
-      padding: 5px;
-      text-align: center;
-
-      font-size: 12px;
-      text-transform: uppercase;
-      color: var(--color-neutral-500);
-      border-bottom: 1px solid var(--color-neutral-200);
-
-      background-color: var(--color-neutral-100);
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+      overflow: hidden;
     }
     .params__param {
       padding: 0.8rem;
@@ -97,13 +86,35 @@
     .params__param:not(:last-of-type) {
       border-bottom: 1px solid var(--color-neutral-200);
     }
-    .params__param__name {
+    .params__summary {
+      display: flex;
+      align-items: end;
+      gap: 1rem;
+    }
+    .params__summary__expand {
+      margin-left: auto;
+      color: var(--color-neutral-400);
+    }
+    .params__name {
       font-family: monospace;
       font-weight: bold;
     }
-    .params__param__description {
+    .params__jsontype {
+      font-size: 12px;
+      color: var(--color-neutral-500);
+    }
+    .params__description {
       margin-top: 0.5rem;
       color: var(--color-neutral-500);
+    }
+    .params__constraint {
+      font-size: 12px;
+      background: var(--color-neutral-200);
+      padding: 1px 4px;
+      border-radius: 1px;
+    }
+    .params__subspec {
+      margin-top: 0.5rem;
     }
   </style>
 

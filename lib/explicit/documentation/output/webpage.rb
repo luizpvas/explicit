@@ -19,7 +19,7 @@ module Explicit::Documentation::Output
         Explicit::ApplicationController.render(
           partial: "explicit/documentation/page",
           locals: {
-            page_title: builder.page_title,
+            page_title: builder.get_page_title,
             sections: builder.sections
           }
         )

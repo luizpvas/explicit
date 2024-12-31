@@ -19,4 +19,18 @@ class Explicit::Spec::Agreement < Explicit::Spec
       [:error, error_i18n("agreement")]
     end
   end
+
+  def jsontype
+    "boolean"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/agreement"
+    end
+
+    def has_details?
+      parse.present?
+    end
+  end
 end

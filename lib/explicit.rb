@@ -1,3 +1,5 @@
+require "active_support/core_ext/module/concerning"
+
 require "explicit/configuration"
 require "explicit/engine"
 require "explicit/version"
