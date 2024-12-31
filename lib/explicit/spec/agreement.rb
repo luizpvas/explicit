@@ -30,7 +30,7 @@ class Explicit::Spec::Agreement < Explicit::Spec
     end
 
     def has_details?
-      parse.present?
+      true
     end
   end
 end

@@ -47,4 +47,18 @@ class Explicit::Spec::Integer < Explicit::Spec
 
     [:ok, value]
   end
+
+  def jsontype
+    "integer"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/integer"
+    end
+
+    def has_details?
+      !!(min || max || parse || !negative.nil? || !positive.nil?)
+    end
+  end
 end

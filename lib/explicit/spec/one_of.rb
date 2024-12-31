@@ -21,4 +21,18 @@ class Explicit::Spec::OneOf < Explicit::Spec
 
     [:error, errors.join(" OR ")]
   end
+
+  def jsontype
+    @subspecs.all? { _1.is_a?(Explicit::Spec::Record) } ? "object" : "any"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/one_of"
+    end
+
+    def has_details?
+      true
+    end
+  end
 end

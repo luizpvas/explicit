@@ -28,4 +28,18 @@ class Explicit::Spec::Array < Explicit::Spec
 
     [:ok, validated]
   end
+
+  def jsontype
+    "array"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/array"
+    end
+
+    def has_details?
+      true
+    end
+  end
 end

@@ -14,4 +14,18 @@ class Explicit::Spec::Enum < Explicit::Spec
       [:error, error_i18n("enum", allowed_values: allowed_values.inspect)]
     end
   end
+
+  def jsontype
+    "string"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/enum"
+    end
+
+    def has_details?
+      true
+    end
+  end
 end

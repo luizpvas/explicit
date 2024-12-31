@@ -14,4 +14,18 @@ class Explicit::Spec::DateTimePosix < Explicit::Spec
   rescue Date::Error
     return [:error, error_i18n("date_time_posix")]
   end
+
+  def jsontype
+    "integer"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/date_time_posix"
+    end
+
+    def has_details?
+      true
+    end
+  end
 end

@@ -28,4 +28,18 @@ class Explicit::Spec::Hash < Explicit::Spec
 
     [:ok, validated_hash]
   end
+
+  def jsontype
+    "object"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/hash"
+    end
+
+    def has_details?
+      true
+    end
+  end
 end

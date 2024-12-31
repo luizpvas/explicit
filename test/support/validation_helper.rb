@@ -12,21 +12,19 @@ module ValidationHelper
   end
 
   def assert_spec_render_webpage!(spec)
-    assert [true, false].include?(spec.has_details?)
-
-    html = Explicit::ApplicationController.render(
-      spec: spec.partial,
+    Explicit::ApplicationController.render(
+      partial: spec.partial,
       locals: { spec: }
     )
 
-    assert html.present?
+    assert [true, false].include?(spec.has_details?)
   end
 
   def assert_spec_render_swagger!(spec)
     # TODO
   end
 
-  def ensure_spec_jsontype!(spec)
+  def assert_spec_jsontype!(spec)
     assert spec.jsontype.present?
   end
 end

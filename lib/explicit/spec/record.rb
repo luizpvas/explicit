@@ -31,9 +31,17 @@ class Explicit::Spec::Record < Explicit::Spec
     [:ok, validated_data]
   end
 
+  def jsontype
+    "object"
+  end
+
   concerning :Webpage do
     def partial
       "explicit/documentation/spec/record"
+    end
+
+    def has_details?
+      true
     end
   end
 end

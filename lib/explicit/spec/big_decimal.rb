@@ -27,4 +27,18 @@ class Explicit::Spec::BigDecimal < Explicit::Spec
   rescue ArgumentError
     return [:error, error_i18n("bigdecimal")]
   end
+
+  def jsontype
+    "string"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/big_decimal"
+    end
+
+    def has_details?
+      true
+    end
+  end
 end

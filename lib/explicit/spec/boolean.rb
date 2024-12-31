@@ -32,4 +32,18 @@ class Explicit::Spec::Boolean < Explicit::Spec
 
     [:ok, value]
   end
+
+  def jsontype
+    "boolean"
+  end
+
+  concerning :Webpage do
+    def partial
+      "explicit/documentation/spec/boolean"
+    end
+
+    def has_details?
+      parse.present?
+    end
+  end
 end
