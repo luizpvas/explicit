@@ -30,6 +30,11 @@ class Explicit::Request::InheritanceTest < ActiveSupport::TestCase
     assert_equal "https://myapp.com", Request.get_base_url
     assert_equal "/api/v1", Request.get_base_path
 
+    assert_equal 1, AuthenticatedRequest.routes.length
+    assert_equal 1, AuthenticatedRequest.headers.length
+    assert_equal 1, AuthenticatedRequest.params.length
+    assert_equal 2, AuthenticatedRequest.responses.length
+
     assert_equal 2, Request.routes.length
     assert_equal 2, Request.headers.length
     assert_equal 2, Request.params.length

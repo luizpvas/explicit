@@ -28,8 +28,14 @@ class Explicit::Request
     subrequest.instance_variable_set(:@routes,    @routes.dup)
     subrequest.instance_variable_set(:@headers,   @headers.dup)
     subrequest.instance_variable_set(:@params,    @params.dup)
-    subrequest.instance_variable_set(:@responses, @responses.dup)
-    subrequest.instance_variable_set(:@examples,  @examples.dup)
+
+    @responses.each do |status, types|
+      subrequest.responses[status] = types.dup
+    end
+
+    @examples.each do |status, examples|
+      subrequest.examples[status] = examples.dup
+    end
 
     subrequest.tap { _1.instance_eval(&block) }
   end
