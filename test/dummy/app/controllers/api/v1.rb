@@ -13,5 +13,15 @@ module API::V1
       add API::V1::SessionsController::CreateRequest
       add API::V1::SessionsController::DestroyRequest
     end
+
+    section "Articles" do
+      add API::V1::ArticlesController::CreateRequest
+      add API::V1::ArticlesController::ShowRequest
+      add API::V1::ArticlesController::UpdateRequest
+    end
+
+    section "Others" do
+      add API::V1::EverythingController::CreateRequest
+    end
   end
 end
