@@ -22,11 +22,11 @@ class Explicit::Type::Literal < Explicit::Type
 
   concerning :Webpage do
     def partial
-      "explicit/documentation/type/literal"
+      nil
     end
 
     def has_details?
-      true
+      false
     end
   end
 end

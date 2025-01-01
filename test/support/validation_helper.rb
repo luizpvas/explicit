@@ -12,12 +12,14 @@ module ValidationHelper
   end
 
   def assert_type_render_webpage!(type)
-    Explicit::ApplicationController.render(
-      partial: type.partial,
-      locals: { type: }
-    )
-
     assert [true, false].include?(type.has_details?)
+
+    if type.has_details?
+      Explicit::ApplicationController.render(
+        partial: type.partial,
+        locals: { type: }
+      )
+    end
   end
 
   def assert_type_render_swagger!(type)
