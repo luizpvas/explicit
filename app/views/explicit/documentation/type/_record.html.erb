@@ -1,0 +1,38 @@
+<div class="params">
+  <% type.attributes.each do |attribute_name, type| %>
+    <div
+      class="params__param"
+      x-data="{ expanded: false }"
+      x-on:click="expanded = !expanded"
+    >
+      <div class="params__summary">
+        <span class="params__name">
+          <%= attribute_name %>
+        </span>
+
+        <span class="params__jsontype">
+          <%= type.jsontype %>
+        </span>
+
+        <div class="params__summary__expand">
+          <span x-show="expanded">&#9650;</span>
+          <span x-show="!expanded">&#9660;</span>
+        </div>
+      </div>
+
+      <% if type_has_details?(type) %>
+        <div class="params__details" x-show="expanded">
+          <% if (description = type.description) %>
+            <div class="params__description">
+              <%= description %>
+            </div>
+          <% end %>
+
+          <div class="params__subtype">
+            <%= type_render type %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

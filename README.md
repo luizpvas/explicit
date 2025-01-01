@@ -1,16 +1,16 @@
 # Explicit
 
 Explicit is a validation and documentation library for JSON APIs that enforces
-documented specs at runtime.
+documented types at runtime.
 
 1. [Installation](#installation)
 2. [Defining requests](#defining-requests)
-3. [Reusing specs](#reusing-specs)
+3. [Reusing types](#reusing-types)
 4. [Reusing requests](#reusing-requests)
 5. [Writing tests](#writing-tests)
 6. [Publishing documentation](#publishing-documentation)
    - [Adding request examples](#adding-request-examples)
-7. Specs
+7. Types
    - [Agreement](#agreement)
    - [Array](#array)
    - [BigDecimal](#bigdecimal)
@@ -53,10 +53,10 @@ available:
 - `title(text)` - Adds a title to the request. Displayed in documentation.
 - `description(text)` - Adds a description to the endpoint. Displayed in
   documentation. Markdown supported.
-- `header(name, spec)` - Adds a spec to the request header.
-- `param(name, spec, options = {})` - Adds a spec to the request param.
+- `header(name, type)` - Adds a type to the request header.
+- `param(name, type, options = {})` - Adds a type to the request param.
   It works for params in the request body, query string and path params.
-- `response(status, spec)` - Adds a response spec. You can add multiple
+- `response(status, type)` - Adds a response type. You can add multiple
   responses with different formats.
 - `add_example(params:, headers:, response:)` - Adds an example to the
   documentation. [See more details here](#adding-request-examples).
@@ -98,13 +98,13 @@ class RegistrationsController < ActionController::API
 end
 ```
 
-# Reusing specs
+# Reusing types
 
-Specs are just data. You can share specs the same way you reuse constants or
+Types are just data. You can share types the same way you reuse constants or
 configs in your app. For example:
 
 ```ruby
-module MyApp::Spec
+module MyApp::Type
   UUID = [:string, format: /^\h{8}-(\h{4}-){3}\h{12}$/].freeze
   EMAIL = [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true].freeze
 
@@ -114,11 +114,11 @@ module MyApp::Spec
   }.freeze
 end
 
-# ... and then reference the shared specs when needed
+# ... and then reference the shared types when needed
 Request = Explicit::Request.new do
-  param :customer_uuid, MyApp::Spec::UUID
-  param :email, MyApp::Spec::EMAIL
-  param :address, MyApp::Spec::ADDRESS
+  param :customer_uuid, MyApp::Type::UUID
+  param :email, MyApp::Type::EMAIL
+  param :address, MyApp::Type::ADDRESS
 end
 ```
 
@@ -147,7 +147,7 @@ end
 Include `Explicit::TestHelper` in your `test/test_helper.rb` or
 `spec/rails_helper.rb`. This module provides the method
 `fetch(request, **options)` that let's you verify the endpoint works as
-expected and that it responds with a valid response according to the spec.
+expected and that it responds with a valid response according to the docs.
 
 <details open>
   <summary>For Minitest users, add the following line to your <code>test/test_helper.rb</code></summary>
@@ -179,8 +179,8 @@ end
 </details>
 
 To test your controller, call `fetch(request, **options)` and write
-assertions against the response. If the response is invalid according to the
-spec the test fails with `Explicit::Request::InvalidResponseError`.
+assertions against the response. If the response is invalid the test fails with
+`Explicit::Request::InvalidResponseError`.
 
 The response object has a `status`, an integer value for the http status, and
 `data`, a hash with the response data. It also provides `dig` for a
@@ -190,7 +190,7 @@ slighly shorter syntax when accessing nested attributes.
 > `put "/customers/:customer_id"` you must call as
 > `fetch(CustomerController::UpdateRequest, { customer_id: 123 })`.
 
-> Note: Response specs are only verified in test environment with no
+> Note: Response types are only verified in test environment with no
 > performance penalty when running in production.
 
 <details open>
@@ -293,7 +293,7 @@ You can add request examples in two different ways:
 
 In a request, call `add_example(params:, headers:, response:)` after declaring
 params and responses. It's important the example comes after params and
-responses to make sure it actually follows the spec.
+responses to make sure it actually follows the type definition.
 
 For example:
 
@@ -369,7 +369,7 @@ Whenever you wish to refresh the examples file run the test suite with the ENV
 **Important: be careful not to leak any sensitive data when persisting
 examples from tests**
 
-# Specs
+# Types
 
 ### Agreement
 
@@ -385,12 +385,12 @@ values are accepted: `true`, `"true"`, `"on"`, `"1"` and `1`.
 ### Array
 
 ```ruby
-[:array, subspec, options = {}]
+[:array, subtype, options = {}]
 [:array, :string]
 [:array, :integer, empty: false]
 ```
 
-All items in the array must be valid according to the subspec. If at least one
+All items in the array must be valid according to the subtype. If at least one
 value is invalid then the array is invalid.
 
 ### BigDecimal
@@ -436,7 +436,7 @@ example: `1733923153`
 ### Default
 
 ```ruby
-[:default, default_value, subspec]
+[:default, default_value, subtype]
 [:default, "USD", :string]
 [:default, 0, :integer]
 [:default, -> { Time.current.iso8601 }, :date_time_iso8601]
@@ -452,27 +452,27 @@ called.
 ### Description
 
 ```ruby
-[:description, markdown_text, subspec]
+[:description, markdown_text, subtype]
 [:description, "Customer full name", :string]
 [:description, "Rating score from 0 (bad) to 5 (good)", :integer]
 ```
 
-Adds a description to the spec. Descriptions are displayed in documentation
+Adds a description to the type. Descriptions are displayed in documentation
 and do not affect validation in any way with. There is no overhead at runtime.
 Markdown supported.
 
 ### Hash
 
 ```ruby
-[:hash, keyspec, valuespec, options = {}]
+[:hash, keytype, valuetype, options = {}]
 [:hash, :string, :string]
 [:hash, :string, :integer]
 [:hash, :string, :integer, empty: false]
 [:hash, :string, [:array, :date_time_iso8601]]
 ```
 
-Hashes are key value pairs where all keys must match keyspec and all values must
-match valuespec. If you are expecting a hash with a specific set of keys use a
+Hashes are key value pairs where all keys must match keytype and all values must
+match valuetype. If you are expecting a hash with a specific set of keys use a
 [record](#record) instead.
 
 ### Enum
@@ -513,48 +513,48 @@ If `parse: true` is specified then integer encoded string values such as "10" or
 [:literal, value]
 [:literal, 6379]
 [:literal, "value"]
-"value" # strings work like a literal specs, so you can use this shorter syntax.
+"value" # strings are literal types, so you can use the shorter syntax.
 ```
 
 A literal value behaves similar to an enum with a single value. Useful for
-matching against multiple specs in [`one_of`](#one-of).
+matching against multiple types in [`one_of`](#one-of).
 
 ### Nilable
 
 ```ruby
-[:nilable, subspec]
+[:nilable, subtype]
 [:nilable, :string]
 [:nilable, [:array, :integer]]
 ```
 
-Value must either match the subspec or be nil.
+Value must either match the subtype or be nil.
 
 ### One of
 
 ```ruby
-[:one_of, spec1, spec2, ..., specN]
+[:one_of, type1, type2, ..., typeN]
 [:one_of, :string, :integer]
 [:one_of, { email: :string }, { phone_number: :string }]
 ```
 
-Attempts to validate against each spec in order stopping at the first spec that
-successfully matches the value. If none of the specs match, an error is
+Attempts to validate against each type in order stopping at the first type that
+successfully matches the value. If none of the types match, an error is
 returned.
 
 ### Record
 
 ```ruby
-user_spec = {
+user_type = {
   name: :string,
   email: [:string, format: URI::MailTo::EMAIL_REGEXP]
 }
 
-address_spec = {
+address_type = {
   country_name: :string,
   zipcode: [:string, { format: /\d{6}-\d{3}/, strip: true }]
 }
 
-payment_spec = {
+payment_type = {
   currency: [:nilable, :string], # use :nilable for optional attribute
   amount: :bigdecimal
 }

@@ -58,7 +58,7 @@ module Explicit::TestHelper
       data: @response.parsed_body.deep_symbolize_keys
     )
 
-    ensure_response_matches_spec!(request, response)
+    ensure_response_matches_documented_type!(request, response)
 
     if opts[:save_as_example]
       ExampleRecorder.instance.add(
@@ -72,10 +72,10 @@ module Explicit::TestHelper
     response
   end
 
-  def ensure_response_matches_spec!(request, response)
-    responses_spec = request.send(:responses_spec, status: response.status)
+  def ensure_response_matches_documented_type!(request, response)
+    responses_type = request.send(:responses_type, status: response.status)
 
-    case responses_spec.validate(response.data.with_indifferent_access)
+    case responses_type.validate(response.data.with_indifferent_access)
     in [:ok, _] then :all_good
     in [:error, err] then raise Explicit::Request::InvalidResponseError.new(response, err)
     end

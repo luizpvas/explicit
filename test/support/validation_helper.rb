@@ -1,30 +1,30 @@
 # frozen_string_literal: true
 
 module ValidationHelper
-  def validate(value, spec)
-    spec = ::Explicit::Spec.build(spec)
+  def validate(value, type)
+    type = ::Explicit::Type.build(type)
 
-    assert_spec_render_webpage!(spec)
-    assert_spec_render_swagger!(spec)
-    assert_spec_jsontype!(spec)
+    assert_type_render_webpage!(type)
+    assert_type_render_swagger!(type)
+    assert_jsontype!(type)
     
-    spec.validate(value)
+    type.validate(value)
   end
 
-  def assert_spec_render_webpage!(spec)
+  def assert_type_render_webpage!(type)
     Explicit::ApplicationController.render(
-      partial: spec.partial,
-      locals: { spec: }
+      partial: type.partial,
+      locals: { type: }
     )
 
-    assert [true, false].include?(spec.has_details?)
+    assert [true, false].include?(type.has_details?)
   end
 
-  def assert_spec_render_swagger!(spec)
+  def assert_type_render_swagger!(type)
     # TODO
   end
 
-  def assert_spec_jsontype!(spec)
-    assert spec.jsontype.present?
+  def assert_jsontype!(type)
+    assert type.jsontype.present?
   end
 end

@@ -54,32 +54,32 @@ class Explicit::Request
   def description(markdown) = (@description = markdown)
   def get_description = @description
 
-  def header(name, spec)
+  def header(name, type)
     raise ArgumentError("duplicated header #{name}") if @headers.key?(name)
 
-    @headers[name] = spec
+    @headers[name] = type
   end
 
-  def param(name, spec, **options)
+  def param(name, type, **options)
     raise ArgumentError("duplicated param #{name}") if @params.key?(name)
 
     if options[:optional]
-      spec = [:nilable, spec]
+      type = [:nilable, type]
     end
 
     if (defaultval = options[:default])
-      spec = [:default, defaultval, spec]
+      type = [:default, defaultval, type]
     end
 
     if (description = options[:description])
-      spec = [:description, description, spec]
+      type = [:description, description, type]
     end
 
-    @params[name] = spec
+    @params[name] = type
   end
 
-  def response(status, spec)
-    @responses[status] << spec
+  def response(status, type)
+    @responses[status] << type
   end
 
   def add_example(params:, response:, headers: {})
@@ -90,7 +90,7 @@ class Explicit::Request
 
     response = Response.new(status:, data:)
 
-    case responses_spec(status:).validate(data)
+    case responses_type(status:).validate(data)
     in [:ok, _] then nil
     in [:error, err] then raise InvalidResponseError.new(response, err)
     end
@@ -99,7 +99,7 @@ class Explicit::Request
   end
 
   def validate!(values)
-    case params_spec.validate(values)
+    case params_type.validate(values)
     in [:ok, validated_data] then validated_data
     in [:error, err] then raise InvalidParamsError.new(err)
     end
@@ -110,11 +110,11 @@ class Explicit::Request
   end
 
   private
-    def params_spec
-      @params_spec ||= Explicit::Spec.build(@params)
+    def params_type
+      @params_type ||= Explicit::Type.build(@params)
     end
 
-    def responses_spec(status:)
-      Explicit::Spec.build([:one_of, *@responses[status]])
+    def responses_type(status:)
+      Explicit::Type.build([:one_of, *@responses[status]])
     end
 end

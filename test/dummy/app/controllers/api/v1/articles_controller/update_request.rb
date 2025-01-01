@@ -9,7 +9,7 @@ class API::V1::ArticlesController
     param :content, [:string, empty: false]
     param :published_at, [:nilable, :date_time_iso8601]
 
-    response 200, { article: Resource::Spec }
+    response 200, { article: Resource::Type }
     response 404, {}
   end
 end

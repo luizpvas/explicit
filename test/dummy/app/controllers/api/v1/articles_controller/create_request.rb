@@ -8,6 +8,6 @@ class API::V1::ArticlesController
     param :content, [:string, empty: false]
     param :published_at, [:nilable, :date_time_iso8601]
 
-    response 201, { article: Resource::Spec }
+    response 201, { article: Resource::Type }
   end
 end

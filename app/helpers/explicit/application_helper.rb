@@ -2,12 +2,12 @@
 
 module Explicit
   module ApplicationHelper
-    def spec_render(spec)
-      render partial: spec.partial, locals: { spec: }
+    def type_render(type)
+      render partial: type.partial, locals: { type: }
     end
 
-    def spec_has_details?(spec)
-      spec.description.present? || spec.has_details?
+    def type_has_details?(type)
+      type.description.present? || type.has_details?
     end
   end
 end

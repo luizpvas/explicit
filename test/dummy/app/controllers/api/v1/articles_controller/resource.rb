@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API::V1::ArticlesController::Resource
-  Spec = {
+  Type = {
     id: [:integer, negative: false],
     title: [:string, empty: false],
     content: [:string, empty: false],
