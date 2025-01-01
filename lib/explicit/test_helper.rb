@@ -19,8 +19,9 @@ module Explicit::TestHelper
 
   included do
     if Explicit.configuration.test_runner == :minitest
-      # TODO: improve this logic
-      running_in_parallel = Minitest.parallel_executor.is_a?(ActiveSupport::Testing::ParallelizeExecutor)
+      running_in_parallel = Minitest.parallel_executor.is_a?(
+        ActiveSupport::Testing::ParallelizeExecutor
+      )
 
       if running_in_parallel
         uri = Explicit::TestHelper::ExampleRecorder.start_service

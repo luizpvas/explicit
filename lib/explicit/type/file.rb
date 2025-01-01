@@ -3,13 +3,20 @@
 class Explicit::Type::File < Explicit::Type
   attr_reader :maxsize, :mime
 
+  FILE_CLASSES = [
+    ActionDispatch::Http::UploadedFile,
+    Rack::Test::UploadedFile
+  ].freeze
+
   def initialize(maxsize: nil, mime: nil)
     @maxsize = maxsize
     @mime = Array(mime)
   end
 
   def validate(value)
-    return [:error, error_i18n("file")] if !value.respond_to?(:tempfile)
+    if !FILE_CLASSES.any? { |klass| value.is_a?(klass) }
+      return [:error, error_i18n("file")] 
+    end
 
     if maxsize && value.size > maxsize
       return [:error, error_i18n("file_maxsize", maxsize:)]
