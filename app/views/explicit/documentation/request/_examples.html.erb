@@ -13,6 +13,7 @@
     <pre class="font-mono text-sm">
 curl -X<%= route.method.to_s.upcase %> <%= request.get_base_url %><%= request.get_base_path %><%= route.path %>
 -H "Content-Type: application/json"
+<% example.headers.each do |key, value| %>-H "<%= key %>: <%= value %>"<% end %>
 -d <%= JSON.pretty_generate(example.params) %>
 
 HTTP <%= example.response.status %>
