@@ -17,7 +17,7 @@ module Explicit
     end
 
     def request_examples_persistance_enabled?
-      ENV["EXPLICIT_PERSIST_EXAMPLES"].in? %w[true 1 on]
+      ENV["SAVE_REQUEST_EXAMPLES"].in? %w[true 1 on ok]
     end
 
     def rescue_from_invalid_params=(enabled)

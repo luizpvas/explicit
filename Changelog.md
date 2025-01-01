@@ -6,3 +6,5 @@
   understand it quicker. Besides, spec already has a strong correlation with
   tests in the Rails community.
 - Add `downcase: true` option to string type.
+- Rename env var used to save request examples from `EXPLICIT_PERSIST_EXAMPLES`
+  to `SAVE_REQUEST_EXAMPLES`.

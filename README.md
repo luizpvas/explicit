@@ -360,9 +360,9 @@ end
 ```
 
 Whenever you wish to refresh the examples file run the test suite with the ENV
-`EXPLICIT_PERSIST_EXAMPLES` set. For example
-`EXPLICIT_PERSIST_EXAMPLES=true bin/rails test` or
-`EXPLICIT_PERSIST_EXAMPLES=true bundle exec rspec`. The file is located at
+`SAVE_REQUEST_EXAMPLES` set. For example
+`SAVE_REQUEST_EXAMPLES=true bin/rails test` or
+`SAVE_REQUEST_EXAMPLES=true bundle exec rspec`. The file is located at
 `#{Rails.root}/public/explicit_request_examples.json` by default, but you can
 [change it here](#request-examples-file-path).
 
