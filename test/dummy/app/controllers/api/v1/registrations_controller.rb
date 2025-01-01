@@ -17,7 +17,7 @@ class API::V1::RegistrationsController < API::V1::BaseController
       description: "Full name"
 
     param :email_address,
-      [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true],
+      [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true, downcase: true],
       description: "Email address used to login. Case insensitive."
 
     param :password,

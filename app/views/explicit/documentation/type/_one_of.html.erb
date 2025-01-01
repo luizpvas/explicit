@@ -1,1 +1,11 @@
-<!-- TODO -->
+<% type.subtypes.each.with_index do |subtype, index| %>
+  <%= type_render subtype %>
+
+  <% if index < type.subtypes.size - 1 %>
+    <div class="flex items-center my-4">
+      <div class="h-px w-full flex-grow bg-neutral-200"></div>
+      <div class="mx-4 text-neutral-400 text-xs">OR</div>
+      <div class="h-px w-full flex-grow bg-neutral-300"></div>
+    </div>
+  <% end %>
+<% end %>

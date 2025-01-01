@@ -43,19 +43,7 @@
     <div class="border">
       <% statuses.each do |status| %>
         <div class="p-4" x-show="active == <%= status %>">
-          <% responses_type = page.request.send(:responses_type, status:) %>
-
-          <% responses_type.subtypes.each.with_index do |type, index| %>
-            <%= type_render type %>
-
-            <% if index < responses_type.subtypes.size - 1 %>
-              <div class="flex items-center my-4">
-                <div class="h-px w-full flex-grow bg-neutral-200"></div>
-                <div class="mx-4 text-neutral-400 text-xs">OR</div>
-                <div class="h-px w-full flex-grow bg-neutral-300"></div>
-              </div>
-            <% end %>
-          <% end %>
+          <%= type_render page.request.send(:responses_type, status:) %>
 
           <%= render partial: "explicit/documentation/request/examples", locals: { request: page.request, status: } %>
         </div>

@@ -12,7 +12,7 @@ class API::V1::SessionsController
     with the header `Authorization: Bearer <token>`.
     MD
 
-    param :email_address, [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true]
+    param :email_address, [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true, downcase: true]
     param :password, [:string, minlength: 8]
 
     response 200, { token: :string }
