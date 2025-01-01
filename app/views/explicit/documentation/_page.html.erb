@@ -49,9 +49,22 @@
     .page:not(:first-of-type) {
       border-top: 1px solid var(--color-neutral-200);
     }
+    .page__url {
+      background: var(--color-neutral-100);
+      border: 1px solid var(--color-neutral-300);
+      font-family: monospace;
+      padding: 0.8rem;
+    }
+    .page__url__shared {
+      color: var(--color-neutral-500);
+    }
+    .page__url__path {
+      font-weight: bold;
+    }
     .page__container {
       display: flex;
       gap: 1rem;
+      margin-top: 1rem;
     }
     .page__request {
       width: 50%;

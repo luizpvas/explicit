@@ -17,6 +17,8 @@ module Explicit::Documentation::Page
     end
 
     def description_html
+      return if @request.get_description.blank?
+
       Explicit::Documentation::Markdown.to_html(@request.get_description).html_safe
     end
 

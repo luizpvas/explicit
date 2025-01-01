@@ -4,6 +4,8 @@ class API::V1::RegistrationsController < API::V1::BaseController
   CreateRequest = API::V1::Request.new do
     post "/registrations"
 
+    title "Registration"
+
     description <<~MD
     Attempts to register a new user in the system. Email address must be unique.
     If registration succeeds an authentication token is returned. Use this token

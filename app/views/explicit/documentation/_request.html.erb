@@ -1,5 +1,15 @@
 <h1 id="<%= page.anchor %>"><%= page.title %></h1>
 
+<div class="page__url">
+  <% page.request.routes.each do |route| %>
+    <div>
+      <%= route.method.to_s.upcase %>
+      
+      <span class="page__url__shared"><%= page.request.get_base_url %><%= page.request.get_base_path %></span><span class="page__url__path"><%= route.path %></span>
+    </div>
+  <% end %>
+</div>
+
 <div class="page__container">
   <div class="page__request">
     <div class="page__request__description markdown">

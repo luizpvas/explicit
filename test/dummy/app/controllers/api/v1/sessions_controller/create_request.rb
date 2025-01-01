@@ -4,6 +4,8 @@ class API::V1::SessionsController
   CreateRequest = API::V1::Request.new do
     post "/sessions"
 
+    title "Log in"
+
     description <<~MD
     Attempts to sign in a user to the system. If sign in succeeds an
     authentication token is returned. Use this token to authenticate requests
