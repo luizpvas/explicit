@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
 class Explicit::Type::String < Explicit::Type
-  attr_reader :empty, :strip, :format, :minlength, :maxlength
+  attr_reader :empty, :strip, :format, :minlength, :maxlength, :downcase
 
-  def initialize(empty: nil, strip: nil, format: nil, minlength: nil, maxlength: nil)
+  def initialize(empty: nil, strip: nil, format: nil, minlength: nil, maxlength: nil, downcase: false)
     @empty = empty
     @strip = strip
     @format = format
     @minlength = minlength
     @maxlength = maxlength
+    @downcase = downcase
   end
 
   def validate(value)
     return [:error, error_i18n("string")] if !value.is_a?(::String)
 
     value = value.strip if strip
+    value = value.downcase if downcase
 
     if empty == false && value.empty?
       return [:error, error_i18n("empty")]

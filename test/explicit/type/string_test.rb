@@ -46,6 +46,11 @@ class Explicit::Type::StringTest < ActiveSupport::TestCase
     assert_error "must have format /(foo|bar)/", validate("qux", [:string, format: /(foo|bar)/])
   end
 
+  test "case_sensitive" do
+    assert_ok "FOO", validate("FOO", [:string, downcase: false])
+    assert_ok "foo", validate("FOO", [:string, downcase: true])
+  end
+
   test "error" do
     assert_error "must be a string", validate(1, :string)
     assert_error "must be a string", validate(1.0, :string)

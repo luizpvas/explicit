@@ -568,8 +568,9 @@ records with array of records, etc.
 
 ```ruby
 :string
-[:string, strip: true]
+[:string, strip: true] # " foo " gets transformed to "foo"
 [:string, empty: false]
+[:string, downcase: true] # "FOO" gets transformed to "foo"
 [:string, format: URI::MailTo::EMAIL_REGEXP]
 [:string, minlength: 8] # inclusive
 [:string, maxlength: 20] # inclusive

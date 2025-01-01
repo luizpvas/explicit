@@ -5,3 +5,4 @@
 - Rename `spec` to `type`. Even though it is less acurate I believe people will
   understand it quicker. Besides, spec already has a strong correlation with
   tests in the Rails community.
+- Add `downcase: true` option to string type.

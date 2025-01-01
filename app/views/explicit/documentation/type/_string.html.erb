@@ -21,3 +21,9 @@
     <%= "format #{type.format.inspect}" %>
   </span>
 <% end %>
+
+<% if type.downcase %>
+  <span class="record__constraint">
+    <%= "case insensitive" %>
+  </span>
+<% end %>
