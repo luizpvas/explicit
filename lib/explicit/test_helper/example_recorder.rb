@@ -32,7 +32,11 @@ class Explicit::TestHelper::ExampleRecorder
   end
 
   def save!
-    total_examples_count = @examples.sum { |_, examples| examples.size }
+    serialized = @examples.keys.map do |key|
+      [key, @examples[key]]
+    end.to_h
+
+    total_examples_count = serialized.sum { _2.size }
     file_path = Explicit.configuration.request_examples_file_path
 
     puts "" if Explicit.configuration.test_runner == :rspec
@@ -43,6 +47,6 @@ class Explicit::TestHelper::ExampleRecorder
     puts "  [Explicit] ========="
     puts "" if Explicit.configuration.test_runner == :minitest
 
-    ::File.write(file_path, @examples.to_json, mode: "w")
+    ::File.write(file_path, serialized.to_json, mode: "w")
   end
 end

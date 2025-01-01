@@ -1,23 +1,23 @@
 <% if type.empty == false %>
-  <span class="params__constraint">
+  <span class="record__constraint">
     not empty
   </span>
 <% end %>
 
 <% if type.minlength %>
-  <span class="params__constraint">
+  <span class="record__constraint">
     <%= "minlength #{type.minlength}" %>
   </span>
 <% end %>
 
 <% if type.maxlength %>
-  <span class="params__constraint">
+  <span class="record__constraint">
     <%= "maxlength #{type.maxlength}" %>
   </span>
 <% end %>
 
 <% if type.format %>
-  <span class="params__constraint">
+  <span class="record__constraint">
     <%= "format #{type.format.inspect}" %>
   </span>
 <% end %>

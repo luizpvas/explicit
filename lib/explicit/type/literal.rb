@@ -16,7 +16,8 @@ class Explicit::Type::Literal < Explicit::Type
   end
 
   def jsontype
-    @value.is_a?(::String) ? "string" : "integer"
+    @value.inspect
+    # @value.is_a?(::String) ? "string" : "integer"
   end
 
   concerning :Webpage do

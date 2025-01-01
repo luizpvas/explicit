@@ -46,6 +46,7 @@ module Explicit::Documentation
       return if !Explicit.configuration.request_examples_file_path
 
       encoded = ::File.read(Explicit.configuration.request_examples_file_path)
+
       examples = ::JSON.parse(encoded)
 
       @sections.each do |section|

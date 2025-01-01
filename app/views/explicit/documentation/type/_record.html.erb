@@ -1,36 +1,40 @@
-<div class="params">
+<div class="record">
   <% type.attributes.each do |attribute_name, type| %>
     <div
-      class="params__param"
+      class="record__param"
       x-data="{ expanded: false }"
       x-on:click="expanded = !expanded"
     >
-      <div class="params__summary">
-        <span class="params__name">
+      <div class="record__summary">
+        <span class="record__name">
           <%= attribute_name %>
         </span>
 
-        <span class="params__jsontype">
+        <span class="record__jsontype">
           <%= type.jsontype %>
         </span>
 
-        <div class="params__summary__expand">
-          <span x-show="expanded">&#9650;</span>
-          <span x-show="!expanded">&#9660;</span>
-        </div>
+        <% if type.has_details? || type.description.present? %>
+          <div class="record__summary__expand">
+            <span x-show="expanded">&#9650;</span>
+            <span x-show="!expanded">&#9660;</span>
+          </div>
+        <% end %>
       </div>
 
-      <% if type_has_details?(type) %>
-        <div class="params__details" x-show="expanded">
+      <% if type.has_details? || type.description.present? %>
+        <div class="record__details" x-show="expanded">
           <% if (description = type.description) %>
-            <div class="params__description">
+            <div class="record__description">
               <%= description %>
             </div>
           <% end %>
 
-          <div class="params__subtype">
-            <%= type_render type %>
-          </div>
+          <% if type.has_details? %>
+            <div class="record__subtype">
+              <%= type_render type %>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>

@@ -1,0 +1,21 @@
+<div class="responses__examples">
+  <% examples = request.examples[status] %>
+
+  <% if examples.any? %>
+    <div class="-mx-4 my-4 p-4 text-sm uppercase bg-neutral-100 font-medium tracking-wide text-neutral-600">
+      <%= examples.size > 1 ? "Examples" : "Example" %>
+    </div>
+  <% end %>
+
+  <% request.examples[status].each do |example| %>
+    <% route = request.routes.first %>
+
+    <pre class="font-mono text-sm">
+curl -X<%= route.method.to_s.upcase %> <%= request.get_base_url %><%= request.get_base_path %><%= route.path %>
+-H "Content-Type: application/json"
+-d <%= JSON.pretty_generate(example.params) %>
+
+HTTP <%= example.response.status %>
+<%= JSON.pretty_generate(example.response.data) %></pre>
+  <% end %>
+</div>

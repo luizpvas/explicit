@@ -1,29 +1,65 @@
-<h1 id="<%= page.anchor %>"><%= page.title %></h1>
+<h1 class="text-4xl font-bold my-4" id="<%= page.anchor %>"><%= page.title %></h1>
 
-<div class="page__url">
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
   <% page.request.routes.each do |route| %>
     <div>
-      <%= route.method.to_s.upcase %>
+      <span class="font-bold"><%= route.method.to_s.upcase %></span>
       
-      <span class="page__url__shared"><%= page.request.get_base_url %><%= page.request.get_base_path %></span><span class="page__url__path"><%= route.path %></span>
+      <span class="text-neutral-300"><%= page.request.get_base_url %><%= page.request.get_base_path %></span><span class="font-bold"><%= route.path %></span>
     </div>
   <% end %>
 </div>
 
-<div class="page__container">
+<div class="flex mt-4 gap-8">
   <div class="page__request">
-    <div class="page__request__description markdown">
-      <%= page.description_html %>
-    </div>
+    <% if (description = page.description_html) %>
+      <div class="markdown mb-4">
+        <%= description %>
+      </div>
+    <% end %>
 
     <%= type_render page.request.send(:params_type) %>
   </div>
 
-  <div class="page__response">
-    <% page.request.responses.map { |k, v| k }.sort.each do |status| %>
-      <div>
-        <%= status %>
-      </div>
-    <% end %>
+  <% statuses = page.request.responses.keys.sort %>
+
+  <div
+    class="page__response"
+    x-data="{ active: <%= statuses.first %> }"
+  >
+    <div class="flex">
+      <% statuses.each do |status| %>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == <%= status %> }"
+          x-on:click="active = <%= status %>"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold"><%= status %></span>
+        </button>
+      <% end %>
+    </div>
+
+    <div class="border">
+      <% statuses.each do |status| %>
+        <div class="p-4" x-show="active == <%= status %>">
+          <% responses_type = page.request.send(:responses_type, status:) %>
+
+          <% responses_type.subtypes.each.with_index do |type, index| %>
+            <%= type_render type %>
+
+            <% if index < responses_type.subtypes.size - 1 %>
+              <div class="flex items-center my-4">
+                <div class="h-px w-full flex-grow bg-neutral-200"></div>
+                <div class="mx-4 text-neutral-400 text-xs">OR</div>
+                <div class="h-px w-full flex-grow bg-neutral-300"></div>
+              </div>
+            <% end %>
+          <% end %>
+
+          <%= render partial: "explicit/documentation/request/examples", locals: { request: page.request, status: } %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
