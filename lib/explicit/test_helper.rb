@@ -74,7 +74,7 @@ module Explicit::TestHelper
   end
 
   def ensure_response_matches_documented_type!(request, response)
-    responses_type = request.send(:responses_type, status: response.status)
+    responses_type = request.responses_type(status: response.status)
 
     case responses_type.validate(response.data.with_indifferent_access)
     in [:ok, _] then :all_good

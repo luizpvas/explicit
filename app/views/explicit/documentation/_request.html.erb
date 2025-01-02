@@ -17,14 +17,32 @@
 </div>
 
 <div class="flex mt-4 gap-8">
-  <div class="page__request">
+  <div class="page__request space-y-4">
     <% if (description = page.description_html) %>
-      <div class="markdown mb-4">
+      <div class="markdown">
         <%= description %>
       </div>
     <% end %>
 
-    <%= type_render page.request.send(:params_type) %>
+    <% if page.request.headers.any? %>
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Headers
+        </div>
+
+        <%= type_render page.request.headers_type %>
+      </div>
+    <% end %>
+
+    <% if page.request.params.any? %>
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Params
+        </div>
+
+        <%= type_render page.request.params_type %>
+      </div>
+    <% end %>
   </div>
 
   <% statuses = page.request.responses.keys.sort %>
@@ -49,7 +67,7 @@
     <div class="border">
       <% statuses.each do |status| %>
         <div class="p-4" x-show="active == <%= status %>">
-          <%= type_render page.request.send(:responses_type, status:) %>
+          <%= type_render page.request.responses_type(status:) %>
 
           <%= render partial: "explicit/documentation/request/examples", locals: { request: page.request, status: } %>
         </div>

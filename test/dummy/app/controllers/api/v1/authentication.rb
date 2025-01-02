@@ -8,7 +8,7 @@ module API::V1::Authentication
   end
   
   AuthenticatedRequest = API::V1::Request.new do
-    header "Authorization", [:string, format: /[a-zA-Z0-9]{20}/]
+    header "Authorization", [:string, format: /Bearer [a-zA-Z0-9]{20}/]
 
     response 403, { error: "unauthorized" }
   end

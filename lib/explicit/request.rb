@@ -119,12 +119,15 @@ class Explicit::Request
     routes.first.to_s
   end
 
-  private
-    def params_type
-      @params_type ||= Explicit::Type.build(@params)
-    end
+  def headers_type
+    @headers_type ||= Explicit::Type.build(@headers)
+  end
 
-    def responses_type(status:)
-      Explicit::Type.build([:one_of, *@responses[status]])
-    end
+  def params_type
+    @params_type ||= Explicit::Type.build(@params)
+  end
+
+  def responses_type(status:)
+    Explicit::Type.build([:one_of, *@responses[status]])
+  end
 end
