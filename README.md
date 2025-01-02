@@ -254,6 +254,7 @@ For example:
 module MyApp::API::V1
   Documentation = Explicit::Documentation.new do
     page_title "Acme API Docs"
+    company_logo_url "https://my-app.com/logo.png"
 
     section "Introduction" do
       add title: "About", partial: "api/v1/introduction/about"
