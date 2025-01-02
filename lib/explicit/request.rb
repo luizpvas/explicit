@@ -85,6 +85,10 @@ class Explicit::Request
       type = [:description, description, type]
     end
 
+    if @routes.first&.params&.include?(name)
+      type = [:_param_location, :path, type]
+    end
+
     @params[name] = type
   end
 
