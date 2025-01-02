@@ -11,8 +11,11 @@ module Explicit::Documentation
       @webpage = Output::Webpage.new(self)
     end
 
-    def page_title(text) =  (@page_title = text)
+    def page_title(text) = (@page_title = text)
     def get_page_title = @page_title
+
+    def company_logo_url(url) = (@company_logo_url = url)
+    def get_company_logo_url = @company_logo_url
 
     def section(name, &block)
       @current_section = Section.new(name:, pages: [])

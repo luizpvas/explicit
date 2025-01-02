@@ -20,6 +20,7 @@ module Explicit::Documentation::Output
           partial: "explicit/documentation/page",
           locals: {
             page_title: builder.get_page_title,
+            company_logo_url: builder.get_company_logo_url,
             sections: builder.sections
           }
         )

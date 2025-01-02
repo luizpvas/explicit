@@ -243,6 +243,7 @@ Call `Explicit::Documentation.new` to group, organize and publish the
 documentation for your API. The following methods are available:
 
 - `page_title(text)` - Sets the web page title.
+- `company_logo_url(url)` - Shows the company logo above the navigation menu.
 - `section(name, &block)` - Adds a section to the navigation menu.
 - `add(request)` - Adds a request to the section
 - `add(title:, partial:)` - Adds a partial to the section

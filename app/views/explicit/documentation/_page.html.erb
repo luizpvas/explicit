@@ -142,6 +142,10 @@
 <body>
   <div class="flex">
     <section class="navigation">
+      <% if company_logo_url.present? %>
+        <img src="<%= company_logo_url %>" />
+      <% end %>
+
       <% sections.each do |section| %>
         <details class="navigation__section" open>
           <summary><%= section.name %></summary>
