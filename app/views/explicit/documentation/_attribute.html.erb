@@ -8,6 +8,10 @@
       <%= type.jsontype %>
     </span>
 
+    <% if type.param_location_path? %>
+      <span class="bg-neutral-800 text-white text-xs font-bold rounded px-1">in URL</span>
+    <% end %>
+
     <% if type.has_details? || type.description.present? %>
       <div class="record__summary__expand">
         <span x-show="expanded">&#9650;</span>
