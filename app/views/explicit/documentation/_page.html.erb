@@ -19,18 +19,6 @@
       --color-neutral-600: #525252;
     }
 
-    .navigation {
-      background-color: var(--color-neutral-100);
-      border-right: 1px solid var(--color-neutral-300);
-      width: 380px;
-      height: 100vh;
-    }
-    .navigation__section {
-    }
-    .navigation__section__page {
-      display: block;
-    }
-
     .main {
       flex-grow: 1;
       width: 100%;
@@ -141,20 +129,24 @@
 
 <body>
   <div class="flex">
-    <section class="navigation">
+    <section class="bg-neutral-100 border-r w-[280px] shrink-0">
       <% if company_logo_url.present? %>
-        <img src="<%= company_logo_url %>" />
+        <div class="flex items-center justify-center mt-4 mb-8">
+          <img src="<%= company_logo_url %>" class="max-w-full h-auto" />
+        </div>
       <% end %>
 
-      <% sections.each do |section| %>
-        <details class="navigation__section" open>
-          <summary><%= section.name %></summary>
+      <div class="space-y-4">
+        <% sections.each do |section| %>
+          <details class="px-4" open>
+            <summary class="font-bold"><%= section.name %></summary>
 
-          <% section.pages.each do |page| %>
-            <%= link_to page.title, "##{page.anchor}", class: "navigation__section__page" %>
-          <% end %>
-        </details>
-      <% end %>
+            <% section.pages.each do |page| %>
+              <%= link_to page.title, "##{page.anchor}", class: "block pl-4 hover:bg-neutral-200" %>
+            <% end %>
+          </details>
+        <% end %>
+      </div>
     </section>
 
     <main class="main">

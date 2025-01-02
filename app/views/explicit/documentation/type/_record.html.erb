@@ -1,11 +1,7 @@
-<div class="border">
+<div class="border divide-y">
   <% type.attributes.each do |attribute_name, type| %>
-    <div
-      class="record__param"
-      x-data="{ expanded: false }"
-      x-on:click="expanded = !expanded"
-    >
-      <div class="record__summary">
+    <div class="p-3" x-data="{ expanded: false }">
+      <div class="record__summary" x-on:click="expanded = !expanded">
         <span class="record__name">
           <%= attribute_name %>
         </span>
