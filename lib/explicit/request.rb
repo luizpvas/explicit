@@ -13,7 +13,11 @@ class Explicit::Request
     if Explicit.configuration.rescue_from_invalid_params?
       @responses[422] << {
         error: "invalid_params",
-        params: [:hash, :string, :string]
+        params: [
+          :description,
+          "An object containing error messages for all invalid params",
+          [:hash, :string, :string]
+        ]
       }
     end
 

@@ -30,7 +30,7 @@ class Explicit::Type::Array < Explicit::Type
   end
 
   def jsontype
-    "array"
+    "array of #{itemtype.jsontype}"
   end
 
   concerning :Webpage do

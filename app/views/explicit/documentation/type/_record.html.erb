@@ -1,38 +1,5 @@
 <div class="border divide-y">
-  <% type.attributes.each do |attribute_name, type| %>
-    <div class="p-3" x-data="{ expanded: false }">
-      <div class="record__summary" x-on:click="expanded = !expanded">
-        <span class="record__name">
-          <%= attribute_name %>
-        </span>
-
-        <span class="record__jsontype">
-          <%= type.jsontype %>
-        </span>
-
-        <% if type.has_details? || type.description.present? %>
-          <div class="record__summary__expand">
-            <span x-show="expanded">&#9650;</span>
-            <span x-show="!expanded">&#9660;</span>
-          </div>
-        <% end %>
-      </div>
-
-      <% if type.has_details? || type.description.present? %>
-        <div class="record__details" x-show="expanded">
-          <% if (description = type.description) %>
-            <div class="record__description">
-              <%= description %>
-            </div>
-          <% end %>
-
-          <% if type.has_details? %>
-            <div class="record__subtype">
-              <%= type_render type %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+  <% type.attributes.each do |name, type| %>
+    <%= type_attribute_render(name:, type:) %>
   <% end %>
 </div>
