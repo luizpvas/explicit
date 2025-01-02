@@ -3,8 +3,6 @@
 class Explicit::Type
   module Modifiers; end
 
-  attr_accessor :description, :default, :nilable
-
   def self.build(type)
     case type
     in :agreement
@@ -76,7 +74,16 @@ class Explicit::Type
 
     in [:nilable, type]
       Explicit::Type::Modifiers::Nilable.apply(type)
+
+    in [:_param_location, param_location, type]
+      Explicit::Type::Modifiers::ParamLocation.apply(param_location, type)
     end
+  end
+
+  attr_accessor :description, :default, :nilable, :param_location
+
+  def param_location_path?
+    param_location == :path
   end
 
   def error_i18n(name, context = {})
