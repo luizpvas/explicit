@@ -23,7 +23,7 @@ module Explicit::Documentation::Page
     end
 
     def anchor
-      title.dasherize
+      title.gsub(" ", "-").downcase
     end
 
     def partial

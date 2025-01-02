@@ -1,4 +1,10 @@
-<h1 class="text-4xl font-bold my-4" id="<%= page.anchor %>"><%= page.title %></h1>
+<h1
+  class="text-4xl font-bold my-4"
+  id="<%= page.anchor %>"
+  x-intersect="activeLink = '<%= page.anchor %>'"
+>
+  <%= page.title %>
+</h1>
 
 <div class="bg-neutral-800 text-white p-2 rounded font-mono">
   <% page.request.routes.each do |route| %>

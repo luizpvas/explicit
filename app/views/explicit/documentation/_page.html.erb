@@ -19,13 +19,6 @@
       --color-neutral-600: #525252;
     }
 
-    .main {
-      flex-grow: 1;
-      width: 100%;
-      height: 100vh;
-      overflow: auto;
-    }
-
     .page {
       padding: 0 2rem;
       margin-bottom: 100px;
@@ -124,32 +117,36 @@
   </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="//unpkg.com/alpinejs" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body>
-  <div class="flex">
-    <section class="bg-neutral-100 border-r w-[280px] shrink-0">
+  <div class="flex" x-data="{ activeLink: null }">
+    <section class="bg-neutral-100 border-r w-[280px] shrink-0 h-screen overflow-y-auto">
       <% if company_logo_url.present? %>
         <div class="flex items-center justify-center mt-4 mb-8">
           <img src="<%= company_logo_url %>" class="max-w-full h-auto" />
         </div>
       <% end %>
 
-      <div class="space-y-4">
+      <div class="space-y-4" >
         <% sections.each do |section| %>
           <details class="px-4" open>
             <summary class="font-bold"><%= section.name %></summary>
 
             <% section.pages.each do |page| %>
-              <%= link_to page.title, "##{page.anchor}", class: "block pl-4 hover:bg-neutral-200" %>
+              <%= link_to page.title,
+                    "##{page.anchor}",
+                    class: "block pl-4 hover:bg-neutral-200",
+                    "x-bind:class" => "{ 'bg-neutral-200': activeLink == '#{page.anchor}' }" %>
             <% end %>
           </details>
         <% end %>
       </div>
     </section>
 
-    <main class="main">
+    <main class="relative grow h-screen overflow-auto">
       <% sections.each do |section| %>
         <% section.pages.each do |page| %>
           <div class="page">
