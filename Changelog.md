@@ -7,5 +7,5 @@
   tests in the Rails community.
 - Add `downcase: true` option to string type.
 - Rename env var used to save request examples from `EXPLICIT_PERSIST_EXAMPLES`
-  to `SAVE_REQUEST_EXAMPLES`.
+  to `UPDATE_REQUEST_EXAMPLES`.
 - Add `company_logo_url(url)` to documentation builder.
