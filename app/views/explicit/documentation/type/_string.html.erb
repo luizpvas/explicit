@@ -1,29 +1,21 @@
-<% if type.empty == false %>
-  <span class="record__constraint">
-    not empty
-  </span>
-<% end %>
+<%= type_constraints do %>
+  <% if type.empty == false %>
+    <%= type_constraint "not", "empty" %>
+  <% end %>
 
-<% if type.minlength %>
-  <span class="record__constraint">
-    <%= "minlength #{type.minlength}" %>
-  </span>
-<% end %>
+  <% if type.minlength %>
+    <%= type_constraint "minlength", type.minlength %>
+  <% end %>
 
-<% if type.maxlength %>
-  <span class="record__constraint">
-    <%= "maxlength #{type.maxlength}" %>
-  </span>
-<% end %>
+  <% if type.maxlength %>
+    <%= type_constraint "maxlength", type.maxlength %>
+  <% end %>
 
-<% if type.format %>
-  <span class="record__constraint">
-    <%= "format #{type.format.inspect}" %>
-  </span>
-<% end %>
+  <% if type.format %>
+    <%= type_constraint "format", type.format.inspect %>
+  <% end %>
 
-<% if type.downcase %>
-  <span class="record__constraint">
-    <%= "case insensitive" %>
-  </span>
+  <% if type.downcase %>
+    <%= type_constraint "case", "insensitive" %>
+  <% end %>
 <% end %>

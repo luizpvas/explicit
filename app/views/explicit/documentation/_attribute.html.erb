@@ -1,10 +1,10 @@
 <div class="p-3" x-data="{ expanded: false }">
-  <div class="record__summary" x-on:click="expanded = !expanded">
-    <span class="record__name">
+  <div class="flex items-end gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
       <%= name %>
     </span>
 
-    <span class="record__jsontype">
+    <span class="text-sm text-neutral-500">
       <%= type.jsontype %>
     </span>
 
@@ -17,9 +17,9 @@
   </div>
 
   <% if type.has_details? || type.description.present? %>
-    <div class="record__details" x-show="expanded">
+    <div class="mt-2" x-show="expanded">
       <% if (description = type.description) %>
-        <div class="record__description">
+        <div class="text-neutral-600">
           <%= description %>
         </div>
       <% end %>

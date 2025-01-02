@@ -1,1 +1,25 @@
-<!-- TODO -->
+<%= type_constraints do %>
+  <% if type.min.present? %>
+    <%= type_constraint "min", type.min %>
+  <% end %>
+
+  <% if type.max.present? %>
+    <%= type_constraint "max", type.max %>
+  <% end %>
+
+  <% if type.negative == false %>
+    <%= type_constraint "not", "negative" %>
+  <% end %>
+
+  <% if type.negative == true %>
+    <%= type_constraint "only", "negative" %>
+  <% end %>
+
+  <% if type.positive == false %>
+    <%= type_constraint "not", "positive" %>
+  <% end %>
+
+  <% if type.positive == true %>
+    <%= type_constraint "only", "positive" %>
+  <% end %>
+<% end %>
