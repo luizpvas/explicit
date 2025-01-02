@@ -58,7 +58,7 @@ class Explicit::Type::Integer < Explicit::Type
     end
 
     def has_details?
-      !!(min || max || parse || !negative.nil? || !positive.nil?)
+      min.present? || max.present? || parse || !negative.nil? || !positive.nil?
     end
   end
 end

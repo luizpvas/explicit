@@ -13,14 +13,10 @@ class API::V1::EverythingController < API::V1::BaseController
     param :hash1, [
       :hash,
       [:string, empty: false],
-      [:description, "A description of the hash values", [:array, :integer]]
+      [:description, "A description of the hash values", [:array, [:integer, min: 0, max: 10]]]
     ]
 
-    response 200, {
-      string1: :string,
-      integer1: :integer,
-      hash1: [:hash, [:string, empty: false], [:array, :integer]]
-    }
+    response 200, { message: "ok" }
   end
   
   def create
