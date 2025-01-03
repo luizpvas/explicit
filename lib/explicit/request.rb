@@ -123,6 +123,12 @@ class Explicit::Request
     routes.first.to_s
   end
 
+  def accepts_file_upload?
+    params_type.attributes.any? do |name, type|
+      type.is_a?(Explicit::Type::File)
+    end
+  end
+
   def headers_type
     @headers_type ||= Explicit::Type.build(@headers)
   end

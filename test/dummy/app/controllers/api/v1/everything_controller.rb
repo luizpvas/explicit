@@ -15,6 +15,7 @@ class API::V1::EverythingController < API::V1::BaseController
       [:string, empty: false],
       [:description, "A description of the hash values", [:array, [:integer, min: 0, max: 10]]]
     ]
+    param :file1, [:file, maxsize: 2.megabytes, mime: %w[image/jpeg image/png]]
 
     response 200, { message: "ok" }
   end
