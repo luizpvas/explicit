@@ -25,23 +25,10 @@ module Explicit
     end
 
     def format_request_example(request:, example:)
-      route = request.routes.first
-      method = route.method.to_s.upcase
-      url = request.get_base_url + request.get_base_path + route.replace_path_params(example.params)
-      body = example.params.except(*route.params)
-
-      br = '<span class="text-white">\</span>'
-
-      curl_headers = example.headers.map.with_index do |(name, value), index|
-        is_last = index == example.headers.size - 1
-
-        "-H \"#{name}: #{value}\"#{is_last ? '' : ' ' + br}"
-      end.join("\n")
+      line_break = '<span class="text-white">\</span>'
 
       <<~BASH.html_safe
-      curl -X#{method} "#{url}" #{br}
-      -H "Content-Type: application/json" #{curl_headers.present? ? "#{br}\n" + curl_headers : "#{br}"}
-      #{body.empty? ? "" : "-d '#{JSON.pretty_generate(body)}'"}
+      #{example.to_curl_lines.join(" #{line_break}\n")}
 
       # #{example.response.status} #{Rack::Utils::HTTP_STATUS_CODES[example.response.status]}
       #{JSON.pretty_generate(example.response.data)}
