@@ -26,7 +26,7 @@ class Explicit::Request
         if body_params.empty?
           []
         else
-          ["-d '#{JSON.pretty_generate(params)}'"]
+          ["-d '#{JSON.pretty_generate(body_params)}'"]
         end
 
       [curl_request].concat(curl_headers).concat(curl_body)
