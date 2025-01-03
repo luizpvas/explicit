@@ -1,4 +1,8 @@
 <div class="border divide-y">
+  <% if type.attributes.empty? %>
+    <div class="p-4 text-neutral-400 text-center text-sm">--Empty body--</div>
+  <% end %>
+
   <% type.attributes.each do |name, type| %>
     <%= type_attribute_render(name:, type:) %>
   <% end %>

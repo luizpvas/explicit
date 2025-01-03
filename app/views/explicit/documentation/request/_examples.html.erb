@@ -45,13 +45,6 @@
   <% request.examples[status].each.with_index do |example, index| %>
     <% route = request.routes.first %>
 
-    <pre class="font-mono text-sm" x-show="example == <%= index %>">
-curl -X<%= route.method.to_s.upcase %> <%= request.get_base_url %><%= request.get_base_path %><%= route.replace_path_params(example.params) %>
--H "Content-Type: application/json"
-<% example.headers.each do |key, value| %>-H "<%= key %>: <%= value %>"<% end %>
--d <%= JSON.pretty_generate(example.params.except(*route.params)) %>
-
-HTTP <%= example.response.status %>
-<%= JSON.pretty_generate(example.response.data) %></pre>
+    <pre class="font-mono text-sm" x-show="example == <%= index %>"><%= format_request_example(request:, example:) %></pre>
   <% end %>
 </div>
