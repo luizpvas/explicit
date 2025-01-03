@@ -62,6 +62,8 @@ module Explicit::TestHelper
     ensure_response_matches_documented_type!(request, response)
 
     if opts[:save_as_example]
+      params = replace_uploaded_files_with_filenames(params)
+
       ExampleRecorder.instance.add(
         request_gid: request.gid,
         params:,
@@ -79,6 +81,18 @@ module Explicit::TestHelper
     case responses_type.validate(response.data.with_indifferent_access)
     in [:ok, _] then :all_good
     in [:error, err] then raise Explicit::Request::InvalidResponseError.new(response, err)
+    end
+  end
+
+  def replace_uploaded_files_with_filenames(hash)
+    hash.to_h do |key, value|
+      if Explicit::Type::File::FILE_CLASSES.any? { value.is_a?(_1) }
+        [key, "@#{value.original_filename}"]
+      elsif value.is_a?(::Hash)
+        [key, replace_uploaded_files_with_filenames(value)]
+      else
+        [key, value]
+      end
     end
   end
 end

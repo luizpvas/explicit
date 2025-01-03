@@ -95,4 +95,28 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
       '-H "Authorization: Bearer abcd-1234"'
     ]
   end
+
+  test "curl request with file upload" do
+    request = Explicit::Request.new do
+      base_url "http://localhost:3000"
+      post "/api"
+
+      param :name, :string
+      param :file, :file
+
+      response 200, {}
+
+      add_example(
+        params: { name: "foo", file: "@my_file.png" },
+        response: { status: 200,  data: {} }
+      )
+    end
+
+    assert_equal request.examples[200].first.to_curl_lines, [
+      'curl -XPOST "http://localhost:3000/api"',
+      '-H "Content-Type: multipart/form-data"',
+      "-d 'name=foo'",
+      '--form file="@my_file.png"'
+    ]
+  end
 end

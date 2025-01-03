@@ -22,7 +22,7 @@ module API::V1
     end
 
     section "Others" do
-      add API::V1::EverythingController::CreateRequest
+      add API::V1::EverythingController::Request
     end
   end
 end

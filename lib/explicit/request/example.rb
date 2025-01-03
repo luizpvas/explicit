@@ -14,6 +14,8 @@ class Explicit::Request
       curl_headers =
         if body_params.empty?
           []
+        elsif request.accepts_file_upload?
+          ['-H "Content-Type: multipart/form-data"']
         else
           ['-H "Content-Type: application/json"']
         end
@@ -25,6 +27,20 @@ class Explicit::Request
       curl_body =
         if body_params.empty?
           []
+        elsif request.accepts_file_upload?
+          file_params = request.params_type.attributes.filter do |name, type|
+            type.is_a?(Explicit::Type::File)
+          end.to_h
+
+          non_file_params = body_params.except(*file_params.keys)
+
+          curl_non_file_params = "-d '#{non_file_params.to_query}'"
+          
+          curl_file_params = file_params.map do |name, _|
+            "--form #{name}=\"#{body_params[name]}\""
+          end
+
+          [curl_non_file_params].concat(curl_file_params)
         else
           ["-d '#{JSON.pretty_generate(body_params)}'"]
         end
