@@ -25,6 +25,7 @@ class Explicit::TestHelper::ExampleRecorder
 
   def add(request_gid:, params:, headers:, response:)
     @examples[request_gid] << Explicit::Request::Example.new(
+      request: nil,
       params:,
       headers:,
       response:
@@ -32,11 +33,11 @@ class Explicit::TestHelper::ExampleRecorder
   end
 
   def save!
-    serialized = @examples.keys.map do |key|
+    examples_hash = @examples.keys.map do |key|
       [key, @examples[key]]
     end.to_h
 
-    total_examples_count = serialized.sum { _2.size }
+    total_examples_count = examples_hash.sum { _2.size }
     file_path = Explicit.configuration.request_examples_file_path
 
     puts "" if Explicit.configuration.test_runner == :rspec
@@ -47,6 +48,6 @@ class Explicit::TestHelper::ExampleRecorder
     puts "  [Explicit] ========="
     puts "" if Explicit.configuration.test_runner == :minitest
 
-    ::File.write(file_path, serialized.to_json, mode: "w")
+    ::File.write(file_path, examples_hash.to_json, mode: "w")
   end
 end

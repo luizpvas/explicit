@@ -8,6 +8,8 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
       base_url "htpt://localhost:300"
       get "/api"
 
+      response 200, {}
+
       add_example(
         params: {},
         headers: {},
@@ -18,7 +20,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
       )
     end
 
-    assert_equal request.examples.first.to_curl, <<~BASH
+    assert_equal request.examples[200].first.to_curl, <<~BASH
       curl -XGET "http://localhost:3000/api"
     BASH
   end

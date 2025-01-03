@@ -109,7 +109,7 @@ class Explicit::Request
     in [:error, err] then raise InvalidResponseError.new(response, err)
     end
 
-    @examples[response.status] << Example.new(params:, headers:, response:)
+    @examples[response.status] << Example.new(request: self, params:, headers:, response:)
   end
 
   def validate!(values)
