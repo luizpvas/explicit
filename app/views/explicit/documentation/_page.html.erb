@@ -19,10 +19,6 @@
       --color-neutral-600: #525252;
     }
 
-    .page {
-      padding: 0 2rem;
-      margin-bottom: 100px;
-    }
     .page:not(:first-of-type) {
       border-top: 1px solid var(--color-neutral-200);
     }
@@ -137,7 +133,7 @@
     <main class="relative grow h-screen overflow-auto">
       <% sections.each do |section| %>
         <% section.pages.each do |page| %>
-          <div class="page">
+          <div class="p-8 border-t">
             <%= render partial: page.partial, locals: { page: } %>
           </div>
         <% end %>

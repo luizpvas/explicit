@@ -4,6 +4,8 @@ class API::V1::ArticlesController
   CreateRequest = API::V1::Authentication::AuthenticatedRequest.new do
     post "/articles"
 
+    title "Create article"
+
     param :title, [:string, empty: false]
     param :content, [:string, empty: false]
     param :published_at, [:nilable, :date_time_iso8601]

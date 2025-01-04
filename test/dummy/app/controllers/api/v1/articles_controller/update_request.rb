@@ -4,6 +4,8 @@ class API::V1::ArticlesController
   UpdateRequest = API::V1::Authentication::AuthenticatedRequest.new do
     put "/articles/:article_id"
 
+    title "Update article"
+
     param :article_id, [:integer, positive: true]
     param :title, [:string, empty: false]
     param :content, [:string, empty: false]
