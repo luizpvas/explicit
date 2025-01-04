@@ -11,7 +11,7 @@ class Explicit::Type::HashTest < ActiveSupport::TestCase
 
     assert_ok(
       { 10 => true },
-      validate({ "10" => "true" }, [:hash, [:integer, parse: true], [:boolean, parse: true]])
+      validate({ "10" => "true" }, [:hash, [:integer, parse: true], :boolean])
     )
   end
 

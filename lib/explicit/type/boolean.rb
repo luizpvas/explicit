@@ -2,31 +2,20 @@
 
 class Explicit::Type::Boolean < Explicit::Type
   VALUES = {
+    true => true,
     "true" => true,
     "on" => true,
     "1" => true,
     1 => true,
+    false => false,
     "false" => false,
     "off" => false,
     "0" => false,
     0 => false
   }.freeze
 
-  attr_reader :parse
-
-  def initialize(parse: false)
-    @parse = parse
-  end
-
   def validate(value)
-    value =
-      if value == true || value == false
-        value
-      elsif parse && VALUES.key?(value)
-        VALUES[value]
-      else
-        nil
-      end
+    value = VALUES[value]
 
     return [:error, error_i18n("boolean")] if value.nil?
 
@@ -43,7 +32,7 @@ class Explicit::Type::Boolean < Explicit::Type
     end
 
     def has_details?
-      parse.present?
+      true
     end
   end
 end

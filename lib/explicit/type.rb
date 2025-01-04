@@ -20,8 +20,6 @@ class Explicit::Type
 
     in :boolean
       Explicit::Type::Boolean.new
-    in [:boolean, options]
-      Explicit::Type::Boolean.new(**options)
 
     in :date_time_iso8601
       Explicit::Type::DateTimeISO8601.new

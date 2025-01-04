@@ -5,19 +5,16 @@ require "test_helper"
 class Explicit::Type::TestBoolean < ActiveSupport::TestCase
   test "ok" do
     assert_ok true, validate(true, :boolean)
+    assert_ok true, validate("true", :boolean)
+    assert_ok true, validate("1", :boolean)
+    assert_ok true, validate("on", :boolean)
+    assert_ok true, validate(1, :boolean)
+
     assert_ok false, validate(false, :boolean)
-  end
-
-  test "parse" do
-    assert_ok true, validate("true", [:boolean, parse: true])
-    assert_ok true, validate("1", [:boolean, parse: true])
-    assert_ok true, validate("on", [:boolean, parse: true])
-    assert_ok true, validate(1, [:boolean, parse: true])
-
-    assert_ok false, validate("false", [:boolean, parse: true])
-    assert_ok false, validate("0", [:boolean, parse: true])
-    assert_ok false, validate("off", [:boolean, parse: true])
-    assert_ok false, validate(0, [:boolean, parse: true])
+    assert_ok false, validate("false", :boolean)
+    assert_ok false, validate("0", :boolean)
+    assert_ok false, validate("off", :boolean)
+    assert_ok false, validate(0, :boolean)
   end
 
   test "error" do
