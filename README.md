@@ -1,6 +1,6 @@
 # Explicit
 
-Explicit is a validation and documentation library for JSON APIs that enforces
+Explicit is a validation and documentation library for REST APIs that enforces
 documented types at runtime.
 
 1. [Installation](#installation)
