@@ -3,7 +3,7 @@
 require "test_helper"
 
 class Explicit::Type::RecordTest < ActiveSupport::TestCase
-  USER_SCHEMA = { name: :string, age: [:integer, parse: true] }
+  USER_SCHEMA = { name: :string, age: :integer }
 
   test "ok" do
     assert_ok(

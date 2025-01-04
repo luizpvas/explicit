@@ -5,14 +5,9 @@ require "test_helper"
 class Explicit::Type::IntegerTest < ActiveSupport::TestCase
   test "ok" do
     assert_ok 10, validate(10, :integer)
-    assert_ok(-1, validate(-1, :integer))
-  end
-
-  test "parse" do
-    assert_ok 1, validate("1", [:integer, parse: true])
-    assert_ok(-1, validate("-1", [:integer, parse: true]))
-
-    assert_error "must be an integer", validate("foo", [:integer, parse: true])
+    assert_ok -1, validate(-1, :integer)
+    assert_ok 1, validate("1", :integer)
+    assert_ok -1, validate("-1", :integer)
   end
 
   test "min max" do
@@ -28,7 +23,6 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
 
     assert_error "must not be negative", validate(-1, [:integer, negative: false])
   end
-
 
   test "positive" do
     assert_ok 1, validate(1, [:integer, positive: true])

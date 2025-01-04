@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class Explicit::Type::Integer < Explicit::Type
-  attr_reader :min, :max, :parse, :negative, :positive
+  attr_reader :min, :max, :negative, :positive
 
-  def initialize(min: nil, max: nil, parse: nil, negative: nil, positive: nil)
+  def initialize(min: nil, max: nil, negative: nil, positive: nil)
     @min = min
     @max = max
-    @parse = parse
     @negative = negative
     @positive = positive
   end
@@ -21,7 +20,7 @@ class Explicit::Type::Integer < Explicit::Type
     value =
       if value.is_a?(::Integer)
         value
-      elsif value.is_a?(::String) && parse
+      elsif value.is_a?(::String)
         ParseFromString[value]
       else
         nil
@@ -58,7 +57,7 @@ class Explicit::Type::Integer < Explicit::Type
     end
 
     def has_details?
-      min.present? || max.present? || parse || !negative.nil? || !positive.nil?
+      min.present? || max.present? || !negative.nil? || !positive.nil?
     end
   end
 end

@@ -4,7 +4,7 @@ class API::V1::ArticlesController
   ShowRequest = API::V1::Authentication::AuthenticatedRequest.new do
     get "/articles/:article_id"
 
-    param :article_id, [:integer, negative: false, parse: true]
+    param :article_id, [:integer, positive: true]
 
     response 200, { article: Resource::Type }
     response 404, {}

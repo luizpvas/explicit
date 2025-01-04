@@ -409,12 +409,10 @@ Value must be an integer or a string like `"0.2"` to avoid rounding errors.
 
 ```ruby
 :boolean
-[:boolean, parse: true]
 ```
 
-If `parse: true` is specified then the following values are converted to `true`:
-`"true"`, `"on"`, `"1"` and `1`, and the following values are converted to
-`false`: `"false"`, `"off"`, `"0"` and `0`.
+The following values are true: `true`, `"true"`, `"on"`, `"1"` and `1`, and the
+following values are false: `false`, `"false"`, `"off"`, `"0"` and `0`.
 
 ### Date Time ISO8601
 
@@ -498,15 +496,14 @@ Value must be an uploaded file using "multipart/form-data" encoding.
 
 ```ruby
 :integer
-[:integer, parse: true]
 [:integer, negative: false]
 [:integer, positive: false]
 [:integer, min: 0] # inclusive
 [:integer, max: 10] # inclusive
 ```
 
-If `parse: true` is specified then integer encoded string values such as "10" or
-"-2" are automatically converted to integer.
+Integer encoded string values such as "10" or "-2" are automatically converted
+to integer.
 
 ### Literal
 

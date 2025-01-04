@@ -12,12 +12,12 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :string1, [:string, empty: false, strip: true, minlength: 1, maxlength: 100]
 
-    param :integer1, [:integer, parse: true, min: 1, max: 100]
+    param :integer1, [:integer, min: 1, max: 100]
 
     param :hash1, [
       :hash,
       [:string, empty: false],
-      [:description, "A description of the hash values", [:array, [:integer, min: 0, max: 10, parse: true]]]
+      [:description, "A description of the hash values", [:array, [:integer, min: 0, max: 10]]]
     ]
 
     param :agreement1, :agreement

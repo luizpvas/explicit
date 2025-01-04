@@ -9,4 +9,5 @@
 - Rename env var used to save request examples from `EXPLICIT_PERSIST_EXAMPLES`
   to `UPDATE_REQUEST_EXAMPLES`.
 - Add `company_logo_url(url)` to documentation builder.
-- Drop `parse: true` option from the following types: `:agreement`, `:boolean`.
+- Drop `parse: true` option from the following types: `:agreement`, `:boolean`
+  and `:integer`.
