@@ -7,8 +7,6 @@ class Explicit::Type
     case type
     in :agreement
       Explicit::Type::Agreement.new
-    in [:agreement, options]
-      Explicit::Type::Agreement.new(**options)
 
     in [:array, itemtype]
       Explicit::Type::Array.new(itemtype:)

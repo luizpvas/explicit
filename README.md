@@ -377,12 +377,11 @@ examples from tests**
 
 ```ruby
 :agreement
-[:agreement, parse: true]
 ```
 
 A boolean that must always be true. Useful for terms of use or agreement
-acceptances. If `parse: true` is specified then the following
-values are accepted: `true`, `"true"`, `"on"`, `"1"` and `1`.
+acceptances. The following values are accepted: `true`, `"true"`, `"on"`, `"1"`
+and `1`.
 
 ### Array
 

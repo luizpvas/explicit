@@ -20,7 +20,7 @@ class API::V1::EverythingController < API::V1::BaseController
       [:description, "A description of the hash values", [:array, [:integer, min: 0, max: 10, parse: true]]]
     ]
 
-    param :agreement1, [:agreement, parse: true]
+    param :agreement1, :agreement
 
     param :bigdecimal1, [:bigdecimal, min: 0, max: 100]
 

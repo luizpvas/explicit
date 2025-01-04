@@ -5,13 +5,10 @@ require "test_helper"
 class Explicit::Type::AgreementTest < ActiveSupport::TestCase
   test "ok" do
     assert_ok true, validate(true, :agreement)
-  end
-
-  test "parse" do
-    assert_ok true, validate("true", [:agreement, parse: true])
-    assert_ok true, validate("1", [:agreement, parse: true])
-    assert_ok true, validate(1, [:agreement, parse: true])
-    assert_ok true, validate("on", [:agreement, parse: true])
+    assert_ok true, validate("true", :agreement)
+    assert_ok true, validate("1", :agreement)
+    assert_ok true, validate(1, :agreement)
+    assert_ok true, validate("on", :agreement)
   end
 
   test "error" do

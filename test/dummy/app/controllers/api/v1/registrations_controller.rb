@@ -24,7 +24,7 @@ class API::V1::RegistrationsController < API::V1::BaseController
       [:string, minlength: 8],
       description: "Minimum 8 characters. No other rules."
 
-    param :terms_of_use, [:agreement, parse: true]
+    param :terms_of_use, :agreement
 
     response 200, { token: :string }
     response 422, { error: "email_already_taken" }
