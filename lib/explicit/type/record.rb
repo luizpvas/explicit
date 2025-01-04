@@ -46,7 +46,7 @@ class Explicit::Type::Record < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_parameters
       attributes.map do |name, type|
         {
           name:,

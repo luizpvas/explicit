@@ -107,7 +107,7 @@ module Explicit::Documentation::Output
               tags: [section.name],
               summary: request.get_title,
               description: request.get_description,
-              parameters: request.params_type.swagger_type,
+              parameters: request.params_type.swagger_parameters,
               responses: build_responses(request)
             }
           end
