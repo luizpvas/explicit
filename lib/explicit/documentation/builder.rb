@@ -27,6 +27,10 @@ module Explicit::Documentation
       @current_section = nil
     end
 
+    def requests
+      @sections.flat_map(&:pages).filter(&:request?).map(&:request)
+    end
+
     def add(*requests, **opts)
       raise ArgumentError(<<-MD) if @current_section.nil?
         You must define a section before adding a page. For example:
@@ -52,18 +56,16 @@ module Explicit::Documentation
 
       examples = ::JSON.parse(encoded)
 
-      @sections.each do |section|
-        section.pages.filter(&:request?).each do |page|
-          examples[page.request.gid]&.each do |example|
-            page.request.add_example(
-              params: example["params"].with_indifferent_access,
-              headers: example["headers"],
-              response: {
-                status: example.dig("response", "status"),
-                data: example.dig("response", "data").with_indifferent_access
-              }
-            )
-          end
+      requests.each do |request|
+        examples[request.gid]&.each do |example|
+          request.add_example(
+            params: example["params"].with_indifferent_access,
+            headers: example["headers"],
+            response: {
+              status: example.dig("response", "status"),
+              data: example.dig("response", "data").with_indifferent_access
+            }
+          )
         end
       end
     rescue JSON::ParserError
