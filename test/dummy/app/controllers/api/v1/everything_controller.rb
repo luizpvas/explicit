@@ -30,6 +30,8 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :date_time_posix, :date_time_posix
 
+    param :enum1, [:enum, %w[one two three]]
+
     response 200, { message: "ok" }
   end
   
