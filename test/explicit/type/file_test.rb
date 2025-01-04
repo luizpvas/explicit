@@ -16,17 +16,20 @@ class Explicit::Type::FileTest < ActiveSupport::TestCase
   test "maxsize" do
     file = file_fixture_upload("this_is_fine.png", "image/png")
 
-    validate(file, [:file, maxsize: 2.megabytes]) => [:ok, _]
+    validate(file, [:file, max_size: 2.megabytes]) => [:ok, _]
 
-    assert_error "must be smaller than 10240 bytes", validate(file, [:file, maxsize: 10.kilobytes])
+    assert_error "must be smaller than 10240 bytes", validate(file, [:file, max_size: 10.kilobytes])
   end
 
-  test "mime" do
+  test "content_types" do
     file = file_fixture_upload("this_is_fine.png", "image/png")
 
-    validate(file, [:file, mime: %w[image/jpeg image/png]]) => [:ok, _]
+    validate(file, [:file, content_types: %w[image/jpeg image/png]]) => [:ok, _]
 
-    assert_error 'file mime type must be one of: ["image/jpeg", "application/pdf"]', validate(file, [:file, mime: %w[image/jpeg application/pdf]])
+    assert_error(
+      'file content type must be one of: ["image/jpeg", "application/pdf"]',
+      validate(file, [:file, content_types: %w[image/jpeg application/pdf]])
+    )
   end
 
   test "error" do

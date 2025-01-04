@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class Explicit::Type::File < Explicit::Type
-  attr_reader :maxsize, :mime
+  attr_reader :max_size, :content_types
 
   FILE_CLASSES = [
     ActionDispatch::Http::UploadedFile,
     Rack::Test::UploadedFile
   ].freeze
 
-  def initialize(maxsize: nil, mime: nil)
-    @maxsize = maxsize
-    @mime = Array(mime)
+  def initialize(max_size: nil, content_types: nil)
+    @max_size = max_size
+    @content_types = Array(content_types)
   end
 
   def validate(value)
@@ -18,12 +18,12 @@ class Explicit::Type::File < Explicit::Type
       return [:error, error_i18n("file")] 
     end
 
-    if maxsize && value.size > maxsize
-      return [:error, error_i18n("file_maxsize", maxsize:)]
+    if max_size && value.size > max_size
+      return [:error, error_i18n("file_max_size", max_size:)]
     end
 
-    if mime.any? && !mime.include?(value.content_type)
-      return [:error, error_i18n("file_mime", allowed_mimes: mime.inspect)]
+    if content_types.any? && !content_types.include?(value.content_type)
+      return [:error, error_i18n("file_content_type", allowed_content_types: content_types.inspect)]
     end
 
     [:ok, value]
@@ -39,7 +39,7 @@ class Explicit::Type::File < Explicit::Type
     end
 
     def has_details?
-      maxsize.present? || mime.present?
+      max_size.present? || content_types.any?
     end
   end
 end

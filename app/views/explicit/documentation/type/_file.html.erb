@@ -1,9 +1,9 @@
 <%= type_constraints do %>
-  <% if type.maxsize.present? %>
-    <%= type_constraint "max size:", number_to_human_size(type.maxsize, precision: 2) %>
+  <% if type.max_size.present? %>
+    <%= type_constraint "max size:", number_to_human_size(type.max_size, precision: 2) %>
   <% end %>
 
-  <% if type.mime.any? %>
-    <%= type_constraint "mime type:", type.mime.join(", ") %>
+  <% if type.content_types.any? %>
+    <%= type_constraint "content types:", type.content_types.join(", ") %>
   <% end %>
 <% end %>

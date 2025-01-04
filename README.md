@@ -486,8 +486,8 @@ match valuetype. If you are expecting a hash with a specific set of keys use a
 
 ```ruby
 :file
-[:file, maxsize: 2.megabytes]
-[:file, mime: %w[image/png image/jpeg]]
+[:file, max_size: 2.megabytes]
+[:file, content_types: %w[image/png image/jpeg]]
 ```
 
 Value must be an uploaded file using "multipart/form-data" encoding.

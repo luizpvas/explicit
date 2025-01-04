@@ -8,7 +8,7 @@ class API::V1::EverythingController < API::V1::BaseController
       This endpoint uses all available features in the Explicit gem.
     MD
 
-    param :file1, [:file, maxsize: 2.megabytes, mime: %w[image/jpeg image/png]]
+    param :file1, [:file, max_size: 2.megabytes, content_types: %w[image/jpeg image/png]]
 
     param :string1, [:string, empty: false, strip: true, minlength: 1, maxlength: 100]
 
