@@ -28,6 +28,8 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :date_time_iso8601, :date_time_iso8601
 
+    param :date_time_posix, :date_time_posix
+
     response 200, { message: "ok" }
   end
   
