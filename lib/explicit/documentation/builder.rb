@@ -7,6 +7,7 @@ module Explicit::Documentation
     def initialize
       @sections = []
       @current_section = nil
+      @version = "1.0"
       @swagger = Output::Swagger.new(self)
       @webpage = Output::Webpage.new(self)
     end
@@ -16,6 +17,9 @@ module Explicit::Documentation
 
     def company_logo_url(url) = (@company_logo_url = url)
     def get_company_logo_url = @company_logo_url
+
+    def version(version) = (@version = version)
+    def get_version = @version
 
     def section(name, &block)
       @current_section = Section.new(name:, pages: [])

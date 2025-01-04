@@ -246,6 +246,7 @@ documentation for your API. The following methods are available:
 
 - `page_title(text)` - Sets the web page title.
 - `company_logo_url(url)` - Shows the company logo above the navigation menu.
+- `version(semver)` - Sets the version of the API. Default: "1.0"
 - `section(name, &block)` - Adds a section to the navigation menu.
 - `add(request)` - Adds a request to the section
 - `add(title:, partial:)` - Adds a partial to the section
@@ -257,6 +258,7 @@ module MyApp::API::V1
   Documentation = Explicit::Documentation.new do
     page_title "Acme API Docs"
     company_logo_url "https://my-app.com/logo.png"
+    version "1.0.5"
 
     section "Introduction" do
       add title: "About", partial: "api/v1/introduction/about"
