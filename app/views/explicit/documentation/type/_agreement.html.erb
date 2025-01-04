@@ -1,1 +1,10 @@
 <!-- TODO -->
+<% if type.parse %>
+  The following values are accepted:
+
+  <div class="inline-flex flex-wrap gap-2">
+    <% [true, "true", "1", 1, "on"].each do |value| %>
+      <code class="font-mono text-xs bg-neutral-200 p-px"><%= value.inspect %></code>
+    <% end %>
+  </div>
+<% end %>

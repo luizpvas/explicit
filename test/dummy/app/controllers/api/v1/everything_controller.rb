@@ -8,6 +8,8 @@ class API::V1::EverythingController < API::V1::BaseController
       This endpoint uses all available features in the Explicit gem.
     MD
 
+    param :file1, [:file, maxsize: 2.megabytes, mime: %w[image/jpeg image/png]]
+
     param :string1, [:string, empty: false, strip: true, minlength: 1, maxlength: 100]
 
     param :integer1, [:integer, parse: true, min: 1, max: 100]
@@ -18,7 +20,7 @@ class API::V1::EverythingController < API::V1::BaseController
       [:description, "A description of the hash values", [:array, [:integer, min: 0, max: 10, parse: true]]]
     ]
 
-    param :file1, [:file, maxsize: 2.megabytes, mime: %w[image/jpeg image/png]]
+    param :agreement1, [:agreement, parse: true]
 
     response 200, { message: "ok" }
   end
