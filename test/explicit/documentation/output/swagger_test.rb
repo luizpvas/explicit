@@ -15,6 +15,10 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     assert_equal "localhost:3000", swagger.to_json[:host]
   end
 
+  test "schemes" do
+    assert_equal ["http"], swagger.to_json[:schemes]
+  end
+
   test "basePath" do
     assert_equal "/api/v1", swagger.to_json[:basePath]
   end
@@ -23,10 +27,6 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     assert_equal "Auth", swagger.to_json.dig(:tags, 0, :name)
     assert_equal "Articles", swagger.to_json.dig(:tags, 1, :name)
     assert_equal "Others", swagger.to_json.dig(:tags, 2, :name)
-  end
-
-  test "schemes" do
-    assert_equal ["http"], swagger.to_json[:schemes]
   end
 
   private
