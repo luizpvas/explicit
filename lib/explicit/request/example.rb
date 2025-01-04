@@ -34,13 +34,15 @@ class Explicit::Request
 
           non_file_params = body_params.except(*file_params.keys)
 
-          curl_non_file_params = "-d '#{non_file_params.to_query}'"
+          curl_non_file_params = non_file_params.to_query.split("&").map do |key_value|
+            "-F \"#{key_value.gsub("%5B", "[").gsub("%5D", "]")}\""
+          end
           
           curl_file_params = file_params.map do |name, _|
-            "--form #{name}=\"#{body_params[name]}\""
+            "-F #{name}=\"#{body_params[name]}\""
           end
 
-          [curl_non_file_params].concat(curl_file_params)
+          curl_non_file_params.concat(curl_file_params)
         else
           ["-d '#{JSON.pretty_generate(body_params)}'"]
         end

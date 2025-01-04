@@ -115,8 +115,8 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
     assert_equal request.examples[200].first.to_curl_lines, [
       'curl -XPOST "http://localhost:3000/api"',
       '-H "Content-Type: multipart/form-data"',
-      "-d 'name=foo'",
-      '--form file="@my_file.png"'
+      '-F "name=foo"',
+      '-F file="@my_file.png"'
     ]
   end
 end
