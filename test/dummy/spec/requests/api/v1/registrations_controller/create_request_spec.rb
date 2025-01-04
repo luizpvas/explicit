@@ -12,7 +12,7 @@ describe API::V1::RegistrationsController::CreateRequest, type: :request do
         params: {
           name: "Yukihiro Matsumoto",
           email_address: "matz@ruby.org",
-          password: "mystrongpassword",
+          password: "mystrongpassword#'\"",
           terms_of_use: true
         },
         save_as_example: true

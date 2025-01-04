@@ -11,7 +11,7 @@ class API::V1::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       params: {
         name: "Yukihiro Matsumoto",
         email_address: "matz@ruby.org",
-        password: "mystrongpassword",
+        password: "mystrongpassword#'\"",
         terms_of_use: true
       },
       save_as_example: true

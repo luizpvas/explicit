@@ -69,7 +69,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
       'curl -XGET "http://localhost:3000/api"',
       '-H "Content-Type: application/json"',
       '-H "Authorization: Bearer abcd-1234"',
-      "-d '#{JSON.pretty_generate(request.examples[200].first.params)}'"
+      "-d @- << EOF\n#{JSON.pretty_generate(request.examples[200].first.params)}\nEOF"
     ]
   end
 

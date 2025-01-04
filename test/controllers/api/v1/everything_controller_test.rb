@@ -7,7 +7,7 @@ class API::V1::EverythingControllerTest < ActionDispatch::IntegrationTest
     response = fetch(
       API::V1::EverythingController::Request,
       params: {
-        string1: "hello",
+        string1: "hello#'\"",
         integer1: 42,
         hash1: {
           "key1" => [1, 2, 3],

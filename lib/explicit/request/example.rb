@@ -35,7 +35,7 @@ class Explicit::Request
           non_file_params = body_params.except(*file_params.keys)
 
           curl_non_file_params = non_file_params.to_query.split("&").map do |key_value|
-            "-F \"#{key_value.gsub("%5B", "[").gsub("%5D", "]")}\""
+            "-F \"#{CGI.unescape(key_value).gsub('"', '\"')}\""
           end
           
           curl_file_params = file_params.map do |name, _|
@@ -44,7 +44,8 @@ class Explicit::Request
 
           curl_non_file_params.concat(curl_file_params)
         else
-          ["-d '#{JSON.pretty_generate(body_params)}'"]
+          # https://stackoverflow.com/questions/34847981/curl-with-multiline-of-json
+          ["-d @- << EOF\n#{JSON.pretty_generate(body_params)}\nEOF"]
         end
 
       [curl_request].concat(curl_headers).concat(curl_body)

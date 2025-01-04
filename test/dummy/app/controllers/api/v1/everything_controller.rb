@@ -8,7 +8,7 @@ class API::V1::EverythingController < API::V1::BaseController
       This endpoint uses all available features in the Explicit gem.
     MD
 
-    param :string1, [:string, empty: false, strip: true, minlength: 1, maxlength: 100, format: /\A[a-z]+\z/]
+    param :string1, [:string, empty: false, strip: true, minlength: 1, maxlength: 100]
 
     param :integer1, [:integer, parse: true, min: 1, max: 100]
 
