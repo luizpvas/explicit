@@ -42,4 +42,12 @@ class Explicit::Type::File < Explicit::Type
       max_size.present? || content_types.any?
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "file"
+      }
+    end
+  end
 end

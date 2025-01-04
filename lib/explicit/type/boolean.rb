@@ -35,4 +35,12 @@ class Explicit::Type::Boolean < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "boolean"
+      }
+    end
+  end
 end

@@ -60,4 +60,12 @@ class Explicit::Type::Integer < Explicit::Type
       min.present? || max.present? || !negative.nil? || !positive.nil?
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "integer"
+      }
+    end
+  end
 end

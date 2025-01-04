@@ -42,4 +42,13 @@ class Explicit::Type::Hash < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "object",
+        additionalProperties: valuetype.swagger_type
+      }
+    end
+  end
 end

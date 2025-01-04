@@ -50,4 +50,12 @@ class Explicit::Type::String < Explicit::Type
       !empty.nil? || format.present? || minlength.present? || maxlength.present?
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "string"
+      }
+    end
+  end
 end

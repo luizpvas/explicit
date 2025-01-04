@@ -41,4 +41,13 @@ class Explicit::Type::BigDecimal < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "string",
+        format: "date time iso8601"
+      }
+    end
+  end
 end

@@ -28,4 +28,13 @@ class Explicit::Type::Enum < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "string",
+        enum: allowed_values
+      }
+    end
+  end
 end

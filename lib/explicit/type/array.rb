@@ -42,4 +42,13 @@ class Explicit::Type::Array < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_type
+      {
+        type: "array",
+        items: itemtype.swagger_type
+      }
+    end
+  end
 end

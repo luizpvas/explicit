@@ -104,7 +104,12 @@ module Explicit::Documentation::Output
               route.method.to_s.downcase => {
                 tags: [section.name],
                 summary: request.get_title,
-                description: request.get_description
+                description: request.get_description,
+                consumes: [
+                  request.accepts_file_upload? ? "multipart/form-data" : "application/json"
+                ],
+                produces: ["application/json"],
+                parameters: request.params_type.swagger_type
               }
             }
           end

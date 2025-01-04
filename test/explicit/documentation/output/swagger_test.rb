@@ -29,6 +29,16 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     assert_equal "Others", swagger.dig(:tags, 2, :name)
   end
 
+  test "registration request" do
+    swagger.dig(:paths, "/registrations", "post").tap do |req|
+      assert_equal ["Auth"], req.dig(:tags)
+      assert_equal "Registration", req.dig(:summary)
+      assert_match "Attempts to register a new user", req.dig(:description)
+      assert_equal ["application/json"], req.dig(:consumes)
+      assert_equal ["application/json"], req.dig(:produces)
+    end
+  end
+
   private
     def swagger
       @swagger ||= API::V1::Documentation.documentation_builder.swagger.to_json
