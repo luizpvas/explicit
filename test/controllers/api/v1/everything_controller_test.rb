@@ -15,7 +15,8 @@ class API::V1::EverythingControllerTest < ActionDispatch::IntegrationTest
           "key2" => [4, 5, 6]
         },
         agreement1: true,
-        bigdecimal1: "10.5"
+        bigdecimal1: "10.5",
+        boolean1: true
       },
       save_as_example: true
     )

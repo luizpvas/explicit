@@ -1,1 +1,9 @@
 <!-- TODO -->
+
+The following values are accepted:
+
+<div class="inline-flex flex-wrap gap-2">
+  <% Explicit::Type::Boolean::VALUES.each do |value, _| %>
+    <code class="font-mono text-xs bg-neutral-200 p-px"><%= value.inspect %></code>
+  <% end %>
+</div>

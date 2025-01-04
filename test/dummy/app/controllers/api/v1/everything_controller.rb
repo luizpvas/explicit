@@ -24,6 +24,8 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :bigdecimal1, [:bigdecimal, min: 0, max: 100]
 
+    param :boolean1, :boolean
+
     response 200, { message: "ok" }
   end
   
