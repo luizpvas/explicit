@@ -4,8 +4,11 @@ class API::V1::EverythingController < API::V1::BaseController
   Request = API::V1::Request.new do
     post "/everything"
 
+    title "Everything"
+
     description <<~MD
-      This endpoint uses all available features in the Explicit gem.
+      This request uses all available types in the Explicit gem to showcase and
+      test them.
     MD
 
     param :file1, [:file, max_size: 2.megabytes, content_types: %w[image/jpeg image/png]]
