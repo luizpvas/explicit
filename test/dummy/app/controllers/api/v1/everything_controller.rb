@@ -22,6 +22,8 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :agreement1, [:agreement, parse: true]
 
+    param :bigdecimal1, [:bigdecimal, min: 0, max: 100]
+
     response 200, { message: "ok" }
   end
   

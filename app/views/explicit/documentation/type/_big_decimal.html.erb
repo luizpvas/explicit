@@ -1,1 +1,4 @@
-<!-- TODO -->
+<%= type_constraints do %>
+  <%= type_constraint "min:", type.min if type.min.present? %>
+  <%= type_constraint "max:", type.max if type.max.present? %>
+<% end %>
