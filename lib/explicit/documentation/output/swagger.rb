@@ -25,9 +25,10 @@ module Explicit::Documentation::Output
 
     def swagger_document
       {
-        swagger: "2.0",
+        openapi: "3.0.1",
         info: {
           title: builder.get_page_title,
+          version: builder.get_version
         },
         host: get_host_from_base_url,
         schemes: get_schemes_from_base_url,
@@ -95,24 +96,18 @@ module Explicit::Documentation::Output
       end
 
       def build_paths_from_requests
-        paths = {}
+        paths = Hash.new { |hash, key| hash[key] = {} }
 
         builder.sections.filter(&:contains_request?).each do |section|
           section.pages.filter(&:request?).each do |page|
             request = page.request
             route = request.routes.first
 
-            paths[route.path_with_curly_syntax] = {
-              route.method.to_s.downcase => {
-                tags: [section.name],
-                summary: request.get_title,
-                description: request.get_description,
-                consumes: [
-                  request.accepts_file_upload? ? "multipart/form-data" : "application/json"
-                ],
-                produces: ["application/json"],
-                parameters: request.params_type.swagger_type
-              }
+            paths[route.path_with_curly_syntax][route.method.to_s] = {
+              tags: [section.name],
+              summary: request.get_title,
+              description: request.get_description,
+              parameters: request.params_type.swagger_type
             }
           end
         end
