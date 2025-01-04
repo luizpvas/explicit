@@ -16,7 +16,8 @@ class API::V1::EverythingControllerTest < ActionDispatch::IntegrationTest
         },
         agreement1: true,
         bigdecimal1: "10.5",
-        boolean1: true
+        boolean1: true,
+        date_time_iso8601: "2021-01-01T12:00:00Z"
       },
       save_as_example: true
     )

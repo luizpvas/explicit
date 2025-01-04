@@ -25,5 +25,3 @@ en:
       minlength: "length must be at least %{minlength}"
       maxlength: "length must be at most %{maxlength}"
       format: "must have format %{regex}"
-    documentation:
-      params_header: Request params

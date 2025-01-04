@@ -26,6 +26,8 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :boolean1, :boolean
 
+    param :date_time_iso8601, :date_time_iso8601
+
     response 200, { message: "ok" }
   end
   
