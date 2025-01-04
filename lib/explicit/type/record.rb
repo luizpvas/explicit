@@ -48,13 +48,23 @@ class Explicit::Type::Record < Explicit::Type
   concerning :Swagger do
     def swagger_type
       attributes.map do |name, type|
-        type.swagger_type.merge({
+        {
           name:,
           in: type.param_location_path? ? "path" : "body",
           description: type.description,
           required: !type.nilable,
-        })
+          schema: type.swagger_schema
+        }
       end
+    end
+
+    def swagger_schema
+      {
+        type: "object",
+        properties: attributes.to_h do |name, type|
+          [name, type.swagger_schema]
+        end
+      }
     end
   end
 end

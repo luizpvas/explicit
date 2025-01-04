@@ -107,12 +107,29 @@ module Explicit::Documentation::Output
               tags: [section.name],
               summary: request.get_title,
               description: request.get_description,
-              parameters: request.params_type.swagger_type
+              parameters: request.params_type.swagger_type,
+              responses: build_responses(request)
             }
           end
         end
 
         paths
+      end
+
+      def build_responses(request)
+        responses = {}
+
+        request.responses.each do |status, typespec|
+          responses[status] = {
+            content: {
+              "application/json" => {
+                examples: {},
+                schema: {}
+              }
+            },
+            description: Rack::Utils::HTTP_STATUS_CODES[status]
+          }
+        end
       end
   end
 end

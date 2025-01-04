@@ -44,7 +44,7 @@ class Explicit::Type::File < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_schema
       {
         type: "file"
       }

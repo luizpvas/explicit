@@ -44,10 +44,10 @@ class Explicit::Type::Hash < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_schema
       {
         type: "object",
-        additionalProperties: valuetype.swagger_type
+        additionalProperties: valuetype.swagger_schema
       }
     end
   end

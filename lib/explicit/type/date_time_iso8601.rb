@@ -28,7 +28,7 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_schema
       {
         type: "string"
       }

@@ -30,7 +30,7 @@ class Explicit::Type::DateTimePosix < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_schema
       {
         type: "integer",
         format: "date time posix"

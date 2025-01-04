@@ -44,10 +44,10 @@ class Explicit::Type::Array < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_schema
       {
         type: "array",
-        items: itemtype.swagger_type
+        items: itemtype.swagger_schema
       }
     end
   end

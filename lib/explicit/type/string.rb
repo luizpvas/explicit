@@ -52,7 +52,7 @@ class Explicit::Type::String < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_schema
       {
         type: "string"
       }

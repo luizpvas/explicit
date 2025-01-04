@@ -30,7 +30,7 @@ class Explicit::Type::Enum < Explicit::Type
   end
 
   concerning :Swagger do
-    def swagger_type
+    def swagger_schema
       {
         type: "string",
         enum: allowed_values
