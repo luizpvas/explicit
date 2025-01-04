@@ -17,5 +17,11 @@ class Explicit::Request
         acc_path.gsub(":#{key}", value.to_s)
       end
     end
+
+    def path_with_curly_syntax
+      params.reduce(path) do |acc_path, param|
+        acc_path.gsub(":#{param}", "{#{param}}")
+      end
+    end
   end
 end

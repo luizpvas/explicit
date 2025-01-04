@@ -24,4 +24,16 @@ class Explicit::Request::RouteTest < ActiveSupport::TestCase
       Route.new("post", "/users/:user_id/articles/:id").replace_path_params({ user_id: 15, id: 10 })
     )
   end
+
+  test "path_with_curly_syntax" do
+    assert_equal(
+      "/articles/{id}",
+      Route.new("post", "/articles/:id").path_with_curly_syntax
+    )
+
+    assert_equal(
+      "/users/{user_id}/articles/{id}",
+      Route.new("post", "/users/:user_id/articles/:id").path_with_curly_syntax
+    )
+  end
 end
