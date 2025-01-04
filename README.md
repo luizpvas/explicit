@@ -3,6 +3,8 @@
 Explicit is a validation and documentation library for REST APIs that enforces
 documented types at runtime.
 
+![Documentation example screenshot](https://raw.githubusercontent.com/luizpvas/explicit/refs/heads/main/assets/webapp_screenshot.png)
+
 1. [Installation](#installation)
 2. [Defining requests](#defining-requests)
 3. [Reusing types](#reusing-types)
