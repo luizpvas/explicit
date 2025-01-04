@@ -35,4 +35,15 @@ class Explicit::Type::OneOf < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "object",
+        oneOf: subtypes.map(&:swagger_schema).map do |schema|
+          schema.slice(:properties)
+        end
+      }
+    end
+  end
 end

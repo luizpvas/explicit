@@ -119,17 +119,18 @@ module Explicit::Documentation::Output
       def build_responses(request)
         responses = {}
 
-        request.responses.each do |status, typespec|
+        request.responses.each do |status, _|
           responses[status] = {
             content: {
               "application/json" => {
-                examples: {},
-                schema: {}
+                schema: request.responses_type(status:).swagger_schema
               }
             },
             description: Rack::Utils::HTTP_STATUS_CODES[status]
           }
         end
+
+        responses
       end
   end
 end

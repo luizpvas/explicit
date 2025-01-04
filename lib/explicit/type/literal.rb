@@ -28,4 +28,13 @@ class Explicit::Type::Literal < Explicit::Type
       false
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "string",
+        enum: [@value]
+      }
+    end
+  end
 end
