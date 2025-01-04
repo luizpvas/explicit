@@ -4,11 +4,12 @@ require "test_helper"
 
 class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
   test "version" do
-    assert_equal "2.0", swagger[:swagger]
+    assert_equal "3.0.1", swagger[:openapi]
   end
 
   test "info" do
     assert_equal "Acme API", swagger.dig(:info, :title)
+    assert_equal "1.0.1", swagger.dig(:info, :version)
   end
 
   test "host" do
@@ -34,8 +35,6 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
       assert_equal ["Auth"], req.dig(:tags)
       assert_equal "Registration", req.dig(:summary)
       assert_match "Attempts to register a new user", req.dig(:description)
-      assert_equal ["application/json"], req.dig(:consumes)
-      assert_equal ["application/json"], req.dig(:produces)
     end
   end
 
