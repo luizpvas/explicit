@@ -41,6 +41,6 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
 
   private
     def swagger
-      @swagger ||= API::V1::Documentation.documentation_builder.swagger.to_json
+      @swagger ||= API::V1::Documentation.documentation_builder.swagger.swagger_document
     end
 end

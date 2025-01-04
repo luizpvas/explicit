@@ -23,7 +23,7 @@ module Explicit::Documentation::Output
     # definitions
     # externalDocs
 
-    def to_json
+    def swagger_document
       {
         swagger: "2.0",
         info: {
@@ -37,8 +37,10 @@ module Explicit::Documentation::Output
       }
     end
 
-    def call
-      raise NotImplementedError
+    def call(request)
+      @swagger_document ||= swagger_document
+
+      [200, {"Content-Type" => "application/json"}, [@swagger_document.to_json]]
     end
 
     private
