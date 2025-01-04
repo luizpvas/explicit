@@ -22,11 +22,11 @@ class Explicit::Type::OneOf < Explicit::Type
     [:error, errors.join(" OR ")]
   end
 
-  def jsontype
-    @subtypes.all? { _1.is_a?(Explicit::Type::Record) } ? "object" : "any"
-  end
-
   concerning :Webpage do
+    def summary
+      @subtypes.all? { _1.is_a?(Explicit::Type::Record) } ? "object" : "any"
+    end
+
     def partial
       "explicit/documentation/type/one_of"
     end

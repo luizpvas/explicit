@@ -37,11 +37,11 @@ class Explicit::Type::String < Explicit::Type
     [:ok, value]
   end
 
-  def jsontype
-    "string"
-  end
-
   concerning :Webpage do
+    def summary
+      "string"
+    end
+
     def partial
       "explicit/documentation/type/string"
     end

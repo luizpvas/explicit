@@ -15,12 +15,11 @@ class Explicit::Type::Literal < Explicit::Type
     end
   end
 
-  def jsontype
-    @value.inspect
-    # @value.is_a?(::String) ? "string" : "integer"
-  end
-
   concerning :Webpage do
+    def summary
+      @value.inspect
+    end
+
     def partial
       nil
     end

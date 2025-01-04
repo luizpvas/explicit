@@ -13,11 +13,11 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
     [:error, error_i18n("date_time_iso8601")]
   end
 
-  def jsontype
-    "string"
-  end
-
   concerning :Webpage do
+    def summary
+      "string"
+    end
+
     def partial
       "explicit/documentation/type/date_time_iso8601"
     end

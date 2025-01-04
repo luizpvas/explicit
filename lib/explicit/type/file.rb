@@ -29,11 +29,11 @@ class Explicit::Type::File < Explicit::Type
     [:ok, value]
   end
 
-  def jsontype
-    "file"
-  end
-
   concerning :Webpage do
+    def summary
+      "file"
+    end
+
     def partial
       "explicit/documentation/type/file"
     end

@@ -15,11 +15,11 @@ class Explicit::Type::DateTimePosix < Explicit::Type
     return [:error, error_i18n("date_time_posix")]
   end
 
-  def jsontype
-    "integer"
-  end
-
   concerning :Webpage do
+    def summary
+      "integer"
+    end
+
     def partial
       "explicit/documentation/type/date_time_posix"
     end

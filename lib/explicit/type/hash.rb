@@ -29,11 +29,11 @@ class Explicit::Type::Hash < Explicit::Type
     [:ok, validated_hash]
   end
 
-  def jsontype
-    "object"
-  end
-
   concerning :Webpage do
+    def summary
+      "object"
+    end
+
     def partial
       "explicit/documentation/type/hash"
     end

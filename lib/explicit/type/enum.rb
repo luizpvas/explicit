@@ -15,11 +15,11 @@ class Explicit::Type::Enum < Explicit::Type
     end
   end
 
-  def jsontype
-    "string"
-  end
-
   concerning :Webpage do
+    def summary
+      "string"
+    end
+
     def partial
       "explicit/documentation/type/enum"
     end

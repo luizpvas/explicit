@@ -31,11 +31,11 @@ class Explicit::Type::Record < Explicit::Type
     [:ok, validated_data]
   end
 
-  def jsontype
-    "object"
-  end
-
   concerning :Webpage do
+    def summary
+      "object"
+    end
+
     def partial
       "explicit/documentation/type/record"
     end

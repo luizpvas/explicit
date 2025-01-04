@@ -6,13 +6,13 @@ module ValidationHelper
 
     assert_type_render_webpage!(type)
     assert_type_render_swagger!(type)
-    assert_jsontype!(type)
     
     type.validate(value)
   end
 
   def assert_type_render_webpage!(type)
     assert [true, false].include?(type.has_details?)
+    assert type.summary.present?
 
     if type.has_details?
       Explicit::ApplicationController.render(
@@ -24,9 +24,5 @@ module ValidationHelper
 
   def assert_type_render_swagger!(type)
     # TODO
-  end
-
-  def assert_jsontype!(type)
-    assert type.jsontype.present?
   end
 end

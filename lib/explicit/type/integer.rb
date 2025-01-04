@@ -47,11 +47,11 @@ class Explicit::Type::Integer < Explicit::Type
     [:ok, value]
   end
 
-  def jsontype
-    "integer"
-  end
-
   concerning :Webpage do
+    def summary
+      "integer"
+    end
+
     def partial
       "explicit/documentation/type/integer"
     end

@@ -22,11 +22,11 @@ class Explicit::Type::Boolean < Explicit::Type
     [:ok, value]
   end
 
-  def jsontype
-    "boolean"
-  end
-
   concerning :Webpage do
+    def summary
+      "boolean"
+    end
+
     def partial
       "explicit/documentation/type/boolean"
     end

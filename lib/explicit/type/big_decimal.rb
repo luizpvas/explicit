@@ -28,11 +28,11 @@ class Explicit::Type::BigDecimal < Explicit::Type
     return [:error, error_i18n("bigdecimal")]
   end
 
-  def jsontype
-    "string"
-  end
-
   concerning :Webpage do
+    def summary
+      "string"
+    end
+
     def partial
       "explicit/documentation/type/big_decimal"
     end

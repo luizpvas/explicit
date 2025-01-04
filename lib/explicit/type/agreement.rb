@@ -12,11 +12,11 @@ class Explicit::Type::Agreement < Explicit::Type
     end
   end
 
-  def jsontype
-    "boolean"
-  end
-
   concerning :Webpage do
+    def summary
+      "boolean"
+    end
+
     def partial
       "explicit/documentation/type/agreement"
     end

@@ -29,11 +29,11 @@ class Explicit::Type::Array < Explicit::Type
     [:ok, validated]
   end
 
-  def jsontype
-    "array of #{itemtype.jsontype}"
-  end
-
   concerning :Webpage do
+    def summary
+      "array of #{itemtype.summary}"
+    end
+
     def partial
       "explicit/documentation/type/array"
     end
