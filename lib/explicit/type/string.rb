@@ -55,7 +55,7 @@ class Explicit::Type::String < Explicit::Type
     def swagger_schema
       {
         type: "string",
-        pattern: format.inspect,
+        pattern: format&.inspect,
         minLength: minlength,
         maxLength: maxlength
       }.compact_blank

@@ -38,12 +38,9 @@ class Explicit::Type::OneOf < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
-        type: "object",
-        oneOf: subtypes.map(&:swagger_schema).map do |schema|
-          schema.slice(:properties)
-        end
-      }
+      return subtypes.first.swagger_schema if subtypes.one?
+
+      { oneOf: subtypes.map(&:swagger_schema) }
     end
   end
 end

@@ -89,7 +89,7 @@ class Explicit::Type::Record < Explicit::Type
         type: "object",
         properties:,
         required:,
-      }
+      }.compact_blank
     end
   end
 end
