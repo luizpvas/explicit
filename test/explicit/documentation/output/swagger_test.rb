@@ -38,6 +38,23 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     end
   end
 
+  test "GET /articles/:article_id" do
+    swagger.dig(:paths, "/articles/{article_id}", "get").tap do |req|
+      assert_equal ["Articles"], req.dig(:tags)
+      assert_equal "Get article", req.dig(:summary)
+
+      assert_equal req.dig(:parameters, 0), {
+        name: "article_id",
+        in: "path",
+        required: true,
+        schema: {
+          type: "integer"
+        },
+        style: "form"
+      }
+    end
+  end
+
   private
     def swagger
       @swagger ||= API::V1::Documentation.documentation_builder.swagger.swagger_document

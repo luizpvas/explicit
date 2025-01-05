@@ -82,6 +82,10 @@ class Explicit::Type
     param_location == :path
   end
 
+  def required?
+    !nilable
+  end
+
   def error_i18n(name, context = {})
     key = "explicit.errors.#{name}"
 

@@ -11,18 +11,6 @@ module Explicit::Documentation::Output
       @builder = builder
     end
 
-    # top level attributes:
-    # swagger: 2.0
-    # info
-    # host
-    # basePath
-    # tags
-    # schemes
-    # paths
-    # securityDefinitions
-    # definitions
-    # externalDocs
-
     def swagger_document
       {
         openapi: "3.0.1",
@@ -107,13 +95,29 @@ module Explicit::Documentation::Output
               tags: [section.name],
               summary: request.get_title,
               description: request.get_description,
-              parameters: request.params_type.swagger_parameters,
+              parameters: build_parameters(request),
               responses: build_responses(request)
             }
           end
         end
 
         paths
+      end
+
+      def build_parameters(request)
+        path_params = request.params_type.attributes.filter do |name, type|
+          type.param_location_path?
+        end
+
+        path_params.map do |name, type|
+          {
+            name: name.to_s,
+            in: "path",
+            required: type.required?,
+            schema: type.swagger_schema,
+            style: "form"
+          }
+        end
       end
 
       def build_responses(request)
