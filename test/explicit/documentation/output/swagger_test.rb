@@ -39,8 +39,18 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     swagger.dig(:paths, "/articles/{article_id}", "get").tap do |req|
       assert_equal ["Articles"], req.dig(:tags)
       assert_equal "Get article", req.dig(:summary)
-
+      
       assert_equal req.dig(:parameters, 0), {
+        name: "Authorization",
+        in: "header",
+        required: true,
+        schema: {
+          type: "string"
+        },
+        style: "simple"
+      }
+
+      assert_equal req.dig(:parameters, 1), {
         name: "article_id",
         in: "path",
         required: true,

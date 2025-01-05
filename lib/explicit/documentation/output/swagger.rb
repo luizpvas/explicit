@@ -97,17 +97,29 @@ module Explicit::Documentation::Output
       end
 
       def build_parameters(request)
-        path_params_type = request.params_type.path_params_type
+        headers =
+          request.headers_type.attributes.map do |name, type|
+            {
+              name: name.to_s,
+              in: "header",
+              required: type.required?,
+              schema: type.swagger_schema,
+              style: "simple"
+            }
+          end
 
-        path_params_type.attributes.map do |name, type|
-          {
-            name: name.to_s,
-            in: "path",
-            required: type.required?,
-            schema: type.swagger_schema,
-            style: "simple"
-          }
-        end
+        path_params =
+          request.params_type.path_params_type.attributes.map do |name, type|
+            {
+              name: name.to_s,
+              in: "path",
+              required: type.required?,
+              schema: type.swagger_schema,
+              style: "simple"
+            }
+          end
+
+        headers + path_params
       end
 
       def build_request_body(request)
