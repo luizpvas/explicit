@@ -2,8 +2,8 @@
 
 module Explicit::Documentation::Output
   class Swagger
-    InconsistentBasePathsError = Class.new(RuntimeError)
-    InconsistentBaseURLsError = Class.new(RuntimeError)
+    InconsistentBasePathError = Class.new(RuntimeError)
+    InconsistentBaseURLError = Class.new(RuntimeError)
 
     attr_reader :builder
 
@@ -18,9 +18,11 @@ module Explicit::Documentation::Output
           title: builder.get_page_title,
           version: builder.get_version
         },
-        host: get_host_from_base_url,
-        schemes: get_schemes_from_base_url,
-        basePath: get_base_path,
+        servers: [
+          {
+            url: get_base_url
+          }
+        ],
         tags: build_tags_from_sections,
         paths: build_paths_from_requests
       }
@@ -33,15 +35,16 @@ module Explicit::Documentation::Output
     end
 
     private
-      def get_host_from_base_url
+      def get_base_url
         base_urls = builder.requests.map(&:get_base_url).uniq
+        base_paths = builder.requests.map(&:get_base_path).uniq
 
         if !base_urls.one?
-          raise InconsistentBaseURLsError.new <<~TXT
+          raise InconsistentBaseURLError.new <<~TXT
             There are requests with different base URLs in the same documentation,
             which is not supported by Swagger.
 
-            There are requests with the following base URLs:
+            The following base URLs are present:
 
               #{base_urls.join("\n  ")}
 
@@ -49,24 +52,12 @@ module Explicit::Documentation::Output
           TXT
         end
 
-        URI(base_urls.first).authority
-      end
-
-      def get_schemes_from_base_url
-        url = builder.requests.first.get_base_url
-
-        [URI(url).scheme]
-      end
-
-      def get_base_path
-        base_paths = builder.requests.map(&:get_base_path).uniq
-
         if !base_paths.one?
-          raise InconsistentBasePathsError.new <<~TXT
+          raise InconsistentBasePathError.new <<~TXT
             There are requests with different base paths in the same documentation,
             which is not supported by Swagger.
 
-            There are requests with the following base paths:
+            The following base paths are present:
 
               #{base_paths.join("\n  ")}
 
@@ -74,7 +65,7 @@ module Explicit::Documentation::Output
           TXT
         end
 
-        base_paths.first
+        base_urls.first + base_paths.first
       end
 
       def build_tags_from_sections

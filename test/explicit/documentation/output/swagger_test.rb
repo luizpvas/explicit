@@ -13,15 +13,7 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
   end
 
   test "host" do
-    assert_equal "localhost:3000", swagger[:host]
-  end
-
-  test "schemes" do
-    assert_equal ["http"], swagger[:schemes]
-  end
-
-  test "basePath" do
-    assert_equal "/api/v1", swagger[:basePath]
+    assert_equal "http://localhost:3000/api/v1", swagger.dig(:servers, 0, :url)
   end
 
   test "tags" do
