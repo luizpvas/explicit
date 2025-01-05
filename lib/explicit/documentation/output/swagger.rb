@@ -89,7 +89,7 @@ module Explicit::Documentation::Output
               parameters: build_parameters(request),
               requestBody: build_request_body(request),
               responses: build_responses(request)
-            }
+            }.compact_blank
           end
         end
 
@@ -114,9 +114,7 @@ module Explicit::Documentation::Output
         body_params_type = request.params_type.body_params_type
         content_type = request.accepts_file_upload? ? "multipart/form-data" : "application/json"
 
-        if body_params_type.attributes.empty?
-          return { content: {}, required: false }
-        end
+        return nil if body_params_type.attributes.empty?
 
         {
           content: {

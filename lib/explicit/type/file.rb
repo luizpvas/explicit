@@ -46,7 +46,8 @@ class Explicit::Type::File < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       {
-        type: "file"
+        type: "string",
+        format: "binary"
       }
     end
   end
