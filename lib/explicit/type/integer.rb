@@ -64,8 +64,10 @@ class Explicit::Type::Integer < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       {
-        type: "integer"
-      }
+        type: "integer",
+        minimum: min,
+        maximum: max
+      }.compact_blank
     end
   end
 end

@@ -45,7 +45,8 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
         in: "header",
         required: true,
         schema: {
-          type: "string"
+          type: "string",
+          pattern: "/Bearer [a-zA-Z0-9]{20}/"
         },
         style: "simple"
       }

@@ -29,7 +29,8 @@ class Explicit::Type::Agreement < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       {
-        type: "boolean"
+        type: "boolean",
+        description: "must be true"
       }
     end
   end

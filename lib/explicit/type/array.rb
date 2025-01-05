@@ -47,8 +47,9 @@ class Explicit::Type::Array < Explicit::Type
     def swagger_schema
       {
         type: "array",
-        items: itemtype.swagger_schema
-      }
+        items: itemtype.swagger_schema,
+        minItems: empty ? 0 : 1
+      }.compact_blank
     end
   end
 end

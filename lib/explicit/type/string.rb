@@ -54,8 +54,11 @@ class Explicit::Type::String < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       {
-        type: "string"
-      }
+        type: "string",
+        pattern: format.inspect,
+        minLength: minlength,
+        maxLength: maxlength
+      }.compact_blank
     end
   end
 end

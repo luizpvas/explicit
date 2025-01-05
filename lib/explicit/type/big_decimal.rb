@@ -46,7 +46,8 @@ class Explicit::Type::BigDecimal < Explicit::Type
     def swagger_schema
       {
         type: "string",
-        format: "date time iso8601"
+        pattern: /^\d*\.?\d*$/.inspect,
+        format: "decimal number"
       }
     end
   end

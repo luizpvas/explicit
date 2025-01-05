@@ -30,7 +30,9 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       {
-        type: "string"
+        type: "string",
+        format: "date-time",
+        description: "must be valid according to ISO 8601"
       }
     end
   end
