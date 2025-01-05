@@ -27,7 +27,7 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
       assert_equal ["Auth"], req.dig(:tags)
       assert_equal "Registration", req.dig(:summary)
       assert_match "Attempts to register a new user", req.dig(:description)
-      assert_equal [], req.dig(:parameters)
+      assert_nil req.dig(:parameters)
 
       body_schema = req.dig(:requestBody, :content, "application/json", :schema)
       assert_equal "object", body_schema[:type]
@@ -47,10 +47,10 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
         schema: {
           type: "integer"
         },
-        style: "form"
+        style: "simple"
       }
 
-      assert_equal req.dig(:requestBody), { required: false, content: {} }
+      assert_nil req.dig(:requestBody)
     end
   end
 
