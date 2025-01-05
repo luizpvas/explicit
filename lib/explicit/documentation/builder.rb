@@ -2,9 +2,10 @@
 
 module Explicit::Documentation
   class Builder
-    attr_reader :sections, :swagger, :webpage
+    attr_reader :rails_engine, :sections, :swagger, :webpage
 
-    def initialize
+    def initialize(rails_engine)
+      @rails_engine = rails_engine
       @sections = []
       @current_section = nil
       @version = "1.0"

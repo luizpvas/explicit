@@ -31,6 +31,6 @@ class Explicit::DocumentationTest < ActiveSupport::TestCase
 
   private
     def build_documentation(&block)
-      ::Explicit::Documentation::Builder.new.tap { _1.instance_eval &block }
+      ::Explicit::Documentation::Builder.new(nil).tap { _1.instance_eval &block }
     end
 end

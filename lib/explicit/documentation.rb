@@ -6,17 +6,20 @@ module Explicit::Documentation
   extend self
 
   def new(&block)
-    builder = Builder.new.tap { _1.instance_eval &block }
+    engine = ::Class.new(::Rails::Engine)
 
-    builder.merge_request_examples_from_file!
-
-    ::Class.new(::Rails::Engine).tap do |engine|
-      engine.define_singleton_method(:documentation_builder) { builder }
-      
-      engine.routes.draw do
-        get "/", to: builder.webpage
-        get "/swagger", to: builder.swagger
-      end
+    builder = Builder.new(engine).tap do |builder|
+      builder.instance_eval &block
+      builder.merge_request_examples_from_file!
     end
+
+    engine.define_singleton_method(:documentation_builder) { builder }
+    
+    engine.routes.draw do
+      get "/", to: builder.webpage, as: :explicit_documentation_webpage
+      get "/swagger", to: builder.swagger, as: :explicit_documentation_swagger
+    end
+
+    engine
   end
 end
