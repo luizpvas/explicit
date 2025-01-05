@@ -96,6 +96,7 @@ module Explicit::Documentation::Output
               summary: request.get_title,
               description: request.get_description,
               parameters: build_parameters(request),
+              requestBody: build_request_body(request),
               responses: build_responses(request)
             }
           end
@@ -105,11 +106,9 @@ module Explicit::Documentation::Output
       end
 
       def build_parameters(request)
-        path_params = request.params_type.attributes.filter do |name, type|
-          type.param_location_path?
-        end
+        path_params_type = request.params_type.path_params_type
 
-        path_params.map do |name, type|
+        path_params_type.attributes.map do |name, type|
           {
             name: name.to_s,
             in: "path",
@@ -118,6 +117,24 @@ module Explicit::Documentation::Output
             style: "form"
           }
         end
+      end
+
+      def build_request_body(request)
+        body_params_type = request.params_type.body_params_type
+        content_type = request.accepts_file_upload? ? "multipart/form-data" : "application/json"
+
+        if body_params_type.attributes.empty?
+          return { content: {}, required: false }
+        end
+
+        {
+          content: {
+            content_type => {
+              schema: body_params_type.swagger_schema
+            }
+          },
+          required: body_params_type.attributes.any?
+        }
       end
 
       def build_responses(request)

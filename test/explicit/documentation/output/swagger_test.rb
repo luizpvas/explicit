@@ -30,11 +30,16 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     assert_equal "Others", swagger.dig(:tags, 2, :name)
   end
 
-  test "registration request" do
+  test "POST /registrations" do
     swagger.dig(:paths, "/registrations", "post").tap do |req|
       assert_equal ["Auth"], req.dig(:tags)
       assert_equal "Registration", req.dig(:summary)
       assert_match "Attempts to register a new user", req.dig(:description)
+      assert_equal [], req.dig(:parameters)
+
+      body_schema = req.dig(:requestBody, :content, "application/json", :schema)
+      assert_equal "object", body_schema[:type]
+      assert_equal ["name", "email_address", "password", "terms_of_use"], body_schema[:required]
     end
   end
 
@@ -52,6 +57,8 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
         },
         style: "form"
       }
+
+      assert_equal req.dig(:requestBody), { required: false, content: {} }
     end
   end
 
