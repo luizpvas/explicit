@@ -105,7 +105,7 @@ module Explicit::Documentation::Output
             in: "path",
             required: type.required?,
             schema: type.swagger_schema,
-            style: "form"
+            style: "simple"
           }
         end
       end
@@ -116,11 +116,24 @@ module Explicit::Documentation::Output
 
         return nil if body_params_type.attributes.empty?
 
+        examples = 
+          request.examples
+            .flat_map { |_, examples| examples }
+            .filter_map do |example|
+              case body_params_type.validate(example.params)
+              in [:ok, validated_data] then validated_data
+              in [:error, _] then nil
+              end
+            end
+            .map.with_index { |example, index| [index, { value: example }] }
+            .to_h
+
         {
           content: {
             content_type => {
-              schema: body_params_type.swagger_schema
-            }
+              schema: body_params_type.swagger_schema,
+              examples:
+            }.compact_blank
           },
           required: body_params_type.attributes.any?
         }
@@ -130,11 +143,16 @@ module Explicit::Documentation::Output
         responses = {}
 
         request.responses.each do |status, _|
+          examples = request.examples[status].map.with_index do |example, index|
+            [index.to_s, { value: example.response.data }]
+          end.to_h
+
           responses[status] = {
             content: {
               "application/json" => {
-                schema: request.responses_type(status:).swagger_schema
-              }
+                schema: request.responses_type(status:).swagger_schema,
+                examples: examples
+              }.compact_blank
             },
             description: Rack::Utils::HTTP_STATUS_CODES[status]
           }
