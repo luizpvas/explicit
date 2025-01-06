@@ -93,7 +93,9 @@ class Explicit::Type
   end
 
   def swagger_description(extras)
-    if description.present?
+    if description.present? && extras.empty?
+      description
+    elsif description.present? && extras.any?
       description + "\n\n" + extras.compact_blank.join("\n")
     else
       extras.compact_blank.join("\n")
