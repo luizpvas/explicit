@@ -33,7 +33,8 @@ class Explicit::Type::Enum < Explicit::Type
     def swagger_schema
       {
         type: "string",
-        enum: allowed_values
+        enum: allowed_values,
+        description: swagger_description([])
       }
     end
   end
