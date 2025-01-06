@@ -23,4 +23,13 @@ class Explicit::Type::TestBoolean < ActiveSupport::TestCase
     assert_error "must be a boolean", validate("foo", :boolean)
     assert_error "must be a boolean", validate([], :boolean)
   end
+
+  test "swagger" do
+    type = type([:description, "hello", :boolean])
+
+    assert_equal type.swagger_schema, {
+      type: "boolean",
+      description: "hello"
+    }
+  end
 end

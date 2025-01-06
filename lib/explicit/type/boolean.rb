@@ -39,7 +39,8 @@ class Explicit::Type::Boolean < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       {
-        type: "boolean"
+        type: "boolean",
+        description: swagger_description([])
       }
     end
   end
