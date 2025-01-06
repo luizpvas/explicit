@@ -40,4 +40,16 @@ class Explicit::Type::HashTest < ActiveSupport::TestCase
       validate({ "foo" => "bar" }, [:hash, :string, :integer])
     )
   end
+
+  test "swagger" do
+    type = type([:description, "hello", [:hash, :string, :string, empty: false]])
+
+    assert_equal type.swagger_schema, {
+      type: "object",
+      additionalProperties: {
+        type: "string"
+      },
+      description: "hello\n\n* Must have at least one value"
+    }
+  end
 end

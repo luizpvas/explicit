@@ -3,7 +3,7 @@
 class Explicit::Type::Hash < Explicit::Type
   attr_reader :keytype, :valuetype, :empty
 
-  def initialize(keytype:, valuetype:, empty: nil)
+  def initialize(keytype:, valuetype:, empty: true)
     @keytype = Explicit::Type.build(keytype)
     @valuetype = Explicit::Type.build(valuetype)
     @empty = empty
@@ -47,7 +47,10 @@ class Explicit::Type::Hash < Explicit::Type
     def swagger_schema
       {
         type: "object",
-        additionalProperties: valuetype.swagger_schema
+        additionalProperties: valuetype.swagger_schema,
+        description: swagger_description([
+          empty == false ? "* Must have at least one value" : nil
+        ])
       }
     end
   end

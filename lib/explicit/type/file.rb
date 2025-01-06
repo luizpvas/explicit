@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Explicit::Type::File < Explicit::Type
+  include ActionView::Helpers::NumberHelper
+
   attr_reader :max_size, :content_types
 
   FILE_CLASSES = [
@@ -19,7 +21,7 @@ class Explicit::Type::File < Explicit::Type
     end
 
     if max_size && value.size > max_size
-      return [:error, error_i18n("file_max_size", max_size:)]
+      return [:error, error_i18n("file_max_size", max_size: number_to_human_size(max_size))]
     end
 
     if content_types.any? && !content_types.include?(value.content_type)
@@ -47,7 +49,11 @@ class Explicit::Type::File < Explicit::Type
     def swagger_schema
       {
         type: "string",
-        format: "binary"
+        format: "binary",
+        description: swagger_description([
+          max_size&.then { "* Max size: #{number_to_human_size(_1)}" },
+          content_types.any? ? "* Content types: #{content_types.join(', ')}" : ""
+        ])
       }
     end
   end

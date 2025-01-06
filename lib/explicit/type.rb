@@ -92,7 +92,15 @@ class Explicit::Type
     ::I18n.t(key, **context)
   end
 
+  def swagger_i18n(name, context = {})
+    key = "explicit.swagger.#{name}"
+
+    ::I18n.t(key, **context)
+  end
+
   def swagger_description(extras)
+    extras = extras.compact_blank
+
     if description.present? && extras.empty?
       description
     elsif description.present? && extras.any?

@@ -37,4 +37,35 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
     assert_error "must be an integer", validate({}, :integer)
     assert_error "must be an integer", validate(9.5, :integer)
   end
+
+  test "swagger" do
+    type = type([:description, "hello", [:integer, min: 0, max: 10]])
+
+    assert_equal type.swagger_schema, {
+      type: "integer",
+      minimum: 0,
+      maximum: 10,
+      description: "hello"
+    }
+
+    assert_equal type([:integer, positive: false]).swagger_schema, {
+      type: "integer",
+      description: "Must not be positive"
+    }
+
+    assert_equal type([:integer, positive: true]).swagger_schema, {
+      type: "integer",
+      description: "Must be positive"
+    }
+
+    assert_equal type([:integer, negative: false]).swagger_schema, {
+      type: "integer",
+      description: "Must not be negative"
+    }
+
+    assert_equal type([:integer, negative: true]).swagger_schema, {
+      type: "integer",
+      description: "Must be negative"
+    }
+  end
 end
