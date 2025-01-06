@@ -1,0 +1,3688 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Acme API</title>
+
+  <style>
+    html, body {
+      font-family: sans-serif;
+      font-size: 14px;
+      margin: 0;
+      padding: 0;
+
+      --color-neutral-50: #fafafa;
+      --color-neutral-100: #f5f5f5;
+      --color-neutral-200: #e5e5e5;
+      --color-neutral-300: #d4d4d8;
+      --color-neutral-400: #a3a3a3;
+      --color-neutral-500: #737373;
+      --color-neutral-600: #525252;
+    }
+
+    .page:not(:first-of-type) {
+      border-top: 1px solid var(--color-neutral-200);
+    }
+    .page__url {
+      background: var(--color-neutral-100);
+      border: 1px solid var(--color-neutral-300);
+      font-family: monospace;
+      padding: 0.8rem;
+    }
+    .page__url__shared {
+      color: var(--color-neutral-500);
+    }
+    .page__url__path {
+      font-weight: bold;
+    }
+    .page__container {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .page__request {
+      width: 50%;
+    }
+    .page__response {
+      width: 50%;
+    }
+
+    .markdown code {
+      background: var(--color-neutral-100);
+      color: var(--color-neutral-900);
+    }
+    .markdown p:first-of-type {
+      margin-block-start: 0em;
+    }
+    .markdown p:last-of-type {
+      margin-block-end: 0em;
+    }
+    .markdown ul {
+      list-style-type: disc;
+    }
+    .markdown li {
+      margin-left: 2rem;
+    }
+
+    .record__param {
+      padding: 0.8rem;
+    }
+    .record__param:not(:last-of-type) {
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    .record__summary {
+      display: flex;
+      align-items: end;
+      gap: 1rem;
+    }
+    .record__summary__expand {
+      margin-left: auto;
+      color: var(--color-neutral-400);
+    }
+    .record__constraint {
+      font-size: 12px;
+      background: var(--color-neutral-200);
+      padding: 1px 4px;
+      border-radius: 1px;
+    }
+    .record__subtype {
+      margin-top: 0.5rem;
+    }
+
+    .responses__tabs {
+      display: flex;
+    }
+    .responses__tab {
+      padding: 10px;
+    }
+    .responses__tab.active {
+      border-left: 1px solid var(--color-neutral-300);
+      border-top: 1px solid var(--color-neutral-300);
+      border-right: 1px solid var(--color-neutral-300);
+      border-bottom: 1px solid #FFF;
+      margin-bottom: -1px;
+    }
+    .responses__types {
+      border: 1px solid var(--color-neutral-300);
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+  <div class="flex" x-data="{ activeLink: null }">
+    <section class="bg-neutral-100 border-r w-[280px] shrink-0 h-screen overflow-y-auto">
+        <div class="flex items-center justify-center mt-4 mb-8">
+          <img src="https://raw.githubusercontent.com/luizpvas/explicit/refs/heads/main/assets/logo.svg" class="max-w-full h-auto" />
+        </div>
+
+      <div class="text-center text-xs border-y mb-4 flex divide-x">
+        <div class="p-1 text-neutral-500 w-1/2">
+          Version 1.0.1
+        </div>
+        <div class="p-1 w-1/2">
+          <a target="_blank" class="flex items-center justify-center gap-1 text-neutral-900" href="/api/v1/docs/swagger">
+            <span>Swagger</span>
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+              <path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z" />
+              <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z" />
+            </svg>
+</a>        </div>
+      </div>
+
+      <div class="space-y-4" >
+          <details class="px-4" open>
+            <summary class="font-bold">Introduction</summary>
+
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;about&#39; }" href="#about">About</a>
+          </details>
+          <details class="px-4" open>
+            <summary class="font-bold">Auth</summary>
+
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;registration&#39; }" href="#registration">Registration</a>
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;log-in&#39; }" href="#log-in">Log in</a>
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;log-out&#39; }" href="#log-out">Log out</a>
+          </details>
+          <details class="px-4" open>
+            <summary class="font-bold">Articles</summary>
+
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;create-article&#39; }" href="#create-article">Create article</a>
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;get-article&#39; }" href="#get-article">Get article</a>
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;update-article&#39; }" href="#update-article">Update article</a>
+          </details>
+          <details class="px-4" open>
+            <summary class="font-bold">Others</summary>
+
+              <a class="block pl-4 hover:bg-neutral-200" x-bind:class="{ &#39;bg-neutral-200&#39;: activeLink == &#39;everything&#39; }" href="#everything">Everything</a>
+          </details>
+      </div>
+    </section>
+
+    <main class="relative grow h-screen overflow-auto">
+          <div class="p-8 border-t">
+            <p>
+  This API documentation serves as an example of the Explicit gem.<br/>
+  
+  You can find the source code and complete documentation at <a class="text-blue-600 underline" href="https://github.com/luizpvas/explicit" target="_blank">the github repo</a>.
+</p>
+          </div>
+          <div class="p-8 border-t">
+            <h1
+  class="text-4xl font-bold my-4"
+  id="registration"
+  x-intersect="activeLink = 'registration'"
+>
+  Registration
+</h1>
+
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
+    <div>
+      <span class="font-bold">POST</span>
+      
+      <span class="text-neutral-300">http://localhost:3000/api/v1</span><span class="font-bold">/registrations</span>
+    </div>
+</div>
+
+
+<div class="flex mt-4 gap-8">
+  <div class="page__request space-y-4">
+      <div class="markdown">
+        <p>Attempts to register a new user in the system. Email address must be unique.
+If registration succeeds an authentication token is returned. Use this token
+to authenticate requests with the header <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+
+      </div>
+
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Params
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      name
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>Full name</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      email_address
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>Email address used to login. Case insensitive.</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>format</span> <span>/\A[a-zA-Z0-9.!\#$%&amp;&#39;*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z/</span></div>
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>case</span> <span>insensitive</span></div>
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      password
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>Minimum 8 characters. No other rules.</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>minlength</span> <span>8</span></div>
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      terms_of_use
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      boolean
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          The following values are accepted:
+
+<div class="inline-flex flex-wrap gap-2">
+    <code class="font-mono text-xs bg-neutral-200 p-px">true</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;true&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;on&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;1&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">1</code>
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+  </div>
+
+
+  <div
+    class="page__response"
+    x-data="{ active: 200 }"
+  >
+    <div class="flex">
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 200 }"
+          x-on:click="active = 200"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">200</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 422 }"
+          x-on:click="active = 422"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">422</span>
+        </button>
+    </div>
+
+    <div class="border">
+        <div class="p-4" x-show="active == 200">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      token
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPOST "http://localhost:3000/api/v1/registrations" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "name": "Yukihiro Matsumoto",
+  "email_address": "matz@ruby.org",
+  "password": "mystrongpassword#'\"",
+  "terms_of_use": true
+}
+EOF
+
+# 200 OK
+{
+  "token": "wGVOJPR4zYnP6FAVcnwU"
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 422">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_params&quot;
+    </span>
+
+
+  </div>
+
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      params
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>An object containing error messages for all invalid params</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+    <div class="flex items-center my-4">
+      <div class="h-px w-full flex-grow bg-neutral-200"></div>
+      <div class="mx-4 text-neutral-400 text-xs">OR</div>
+      <div class="h-px w-full flex-grow bg-neutral-300"></div>
+    </div>
+  <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;email_already_taken&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 2 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Examples (<span x-text="example+1"></span>/<span x-text="maxsize"></span>)
+      </div>
+
+        <div class="ml-auto flex">
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === 0}"
+            x-bind:disabled="example === 0"
+            x-on:click="example -= 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === maxsize-1}"
+            x-bind:disabled="example === maxsize-1"
+            x-on:click="example += 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPOST "http://localhost:3000/api/v1/registrations" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "name": "Luiz",
+  "email_address": "luiz@example.org",
+  "password": "mystrongpassword",
+  "terms_of_use": true
+}
+EOF
+
+# 422 Unprocessable Content
+{
+  "error": "email_already_taken"
+}
+</pre>
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 1">curl -XPOST "http://localhost:3000/api/v1/registrations"
+
+# 422 Unprocessable Content
+{
+  "error": "invalid_params",
+  "params": {
+    "name": "must be a string",
+    "email_address": "must be a string",
+    "password": "must be a string",
+    "terms_of_use": "must be accepted"
+  }
+}
+</pre>
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+          <div class="p-8 border-t">
+            <h1
+  class="text-4xl font-bold my-4"
+  id="log-in"
+  x-intersect="activeLink = 'log-in'"
+>
+  Log in
+</h1>
+
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
+    <div>
+      <span class="font-bold">POST</span>
+      
+      <span class="text-neutral-300">http://localhost:3000/api/v1</span><span class="font-bold">/sessions</span>
+    </div>
+</div>
+
+
+<div class="flex mt-4 gap-8">
+  <div class="page__request space-y-4">
+      <div class="markdown">
+        <p>Attempts to sign in a user to the system. If sign in succeeds an
+authentication token is returned. Use this token to authenticate requests
+with the header <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+
+      </div>
+
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Params
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      email_address
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>format</span> <span>/\A[a-zA-Z0-9.!\#$%&amp;&#39;*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z/</span></div>
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>case</span> <span>insensitive</span></div>
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      password
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>minlength</span> <span>8</span></div>
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+  </div>
+
+
+  <div
+    class="page__response"
+    x-data="{ active: 200 }"
+  >
+    <div class="flex">
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 200 }"
+          x-on:click="active = 200"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">200</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 422 }"
+          x-on:click="active = 422"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">422</span>
+        </button>
+    </div>
+
+    <div class="border">
+        <div class="p-4" x-show="active == 200">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      token
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPOST "http://localhost:3000/api/v1/sessions" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "email_address": "luiz@example.org",
+  "password": "mystrongpassword"
+}
+EOF
+
+# 200 OK
+{
+  "token": "zahNbtAUQstRptWPbmr5"
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 422">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_params&quot;
+    </span>
+
+
+  </div>
+
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      params
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>An object containing error messages for all invalid params</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+    <div class="flex items-center my-4">
+      <div class="h-px w-full flex-grow bg-neutral-200"></div>
+      <div class="mx-4 text-neutral-400 text-xs">OR</div>
+      <div class="h-px w-full flex-grow bg-neutral-300"></div>
+    </div>
+  <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_credentials&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 3 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Examples (<span x-text="example+1"></span>/<span x-text="maxsize"></span>)
+      </div>
+
+        <div class="ml-auto flex">
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === 0}"
+            x-bind:disabled="example === 0"
+            x-on:click="example -= 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === maxsize-1}"
+            x-bind:disabled="example === maxsize-1"
+            x-on:click="example += 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPOST "http://localhost:3000/api/v1/sessions"
+
+# 422 Unprocessable Content
+{
+  "error": "invalid_params",
+  "params": {
+    "email_address": "must be a string",
+    "password": "must be a string"
+  }
+}
+</pre>
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 1">curl -XPOST "http://localhost:3000/api/v1/sessions" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "email_address": "non-existing-user@example.org",
+  "password": "any-password"
+}
+EOF
+
+# 422 Unprocessable Content
+{
+  "error": "invalid_credentials"
+}
+</pre>
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 2">curl -XPOST "http://localhost:3000/api/v1/sessions" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "email_address": "luiz@example.org",
+  "password": "wrong-password"
+}
+EOF
+
+# 422 Unprocessable Content
+{
+  "error": "invalid_credentials"
+}
+</pre>
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+          <div class="p-8 border-t">
+            <h1
+  class="text-4xl font-bold my-4"
+  id="log-out"
+  x-intersect="activeLink = 'log-out'"
+>
+  Log out
+</h1>
+
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
+    <div>
+      <span class="font-bold">DELETE</span>
+      
+      <span class="text-neutral-300">http://localhost:3000/api/v1</span><span class="font-bold">/sessions</span>
+    </div>
+</div>
+
+
+<div class="flex mt-4 gap-8">
+  <div class="page__request space-y-4">
+      <div class="markdown">
+        <p>Revokes the authentication token used to authenticate the request, which
+prevents the token from being used in the future.</p>
+
+      </div>
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Headers
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Authorization
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>format</span> <span>/Bearer [a-zA-Z0-9]{20}/</span></div>
+
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+
+  </div>
+
+
+  <div
+    class="page__response"
+    x-data="{ active: 200 }"
+  >
+    <div class="flex">
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 200 }"
+          x-on:click="active = 200"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">200</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 403 }"
+          x-on:click="active = 403"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">403</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 422 }"
+          x-on:click="active = 422"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">422</span>
+        </button>
+    </div>
+
+    <div class="border">
+        <div class="p-4" x-show="active == 200">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      message
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;session revoked&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 403">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;unauthorized&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 422">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_params&quot;
+    </span>
+
+
+  </div>
+
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      params
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>An object containing error messages for all invalid params</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+          <div class="p-8 border-t">
+            <h1
+  class="text-4xl font-bold my-4"
+  id="create-article"
+  x-intersect="activeLink = 'create-article'"
+>
+  Create article
+</h1>
+
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
+    <div>
+      <span class="font-bold">POST</span>
+      
+      <span class="text-neutral-300">http://localhost:3000/api/v1</span><span class="font-bold">/articles</span>
+    </div>
+</div>
+
+
+<div class="flex mt-4 gap-8">
+  <div class="page__request space-y-4">
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Headers
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Authorization
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>format</span> <span>/Bearer [a-zA-Z0-9]{20}/</span></div>
+
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Params
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      title
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      content
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      published_at
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="text-sm">
+  Value must be a valid date time according to ISO 8601. For example: <code>"2024-12-10T14:21:00Z"</code>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+  </div>
+
+
+  <div
+    class="page__response"
+    x-data="{ active: 201 }"
+  >
+    <div class="flex">
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 201 }"
+          x-on:click="active = 201"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">201</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 403 }"
+          x-on:click="active = 403"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">403</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 422 }"
+          x-on:click="active = 422"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">422</span>
+        </button>
+    </div>
+
+    <div class="border">
+        <div class="p-4" x-show="active == 201">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      article
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      id
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>negative</span></div>
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      title
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      content
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      published_at
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <ul>
+<li>When published_at is null it means the article is a draft.</li>
+<li>When published_at is a moment in the future it means the article
+is scheduled to be published.</li>
+<li>When published_at is a moment in the past it means the article is
+published and can be read by everyone.</li>
+</ul>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="text-sm">
+  Value must be a valid date time according to ISO 8601. For example: <code>"2024-12-10T14:21:00Z"</code>
+</div>
+
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      read_count
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>only</span> <span>positive</span></div>
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 2 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Examples (<span x-text="example+1"></span>/<span x-text="maxsize"></span>)
+      </div>
+
+        <div class="ml-auto flex">
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === 0}"
+            x-bind:disabled="example === 0"
+            x-on:click="example -= 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === maxsize-1}"
+            x-bind:disabled="example === maxsize-1"
+            x-on:click="example += 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPOST "http://localhost:3000/api/v1/articles" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-H "Authorization: Bearer 54772Dmc688Q0r2hvfme" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "title": "Article title",
+  "content": "Article content"
+}
+EOF
+
+# 201 Created
+{
+  "article": {
+    "id": 594821791,
+    "title": "Article title",
+    "content": "Article content",
+    "published_at": null,
+    "read_count": 0
+  }
+}
+</pre>
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 1">curl -XPOST "http://localhost:3000/api/v1/articles" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-H "Authorization: Bearer 971nWENqkzsWFUNruE2x" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "title": "Article title",
+  "content": "Article content",
+  "published_at": "2025-01-04T14:07:36Z"
+}
+EOF
+
+# 201 Created
+{
+  "article": {
+    "id": 594821791,
+    "title": "Article title",
+    "content": "Article content",
+    "published_at": "2025-01-04T14:07:36.000Z",
+    "read_count": 0
+  }
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 403">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;unauthorized&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 422">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_params&quot;
+    </span>
+
+
+  </div>
+
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      params
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>An object containing error messages for all invalid params</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+          <div class="p-8 border-t">
+            <h1
+  class="text-4xl font-bold my-4"
+  id="get-article"
+  x-intersect="activeLink = 'get-article'"
+>
+  Get article
+</h1>
+
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
+    <div>
+      <span class="font-bold">GET</span>
+      
+      <span class="text-neutral-300">http://localhost:3000/api/v1</span><span class="font-bold">/articles/:article_id</span>
+    </div>
+</div>
+
+
+<div class="flex mt-4 gap-8">
+  <div class="page__request space-y-4">
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Headers
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Authorization
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>format</span> <span>/Bearer [a-zA-Z0-9]{20}/</span></div>
+
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Params
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      article_id
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+      <span class="bg-neutral-800 text-white text-xs font-bold rounded px-1">in URL</span>
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>only</span> <span>positive</span></div>
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+  </div>
+
+
+  <div
+    class="page__response"
+    x-data="{ active: 200 }"
+  >
+    <div class="flex">
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 200 }"
+          x-on:click="active = 200"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">200</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 403 }"
+          x-on:click="active = 403"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">403</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 404 }"
+          x-on:click="active = 404"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">404</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 422 }"
+          x-on:click="active = 422"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">422</span>
+        </button>
+    </div>
+
+    <div class="border">
+        <div class="p-4" x-show="active == 200">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      article
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      id
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>negative</span></div>
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      title
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      content
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      published_at
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <ul>
+<li>When published_at is null it means the article is a draft.</li>
+<li>When published_at is a moment in the future it means the article
+is scheduled to be published.</li>
+<li>When published_at is a moment in the past it means the article is
+published and can be read by everyone.</li>
+</ul>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="text-sm">
+  Value must be a valid date time according to ISO 8601. For example: <code>"2024-12-10T14:21:00Z"</code>
+</div>
+
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      read_count
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>only</span> <span>positive</span></div>
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XGET "http://localhost:3000/api/v1/articles/594821790" <span class="text-white">\</span>
+-H "Authorization: Bearer 1X0GIKmz2kJSnWFqKmBX"
+
+# 200 OK
+{
+  "article": {
+    "id": 594821790,
+    "title": "Title",
+    "content": "Content",
+    "published_at": "2025-01-04T14:07:36.000Z",
+    "read_count": 0
+  }
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 403">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;unauthorized&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XGET "http://localhost:3000/api/v1/articles/594821790" <span class="text-white">\</span>
+-H "Authorization: Bearer non-existing-token"
+
+# 403 Forbidden
+{
+  "error": "unauthorized"
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 404">
+            <div class="border divide-y">
+    <div class="p-4 text-neutral-400 text-center text-sm">--Empty body--</div>
+
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XGET "http://localhost:3000/api/v1/articles/594821790" <span class="text-white">\</span>
+-H "Authorization: Bearer ybbvDBzQ7AINxjKdYxzC"
+
+# 404 Not Found
+{
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 422">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_params&quot;
+    </span>
+
+
+  </div>
+
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      params
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>An object containing error messages for all invalid params</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+          <div class="p-8 border-t">
+            <h1
+  class="text-4xl font-bold my-4"
+  id="update-article"
+  x-intersect="activeLink = 'update-article'"
+>
+  Update article
+</h1>
+
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
+    <div>
+      <span class="font-bold">PUT</span>
+      
+      <span class="text-neutral-300">http://localhost:3000/api/v1</span><span class="font-bold">/articles/:article_id</span>
+    </div>
+</div>
+
+
+<div class="flex mt-4 gap-8">
+  <div class="page__request space-y-4">
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Headers
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Authorization
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>format</span> <span>/Bearer [a-zA-Z0-9]{20}/</span></div>
+
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Params
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      article_id
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+      <span class="bg-neutral-800 text-white text-xs font-bold rounded px-1">in URL</span>
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>only</span> <span>positive</span></div>
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      title
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      content
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      published_at
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="text-sm">
+  Value must be a valid date time according to ISO 8601. For example: <code>"2024-12-10T14:21:00Z"</code>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+  </div>
+
+
+  <div
+    class="page__response"
+    x-data="{ active: 200 }"
+  >
+    <div class="flex">
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 200 }"
+          x-on:click="active = 200"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">200</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 403 }"
+          x-on:click="active = 403"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">403</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 404 }"
+          x-on:click="active = 404"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">404</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 422 }"
+          x-on:click="active = 422"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">422</span>
+        </button>
+    </div>
+
+    <div class="border">
+        <div class="p-4" x-show="active == 200">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      article
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      id
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>negative</span></div>
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      title
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      content
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      published_at
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <ul>
+<li>When published_at is null it means the article is a draft.</li>
+<li>When published_at is a moment in the future it means the article
+is scheduled to be published.</li>
+<li>When published_at is a moment in the past it means the article is
+published and can be read by everyone.</li>
+</ul>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="text-sm">
+  Value must be a valid date time according to ISO 8601. For example: <code>"2024-12-10T14:21:00Z"</code>
+</div>
+
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      read_count
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+
+
+
+
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>only</span> <span>positive</span></div>
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 2 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Examples (<span x-text="example+1"></span>/<span x-text="maxsize"></span>)
+      </div>
+
+        <div class="ml-auto flex">
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === 0}"
+            x-bind:disabled="example === 0"
+            x-on:click="example -= 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          <button
+            class="p-1 text-neutral-800 hover:text-black"
+            x-bind:class="{'opacity-30': example === maxsize-1}"
+            x-bind:disabled="example === maxsize-1"
+            x-on:click="example += 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPUT "http://localhost:3000/api/v1/articles/594821790" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-H "Authorization: Bearer 54772Dmc688Q0r2hvfme" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "title": "Updated Title",
+  "content": "Updated Content",
+  "published_at": "2025-01-04T14:07:37Z"
+}
+EOF
+
+# 200 OK
+{
+  "article": {
+    "title": "Updated Title",
+    "content": "Updated Content",
+    "published_at": "2025-01-04T14:07:37.000Z",
+    "id": 594821790,
+    "read_count": 0
+  }
+}
+</pre>
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 1">curl -XPUT "http://localhost:3000/api/v1/articles/594821790" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-H "Authorization: Bearer 70DhB9YYMY3MstwaC6sC" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "title": "Title",
+  "content": "Content",
+  "published_at": null
+}
+EOF
+
+# 200 OK
+{
+  "article": {
+    "title": "Title",
+    "content": "Content",
+    "published_at": null,
+    "id": 594821790,
+    "read_count": 0
+  }
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 403">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;unauthorized&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPUT "http://localhost:3000/api/v1/articles/594821790" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-H "Authorization: Bearer non-existing-token" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "title": "Updated title",
+  "content": "Updated content"
+}
+EOF
+
+# 403 Forbidden
+{
+  "error": "unauthorized"
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 404">
+            <div class="border divide-y">
+    <div class="p-4 text-neutral-400 text-center text-sm">--Empty body--</div>
+
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPUT "http://localhost:3000/api/v1/articles/594821790" <span class="text-white">\</span>
+-H "Content-Type: application/json" <span class="text-white">\</span>
+-H "Authorization: Bearer qyDn5jzcZakmtsk5c6I2" <span class="text-white">\</span>
+-d @- << EOF
+{
+  "title": "Updated title",
+  "content": "Updated content"
+}
+EOF
+
+# 404 Not Found
+{
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 422">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_params&quot;
+    </span>
+
+
+  </div>
+
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      params
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>An object containing error messages for all invalid params</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+          <div class="p-8 border-t">
+            <h1
+  class="text-4xl font-bold my-4"
+  id="everything"
+  x-intersect="activeLink = 'everything'"
+>
+  Everything
+</h1>
+
+<div class="bg-neutral-800 text-white p-2 rounded font-mono">
+    <div>
+      <span class="font-bold">POST</span>
+      
+      <span class="text-neutral-300">http://localhost:3000/api/v1</span><span class="font-bold">/everything</span>
+    </div>
+</div>
+
+  <div class="bg-neutral-800 text-white rounded py-1 px-2 text-sm mt-2 inline-flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+      <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+    </svg>
+
+    This request requires <span class="font-mono font-bold">multipart/form-data</span> encoding for file upload
+  </div>
+
+<div class="flex mt-4 gap-8">
+  <div class="page__request space-y-4">
+      <div class="markdown">
+        <p>This request uses all available types in the Explicit gem to showcase and
+test them.</p>
+
+      </div>
+
+
+      <div>
+        <div class="bg-gray-100 border-t border-x text-center text-xs p-1 uppercase text-neutral-500">
+          Params
+        </div>
+
+        <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      file1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      file
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>max size:</span> <span>2 MB</span></div>
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>content types:</span> <span>image/jpeg, image/png</span></div>
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      string1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>minlength</span> <span>1</span></div>
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>maxlength</span> <span>100</span></div>
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      integer1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>min</span> <span>1</span></div>
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>max</span> <span>100</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      hash1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>not</span> <span>empty</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      array of integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>A description of the hash values</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Items
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+    <div class="bg-neutral-200 px-1 text-sm"><span>min</span> <span>0</span></div>
+
+    <div class="bg-neutral-200 px-1 text-sm"><span>max</span> <span>10</span></div>
+
+
+
+
+</div>
+        </div>
+    </div>
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      agreement1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      boolean
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          The following values are accepted:
+
+<div class="inline-flex flex-wrap gap-2">
+    <code class="font-mono text-xs bg-neutral-200 p-px">true</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;true&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;on&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;1&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">1</code>
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      bigdecimal1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="flex flex-wrap gap-2">
+  <div class="bg-neutral-200 px-1 text-sm"><span>min:</span> <span>0</span></div>
+  <div class="bg-neutral-200 px-1 text-sm"><span>max:</span> <span>100</span></div>
+</div>
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      boolean1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      boolean
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          The following values are accepted:
+
+<div class="inline-flex flex-wrap gap-2">
+    <code class="font-mono text-xs bg-neutral-200 p-px">true</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;true&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;on&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;1&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">1</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">false</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;false&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;off&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;0&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">0</code>
+</div>
+
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      date_time_iso8601
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="text-sm">
+  Value must be a valid date time according to ISO 8601. For example: <code>"2024-12-10T14:21:00Z"</code>
+</div>
+
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      date_time_posix
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      integer
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          <div class="text-sm">
+  Value must be a valid POSIX timestamp. For example: <code>1733923153</code> represents "Dec 11 2024 13:19:13"
+</div>
+
+        </div>
+    </div>
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      enum1
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+
+        <div class="record__subtype">
+          The following values are accepted:
+
+<div class="inline-flex flex-wrap gap-2">
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;one&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;two&quot;</code>
+    <code class="font-mono text-xs bg-neutral-200 p-px">&quot;three&quot;</code>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+      </div>
+  </div>
+
+
+  <div
+    class="page__response"
+    x-data="{ active: 200 }"
+  >
+    <div class="flex">
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 200 }"
+          x-on:click="active = 200"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">200</span>
+        </button>
+        <button
+          class="bg-white py-2 px-6"
+          x-bind:class="{ 'border-l border-t border-r -mb-px': active == 422 }"
+          x-on:click="active = 422"
+        >
+          <span class="text-neutral-400">Resp.</span>
+          <span class="font-bold">422</span>
+        </button>
+    </div>
+
+    <div class="border">
+        <div class="p-4" x-show="active == 200">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      message
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;ok&quot;
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 1 }"
+>
+    <div class="flex items-center -mx-4 my-4 p-4 bg-neutral-100">
+      <div class="text-sm uppercase font-medium tracking-wide text-neutral-600">
+          Example
+      </div>
+
+    </div>
+
+
+    <pre class="font-mono text-sm overflow-auto" x-show="example == 0">curl -XPOST "http://localhost:3000/api/v1/everything" <span class="text-white">\</span>
+-H "Content-Type: multipart/form-data" <span class="text-white">\</span>
+-F "agreement1=true" <span class="text-white">\</span>
+-F "bigdecimal1=10.5" <span class="text-white">\</span>
+-F "boolean1=true" <span class="text-white">\</span>
+-F "date_time_iso8601=2021-01-01T12:00:00Z" <span class="text-white">\</span>
+-F "date_time_posix=1609459200" <span class="text-white">\</span>
+-F "enum1=one" <span class="text-white">\</span>
+-F "hash1[key1][]=1" <span class="text-white">\</span>
+-F "hash1[key1][]=2" <span class="text-white">\</span>
+-F "hash1[key1][]=3" <span class="text-white">\</span>
+-F "hash1[key2][]=4" <span class="text-white">\</span>
+-F "hash1[key2][]=5" <span class="text-white">\</span>
+-F "hash1[key2][]=6" <span class="text-white">\</span>
+-F "integer1=42" <span class="text-white">\</span>
+-F "string1=hello#'\"" <span class="text-white">\</span>
+-F file1="@this_is_fine.png"
+
+# 200 OK
+{
+  "message": "ok"
+}
+</pre>
+</div>
+
+        </div>
+        <div class="p-4" x-show="active == 422">
+            <div class="border divide-y">
+
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      error
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      &quot;invalid_params&quot;
+    </span>
+
+
+  </div>
+
+</div>
+    <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      params
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      object
+    </span>
+
+
+      <div class="record__summary__expand">
+        <span x-show="expanded">&#9650;</span>
+        <span x-show="!expanded">&#9660;</span>
+      </div>
+  </div>
+
+    <div class="mt-2" x-show="expanded">
+        <div class="text-neutral-600 markdown">
+          <p>An object containing error messages for all invalid params</p>
+
+        </div>
+
+        <div class="record__subtype">
+          <div class="border divide-y">
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Keys
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+  <div class="p-3" x-data="{ expanded: false }">
+  <div class="flex items-center gap-2" x-on:click="expanded = !expanded">
+    <span class="font-mono font-bold">
+      Values
+    </span>
+
+    <span class="text-sm text-neutral-500">
+      string
+    </span>
+
+
+  </div>
+
+</div>
+</div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+          
+<div
+  class="responses__examples"
+  x-data="{ example: 0, maxsize: 0 }"
+>
+
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+    </main>
+  </div>
+</body>
+</html>

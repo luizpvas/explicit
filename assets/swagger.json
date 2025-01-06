@@ -1,1 +1,1191 @@
-{"swagger":"2.0","info":{"title":"Acme API"},"host":"localhost:3000","schemes":["http"],"basePath":"/api/v1","tags":[{"name":"Auth"},{"name":"Articles"},{"name":"Others"}],"paths":{"/registrations":{"post":{"tags":["Auth"],"summary":"Registration","description":"Attempts to register a new user in the system. Email address must be unique.\nIf registration succeeds an authentication token is returned. Use this token\nto authenticate requests with the header `Authorization: Bearer \u003ctoken\u003e`.\n","consumes":["application/json"],"produces":["application/json"],"parameters":[{"type":"string","name":"name","in":"body","description":"Full name","required":true},{"type":"string","name":"email_address","in":"body","description":"Email address used to login. Case insensitive.","required":true},{"type":"string","name":"password","in":"body","description":"Minimum 8 characters. No other rules.","required":true},{"type":"boolean","name":"terms_of_use","in":"body","description":null,"required":true}]}},"/sessions":{"delete":{"tags":["Auth"],"summary":"Log out","description":"Revokes the authentication token used to authenticate the request, which\nprevents the token from being used in the future.\n","consumes":["application/json"],"produces":["application/json"],"parameters":[]}},"/articles":{"post":{"tags":["Articles"],"summary":"Create article","description":null,"consumes":["application/json"],"produces":["application/json"],"parameters":[{"type":"string","name":"title","in":"body","description":null,"required":true},{"type":"string","name":"content","in":"body","description":null,"required":true},{"type":"string","name":"published_at","in":"body","description":null,"required":false}]}},"/articles/{article_id}":{"put":{"tags":["Articles"],"summary":"Update article","description":null,"consumes":["application/json"],"produces":["application/json"],"parameters":[{"type":"integer","name":"article_id","in":"path","description":null,"required":true},{"type":"string","name":"title","in":"body","description":null,"required":true},{"type":"string","name":"content","in":"body","description":null,"required":true},{"type":"string","name":"published_at","in":"body","description":null,"required":false}]}},"/everything":{"post":{"tags":["Others"],"summary":"Everything","description":"This request uses all available types in the Explicit gem to showcase and\ntest them.\n","consumes":["multipart/form-data"],"produces":["application/json"],"parameters":[{"type":"file","name":"file1","in":"body","description":null,"required":true},{"type":"string","name":"string1","in":"body","description":null,"required":true},{"type":"integer","name":"integer1","in":"body","description":null,"required":true},{"type":"object","additionalProperties":{"type":"array","items":{"type":"integer"}},"name":"hash1","in":"body","description":null,"required":true},{"type":"boolean","name":"agreement1","in":"body","description":null,"required":true},{"type":"string","format":"date time iso8601","name":"bigdecimal1","in":"body","description":null,"required":true},{"type":"boolean","name":"boolean1","in":"body","description":null,"required":true},{"type":"string","name":"date_time_iso8601","in":"body","description":null,"required":true},{"type":"integer","format":"date time posix","name":"date_time_posix","in":"body","description":null,"required":true},{"type":"string","enum":["one","two","three"],"name":"enum1","in":"body","description":null,"required":true}]}}}}
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Acme API",
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Articles"
+    },
+    {
+      "name": "Others"
+    }
+  ],
+  "paths": {
+    "/registrations": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Registration",
+        "description": "Attempts to register a new user in the system. Email address must be unique.\nIf registration succeeds an authentication token is returned. Use this token\nto authenticate requests with the header `Authorization: Bearer \u003Ctoken\u003E`.\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Full name\n\n* Must not be empty"
+                  },
+                  "email_address": {
+                    "type": "string",
+                    "pattern": "/\\A[a-zA-Z0-9.!\\#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\z/",
+                    "description": "Email address used to login. Case insensitive.\n\n* Case insensitive"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "description": "Minimum 8 characters. No other rules."
+                  },
+                  "terms_of_use": {
+                    "type": "boolean",
+                    "description": "* Must be accepted (true)"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email_address",
+                  "password",
+                  "terms_of_use"
+                ]
+              },
+              "examples": {
+                "0": {
+                  "value": {
+                    "name": "Luiz",
+                    "email_address": "luiz@example.org",
+                    "password": "mystrongpassword",
+                    "terms_of_use": true
+                  }
+                },
+                "1": {
+                  "value": {
+                    "name": "Yukihiro Matsumoto",
+                    "email_address": "matz@ruby.org",
+                    "password": "mystrongpassword#'\"",
+                    "terms_of_use": true
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "enum": [
+                            "invalid_params"
+                          ],
+                          "description": ""
+                        },
+                        "params": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "description": "An object containing error messages for all invalid params"
+                        }
+                      },
+                      "required": [
+                        "error",
+                        "params"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "enum": [
+                            "email_already_taken"
+                          ],
+                          "description": ""
+                        }
+                      },
+                      "required": [
+                        "error"
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "error": "email_already_taken"
+                    }
+                  },
+                  "1": {
+                    "value": {
+                      "error": "invalid_params",
+                      "params": {
+                        "name": "must be a string",
+                        "email_address": "must be a string",
+                        "password": "must be a string",
+                        "terms_of_use": "must be accepted"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "token": "wGVOJPR4zYnP6FAVcnwU"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Log in",
+        "description": "Attempts to sign in a user to the system. If sign in succeeds an\nauthentication token is returned. Use this token to authenticate requests\nwith the header `Authorization: Bearer \u003Ctoken\u003E`.\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email_address": {
+                    "type": "string",
+                    "pattern": "/\\A[a-zA-Z0-9.!\\#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\z/",
+                    "description": "* Case insensitive"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8
+                  }
+                },
+                "required": [
+                  "email_address",
+                  "password"
+                ]
+              },
+              "examples": {
+                "0": {
+                  "value": {
+                    "email_address": "non-existing-user@example.org",
+                    "password": "any-password"
+                  }
+                },
+                "1": {
+                  "value": {
+                    "email_address": "luiz@example.org",
+                    "password": "wrong-password"
+                  }
+                },
+                "2": {
+                  "value": {
+                    "email_address": "luiz@example.org",
+                    "password": "mystrongpassword"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "enum": [
+                            "invalid_params"
+                          ],
+                          "description": ""
+                        },
+                        "params": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "description": "An object containing error messages for all invalid params"
+                        }
+                      },
+                      "required": [
+                        "error",
+                        "params"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "enum": [
+                            "invalid_credentials"
+                          ],
+                          "description": ""
+                        }
+                      },
+                      "required": [
+                        "error"
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "error": "invalid_params",
+                      "params": {
+                        "email_address": "must be a string",
+                        "password": "must be a string"
+                      }
+                    }
+                  },
+                  "1": {
+                    "value": {
+                      "error": "invalid_credentials"
+                    }
+                  },
+                  "2": {
+                    "value": {
+                      "error": "invalid_credentials"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "token": "zahNbtAUQstRptWPbmr5"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Log out",
+        "description": "Revokes the authentication token used to authenticate the request, which\nprevents the token from being used in the future.\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ],
+                      "description": ""
+                    },
+                    "params": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "An object containing error messages for all invalid params"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": ""
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "session revoked"
+                      ],
+                      "description": ""
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/articles": {
+      "post": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Create article",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "* Must not be empty"
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "* Must not be empty"
+                  },
+                  "published_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "* Must be valid according to ISO 8601"
+                  }
+                },
+                "required": [
+                  "title",
+                  "content"
+                ]
+              },
+              "examples": {
+                "0": {
+                  "value": {
+                    "title": "Article title",
+                    "content": "Article content",
+                    "published_at": null
+                  }
+                },
+                "1": {
+                  "value": {
+                    "title": "Article title",
+                    "content": "Article content",
+                    "published_at": "2025-01-04T14:07:36.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ],
+                      "description": ""
+                    },
+                    "params": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "An object containing error messages for all invalid params"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": ""
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "* Must not be negative"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "* Must not be empty"
+                        },
+                        "content": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "* Must not be empty"
+                        },
+                        "published_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601"
+                        },
+                        "read_count": {
+                          "type": "integer",
+                          "description": "* Must be positive"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "title",
+                        "content",
+                        "read_count"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "article"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "article": {
+                        "id": 594821791,
+                        "title": "Article title",
+                        "content": "Article content",
+                        "published_at": null,
+                        "read_count": 0
+                      }
+                    }
+                  },
+                  "1": {
+                    "value": {
+                      "article": {
+                        "id": 594821791,
+                        "title": "Article title",
+                        "content": "Article content",
+                        "published_at": "2025-01-04T14:07:36.000Z",
+                        "read_count": 0
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/articles/{article_id}": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get article",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
+            },
+            "style": "simple"
+          },
+          {
+            "name": "article_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "* Must be positive"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ],
+                      "description": ""
+                    },
+                    "params": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "An object containing error messages for all invalid params"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": ""
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "error": "unauthorized"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "* Must not be negative"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "* Must not be empty"
+                        },
+                        "content": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "* Must not be empty"
+                        },
+                        "published_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601"
+                        },
+                        "read_count": {
+                          "type": "integer",
+                          "description": "* Must be positive"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "title",
+                        "content",
+                        "read_count"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "article"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "article": {
+                        "id": 594821790,
+                        "title": "Title",
+                        "content": "Content",
+                        "published_at": "2025-01-04T14:07:36.000Z",
+                        "read_count": 0
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Update article",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
+            },
+            "style": "simple"
+          },
+          {
+            "name": "article_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "* Must be positive"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "* Must not be empty"
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "* Must not be empty"
+                  },
+                  "published_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "* Must be valid according to ISO 8601"
+                  }
+                },
+                "required": [
+                  "title",
+                  "content"
+                ]
+              },
+              "examples": {
+                "0": {
+                  "value": {
+                    "title": "Updated title",
+                    "content": "Updated content",
+                    "published_at": null
+                  }
+                },
+                "1": {
+                  "value": {
+                    "title": "Updated title",
+                    "content": "Updated content",
+                    "published_at": null
+                  }
+                },
+                "2": {
+                  "value": {
+                    "title": "Updated Title",
+                    "content": "Updated Content",
+                    "published_at": "2025-01-04T14:07:37.000Z"
+                  }
+                },
+                "3": {
+                  "value": {
+                    "title": "Title",
+                    "content": "Content",
+                    "published_at": null
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ],
+                      "description": ""
+                    },
+                    "params": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "An object containing error messages for all invalid params"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": ""
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "error": "unauthorized"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "* Must not be negative"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "* Must not be empty"
+                        },
+                        "content": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "* Must not be empty"
+                        },
+                        "published_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601"
+                        },
+                        "read_count": {
+                          "type": "integer",
+                          "description": "* Must be positive"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "title",
+                        "content",
+                        "read_count"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "article"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "article": {
+                        "title": "Updated Title",
+                        "content": "Updated Content",
+                        "published_at": "2025-01-04T14:07:37.000Z",
+                        "id": 594821790,
+                        "read_count": 0
+                      }
+                    }
+                  },
+                  "1": {
+                    "value": {
+                      "article": {
+                        "title": "Title",
+                        "content": "Content",
+                        "published_at": null,
+                        "id": 594821790,
+                        "read_count": 0
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/everything": {
+      "post": {
+        "tags": [
+          "Others"
+        ],
+        "summary": "Everything",
+        "description": "This request uses all available types in the Explicit gem to showcase and\ntest them.\n",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file1": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "* Max size: 2 MB\n* Content types: image/jpeg, image/png"
+                  },
+                  "string1": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100,
+                    "description": "* Must not be empty"
+                  },
+                  "integer1": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "hash1": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 10
+                      },
+                      "minItems": 0,
+                      "description": "A description of the hash values"
+                    },
+                    "description": ""
+                  },
+                  "agreement1": {
+                    "type": "boolean",
+                    "description": "* Must be accepted (true)"
+                  },
+                  "bigdecimal1": {
+                    "type": "string",
+                    "pattern": "/^\\d*\\.?\\d*$/",
+                    "format": "decimal number",
+                    "description": "* Minimum: 0\n* Maximum: 100"
+                  },
+                  "boolean1": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "date_time_iso8601": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "* Must be valid according to ISO 8601"
+                  },
+                  "date_time_posix": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "format": "POSIX time",
+                    "description": "* POSIX time or Unix epoch is the amount of seconds since 1970-01-01"
+                  },
+                  "enum1": {
+                    "type": "string",
+                    "enum": [
+                      "one",
+                      "two",
+                      "three"
+                    ],
+                    "description": ""
+                  }
+                },
+                "required": [
+                  "file1",
+                  "string1",
+                  "integer1",
+                  "hash1",
+                  "agreement1",
+                  "bigdecimal1",
+                  "boolean1",
+                  "date_time_iso8601",
+                  "date_time_posix",
+                  "enum1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ],
+                      "description": ""
+                    },
+                    "params": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "An object containing error messages for all invalid params"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ],
+                      "description": ""
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "message": "ok"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
