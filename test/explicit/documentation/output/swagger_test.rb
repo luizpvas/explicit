@@ -56,7 +56,8 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
         in: "path",
         required: true,
         schema: {
-          type: "integer"
+          type: "integer",
+          description: "* Must be positive"
         },
         style: "simple"
       }
