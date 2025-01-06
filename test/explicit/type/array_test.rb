@@ -24,12 +24,15 @@ class Explicit::Type::ArrayTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    assert_equal type([:array, :string, empty: false]).swagger_schema, {
+    type = type([:description, "hello", [:array, :string, empty: false]])
+
+    assert_equal type.swagger_schema, {
       type: "array",
       items: {
         type: "string"
       },
-      minItems: 1
+      minItems: 1,
+      description: "hello"
     }
   end
 end

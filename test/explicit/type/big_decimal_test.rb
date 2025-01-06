@@ -29,4 +29,15 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
     assert_error "must be a string-encoded decimal number", validate([10], :bigdecimal)
     assert_error "must be a string-encoded decimal number", validate(nil, :bigdecimal)
   end
+
+  test "swagger" do
+    type = type([:description, "hello", [:bigdecimal, min: 0, max: 10]])
+
+    assert_equal type.swagger_schema, {
+      type: "string",
+      pattern: /^\d*\.?\d*$/.inspect,
+      format: "decimal number",
+      description: "hello\n\n* min: 0\n* max: 10"
+    }
+  end
 end

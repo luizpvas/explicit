@@ -47,7 +47,11 @@ class Explicit::Type::BigDecimal < Explicit::Type
       {
         type: "string",
         pattern: /^\d*\.?\d*$/.inspect,
-        format: "decimal number"
+        format: "decimal number",
+        description: swagger_description([
+          min&.then { "* min: #{_1}" },
+          max&.then { "* max: #{_1}" }
+        ])
       }
     end
   end

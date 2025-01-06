@@ -23,9 +23,11 @@ class Explicit::Type::AgreementTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    assert_equal type(:agreement).swagger_schema, {
+    type = type([:description, "hello", :agreement])
+
+    assert_equal type.swagger_schema, {
       type: "boolean",
-      description: "* must be true"
+      description: "hello\n\n* must be true"
     }
   end
 end
