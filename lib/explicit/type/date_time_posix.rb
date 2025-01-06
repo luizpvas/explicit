@@ -36,7 +36,7 @@ class Explicit::Type::DateTimePosix < Explicit::Type
         minimum: 1,
         format: "POSIX time",
         description: swagger_description([
-          "* POSIX time or Unix epoch is the amount of seconds since 1970-01-01"
+          swagger_i18n("date_time_posix")
         ])
       }
     end

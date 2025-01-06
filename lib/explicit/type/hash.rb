@@ -49,7 +49,7 @@ class Explicit::Type::Hash < Explicit::Type
         type: "object",
         additionalProperties: valuetype.swagger_schema,
         description: swagger_description([
-          empty == false ? "* Must have at least one value" : nil
+          empty == false ? swagger_i18n("hash_not_empty") : nil
         ])
       }
     end

@@ -37,7 +37,7 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
       type: "string",
       pattern: /^\d*\.?\d*$/.inspect,
       format: "decimal number",
-      description: "hello\n\n* min: 0\n* max: 10"
+      description: "hello\n\n* Minimum: 0\n* Maximum: 10"
     }
   end
 end

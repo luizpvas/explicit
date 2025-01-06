@@ -51,8 +51,8 @@ class Explicit::Type::File < Explicit::Type
         type: "string",
         format: "binary",
         description: swagger_description([
-          max_size&.then { "* Max size: #{number_to_human_size(_1)}" },
-          content_types.any? ? "* Content types: #{content_types.join(', ')}" : ""
+          max_size&.then { swagger_i18n("file_max_size", max_size: number_to_human_size(_1)) },
+          content_types.any? ? swagger_i18n("file_content_types", content_types: content_types.join(', ')) : nil
         ])
       }
     end

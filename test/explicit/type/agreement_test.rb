@@ -27,7 +27,7 @@ class Explicit::Type::AgreementTest < ActiveSupport::TestCase
 
     assert_equal type.swagger_schema, {
       type: "boolean",
-      description: "hello\n\n* must be true"
+      description: "hello\n\n* Must be accepted (true)"
     }
   end
 end

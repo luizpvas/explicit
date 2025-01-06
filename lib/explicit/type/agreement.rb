@@ -31,7 +31,7 @@ class Explicit::Type::Agreement < Explicit::Type
       {
         type: "boolean",
         description: swagger_description([
-          "* must be true"
+          swagger_i18n("agreement")
         ])
       }
     end

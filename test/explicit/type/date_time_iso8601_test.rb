@@ -22,7 +22,7 @@ class Explicit::Type::DateTimeISO8601Test < ActiveSupport::TestCase
     assert_equal type.swagger_schema, {
       type: "string",
       format: "date-time",
-      description: "hello\n\n* must be valid according to ISO 8601"
+      description: "hello\n\n* Must be valid according to ISO 8601"
     }
   end
 end

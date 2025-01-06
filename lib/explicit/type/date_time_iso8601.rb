@@ -33,7 +33,7 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
         type: "string",
         format: "date-time",
         description: swagger_description([
-          "* must be valid according to ISO 8601"
+          swagger_i18n("date_time_iso8601")
         ])
       }
     end

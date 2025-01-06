@@ -49,8 +49,8 @@ class Explicit::Type::BigDecimal < Explicit::Type
         pattern: /^\d*\.?\d*$/.inspect,
         format: "decimal number",
         description: swagger_description([
-          min&.then { "* min: #{_1}" },
-          max&.then { "* max: #{_1}" }
+          min&.then { swagger_i18n("big_decimal_min", min: _1) },
+          max&.then { swagger_i18n("big_decimal_max", max: _1) }
         ])
       }
     end
