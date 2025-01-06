@@ -21,4 +21,11 @@ class Explicit::Type::AgreementTest < ActiveSupport::TestCase
     assert_error "must be accepted", validate("foo", :agreement)
     assert_error "must be accepted", validate([], :agreement)
   end
+
+  test "swagger" do
+    assert_equal type(:agreement).swagger_schema, {
+      type: "boolean",
+      description: "* must be true"
+    }
+  end
 end

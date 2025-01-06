@@ -91,4 +91,12 @@ class Explicit::Type
 
     ::I18n.t(key, **context)
   end
+
+  def swagger_description(extras)
+    if description.present?
+      description + "\n\n" + extras.compact_blank.join("\n")
+    else
+      extras.compact_blank.join("\n")
+    end
+  end
 end

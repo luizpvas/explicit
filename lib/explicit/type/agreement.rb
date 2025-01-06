@@ -30,7 +30,9 @@ class Explicit::Type::Agreement < Explicit::Type
     def swagger_schema
       {
         type: "boolean",
-        description: "must be true"
+        description: swagger_description([
+          "* must be true"
+        ])
       }
     end
   end
