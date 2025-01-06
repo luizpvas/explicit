@@ -47,4 +47,19 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
       validate({}, USER_SCHEMA)
     )
   end
+
+  test "swagger" do
+    type = type([:description, "desc", { name: :string }])
+
+    assert_equal type.swagger_schema, {
+      type: "object",
+      properties: {
+        name: {
+          type: "string"
+        }
+      },
+      description: "desc",
+      required: %w[name]
+    }
+  end
 end

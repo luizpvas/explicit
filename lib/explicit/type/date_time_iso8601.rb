@@ -26,4 +26,16 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "string",
+        format: "date-time",
+        description: swagger_description([
+          swagger_i18n("date_time_iso8601")
+        ])
+      }
+    end
+  end
 end

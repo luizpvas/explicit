@@ -19,10 +19,11 @@ module Explicit::Documentation::Output
         Explicit::ApplicationController.render(
           partial: "explicit/documentation/page",
           locals: {
+            url_helpers: @builder.rails_engine.routes.url_helpers,
             page_title: builder.get_page_title,
             company_logo_url: builder.get_company_logo_url,
             version: builder.get_version,
-            sections: builder.sections
+            sections: builder.sections,
           }
         )
       end

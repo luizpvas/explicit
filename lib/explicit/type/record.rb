@@ -5,7 +5,9 @@ class Explicit::Type::Record < Explicit::Type
 
   def initialize(attributes:)
     @attributes = attributes.map do |attribute_name, type|
-      [attribute_name, Explicit::Type.build(type)]
+      type = Explicit::Type.build(type) if !type.is_a?(Explicit::Type)
+
+      [attribute_name, type]
     end
   end
 
@@ -31,6 +33,22 @@ class Explicit::Type::Record < Explicit::Type
     [:ok, validated_data]
   end
 
+  def path_params_type
+    path_params = @attributes.filter do |name, type|
+      type.param_location_path?
+    end
+
+    self.class.new(attributes: path_params)
+  end
+
+  def body_params_type
+    body_params = @attributes.filter do |name, type|
+      !type.param_location_path?
+    end
+
+    self.class.new(attributes: body_params)
+  end
+
   concerning :Webpage do
     def summary
       "object"
@@ -42,6 +60,37 @@ class Explicit::Type::Record < Explicit::Type
 
     def has_details?
       true
+    end
+  end
+
+  concerning :Swagger do
+    def swagger_parameters
+      attributes.map do |name, type|
+        {
+          name:,
+          in: type.param_location_path? ? "path" : "body",
+          description: type.description,
+          required: !type.nilable,
+          schema: type.swagger_schema
+        }
+      end
+    end
+
+    def swagger_schema
+      properties = attributes.to_h do |name, type|
+        [name, type.swagger_schema]
+      end
+
+      required = attributes.filter_map do |name, type|
+        type.required? ? name.to_s : nil
+      end
+
+      {
+        type: "object",
+        properties:,
+        required:,
+        description: swagger_description([])
+      }.compact_blank
     end
   end
 end

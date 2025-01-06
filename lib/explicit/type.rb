@@ -82,9 +82,31 @@ class Explicit::Type
     param_location == :path
   end
 
+  def required?
+    !nilable
+  end
+
   def error_i18n(name, context = {})
     key = "explicit.errors.#{name}"
 
     ::I18n.t(key, **context)
+  end
+
+  def swagger_i18n(name, context = {})
+    key = "explicit.swagger.#{name}"
+
+    ::I18n.t(key, **context)
+  end
+
+  def swagger_description(extras)
+    extras = extras.compact_blank
+
+    if description.present? && extras.empty?
+      description
+    elsif description.present? && extras.any?
+      description + "\n\n" + extras.compact_blank.join("\n")
+    else
+      extras.compact_blank.join("\n")
+    end
   end
 end

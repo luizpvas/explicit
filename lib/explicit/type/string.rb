@@ -50,4 +50,19 @@ class Explicit::Type::String < Explicit::Type
       !empty.nil? || format.present? || minlength.present? || maxlength.present?
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "string",
+        pattern: format&.inspect,
+        minLength: minlength || (empty == false ? 1 : nil),
+        maxLength: maxlength,
+        description: swagger_description([
+          empty == false ? swagger_i18n("string_not_empty") : nil,
+          downcase == true ? swagger_i18n("string_downcase") : nil
+        ])
+      }.compact_blank
+    end
+  end
 end

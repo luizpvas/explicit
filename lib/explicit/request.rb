@@ -92,8 +92,8 @@ class Explicit::Request
     @params[name] = type
   end
 
-  def response(status, type)
-    @responses[status] << type
+  def response(status, typespec)
+    @responses[status] << typespec
   end
 
   def add_example(params:, response:, headers: {})

@@ -42,4 +42,15 @@ class Explicit::Type::Array < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "array",
+        items: itemtype.swagger_schema,
+        minItems: empty ? 0 : 1,
+        description: swagger_description([])
+      }.compact_blank
+    end
+  end
 end

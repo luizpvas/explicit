@@ -35,4 +35,12 @@ class Explicit::Type::OneOf < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      return subtypes.first.swagger_schema if subtypes.one?
+
+      { oneOf: subtypes.map(&:swagger_schema) }
+    end
+  end
 end

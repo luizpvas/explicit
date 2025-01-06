@@ -17,4 +17,14 @@ class Explicit::Type::EnumTest < ActiveSupport::TestCase
     assert_error 'must be one of: ["red", "green", "blue"]', validate("RED", [:enum, RGB])
     assert_error 'must be one of: ["red", "green", "blue"]', validate(["red"], [:enum, RGB])
   end
+
+  test "swagger" do
+    type = type([:description, "hello", [:enum, RGB]])
+
+    assert_equal type.swagger_schema, {
+      type: "string",
+      enum: RGB,
+      description: "hello"
+    }
+  end
 end

@@ -28,9 +28,9 @@
 
 <div class="flex mt-4 gap-8">
   <div class="page__request space-y-4">
-    <% if (description = page.description_html) %>
+    <% if (description = page.request.get_description) %>
       <div class="markdown">
-        <%= description %>
+        <%= Explicit::Documentation::Markdown.to_html(description) %>
       </div>
     <% end %>
 

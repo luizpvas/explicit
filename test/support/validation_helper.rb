@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 module ValidationHelper
-  def validate(value, type)
-    type = ::Explicit::Type.build(type)
+  def type(typespec)
+    Explicit::Type.build(typespec)
+  end
+
+  def validate(value, typespec)
+    type = type(typespec)
 
     assert_type_render_webpage!(type)
     assert_type_render_swagger!(type)

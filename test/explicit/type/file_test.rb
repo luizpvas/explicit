@@ -18,7 +18,7 @@ class Explicit::Type::FileTest < ActiveSupport::TestCase
 
     validate(file, [:file, max_size: 2.megabytes]) => [:ok, _]
 
-    assert_error "must be smaller than 10240 bytes", validate(file, [:file, max_size: 10.kilobytes])
+    assert_error "must be smaller than 10 KB", validate(file, [:file, max_size: 10.kilobytes])
   end
 
   test "content_types" do
@@ -36,5 +36,19 @@ class Explicit::Type::FileTest < ActiveSupport::TestCase
     assert_error "must be a file", validate(nil, :file)
     assert_error "must be a file", validate("foo", :file)
     assert_error "must be a file", validate("/path/to/file.png", :file)
+  end
+
+  test "swagger" do
+    type = type([
+      :description,
+      "hello",
+      [:file, max_size: 10.kilobytes, content_types: %w[image/jpeg application/pdf]]
+    ])
+
+    assert_equal type.swagger_schema, {
+      type: "string",
+      format: "binary",
+      description: "hello\n\n* Max size: 10 KB\n* Content types: image/jpeg, application/pdf"
+    }
   end
 end

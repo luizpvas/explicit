@@ -60,4 +60,20 @@ class Explicit::Type::Integer < Explicit::Type
       min.present? || max.present? || !negative.nil? || !positive.nil?
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "integer",
+        minimum: min,
+        maximum: max,
+        description: swagger_description([
+          positive == false ? swagger_i18n("integer_not_positive") : nil,
+          positive == true ? swagger_i18n("integer_only_positive") : nil,
+          negative == false ? swagger_i18n("integer_not_negative") : nil,
+          negative == true ? swagger_i18n("integer_only_negative") : nil
+        ])
+      }.compact_blank
+    end
+  end
 end

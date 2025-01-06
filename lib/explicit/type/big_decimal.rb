@@ -41,4 +41,18 @@ class Explicit::Type::BigDecimal < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "string",
+        pattern: /^\d*\.?\d*$/.inspect,
+        format: "decimal number",
+        description: swagger_description([
+          min&.then { swagger_i18n("big_decimal_min", min: _1) },
+          max&.then { swagger_i18n("big_decimal_max", max: _1) }
+        ])
+      }
+    end
+  end
 end

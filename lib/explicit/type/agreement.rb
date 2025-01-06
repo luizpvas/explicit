@@ -25,4 +25,15 @@ class Explicit::Type::Agreement < Explicit::Type
       true
     end
   end
+
+  concerning :Swagger do
+    def swagger_schema
+      {
+        type: "boolean",
+        description: swagger_description([
+          swagger_i18n("agreement")
+        ])
+      }
+    end
+  end
 end

@@ -16,12 +16,6 @@ module Explicit::Documentation::Page
       @request.get_title
     end
 
-    def description_html
-      return if @request.get_description.blank?
-
-      Explicit::Documentation::Markdown.to_html(@request.get_description).html_safe
-    end
-
     def anchor
       title.gsub(" ", "-").downcase
     end
