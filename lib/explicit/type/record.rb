@@ -89,6 +89,7 @@ class Explicit::Type::Record < Explicit::Type
         type: "object",
         properties:,
         required:,
+        description: swagger_description([])
       }.compact_blank
     end
   end

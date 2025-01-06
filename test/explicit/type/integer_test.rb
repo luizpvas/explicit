@@ -50,22 +50,22 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
 
     assert_equal type([:integer, positive: false]).swagger_schema, {
       type: "integer",
-      description: "Must not be positive"
+      description: "* Must not be positive"
     }
 
     assert_equal type([:integer, positive: true]).swagger_schema, {
       type: "integer",
-      description: "Must be positive"
+      description: "* Must be positive"
     }
 
     assert_equal type([:integer, negative: false]).swagger_schema, {
       type: "integer",
-      description: "Must not be negative"
+      description: "* Must not be negative"
     }
 
     assert_equal type([:integer, negative: true]).swagger_schema, {
       type: "integer",
-      description: "Must be negative"
+      description: "* Must be negative"
     }
   end
 end

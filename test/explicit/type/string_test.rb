@@ -58,4 +58,17 @@ class Explicit::Type::StringTest < ActiveSupport::TestCase
     assert_error "must be a string", validate([], :string)
     assert_error "must be a string", validate(nil, :string)
   end
+
+  test "swagger" do
+    assert_equal type([:string, empty: false]).swagger_schema, {
+      type: "string",
+      minLength: 1,
+      description: "* Must not be empty"
+    }
+
+    assert_equal type([:string, downcase: true]).swagger_schema, {
+      type: "string",
+      description: "* Case insensitive"
+    }
+  end
 end

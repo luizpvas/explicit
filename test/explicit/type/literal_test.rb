@@ -14,4 +14,14 @@ class Explicit::Type::LiteralTest < ActiveSupport::TestCase
     assert_error "must be 10", validate(15, [:literal, 10])
     assert_error 'must be "bar"', validate(" bar ", [:literal, "bar"])
   end
+
+  test "swagger" do
+    type = type([:description, "desc", "foo"])
+
+    assert_equal type.swagger_schema, {
+      type: "string",
+      enum: ["foo"],
+      description: "desc"
+    }
+  end
 end

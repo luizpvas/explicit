@@ -56,8 +56,12 @@ class Explicit::Type::String < Explicit::Type
       {
         type: "string",
         pattern: format&.inspect,
-        minLength: minlength,
-        maxLength: maxlength
+        minLength: minlength || (empty == false ? 1 : nil),
+        maxLength: maxlength,
+        description: swagger_description([
+          empty == false ? swagger_i18n("string_not_empty") : nil,
+          downcase == true ? swagger_i18n("string_downcase") : nil
+        ])
       }.compact_blank
     end
   end

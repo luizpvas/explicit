@@ -4,6 +4,10 @@ class Explicit::Type::Literal < Explicit::Type
   attr_reader :value
 
   def initialize(value:)
+    if !value.is_a?(::String) && !value.is_a?(::Integer)
+      raise ArgumentError("literal must be a string or integer") 
+    end
+
     @value = value
   end
 
@@ -32,8 +36,9 @@ class Explicit::Type::Literal < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       {
-        type: "string",
-        enum: [@value]
+        type: @value.is_a?(::String) ? "string" : "integer",
+        enum: [@value],
+        description: swagger_description([])
       }
     end
   end
