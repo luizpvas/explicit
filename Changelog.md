@@ -1,3 +1,7 @@
+# 0.2.5
+
+- Change documentation web page font from `sans-serif` to `system-ui`.
+
 # 0.2.2
 
 - Rename `inclusion` type to `enum`.
