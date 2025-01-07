@@ -13,7 +13,7 @@
     <% end %>
 
     <% if type.has_details? || type.description.present? %>
-      <div class="record__summary__expand">
+      <div class="ml-auto text-neutral-300">
         <span x-show="expanded">&#9650;</span>
         <span x-show="!expanded">&#9660;</span>
       </div>
@@ -29,7 +29,7 @@
       <% end %>
 
       <% if type.has_details? %>
-        <div class="record__subtype">
+        <div class="mt-2">
           <%= type_render type %>
         </div>
       <% end %>

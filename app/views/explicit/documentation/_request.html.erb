@@ -27,7 +27,7 @@
 <% end %>
 
 <div class="flex mt-4 gap-8">
-  <div class="page__request space-y-4">
+  <div class="w-1/2 space-y-4">
     <% if (description = page.request.get_description) %>
       <div class="markdown">
         <%= Explicit::Documentation::Markdown.to_html(description) %>
@@ -57,10 +57,7 @@
 
   <% statuses = page.request.responses.keys.sort %>
 
-  <div
-    class="page__response"
-    x-data="{ active: <%= statuses.first %> }"
-  >
+  <div class="w-1/2" x-data="{ active: <%= statuses.first %> }">
     <div class="flex">
       <% statuses.each do |status| %>
         <button
