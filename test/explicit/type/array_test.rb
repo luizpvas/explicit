@@ -12,10 +12,11 @@ class Explicit::Type::ArrayTest < ActiveSupport::TestCase
   test "empty" do
     assert_ok ["foo"], validate(["foo"], [:array, :string, empty: false])
 
-    assert_error :empty, validate([], [:array, :string, empty: false])
+    assert_error "must not be empty", validate([], [:array, :string, empty: false])
   end
 
   test "error" do
+    assert_error "must be an array", validate(nil, [:array, :string])
     assert_error "invalid item at index(1): must be a string", validate(["foo", 10], [:array, :string])
     assert_error "invalid item at index(2): must be a string", validate(["foo", "bar", nil], [:array, :string])
     assert_error "invalid item at index(0): must be a string", validate([10], [:array, :string])

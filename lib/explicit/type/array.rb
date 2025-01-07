@@ -9,10 +9,10 @@ class Explicit::Type::Array < Explicit::Type
   end
 
   def validate(values)
-    return [:error, :array] if !values.is_a?(::Array)
+    return [:error, error_i18n("array")] if !values.is_a?(::Array)
 
     if values.empty? && !empty
-      return [:error, :empty]
+      return [:error, error_i18n("empty")]
     end
 
     validated = []
@@ -22,7 +22,7 @@ class Explicit::Type::Array < Explicit::Type
       in [:ok, value]
         validated << value
       in [:error, error]
-        return [:error, error_i18n("array", index:, error:)]
+        return [:error, error_i18n("array_item", index:, error:)]
       end
     end
 

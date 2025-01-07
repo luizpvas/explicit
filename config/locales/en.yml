@@ -2,7 +2,8 @@ en:
   explicit:
     errors:
       agreement: "must be accepted"
-      array: "invalid item at index(%{index}): %{error}"
+      array: "must be an array"
+      array_item: "invalid item at index(%{index}): %{error}"
       big_decimal: "must be a string-encoded decimal number"
       boolean: "must be a boolean"
       date_time_iso8601: "must be a valid iso8601 date time"
