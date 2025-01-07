@@ -58,6 +58,10 @@ available:
 - `header(name, type)` - Adds a type to the request header.
 - `param(name, type, options = {})` - Adds a type to the request param.
   It works for params in the request body, query string and path params.
+  - The following conveniences are available via options:
+    - `optional: true` - Makes the param nilable.
+    - `default: value` - Sets a default value to the param, which makes it optional.
+    - `description: "text"` - Adds a documentation to the param. Markdown supported.
 - `response(status, type)` - Adds a response type. You can add multiple
   responses with different formats.
 - `add_example(params:, headers:, response:)` - Adds an example to the
