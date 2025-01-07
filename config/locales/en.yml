@@ -3,7 +3,7 @@ en:
     errors:
       agreement: "must be accepted"
       array: "invalid item at index(%{index}): %{error}"
-      bigdecimal: "must be a string-encoded decimal number"
+      big_decimal: "must be a string-encoded decimal number"
       boolean: "must be a boolean"
       date_time_iso8601: "must be a valid iso8601 date time"
       date_time_posix: "must be a valid posix timestamp"
@@ -22,8 +22,8 @@ en:
       literal: "must be %{value}"
       string: "must be a string"
       empty: "must not be empty"
-      minlength: "length must be at least %{minlength}"
-      maxlength: "length must be at most %{maxlength}"
+      min_length: "length must be at least %{min_length}"
+      max_length: "length must be at most %{max_length}"
       format: "must have format %{regex}"
     swagger:
       agreement: "* Must be accepted (true)"

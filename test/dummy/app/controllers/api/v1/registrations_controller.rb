@@ -21,7 +21,7 @@ class API::V1::RegistrationsController < API::V1::BaseController
       description: "Email address used to login. Case insensitive."
 
     param :password,
-      [:string, minlength: 8],
+      [:string, min_length: 8],
       description: "Minimum 8 characters. No other rules."
 
     param :terms_of_use, :agreement

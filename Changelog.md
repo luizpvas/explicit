@@ -3,6 +3,7 @@
 - Change documentation web page font from `sans-serif` to `system-ui`.
 - Do not include invalid params response variant if request does not need
   any headers or params (fixes #16).
+- Consistent multiword naming.
 
 # 0.2.2
 

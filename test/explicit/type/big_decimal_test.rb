@@ -4,34 +4,34 @@ require "test_helper"
 
 class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
   test "ok" do
-    assert_ok BigDecimal("1"), validate("1", :bigdecimal)
-    assert_ok BigDecimal("-1"), validate("-1", :bigdecimal)
-    assert_ok BigDecimal("1.0"), validate("1.0", :bigdecimal)
-    assert_ok BigDecimal("1"), validate(1, :bigdecimal)
+    assert_ok BigDecimal("1"), validate("1", :big_decimal)
+    assert_ok BigDecimal("-1"), validate("-1", :big_decimal)
+    assert_ok BigDecimal("1.0"), validate("1.0", :big_decimal)
+    assert_ok BigDecimal("1"), validate(1, :big_decimal)
   end
 
   test "min" do
-    assert_ok BigDecimal("1"), validate("1", [:bigdecimal, min: 1])
+    assert_ok BigDecimal("1"), validate("1", [:big_decimal, min: 1])
 
-    assert_error "must be at least 1", validate("0", [:bigdecimal, min: 1])
+    assert_error "must be at least 1", validate("0", [:big_decimal, min: 1])
   end
 
   test "max" do
-    assert_ok BigDecimal("1"), validate("1", [:bigdecimal, max: 1])
+    assert_ok BigDecimal("1"), validate("1", [:big_decimal, max: 1])
 
-    assert_error "must be at most 1", validate("2", [:bigdecimal, max: 1])
+    assert_error "must be at most 1", validate("2", [:big_decimal, max: 1])
   end
 
   test "error" do
-    assert_error "must be a string-encoded decimal number", validate("foo", :bigdecimal)
-    assert_error "must be a string-encoded decimal number", validate(2.0, :bigdecimal)
-    assert_error "must be a string-encoded decimal number", validate(true, :bigdecimal)
-    assert_error "must be a string-encoded decimal number", validate([10], :bigdecimal)
-    assert_error "must be a string-encoded decimal number", validate(nil, :bigdecimal)
+    assert_error "must be a string-encoded decimal number", validate("foo", :big_decimal)
+    assert_error "must be a string-encoded decimal number", validate(2.0, :big_decimal)
+    assert_error "must be a string-encoded decimal number", validate(true, :big_decimal)
+    assert_error "must be a string-encoded decimal number", validate([10], :big_decimal)
+    assert_error "must be a string-encoded decimal number", validate(nil, :big_decimal)
   end
 
   test "swagger" do
-    type = type([:description, "hello", [:bigdecimal, min: 0, max: 10]])
+    type = type([:description, "hello", [:big_decimal, min: 0, max: 10]])
 
     assert_equal type.swagger_schema, {
       type: "string",

@@ -10,7 +10,7 @@ class Explicit::Type::BigDecimal < Explicit::Type
 
   def validate(value)
     unless value.is_a?(::String) || value.is_a?(::Integer)
-      return [:error, error_i18n("bigdecimal")]
+      return [:error, error_i18n("big_decimal")]
     end
 
     decimalvalue = BigDecimal(value)
@@ -25,7 +25,7 @@ class Explicit::Type::BigDecimal < Explicit::Type
 
     [:ok, decimalvalue]
   rescue ArgumentError
-    return [:error, error_i18n("bigdecimal")]
+    return [:error, error_i18n("big_decimal")]
   end
 
   concerning :Webpage do

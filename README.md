@@ -15,7 +15,7 @@ documented types at runtime.
 7. Types
    - [Agreement](#agreement)
    - [Array](#array)
-   - [BigDecimal](#bigdecimal)
+   - [BigDecimal](#big_decimal)
    - [Boolean](#boolean)
    - [Date Time ISO8601](#date-time-iso8601)
    - [Date Time Posix](#date-time-posix)
@@ -405,9 +405,9 @@ value is invalid then the array is invalid.
 ### BigDecimal
 
 ```ruby
-:bigdecimal
-[:bigdecimal, min: 0] # inclusive
-[:bigdecimal, max: 100] # inclusive
+:big_decimal
+[:big_decimal, min: 0] # inclusive
+[:big_decimal, max: 100] # inclusive
 ```
 
 Value must be an integer or a string like `"0.2"` to avoid rounding errors.
@@ -471,15 +471,15 @@ Markdown supported.
 ### Hash
 
 ```ruby
-[:hash, keytype, valuetype, options = {}]
+[:hash, key_type, value_type, options = {}]
 [:hash, :string, :string]
 [:hash, :string, :integer]
 [:hash, :string, :integer, empty: false]
 [:hash, :string, [:array, :date_time_iso8601]]
 ```
 
-Hashes are key value pairs where all keys must match keytype and all values must
-match valuetype. If you are expecting a hash with a specific set of keys use a
+Hashes are key value pairs where all keys must match key_type and all values must
+match value_type. If you are expecting a hash with a specific set of keys use a
 [record](#record) instead.
 
 ### Enum
@@ -562,7 +562,7 @@ address_type = {
 
 payment_type = {
   currency: [:nilable, :string], # use :nilable for optional attribute
-  amount: :bigdecimal
+  amount: :big_decimal
 }
 ```
 
@@ -578,8 +578,8 @@ records with array of records, etc.
 [:string, empty: false]
 [:string, downcase: true] # "FOO" gets transformed to "foo"
 [:string, format: URI::MailTo::EMAIL_REGEXP]
-[:string, minlength: 8] # inclusive
-[:string, maxlength: 20] # inclusive
+[:string, min_length: 8] # inclusive
+[:string, max_length: 20] # inclusive
 ```
 
 # Configuration

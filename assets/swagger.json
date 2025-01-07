@@ -23,9 +23,7 @@
   "paths": {
     "/registrations": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Registration",
         "description": "Attempts to register a new user in the system. Email address must be unique.\nIf registration succeeds an authentication token is returned. Use this token\nto authenticate requests with the header `Authorization: Bearer \u003Ctoken\u003E`.\n",
         "requestBody": {
@@ -94,9 +92,7 @@
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": [
-                            "invalid_params"
-                          ],
+                          "enum": ["invalid_params"],
                           "description": ""
                         },
                         "params": {
@@ -107,25 +103,18 @@
                           "description": "An object containing error messages for all invalid params"
                         }
                       },
-                      "required": [
-                        "error",
-                        "params"
-                      ]
+                      "required": ["error", "params"]
                     },
                     {
                       "type": "object",
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": [
-                            "email_already_taken"
-                          ],
+                          "enum": ["email_already_taken"],
                           "description": ""
                         }
                       },
-                      "required": [
-                        "error"
-                      ]
+                      "required": ["error"]
                     }
                   ]
                 },
@@ -161,9 +150,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "token"
-                  ]
+                  "required": ["token"]
                 },
                 "examples": {
                   "0": {
@@ -181,9 +168,7 @@
     },
     "/sessions": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Log in",
         "description": "Attempts to sign in a user to the system. If sign in succeeds an\nauthentication token is returned. Use this token to authenticate requests\nwith the header `Authorization: Bearer \u003Ctoken\u003E`.\n",
         "requestBody": {
@@ -202,10 +187,7 @@
                     "minLength": 8
                   }
                 },
-                "required": [
-                  "email_address",
-                  "password"
-                ]
+                "required": ["email_address", "password"]
               },
               "examples": {
                 "0": {
@@ -242,9 +224,7 @@
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": [
-                            "invalid_params"
-                          ],
+                          "enum": ["invalid_params"],
                           "description": ""
                         },
                         "params": {
@@ -255,25 +235,18 @@
                           "description": "An object containing error messages for all invalid params"
                         }
                       },
-                      "required": [
-                        "error",
-                        "params"
-                      ]
+                      "required": ["error", "params"]
                     },
                     {
                       "type": "object",
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": [
-                            "invalid_credentials"
-                          ],
+                          "enum": ["invalid_credentials"],
                           "description": ""
                         }
                       },
-                      "required": [
-                        "error"
-                      ]
+                      "required": ["error"]
                     }
                   ]
                 },
@@ -312,9 +285,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "token"
-                  ]
+                  "required": ["token"]
                 },
                 "examples": {
                   "0": {
@@ -330,9 +301,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Log out",
         "description": "Revokes the authentication token used to authenticate the request, which\nprevents the token from being used in the future.\n",
         "parameters": [
@@ -356,9 +325,7 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "invalid_params"
-                      ],
+                      "enum": ["invalid_params"],
                       "description": ""
                     },
                     "params": {
@@ -369,10 +336,7 @@
                       "description": "An object containing error messages for all invalid params"
                     }
                   },
-                  "required": [
-                    "error",
-                    "params"
-                  ]
+                  "required": ["error", "params"]
                 }
               }
             },
@@ -386,15 +350,11 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "unauthorized"
-                      ],
+                      "enum": ["unauthorized"],
                       "description": ""
                     }
                   },
-                  "required": [
-                    "error"
-                  ]
+                  "required": ["error"]
                 }
               }
             },
@@ -408,15 +368,11 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "enum": [
-                        "session revoked"
-                      ],
+                      "enum": ["session revoked"],
                       "description": ""
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             },
@@ -427,9 +383,7 @@
     },
     "/articles": {
       "post": {
-        "tags": [
-          "Articles"
-        ],
+        "tags": ["Articles"],
         "summary": "Create article",
         "parameters": [
           {
@@ -465,10 +419,7 @@
                     "description": "* Must be valid according to ISO 8601"
                   }
                 },
-                "required": [
-                  "title",
-                  "content"
-                ]
+                "required": ["title", "content"]
               },
               "examples": {
                 "0": {
@@ -499,9 +450,7 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "invalid_params"
-                      ],
+                      "enum": ["invalid_params"],
                       "description": ""
                     },
                     "params": {
@@ -512,10 +461,7 @@
                       "description": "An object containing error messages for all invalid params"
                     }
                   },
-                  "required": [
-                    "error",
-                    "params"
-                  ]
+                  "required": ["error", "params"]
                 }
               }
             },
@@ -529,15 +475,11 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "unauthorized"
-                      ],
+                      "enum": ["unauthorized"],
                       "description": ""
                     }
                   },
-                  "required": [
-                    "error"
-                  ]
+                  "required": ["error"]
                 }
               }
             },
@@ -576,17 +518,10 @@
                           "description": "* Must be positive"
                         }
                       },
-                      "required": [
-                        "id",
-                        "title",
-                        "content",
-                        "read_count"
-                      ]
+                      "required": ["id", "title", "content", "read_count"]
                     }
                   },
-                  "required": [
-                    "article"
-                  ]
+                  "required": ["article"]
                 },
                 "examples": {
                   "0": {
@@ -621,9 +556,7 @@
     },
     "/articles/{article_id}": {
       "get": {
-        "tags": [
-          "Articles"
-        ],
+        "tags": ["Articles"],
         "summary": "Get article",
         "parameters": [
           {
@@ -656,9 +589,7 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "invalid_params"
-                      ],
+                      "enum": ["invalid_params"],
                       "description": ""
                     },
                     "params": {
@@ -669,10 +600,7 @@
                       "description": "An object containing error messages for all invalid params"
                     }
                   },
-                  "required": [
-                    "error",
-                    "params"
-                  ]
+                  "required": ["error", "params"]
                 }
               }
             },
@@ -686,15 +614,11 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "unauthorized"
-                      ],
+                      "enum": ["unauthorized"],
                       "description": ""
                     }
                   },
-                  "required": [
-                    "error"
-                  ]
+                  "required": ["error"]
                 },
                 "examples": {
                   "0": {
@@ -740,17 +664,10 @@
                           "description": "* Must be positive"
                         }
                       },
-                      "required": [
-                        "id",
-                        "title",
-                        "content",
-                        "read_count"
-                      ]
+                      "required": ["id", "title", "content", "read_count"]
                     }
                   },
-                  "required": [
-                    "article"
-                  ]
+                  "required": ["article"]
                 },
                 "examples": {
                   "0": {
@@ -777,9 +694,7 @@
                 },
                 "examples": {
                   "0": {
-                    "value": {
-
-                    }
+                    "value": {}
                   }
                 }
               }
@@ -789,9 +704,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Articles"
-        ],
+        "tags": ["Articles"],
         "summary": "Update article",
         "parameters": [
           {
@@ -837,10 +750,7 @@
                     "description": "* Must be valid according to ISO 8601"
                   }
                 },
-                "required": [
-                  "title",
-                  "content"
-                ]
+                "required": ["title", "content"]
               },
               "examples": {
                 "0": {
@@ -885,9 +795,7 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "invalid_params"
-                      ],
+                      "enum": ["invalid_params"],
                       "description": ""
                     },
                     "params": {
@@ -898,10 +806,7 @@
                       "description": "An object containing error messages for all invalid params"
                     }
                   },
-                  "required": [
-                    "error",
-                    "params"
-                  ]
+                  "required": ["error", "params"]
                 }
               }
             },
@@ -915,15 +820,11 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "unauthorized"
-                      ],
+                      "enum": ["unauthorized"],
                       "description": ""
                     }
                   },
-                  "required": [
-                    "error"
-                  ]
+                  "required": ["error"]
                 },
                 "examples": {
                   "0": {
@@ -969,17 +870,10 @@
                           "description": "* Must be positive"
                         }
                       },
-                      "required": [
-                        "id",
-                        "title",
-                        "content",
-                        "read_count"
-                      ]
+                      "required": ["id", "title", "content", "read_count"]
                     }
                   },
-                  "required": [
-                    "article"
-                  ]
+                  "required": ["article"]
                 },
                 "examples": {
                   "0": {
@@ -1017,9 +911,7 @@
                 },
                 "examples": {
                   "0": {
-                    "value": {
-
-                    }
+                    "value": {}
                   }
                 }
               }
@@ -1031,9 +923,7 @@
     },
     "/everything": {
       "post": {
-        "tags": [
-          "Others"
-        ],
+        "tags": ["Others"],
         "summary": "Everything",
         "description": "This request uses all available types in the Explicit gem to showcase and\ntest them.\n",
         "requestBody": {
@@ -1076,7 +966,7 @@
                     "type": "boolean",
                     "description": "* Must be accepted (true)"
                   },
-                  "bigdecimal1": {
+                  "big_decimal1": {
                     "type": "string",
                     "pattern": "/^\\d*\\.?\\d*$/",
                     "format": "decimal number",
@@ -1099,11 +989,7 @@
                   },
                   "enum1": {
                     "type": "string",
-                    "enum": [
-                      "one",
-                      "two",
-                      "three"
-                    ],
+                    "enum": ["one", "two", "three"],
                     "description": ""
                   }
                 },
@@ -1113,7 +999,7 @@
                   "integer1",
                   "hash1",
                   "agreement1",
-                  "bigdecimal1",
+                  "big_decimal1",
                   "boolean1",
                   "date_time_iso8601",
                   "date_time_posix",
@@ -1133,9 +1019,7 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": [
-                        "invalid_params"
-                      ],
+                      "enum": ["invalid_params"],
                       "description": ""
                     },
                     "params": {
@@ -1146,10 +1030,7 @@
                       "description": "An object containing error messages for all invalid params"
                     }
                   },
-                  "required": [
-                    "error",
-                    "params"
-                  ]
+                  "required": ["error", "params"]
                 }
               }
             },
@@ -1163,15 +1044,11 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "enum": [
-                        "ok"
-                      ],
+                      "enum": ["ok"],
                       "description": ""
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 },
                 "examples": {
                   "0": {

@@ -8,14 +8,14 @@ class Explicit::Type
     in :agreement
       Explicit::Type::Agreement.new
 
-    in [:array, itemtype]
-      Explicit::Type::Array.new(itemtype:)
-    in [:array, itemtype, options]
-      Explicit::Type::Array.new(itemtype:, **options)
+    in [:array, item_type]
+      Explicit::Type::Array.new(item_type:)
+    in [:array, item_type, options]
+      Explicit::Type::Array.new(item_type:, **options)
 
-    in :bigdecimal
+    in :big_decimal
       Explicit::Type::BigDecimal.new
-    in [:bigdecimal, options]
+    in [:big_decimal, options]
       Explicit::Type::BigDecimal.new(**options)
 
     in :boolean
@@ -26,10 +26,10 @@ class Explicit::Type
     in :date_time_posix
       Explicit::Type::DateTimePosix.new
 
-    in [:hash, keytype, valuetype]
-      Explicit::Type::Hash.new(keytype:, valuetype:)
-    in [:hash, keytype, valuetype, options]
-      Explicit::Type::Hash.new(keytype:, valuetype:, **options)
+    in [:hash, key_type, value_type]
+      Explicit::Type::Hash.new(key_type:, value_type:)
+    in [:hash, key_type, value_type, options]
+      Explicit::Type::Hash.new(key_type:, value_type:, **options)
 
     in [:enum, allowed_values]
       Explicit::Type::Enum.new(allowed_values)

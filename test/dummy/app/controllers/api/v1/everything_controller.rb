@@ -13,7 +13,7 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :file1, [:file, max_size: 2.megabytes, content_types: %w[image/jpeg image/png]]
 
-    param :string1, [:string, empty: false, strip: true, minlength: 1, maxlength: 100]
+    param :string1, [:string, empty: false, strip: true, min_length: 1, max_length: 100]
 
     param :integer1, [:integer, min: 1, max: 100]
 
@@ -25,7 +25,7 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :agreement1, :agreement
 
-    param :bigdecimal1, [:bigdecimal, min: 0, max: 100]
+    param :big_decimal1, [:big_decimal, min: 0, max: 100]
 
     param :boolean1, :boolean
 

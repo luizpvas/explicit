@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class Explicit::Type::String < Explicit::Type
-  attr_reader :empty, :strip, :format, :minlength, :maxlength, :downcase
+  attr_reader :empty, :strip, :format, :min_length, :max_length, :downcase
 
-  def initialize(empty: nil, strip: nil, format: nil, minlength: nil, maxlength: nil, downcase: false)
+  def initialize(empty: nil, strip: nil, format: nil, min_length: nil, max_length: nil, downcase: false)
     @empty = empty
     @strip = strip
     @format = format
-    @minlength = minlength
-    @maxlength = maxlength
+    @min_length = min_length
+    @max_length = max_length
     @downcase = downcase
   end
 
@@ -22,12 +22,12 @@ class Explicit::Type::String < Explicit::Type
       return [:error, error_i18n("empty")]
     end
 
-    if minlength && value.length < minlength
-      return [:error, error_i18n("minlength", minlength:)]
+    if min_length && value.length < min_length
+      return [:error, error_i18n("min_length", min_length:)]
     end
 
-    if maxlength && value.length > maxlength
-      return [:error, error_i18n("maxlength", maxlength:)]
+    if max_length && value.length > max_length
+      return [:error, error_i18n("max_length", max_length:)]
     end
 
     if format && !format.match?(value)
@@ -47,7 +47,7 @@ class Explicit::Type::String < Explicit::Type
     end
 
     def has_details?
-      !empty.nil? || format.present? || minlength.present? || maxlength.present?
+      !empty.nil? || format.present? || min_length.present? || max_length.present?
     end
   end
 
@@ -56,8 +56,8 @@ class Explicit::Type::String < Explicit::Type
       {
         type: "string",
         pattern: format&.inspect,
-        minLength: minlength || (empty == false ? 1 : nil),
-        maxLength: maxlength,
+        minLength: min_length || (empty == false ? 1 : nil),
+        maxLength: max_length,
         description: swagger_description([
           empty == false ? swagger_i18n("string_not_empty") : nil,
           downcase == true ? swagger_i18n("string_downcase") : nil

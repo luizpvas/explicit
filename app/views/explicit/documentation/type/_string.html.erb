@@ -3,12 +3,12 @@
     <%= type_constraint "not", "empty" %>
   <% end %>
 
-  <% if type.minlength %>
-    <%= type_constraint "minlength", type.minlength %>
+  <% if type.min_length %>
+    <%= type_constraint "min_length", type.min_length %>
   <% end %>
 
-  <% if type.maxlength %>
-    <%= type_constraint "maxlength", type.maxlength %>
+  <% if type.max_length %>
+    <%= type_constraint "max_length", type.max_length %>
   <% end %>
 
   <% if type.format %>

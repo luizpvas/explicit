@@ -25,18 +25,18 @@ class Explicit::Type::StringTest < ActiveSupport::TestCase
     assert_error "must not be empty", validate("  ", [:string, empty: false, strip: true])
   end
 
-  test "minlength" do
-    assert_ok "foo", validate("foo", [:string, minlength: 3])
-    assert_ok "", validate("", [:string, minlength: 0])
+  test "min_length" do
+    assert_ok "foo", validate("foo", [:string, min_length: 3])
+    assert_ok "", validate("", [:string, min_length: 0])
 
-    assert_error "length must be at least 4", validate("foo", [:string, minlength: 4])
+    assert_error "length must be at least 4", validate("foo", [:string, min_length: 4])
   end
 
-  test "maxlength" do
-    assert_ok "foo", validate("foo", [:string, maxlength: 3])
-    assert_ok "", validate("", [:string, maxlength: 0])
+  test "max_length" do
+    assert_ok "foo", validate("foo", [:string, max_length: 3])
+    assert_ok "", validate("", [:string, max_length: 0])
 
-    assert_error "length must be at most 2", validate("foo", [:string, maxlength: 2])
+    assert_error "length must be at most 2", validate("foo", [:string, max_length: 2])
   end
 
   test "format" do
