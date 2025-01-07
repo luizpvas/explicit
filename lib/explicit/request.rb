@@ -10,7 +10,9 @@ class Explicit::Request
     @responses = Hash.new { |hash, key| hash[key] = [] }
     @examples = Hash.new { |hash, key| hash[key] = [] }
 
-    if Explicit.configuration.rescue_from_invalid_params?
+    instance_eval(&block)
+
+    if Explicit.configuration.rescue_from_invalid_params? && @params.any?
       @responses[422] << {
         error: "invalid_params",
         params: [
@@ -20,28 +22,28 @@ class Explicit::Request
         ]
       }
     end
-
-    instance_eval(&block)
   end
 
   def new(&block)
-    subrequest = self.class.new { }
+    this = self
 
-    subrequest.instance_variable_set(:@base_url,  @base_url)
-    subrequest.instance_variable_set(:@base_path, @base_path)
-    subrequest.instance_variable_set(:@routes,    @routes.dup)
-    subrequest.instance_variable_set(:@headers,   @headers.dup)
-    subrequest.instance_variable_set(:@params,    @params.dup)
+    self.class.new do
+      instance_variable_set(:@base_url,  this.get_base_url)
+      instance_variable_set(:@base_path, this.get_base_path)
+      instance_variable_set(:@routes,    this.routes.dup)
+      instance_variable_set(:@headers,   this.headers.dup)
+      instance_variable_set(:@params,    this.params.dup)
 
-    @responses.each do |status, types|
-      subrequest.responses[status] = types.dup
+      this.responses.each do |status, types|
+        @responses[status] = types.dup
+      end
+
+      this.examples.each do |status, examples|
+        @examples[status] = examples.dup
+      end
+
+      instance_eval(&block)
     end
-
-    @examples.each do |status, examples|
-      subrequest.examples[status] = examples.dup
-    end
-
-    subrequest.tap { _1.instance_eval(&block) }
   end
 
   def get(path)     = @routes << Route.new(method: :get, path:)
