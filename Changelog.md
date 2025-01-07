@@ -4,6 +4,7 @@
 - Do not include invalid params response variant if request does not need
   any headers or params (fixes #16).
 - Consistent multiword naming.
+- Fix `array` type validation error message
 
 # 0.2.2
 
