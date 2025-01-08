@@ -21,6 +21,7 @@ en:
       not_negative: "must not be negative"
       not_positive: "must not be positive"
       literal: "must be %{value}"
+      one_of_separator: " OR "
       string: "must be a string"
       empty: "must not be empty"
       min_length: "length must be at least %{min_length}"

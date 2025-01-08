@@ -19,7 +19,7 @@ class Explicit::Type::OneOf < Explicit::Type
       end
     end
 
-    [:error, errors.join(" OR ")]
+    [:error, errors.join(error_i18n("one_of_separator"))]
   end
 
   concerning :Webpage do
