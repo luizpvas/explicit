@@ -4,7 +4,7 @@ class Explicit::Type::Record < Explicit::Type
   attr_reader :attributes
 
   def initialize(attributes:)
-    @attributes = attributes.map do |attribute_name, type|
+    @attributes = attributes.to_h do |attribute_name, type|
       type = Explicit::Type.build(type) if !type.is_a?(Explicit::Type)
 
       [attribute_name, type]

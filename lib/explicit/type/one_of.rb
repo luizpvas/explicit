@@ -5,6 +5,7 @@ class Explicit::Type::OneOf < Explicit::Type
 
   def initialize(subtypes:)
     @subtypes = subtypes.map { Explicit::Type.build(_1) }
+    @subtypes_are_records = @subtypes.all? { _1.is_a?(Explicit::Type::Record) }
   end
 
   def validate(value)
@@ -19,7 +20,38 @@ class Explicit::Type::OneOf < Explicit::Type
       end
     end
 
-    [:error, errors.join(error_i18n("one_of_separator"))]
+    if (err = guess_error_for_intended_subtype(value:, errors:))
+      return [:error, err]
+    end
+
+    error =
+      if @subtypes_are_records
+        errors.map { ::JSON.pretty_generate(_1) }.join("\n\n#{error_i18n("one_of_separator")}\n\n")
+      else
+        errors.join(" #{error_i18n('one_of_separator')} ")
+      end
+
+    [:error, error]
+  end
+
+  def guess_error_for_intended_subtype(value:, errors:)
+    return nil if !@subtypes_are_records
+    return nil if !value.is_a?(::Hash)
+
+    matches = @subtypes.zip(errors).filter_map do |(subtype, error)|
+      s1 = Set.new(subtype.attributes.keys)
+      s2 = Set.new(value.keys)
+
+      if s1.intersection(s2).size.positive?
+        { subtype:, error: }
+      else
+        nil
+      end
+    end
+
+    return matches.first[:error] if matches.one?
+
+    nil
   end
 
   concerning :Webpage do
