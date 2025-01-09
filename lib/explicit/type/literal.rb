@@ -35,11 +35,10 @@ class Explicit::Type::Literal < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
+      merge_base_swagger_schema({
         type: @value.is_a?(::String) ? "string" : "integer",
-        enum: [@value],
-        description: swagger_description([])
-      }
+        enum: [@value]
+      })
     end
   end
 end

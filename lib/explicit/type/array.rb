@@ -45,12 +45,11 @@ class Explicit::Type::Array < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
+      merge_base_swagger_schema({
         type: "array",
         items: item_type.swagger_schema,
-        minItems: empty ? 0 : 1,
-        description: swagger_description([])
-      }.compact_blank
+        minItems: empty ? 0 : 1
+      })
     end
   end
 end

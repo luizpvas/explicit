@@ -53,16 +53,16 @@ class Explicit::Type::String < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
+      merge_base_swagger_schema({
         type: "string",
         pattern: format&.inspect,
         minLength: min_length || (empty == false ? 1 : nil),
         maxLength: max_length,
-        description: swagger_description([
+        description_topics: [
           empty == false ? swagger_i18n("string_not_empty") : nil,
           downcase == true ? swagger_i18n("string_downcase") : nil
-        ])
-      }.compact_blank
+        ]
+      })
     end
   end
 end

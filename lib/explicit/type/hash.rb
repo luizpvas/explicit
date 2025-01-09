@@ -45,13 +45,13 @@ class Explicit::Type::Hash < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
+      merge_base_swagger_schema({
         type: "object",
         additionalProperties: value_type.swagger_schema,
-        description: swagger_description([
+        description_topics: [
           empty == false ? swagger_i18n("hash_not_empty") : nil
-        ])
-      }
+        ]
+      })
     end
   end
 end

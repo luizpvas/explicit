@@ -29,13 +29,13 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
+      merge_base_swagger_schema({
         type: "string",
         format: "date-time",
-        description: swagger_description([
+        description_topics: [
           swagger_i18n("date_time_iso8601")
-        ])
-      }
+        ]
+      })
     end
   end
 end

@@ -98,15 +98,22 @@ class Explicit::Type
     ::I18n.t(key, **context)
   end
 
-  def swagger_description(extras)
-    extras = extras.compact_blank
+  def merge_base_swagger_schema(attributes)
+    topics = attributes.delete(:description_topics)&.compact_blank || []
 
-    if description.present? && extras.empty?
-      description
-    elsif description.present? && extras.any?
-      description + "\n\n" + extras.compact_blank.join("\n")
-    else
-      extras.compact_blank.join("\n")
-    end
+    formatted_description =
+      if description.present? && topics.empty?
+        description
+      elsif description.present? && topics.any?
+        description + "\n\n" + topics.join("\n")
+      else
+        topics.join("\n")
+      end
+
+    base_attributes = {
+      description: formatted_description
+    }
+
+    base_attributes.merge(attributes).compact_blank
   end
 end

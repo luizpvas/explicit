@@ -38,10 +38,9 @@ class Explicit::Type::Boolean < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
-        type: "boolean",
-        description: swagger_description([])
-      }
+      merge_base_swagger_schema({
+        type: "boolean"
+      })
     end
   end
 end

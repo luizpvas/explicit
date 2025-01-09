@@ -31,11 +31,10 @@ class Explicit::Type::Enum < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
+      merge_base_swagger_schema({
         type: "string",
-        enum: allowed_values,
-        description: swagger_description([])
-      }
+        enum: allowed_values
+      })
     end
   end
 end

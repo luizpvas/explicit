@@ -85,12 +85,11 @@ class Explicit::Type::Record < Explicit::Type
         type.required? ? name.to_s : nil
       end
 
-      {
+      merge_base_swagger_schema({
         type: "object",
         properties:,
-        required:,
-        description: swagger_description([])
-      }.compact_blank
+        required:
+      })
     end
   end
 end
