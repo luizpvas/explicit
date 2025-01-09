@@ -4,7 +4,8 @@
 - Do not include invalid params response variant if request does not need
   any headers or params (fixes #16).
 - Consistent multiword naming.
-- Fix `array` type validation error message
+- Fix `array` type validation error message.
+- Improve error returned from `one_of` when all subtypes are records (fixes #12).
 
 # 0.2.2
 
