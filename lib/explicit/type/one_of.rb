@@ -15,7 +15,7 @@ class Explicit::Type::OneOf < Explicit::Type
 
       literal_names = literal_types.map { |name, _| name }.uniq
 
-      if literal_names.one?
+      if literal_types.all?(&:present?) && literal_names.one?
         @literal_attribute_name_shared_by_all_subtypes = literal_names.first
       end
     end

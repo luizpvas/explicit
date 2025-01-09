@@ -81,5 +81,21 @@ class Explicit::Type::OneOfTest < ActiveSupport::TestCase
       TXT
       validate({}, contact_info)
     )
+
+    assert_error(
+      <<~TXT.strip,
+        {
+          "type": "must be \\\"foo\\\"",
+          "foo": "must be a string"
+        }
+
+        OR
+
+        {
+          "bar": "must be a string"
+        }
+      TXT
+      validate({}, [:one_of, { type: "foo", foo: :string }, { bar: :string }])
+    )
   end
 end
