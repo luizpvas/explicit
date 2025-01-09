@@ -9,7 +9,7 @@ Got:
 
 HTTP #{response.status} #{JSON.pretty_generate(response.data)}
 
-This response doesn't match any type. Here are the errors:
+This response doesn't match expected responses:
 
 #{error.presence || " ==> no response types found for status #{response.status}"}
 
