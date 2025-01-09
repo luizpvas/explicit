@@ -6,6 +6,19 @@ class Explicit::Type::OneOf < Explicit::Type
   def initialize(subtypes:)
     @subtypes = subtypes.map { Explicit::Type.build(_1) }
     @subtypes_are_records = @subtypes.all? { _1.is_a?(Explicit::Type::Record) }
+    @literal_attribute_name_shared_by_all_subtypes = nil
+
+    if @subtypes_are_records
+      literal_types = @subtypes.map do |subtype|
+        subtype.attributes.find { |name, type| type.is_a?(Explicit::Type::Literal) }
+      end
+
+      literal_names = literal_types.map { |name, _| name }.uniq
+
+      if literal_names.one?
+        @literal_attribute_name_shared_by_all_subtypes = literal_names.first
+      end
+    end
   end
 
   def validate(value)
@@ -20,7 +33,11 @@ class Explicit::Type::OneOf < Explicit::Type
       end
     end
 
-    if (err = guess_error_for_intended_subtype(value:, errors:))
+    if (err = guess_error_for_intended_subtype_via_matching_literal(value:, errors:))
+      return [:error, err]
+    end
+
+    if (err = guess_error_for_intended_subtype_via_matching_keys(value:, errors:))
       return [:error, err]
     end
 
@@ -34,7 +51,16 @@ class Explicit::Type::OneOf < Explicit::Type
     [:error, error]
   end
 
-  def guess_error_for_intended_subtype(value:, errors:)
+  def guess_error_for_intended_subtype_via_matching_literal(value:, errors:)
+    return nil if !@literal_attribute_name_shared_by_all_subtypes
+    return nil if !value.is_a?(::Hash)
+
+    errors.find do |error|
+      !error.key?(@literal_attribute_name_shared_by_all_subtypes)
+    end
+  end
+
+  def guess_error_for_intended_subtype_via_matching_keys(value:, errors:)
     return nil if !@subtypes_are_records
     return nil if !value.is_a?(::Hash)
 

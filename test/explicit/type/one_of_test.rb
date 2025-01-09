@@ -13,7 +13,7 @@ class Explicit::Type::OneOfTest < ActiveSupport::TestCase
     assert_error "must not be empty OR must be an integer", validate("", [:one_of, [:string, empty: false], :integer])
   end
 
-  test "subtype error guesssing" do
+  test "subtype error guesssing via matching keys" do
     contact_info = [:one_of, { phone: :string }, { email: :string }]
 
     assert_error(
@@ -35,6 +35,47 @@ class Explicit::Type::OneOfTest < ActiveSupport::TestCase
         OR
 
         {
+          "email": "must be a string"
+        }
+      TXT
+      validate({}, contact_info)
+    )
+  end
+
+  test "subtype error guessing via matching literal" do
+    contact_info = [
+      :one_of,
+      {
+        type: "phone",
+        phone: :string
+      },
+      {
+        type: "email",
+        email: :string
+      }
+    ]
+
+    assert_error(
+      { phone: "must be a string" },
+      validate({ type: "phone" }, contact_info)
+    )
+
+    assert_error(
+      { email: "must be a string" },
+      validate({ type: "email" }, contact_info)
+    )
+
+    assert_error(
+      <<~TXT.strip,
+        {
+          "type": "must be \\\"phone\\\"",
+          "phone": "must be a string"
+        }
+
+        OR
+
+        {
+          "type": "must be \\\"email\\\"",
           "email": "must be a string"
         }
       TXT
