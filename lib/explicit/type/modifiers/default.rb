@@ -5,7 +5,7 @@ module Explicit::Type::Modifiers::Default
 
   def apply(default, type)
     Explicit::Type.build(type).tap do |type|
-      type.default = default if type.is_a?(Explicit::Type) # TODO: remove check
+      type.default = default
 
       original_validate = type.method(:validate)
 

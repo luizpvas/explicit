@@ -5,7 +5,7 @@ module Explicit::Type::Modifiers::Description
 
   def apply(description, type)
     Explicit::Type.build(type).tap do |type|
-      type.description = description if type.is_a?(Explicit::Type) # TODO: remove check
+      type.description = description
     end
   end
 end

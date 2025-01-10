@@ -5,7 +5,7 @@ module Explicit::Type::Modifiers::Nilable
 
   def apply(type)
     Explicit::Type.build(type).tap do |type|
-      type.nilable = true if type.is_a?(Explicit::Type) # TODO: remove check
+      type.nilable = true
 
       original_validate = type.method(:validate)
 
