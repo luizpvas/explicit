@@ -6,6 +6,11 @@ en:
       array_item: "invalid item at index(%{index}): %{error}"
       big_decimal: "must be a string-encoded decimal number"
       boolean: "must be a boolean"
+      date_range_format: 'must be a string in the format of "YYYY-MM-DD..YYYY-MM-DD"'
+      date_range_min_date: "starting date cannot be before %{min_date}"
+      date_range_max_date: "end date cannot be after %{max_date}"
+      date_range_min_range: "date range cannot be smaller than %{min_range}"
+      date_range_max_range: "date range cannot be larger than %{max_range}"
       date_time_iso8601: "must be a valid iso8601 date time"
       date_time_posix: "must be a valid posix timestamp"
       hash: "must be an object"
@@ -31,6 +36,10 @@ en:
       agreement: "* Must be accepted (true)"
       big_decimal_min: "* Minimum: %{min}"
       big_decimal_max: "* Maximum: %{max}"
+      date_range: '* A date followed by two dots then another date: "YYYY-MM-DD..YYYY-MM-DD"'
+      date_range_between_range: "* The date range must be between %{min_range} and %{max_range}"
+      date_range_min_range: "* The date range must be larger than %{min_range}"
+      date_range_max_range: "* The date range must be smaller than %{max_range}"
       date_time_iso8601: "* Must be valid according to ISO 8601"
       date_time_posix: "* POSIX time or Unix epoch is the amount of seconds since 1970-01-01"
       file_max_size: "* Max size: %{max_size}"

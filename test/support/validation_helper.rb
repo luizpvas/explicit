@@ -27,6 +27,6 @@ module ValidationHelper
   end
 
   def assert_type_render_swagger!(type)
-    # TODO
+    assert type.swagger_schema.present?
   end
 end

@@ -1,0 +1,6 @@
+A date followed by two dots then another date, no spaces: <code>"YYYY-MM-DD..YYYY-MM-DD"</code>.
+
+<%= type_constraints do %>
+  <%= type_constraint "Min range:", type.min_range.inspect if type.min_range %>
+  <%= type_constraint "Max range:", type.max_range.inspect if type.max_range %>
+<% end %>

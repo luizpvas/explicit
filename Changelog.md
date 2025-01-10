@@ -8,6 +8,7 @@
 - Improve error returned from `one_of` when all subtypes are records (fixes #12).
 - Add default value to swagger documentation (fixes #23)
 - Accept `BigDecimal` values in `:big_decimal` type (fixes #26)
+- Add `date_range` type.
 
 # 0.2.2
 

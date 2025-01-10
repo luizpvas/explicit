@@ -17,6 +17,7 @@ documented types at runtime.
    - [Array](#array)
    - [BigDecimal](#big_decimal)
    - [Boolean](#boolean)
+   - [Date Range](#date-range)
    - [Date Time ISO8601](#date-time-iso8601)
    - [Date Time Posix](#date-time-posix)
    - [Default](#default)
@@ -421,6 +422,19 @@ Value must be an integer or a string like `"0.2"` to avoid rounding errors.
 
 The following values are true: `true`, `"true"`, `"on"`, `"1"` and `1`, and the
 following values are false: `false`, `"false"`, `"off"`, `"0"` and `0`.
+
+### Date Range
+
+```ruby
+:date_range
+[:date_range, min_range: 2.days]
+[:date_range, max_range: 30.days]
+[:date_range, min_date: -> { 2.months.ago }]
+[:date_range, max_date: -> { 1.day.from_now }]
+```
+
+The syntax for date range is a date followed by two dots then another date, no spaces:
+"YYYY-MM-DD..YYYY-MM-DD". The range is inclusive from start date to end date.
 
 ### Date Time ISO8601
 

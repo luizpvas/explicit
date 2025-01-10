@@ -29,6 +29,14 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :boolean1, :boolean
 
+    param :date_range1, [
+      :date_range,
+      min_range: 1.day,
+      max_range: 30.days,
+      min_date: -> { 2.months.ago },
+      max_date: -> { 1.day.from_now }
+    ]
+
     param :date_time_iso8601, :date_time_iso8601
 
     param :date_time_posix, :date_time_posix

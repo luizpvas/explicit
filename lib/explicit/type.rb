@@ -21,6 +21,11 @@ class Explicit::Type
     in :boolean
       Explicit::Type::Boolean.new
 
+    in :date_range
+      Explicit::Type::DateRange.new
+    in [:date_range, options]
+      Explicit::Type::DateRange.new(**options)
+
     in :date_time_iso8601
       Explicit::Type::DateTimeISO8601.new
     in :date_time_posix
