@@ -8,6 +8,7 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
     assert_ok BigDecimal("-1"), validate("-1", :big_decimal)
     assert_ok BigDecimal("1.0"), validate("1.0", :big_decimal)
     assert_ok BigDecimal("1"), validate(1, :big_decimal)
+    assert_ok BigDecimal("1"), validate(BigDecimal("1"), :big_decimal)
   end
 
   test "min" do

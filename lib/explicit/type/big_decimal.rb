@@ -9,21 +9,21 @@ class Explicit::Type::BigDecimal < Explicit::Type
   end
 
   def validate(value)
-    unless value.is_a?(::String) || value.is_a?(::Integer)
+    if !value.is_a?(::BigDecimal) && !value.is_a?(::String) && !value.is_a?(::Integer)
       return [:error, error_i18n("big_decimal")]
     end
 
-    decimalvalue = BigDecimal(value)
+    decimal_value = BigDecimal(value)
 
-    if min && decimalvalue < min
+    if min && decimal_value < min
       return [:error, error_i18n("min", min:)]
     end
 
-    if max && decimalvalue > max
+    if max && decimal_value > max
       return [:error, error_i18n("max", max:)]
     end
 
-    [:ok, decimalvalue]
+    [:ok, decimal_value]
   rescue ArgumentError
     return [:error, error_i18n("big_decimal")]
   end
