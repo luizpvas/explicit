@@ -49,7 +49,11 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    type = type([:description, "desc", { name: :string }])
+    type = type([
+      :description,
+      "desc",
+      [:default, { name: "foo" }, { name: :string }]
+    ])
 
     assert_equal type.swagger_schema, {
       type: "object",
@@ -58,8 +62,9 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
           type: "string"
         }
       },
-      description: "desc",
-      required: %w[name]
+      required: %w[name],
+      default: { name: "foo" },
+      description: "desc"
     }
   end
 end

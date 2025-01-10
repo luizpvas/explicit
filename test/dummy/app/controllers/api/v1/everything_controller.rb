@@ -13,9 +13,9 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :file1, [:file, max_size: 2.megabytes, content_types: %w[image/jpeg image/png]]
 
-    param :string1, [:string, empty: false, strip: true, min_length: 1, max_length: 100]
+    param :string1, [:string, empty: false, strip: true, min_length: 1, max_length: 100], default: "Foo"
 
-    param :integer1, [:integer, min: 1, max: 100]
+    param :integer1, [:integer, min: 1, max: 100], default: 5
 
     param :hash1, [
       :hash,

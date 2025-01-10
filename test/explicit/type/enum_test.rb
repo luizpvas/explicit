@@ -19,11 +19,16 @@ class Explicit::Type::EnumTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    type = type([:description, "hello", [:enum, RGB]])
+    type = type([
+      :description,
+      "hello",
+      [:default, "red", [:enum, RGB]]
+    ])
 
     assert_equal type.swagger_schema, {
       type: "string",
       enum: RGB,
+      default: "red",
       description: "hello"
     }
   end

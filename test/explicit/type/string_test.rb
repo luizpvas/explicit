@@ -60,6 +60,18 @@ class Explicit::Type::StringTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
+    type = type([
+      :description,
+      "desc",
+      [:default, "foo", :string]
+    ])
+
+    assert_equal type.swagger_schema, {
+      type: "string",
+      default: "foo",
+      description: "desc"
+    }
+
     assert_equal type([:string, empty: false]).swagger_schema, {
       type: "string",
       minLength: 1,

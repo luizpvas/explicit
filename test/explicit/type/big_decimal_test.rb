@@ -31,12 +31,17 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    type = type([:description, "hello", [:big_decimal, min: 0, max: 10]])
+    type = type([
+      :description,
+      "hello",
+      [:default, "10.5", [:big_decimal, min: 0, max: 10]]
+    ])
 
     assert_equal type.swagger_schema, {
       type: "string",
       pattern: /^\d*\.?\d*$/.inspect,
       format: "decimal number",
+      default: "10.5",
       description: "hello\n\n* Minimum: 0\n* Maximum: 10"
     }
   end

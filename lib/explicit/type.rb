@@ -111,6 +111,7 @@ class Explicit::Type
       end
 
     base_attributes = {
+      default:,
       description: formatted_description
     }
 

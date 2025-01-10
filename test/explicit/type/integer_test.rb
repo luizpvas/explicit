@@ -39,12 +39,17 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    type = type([:description, "hello", [:integer, min: 0, max: 10]])
+    type = type([
+      :description,
+      "hello",
+      [:default, 5, [:integer, min: 0, max: 10]]
+    ])
 
     assert_equal type.swagger_schema, {
       type: "integer",
       minimum: 0,
       maximum: 10,
+      default: 5,
       description: "hello"
     }
 

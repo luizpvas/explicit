@@ -42,13 +42,18 @@ class Explicit::Type::HashTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    type = type([:description, "hello", [:hash, :string, :string, empty: false]])
+    type = type([
+      :description,
+      "hello",
+      [:default, { "foo" => "bar" }, [:hash, :string, :string, empty: false]]
+    ])
 
     assert_equal type.swagger_schema, {
       type: "object",
       additionalProperties: {
         type: "string"
       },
+      default: { "foo" => "bar" },
       description: "hello\n\n* Must have at least one value"
     }
   end

@@ -25,10 +25,15 @@ class Explicit::Type::TestBoolean < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    type = type([:description, "hello", :boolean])
+    type = type([
+      :description,
+      "hello",
+      [:default, true, :boolean]
+    ])
 
     assert_equal type.swagger_schema, {
       type: "boolean",
+      default: true,
       description: "hello"
     }
   end

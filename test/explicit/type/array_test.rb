@@ -25,7 +25,13 @@ class Explicit::Type::ArrayTest < ActiveSupport::TestCase
   end
 
   test "swagger" do
-    type = type([:description, "hello", [:array, :string, empty: false]])
+    type = type(
+      [
+        :description,
+        "hello",
+        [:default, ["foo"], [:array, :string, empty: false]]
+      ]
+    )
 
     assert_equal type.swagger_schema, {
       type: "array",
@@ -33,6 +39,7 @@ class Explicit::Type::ArrayTest < ActiveSupport::TestCase
         type: "string"
       },
       minItems: 1,
+      default: ["foo"],
       description: "hello"
     }
   end
