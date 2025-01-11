@@ -71,6 +71,11 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
   test "error" do
     assert_error "must be a string", validate(nil, :date_range)
     assert_error 'must be a string in the format of "YYYY-MM-DD..YYYY-MM-DD"', validate("foo", :date_range)
+
+    assert_error(
+      "starting date must be the same day or a day before the ending date",
+      validate("2025-01-08..2025-01-07", :date_range)
+    )
   end
 
   test "swagger" do

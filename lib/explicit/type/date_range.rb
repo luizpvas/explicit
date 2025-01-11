@@ -25,6 +25,10 @@ class Explicit::Type::DateRange < Explicit::Type
 
     date_1, date_2 = match.captures.map(&:to_date)
 
+    if date_1.after?(date_2)
+      return [:error, error_i18n("date_range_inverted")]
+    end
+
     if min_date
       min_date_value = Eval[min_date]
 

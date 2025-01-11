@@ -7,6 +7,7 @@ en:
       big_decimal: "must be a string-encoded decimal number"
       boolean: "must be a boolean"
       date_range_format: 'must be a string in the format of "YYYY-MM-DD..YYYY-MM-DD"'
+      date_range_inverted: "starting date must be the same day or a day before the ending date"
       date_range_min_date: "starting date must not be a day before %{min_date}"
       date_range_max_date: "ending date must not be a day after %{max_date}"
       date_range_min_range: "must not be less than %{min_range}"
