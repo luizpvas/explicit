@@ -11,6 +11,7 @@
 - Add `date_range` type (fixes #6).
 - Add `date_time_iso8601_range` type (fixes #7).
 - Add favicon to documentation webpage.
+- Fix route listing clutter output when running `rails routes`.
 
 # 0.2.2
 

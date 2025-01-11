@@ -34,6 +34,10 @@ module Explicit::Documentation::Output
       [200, {"Content-Type" => "application/json"}, [@swagger_document.to_json]]
     end
 
+    def inspect
+      "#{self.class.name}#call"
+    end
+
     private
       def get_base_url
         base_urls = builder.requests.map(&:get_base_url).uniq

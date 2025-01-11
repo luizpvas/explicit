@@ -14,6 +14,10 @@ module Explicit::Documentation::Output
       [200, {}, [@html]]
     end
 
+    def inspect
+      "#{self.class.name}#call"
+    end
+
     private
       def render_documentation_page
         Explicit::ApplicationController.render(
