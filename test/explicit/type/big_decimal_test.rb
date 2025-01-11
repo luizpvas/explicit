@@ -40,7 +40,7 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
 
     assert_equal type.swagger_schema, {
       type: "string",
-      pattern: /^\d*\.?\d*$/.inspect,
+      pattern: /^\d*\.?\d*$/.inspect[1..-2],
       format: "decimal number",
       default: "10.5",
       description: "hello\n\n* Minimum: 0\n* Maximum: 10"

@@ -46,7 +46,7 @@ class Explicit::Type::BigDecimal < Explicit::Type
     def swagger_schema
       merge_base_swagger_schema({
         type: "string",
-        pattern: /^\d*\.?\d*$/.inspect,
+        pattern: /^\d*\.?\d*$/.inspect[1..-2],
         format: "decimal number",
         description_topics: [
           min&.then { swagger_i18n("big_decimal_min", min: _1) },

@@ -78,7 +78,7 @@ class Explicit::Type::DateRange < Explicit::Type
     def swagger_schema
       merge_base_swagger_schema({
         type: "string",
-        pattern: FORMAT.inspect,
+        pattern: FORMAT.inspect[1..-2],
         format: "date range",
         description_topics: [
           swagger_i18n("date_range"),

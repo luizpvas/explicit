@@ -13,6 +13,7 @@
 - Add favicon to documentation webpage.
 - Fix route listing clutter output when running `rails routes`.
 - Omit default lambda value from swagger documentation (fixes #27).
+- Fix swagger regex format (fixes #28).
 
 # 0.2.2
 

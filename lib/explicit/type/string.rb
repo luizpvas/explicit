@@ -55,7 +55,7 @@ class Explicit::Type::String < Explicit::Type
     def swagger_schema
       merge_base_swagger_schema({
         type: "string",
-        pattern: format&.inspect,
+        pattern: format&.inspect&.then { _1[1..-2] },
         minLength: min_length || (empty == false ? 1 : nil),
         maxLength: max_length,
         description_topics: [

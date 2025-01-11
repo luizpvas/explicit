@@ -88,7 +88,7 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
 
     assert_equal type.swagger_schema, {
       type: "string",
-      pattern: Explicit::Type::DateRange::FORMAT.inspect,
+      pattern: Explicit::Type::DateRange::FORMAT.inspect[1..-2],
       format: "date range",
       default: "2025-01-07..2025-01-10",
       description: <<~TXT.strip
