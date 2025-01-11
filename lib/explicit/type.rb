@@ -120,8 +120,15 @@ class Explicit::Type
         topics.join("\n")
       end
 
+    default_value =
+      if default&.respond_to?(:call)
+        nil
+      else
+        default
+      end
+
     base_attributes = {
-      default:,
+      default: default_value,
       description: formatted_description
     }
 

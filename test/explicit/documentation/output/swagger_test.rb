@@ -66,6 +66,14 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     end
   end
 
+  test "default value serialization" do
+    type = type([:default, 10, :integer])
+    assert_equal 10, type.swagger_schema[:default]
+
+    type = type([:default, -> { 10 }, :integer])
+    assert_nil type.swagger_schema[:default]
+  end
+
   private
     def swagger
       @swagger ||= API::V1::Documentation.documentation_builder.swagger.swagger_document
