@@ -26,6 +26,11 @@ class Explicit::Type
     in [:date_range, options]
       Explicit::Type::DateRange.new(**options)
 
+    in :date_time_iso8601_range
+      Explicit::Type::DateTimeISO8601Range.new()
+    in [:date_time_iso8601_range, options]
+      Explicit::Type::DateTimeISO8601Range.new(**options)
+
     in :date_time_iso8601
       Explicit::Type::DateTimeISO8601.new
     in :date_time_posix

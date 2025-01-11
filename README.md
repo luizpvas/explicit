@@ -19,6 +19,7 @@ documented types at runtime.
    - [Boolean](#boolean)
    - [Date Range](#date-range)
    - [Date Time ISO8601](#date-time-iso8601)
+   - [Date Time ISO8601 Range](#date-time-iso8601-range)
    - [Date Time Posix](#date-time-posix)
    - [Default](#default)
    - [Description](#description)
@@ -433,8 +434,8 @@ following values are false: `false`, `"false"`, `"off"`, `"0"` and `0`.
 [:date_range, max_date: -> { 1.day.from_now }]
 ```
 
-The syntax for date range is a date followed by two dots then another date, no spaces:
-"YYYY-MM-DD..YYYY-MM-DD". The range is inclusive from start date to end date.
+A range between two dates in the format of `"YYYY-MM-DD..YYYY-MM-DD"`.
+The range is inclusive.
 
 ### Date Time ISO8601
 
@@ -444,6 +445,20 @@ The syntax for date range is a date followed by two dots then another date, no s
 
 String encoded date time following the ISO 8601 spec. For example:
 `"2024-12-10T14:21:00Z"`
+
+### Date Time ISO8601 Range
+
+```ruby
+:date_time_iso8601_range
+[:date_time_iso8601_range, min_range: 30.minutes]
+[:date_time_iso8601_range, max_range: 2.months]
+[:date_time_iso8601_range, min_date_time: -> { 2.months.ago }]
+[:date_time_iso8601_range, max_date_time: -> { 1.hour.from_now }]
+```
+
+A range between two date times in the format of
+`"start_date_time..end_date_time"`. For example:
+`"2024-12-10T14:00:00Z..2024-12-11T15:00:00Z"`. The range is inclusive.
 
 ### Date Time Posix
 

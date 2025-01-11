@@ -11,9 +11,9 @@ class Explicit::Type::DateTimeISO8601Test < ActiveSupport::TestCase
   end
 
   test "error" do
-    assert_error "must be a valid iso8601 date time", validate(nil, :date_time_iso8601)
-    assert_error "must be a valid iso8601 date time", validate("foo", :date_time_iso8601)
-    assert_error "must be a valid iso8601 date time", validate(1733844129, :date_time_iso8601)
+    assert_error "must be a valid datetime according to ISO8601", validate(nil, :date_time_iso8601)
+    assert_error "must be a valid datetime according to ISO8601", validate("foo", :date_time_iso8601)
+    assert_error "must be a valid datetime according to ISO8601", validate(1733844129, :date_time_iso8601)
   end
 
   test "swagger" do

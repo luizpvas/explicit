@@ -1,0 +1,8 @@
+A range between two date times in the format of
+<code>"start_date_time..end_date_time"</code> where both date times are valid
+according to ISO8601. For example: <code>"2024-12-10T14:00:00Z..2024-12-11T15:00:00Z"</code>.
+
+<%= type_constraints do %>
+  <%= type_constraint "Min range:", type.min_range.inspect if type.min_range %>
+  <%= type_constraint "Max range:", type.max_range.inspect if type.max_range %>
+<% end %>

@@ -37,6 +37,14 @@ class API::V1::EverythingController < API::V1::BaseController
       max_date: -> { 1.day.from_now }
     ]
 
+    param :date_time_iso8601_range, [
+      :date_time_iso8601_range,
+      min_range: 1.hour,
+      max_range: 24.hours,
+      min_date_time: -> { 1.week.ago },
+      max_date_time: -> { Time.current.end_of_day }
+    ]
+
     param :date_time_iso8601, :date_time_iso8601
 
     param :date_time_posix, :date_time_posix

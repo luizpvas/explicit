@@ -22,7 +22,7 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
     )
 
     assert_error(
-      "starting date cannot be before 2025-01-08",
+      "starting date must not be a day before 2025-01-08",
       validate("2025-01-07..2025-01-10", [:date_range, min_date: "2025-01-08".to_date])
     )
   end
@@ -39,7 +39,7 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
     )
 
     assert_error(
-      "end date cannot be after 2025-01-09",
+      "ending date must not be a day after 2025-01-09",
       validate("2025-01-07..2025-01-10", [:date_range, max_date: "2025-01-09".to_date])
     )
   end
@@ -51,7 +51,7 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
     )
 
     assert_error(
-      "date range cannot be smaller than 2 days",
+      "must not be less than 2 days",
       validate("2025-01-10..2025-01-10", [:date_range, min_range: 2.days])
     )
   end
@@ -63,7 +63,7 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
     )
 
     assert_error(
-      "date range cannot be larger than 3 days",
+      "must not be more than 3 days",
       validate("2025-01-07..2025-01-10", [:date_range, max_range: 3.days])
     )
   end
@@ -94,9 +94,9 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
       description: <<~TXT.strip
         desc
 
-        * A date followed by two dots then another date: "YYYY-MM-DD..YYYY-MM-DD"
-        * The date range must be larger than 1 day
-        * The date range must be smaller than 30 days
+        * The value must be a range between two dates in the format of: "YYYY-MM-DD..YYYY-MM-DD"
+        * The range must not be less than 1 day
+        * The range must not be more than 30 days
       TXT
     }
   end
