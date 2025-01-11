@@ -54,6 +54,19 @@ module Explicit::TestHelper
 
     process(method, path, params:, headers:)
 
+    if @response.headers["content-type"]&.include?("text/html")
+      html = @response.parsed_body
+
+      html.search("style").each { _1.remove }
+      html.search("script").each { _1.remove }
+
+      raise <<~TXT
+        Unexpected HTML response:
+
+        #{html.text}
+      TXT
+    end
+
     response = Explicit::Request::Response.new(
       status: @response.status,
       data: @response.parsed_body.deep_symbolize_keys
