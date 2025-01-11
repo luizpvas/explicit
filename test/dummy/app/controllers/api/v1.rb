@@ -4,6 +4,7 @@ module API::V1
   Documentation = Explicit::Documentation.new do
     page_title "Acme API"
     company_logo_url "https://raw.githubusercontent.com/luizpvas/explicit/refs/heads/main/assets/logo.svg"
+    favicon_url "https://github.githubassets.com/favicons/favicon.svg"
     version "1.0.1"
 
     section "Introduction" do

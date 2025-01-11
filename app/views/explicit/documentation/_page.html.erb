@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= local_assigns[:page_title] || "API Documentation" %></title>
+  <title><%= page_title || "API Documentation" %></title>
+
+  <% if favicon_url %>
+    <link rel="icon" href="<%= favicon_url %>" />
+  <% end %>
 
   <style>
     html, body {

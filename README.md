@@ -251,7 +251,8 @@ Call `Explicit::Documentation.new` to group, organize and publish the
 documentation for your API. The following methods are available:
 
 - `page_title(text)` - Sets the web page title.
-- `company_logo_url(url)` - Shows the company logo above the navigation menu.
+- `company_logo_url(url)` - Shows the company logo in the navigation menu.
+- `favicon_url(url)` - Adds a favicon to the web page.
 - `version(semver)` - Sets the version of the API. Default: "1.0"
 - `section(name, &block)` - Adds a section to the navigation menu.
 - `add(request)` - Adds a request to the section
@@ -264,6 +265,7 @@ module MyApp::API::V1
   Documentation = Explicit::Documentation.new do
     page_title "Acme API Docs"
     company_logo_url "https://my-app.com/logo.png"
+    favicon_url "https://my-app.com/favicon.ico"
     version "1.0.5"
 
     section "Introduction" do

@@ -22,6 +22,7 @@ module Explicit::Documentation::Output
             url_helpers: @builder.rails_engine.routes.url_helpers,
             page_title: builder.get_page_title,
             company_logo_url: builder.get_company_logo_url,
+            favicon_url: builder.get_favicon_url,
             version: builder.get_version,
             sections: builder.sections,
           }

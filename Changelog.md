@@ -10,6 +10,7 @@
 - Accept `BigDecimal` values in `:big_decimal` type (fixes #26)
 - Add `date_range` type (fixes #6).
 - Add `date_time_iso8601_range` type (fixes #7).
+- Add favicon to documentation webpage.
 
 # 0.2.2
 

@@ -19,6 +19,9 @@ module Explicit::Documentation
     def company_logo_url(url) = (@company_logo_url = url)
     def get_company_logo_url = @company_logo_url
 
+    def favicon_url(url) = (@favicon_url = url)
+    def get_favicon_url = @favicon_url
+
     def version(version) = (@version = version)
     def get_version = @version
 
