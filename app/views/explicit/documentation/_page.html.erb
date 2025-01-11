@@ -34,7 +34,7 @@
 
 <body>
   <div class="flex" x-data="{ activeLink: null }">
-    <section class="bg-neutral-100 border-r w-[280px] shrink-0 h-screen overflow-y-auto">
+    <section class="hidden lg:block bg-neutral-100 border-r w-[280px] shrink-0 h-screen overflow-y-auto">
       <% if company_logo_url.present? %>
         <div class="flex items-center justify-center mt-4 mb-8">
           <img src="<%= company_logo_url %>" class="max-w-full h-auto" />
