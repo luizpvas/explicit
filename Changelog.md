@@ -12,6 +12,7 @@
 - Add `date_time_iso8601_range` type (fixes #7).
 - Add favicon to documentation webpage.
 - Fix route listing clutter output when running `rails routes`.
+- Omit default lambda value from swagger documentation (fixes #27).
 
 # 0.2.2
 
