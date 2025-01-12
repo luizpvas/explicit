@@ -23,7 +23,9 @@
   "paths": {
     "/registrations": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Registration",
         "description": "Attempts to register a new user in the system. Email address must be unique.\nIf registration succeeds an authentication token is returned. Use this token\nto authenticate requests with the header `Authorization: Bearer \u003Ctoken\u003E`.\n",
         "requestBody": {
@@ -33,23 +35,23 @@
                 "type": "object",
                 "properties": {
                   "name": {
+                    "description": "Full name\n\n* Must not be empty",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Full name\n\n* Must not be empty"
+                    "minLength": 1
                   },
                   "email_address": {
+                    "description": "Email address used to login. Case insensitive.\n\n* Case insensitive",
                     "type": "string",
-                    "pattern": "/\\A[a-zA-Z0-9.!\\#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\z/",
-                    "description": "Email address used to login. Case insensitive.\n\n* Case insensitive"
+                    "pattern": "\\A[a-zA-Z0-9.!\\#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\z"
                   },
                   "password": {
+                    "description": "Minimum 8 characters. No other rules.",
                     "type": "string",
-                    "minLength": 8,
-                    "description": "Minimum 8 characters. No other rules."
+                    "minLength": 8
                   },
                   "terms_of_use": {
-                    "type": "boolean",
-                    "description": "* Must be accepted (true)"
+                    "description": "* Must be accepted (true)",
+                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -82,6 +84,31 @@
           "required": true
         },
         "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "token": "62JwTHviDTCK4QYWa2gs"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -92,29 +119,36 @@
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": ["invalid_params"],
-                          "description": ""
-                        },
-                        "params": {
-                          "type": "object",
-                          "additionalProperties": {
-                            "type": "string"
-                          },
-                          "description": "An object containing error messages for all invalid params"
+                          "enum": [
+                            "email_already_taken"
+                          ]
                         }
                       },
-                      "required": ["error", "params"]
+                      "required": [
+                        "error"
+                      ]
                     },
                     {
                       "type": "object",
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": ["email_already_taken"],
-                          "description": ""
+                          "enum": [
+                            "invalid_params"
+                          ]
+                        },
+                        "params": {
+                          "description": "An object containing error messages for all invalid params",
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
                         }
                       },
-                      "required": ["error"]
+                      "required": [
+                        "error",
+                        "params"
+                      ]
                     }
                   ]
                 },
@@ -139,36 +173,15 @@
               }
             },
             "description": "Unprocessable Content"
-          },
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["token"]
-                },
-                "examples": {
-                  "0": {
-                    "value": {
-                      "token": "wGVOJPR4zYnP6FAVcnwU"
-                    }
-                  }
-                }
-              }
-            },
-            "description": "OK"
           }
         }
       }
     },
     "/sessions": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Log in",
         "description": "Attempts to sign in a user to the system. If sign in succeeds an\nauthentication token is returned. Use this token to authenticate requests\nwith the header `Authorization: Bearer \u003Ctoken\u003E`.\n",
         "requestBody": {
@@ -178,16 +191,19 @@
                 "type": "object",
                 "properties": {
                   "email_address": {
+                    "description": "* Case insensitive",
                     "type": "string",
-                    "pattern": "/\\A[a-zA-Z0-9.!\\#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\z/",
-                    "description": "* Case insensitive"
+                    "pattern": "\\A[a-zA-Z0-9.!\\#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\z"
                   },
                   "password": {
                     "type": "string",
                     "minLength": 8
                   }
                 },
-                "required": ["email_address", "password"]
+                "required": [
+                  "email_address",
+                  "password"
+                ]
               },
               "examples": {
                 "0": {
@@ -214,6 +230,31 @@
           "required": true
         },
         "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ]
+                },
+                "examples": {
+                  "0": {
+                    "value": {
+                      "token": "HjO0krVQDjwDSDY0XRZM"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -224,45 +265,52 @@
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": ["invalid_params"],
-                          "description": ""
-                        },
-                        "params": {
-                          "type": "object",
-                          "additionalProperties": {
-                            "type": "string"
-                          },
-                          "description": "An object containing error messages for all invalid params"
+                          "enum": [
+                            "invalid_credentials"
+                          ]
                         }
                       },
-                      "required": ["error", "params"]
+                      "required": [
+                        "error"
+                      ]
                     },
                     {
                       "type": "object",
                       "properties": {
                         "error": {
                           "type": "string",
-                          "enum": ["invalid_credentials"],
-                          "description": ""
+                          "enum": [
+                            "invalid_params"
+                          ]
+                        },
+                        "params": {
+                          "description": "An object containing error messages for all invalid params",
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
                         }
                       },
-                      "required": ["error"]
+                      "required": [
+                        "error",
+                        "params"
+                      ]
                     }
                   ]
                 },
                 "examples": {
                   "0": {
                     "value": {
+                      "error": "invalid_credentials"
+                    }
+                  },
+                  "1": {
+                    "value": {
                       "error": "invalid_params",
                       "params": {
                         "email_address": "must be a string",
                         "password": "must be a string"
                       }
-                    }
-                  },
-                  "1": {
-                    "value": {
-                      "error": "invalid_credentials"
                     }
                   },
                   "2": {
@@ -274,34 +322,13 @@
               }
             },
             "description": "Unprocessable Content"
-          },
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["token"]
-                },
-                "examples": {
-                  "0": {
-                    "value": {
-                      "token": "zahNbtAUQstRptWPbmr5"
-                    }
-                  }
-                }
-              }
-            },
-            "description": "OK"
           }
         }
       },
       "delete": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Log out",
         "description": "Revokes the authentication token used to authenticate the request, which\nprevents the token from being used in the future.\n",
         "parameters": [
@@ -311,37 +338,12 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
+              "pattern": "Bearer [a-zA-Z0-9]{20}"
             },
             "style": "simple"
           }
         ],
         "responses": {
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "enum": ["invalid_params"],
-                      "description": ""
-                    },
-                    "params": {
-                      "type": "object",
-                      "additionalProperties": {
-                        "type": "string"
-                      },
-                      "description": "An object containing error messages for all invalid params"
-                    }
-                  },
-                  "required": ["error", "params"]
-                }
-              }
-            },
-            "description": "Unprocessable Content"
-          },
           "403": {
             "content": {
               "application/json": {
@@ -350,11 +352,14 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": ["unauthorized"],
-                      "description": ""
+                      "enum": [
+                        "unauthorized"
+                      ]
                     }
                   },
-                  "required": ["error"]
+                  "required": [
+                    "error"
+                  ]
                 }
               }
             },
@@ -368,11 +373,14 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "enum": ["session revoked"],
-                      "description": ""
+                      "enum": [
+                        "session revoked"
+                      ]
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 }
               }
             },
@@ -383,7 +391,9 @@
     },
     "/articles": {
       "post": {
-        "tags": ["Articles"],
+        "tags": [
+          "Articles"
+        ],
         "summary": "Create article",
         "parameters": [
           {
@@ -392,7 +402,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
+              "pattern": "Bearer [a-zA-Z0-9]{20}"
             },
             "style": "simple"
           }
@@ -404,22 +414,25 @@
                 "type": "object",
                 "properties": {
                   "title": {
+                    "description": "* Must not be empty",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "* Must not be empty"
+                    "minLength": 1
                   },
                   "content": {
+                    "description": "* Must not be empty",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "* Must not be empty"
+                    "minLength": 1
                   },
                   "published_at": {
+                    "description": "* Must be valid according to ISO 8601",
                     "type": "string",
-                    "format": "date-time",
-                    "description": "* Must be valid according to ISO 8601"
+                    "format": "date-time"
                   }
                 },
-                "required": ["title", "content"]
+                "required": [
+                  "title",
+                  "content"
+                ]
               },
               "examples": {
                 "0": {
@@ -433,7 +446,7 @@
                   "value": {
                     "title": "Article title",
                     "content": "Article content",
-                    "published_at": "2025-01-04T14:07:36.000Z"
+                    "published_at": "2025-01-12T17:26:52.000Z"
                   }
                 }
               }
@@ -442,31 +455,6 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "enum": ["invalid_params"],
-                      "description": ""
-                    },
-                    "params": {
-                      "type": "object",
-                      "additionalProperties": {
-                        "type": "string"
-                      },
-                      "description": "An object containing error messages for all invalid params"
-                    }
-                  },
-                  "required": ["error", "params"]
-                }
-              }
-            },
-            "description": "Unprocessable Content"
-          },
           "403": {
             "content": {
               "application/json": {
@@ -475,11 +463,14 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": ["unauthorized"],
-                      "description": ""
+                      "enum": [
+                        "unauthorized"
+                      ]
                     }
                   },
-                  "required": ["error"]
+                  "required": [
+                    "error"
+                  ]
                 }
               }
             },
@@ -495,33 +486,40 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "integer",
-                          "description": "* Must not be negative"
+                          "description": "* Must not be negative",
+                          "type": "integer"
                         },
                         "title": {
+                          "description": "* Must not be empty",
                           "type": "string",
-                          "minLength": 1,
-                          "description": "* Must not be empty"
+                          "minLength": 1
                         },
                         "content": {
+                          "description": "* Must not be empty",
                           "type": "string",
-                          "minLength": 1,
-                          "description": "* Must not be empty"
+                          "minLength": 1
                         },
                         "published_at": {
+                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601",
                           "type": "string",
-                          "format": "date-time",
-                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601"
+                          "format": "date-time"
                         },
                         "read_count": {
-                          "type": "integer",
-                          "description": "* Must be positive"
+                          "description": "* Must be positive",
+                          "type": "integer"
                         }
                       },
-                      "required": ["id", "title", "content", "read_count"]
+                      "required": [
+                        "id",
+                        "title",
+                        "content",
+                        "read_count"
+                      ]
                     }
                   },
-                  "required": ["article"]
+                  "required": [
+                    "article"
+                  ]
                 },
                 "examples": {
                   "0": {
@@ -541,7 +539,7 @@
                         "id": 594821791,
                         "title": "Article title",
                         "content": "Article content",
-                        "published_at": "2025-01-04T14:07:36.000Z",
+                        "published_at": "2025-01-12T17:26:52.000Z",
                         "read_count": 0
                       }
                     }
@@ -550,37 +548,7 @@
               }
             },
             "description": "Created"
-          }
-        }
-      }
-    },
-    "/articles/{article_id}": {
-      "get": {
-        "tags": ["Articles"],
-        "summary": "Get article",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
-            },
-            "style": "simple"
           },
-          {
-            "name": "article_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "description": "* Must be positive"
-            },
-            "style": "simple"
-          }
-        ],
-        "responses": {
           "422": {
             "content": {
               "application/json": {
@@ -589,23 +557,59 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": ["invalid_params"],
-                      "description": ""
+                      "enum": [
+                        "invalid_params"
+                      ]
                     },
                     "params": {
+                      "description": "An object containing error messages for all invalid params",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
-                      },
-                      "description": "An object containing error messages for all invalid params"
+                      }
                     }
                   },
-                  "required": ["error", "params"]
+                  "required": [
+                    "error",
+                    "params"
+                  ]
                 }
               }
             },
             "description": "Unprocessable Content"
+          }
+        }
+      }
+    },
+    "/articles/{article_id}": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get article",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "Bearer [a-zA-Z0-9]{20}"
+            },
+            "style": "simple"
           },
+          {
+            "name": "article_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "description": "* Must be positive",
+              "type": "integer"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
           "403": {
             "content": {
               "application/json": {
@@ -614,11 +618,14 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": ["unauthorized"],
-                      "description": ""
+                      "enum": [
+                        "unauthorized"
+                      ]
                     }
                   },
-                  "required": ["error"]
+                  "required": [
+                    "error"
+                  ]
                 },
                 "examples": {
                   "0": {
@@ -641,33 +648,40 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "integer",
-                          "description": "* Must not be negative"
+                          "description": "* Must not be negative",
+                          "type": "integer"
                         },
                         "title": {
+                          "description": "* Must not be empty",
                           "type": "string",
-                          "minLength": 1,
-                          "description": "* Must not be empty"
+                          "minLength": 1
                         },
                         "content": {
+                          "description": "* Must not be empty",
                           "type": "string",
-                          "minLength": 1,
-                          "description": "* Must not be empty"
+                          "minLength": 1
                         },
                         "published_at": {
+                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601",
                           "type": "string",
-                          "format": "date-time",
-                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601"
+                          "format": "date-time"
                         },
                         "read_count": {
-                          "type": "integer",
-                          "description": "* Must be positive"
+                          "description": "* Must be positive",
+                          "type": "integer"
                         }
                       },
-                      "required": ["id", "title", "content", "read_count"]
+                      "required": [
+                        "id",
+                        "title",
+                        "content",
+                        "read_count"
+                      ]
                     }
                   },
-                  "required": ["article"]
+                  "required": [
+                    "article"
+                  ]
                 },
                 "examples": {
                   "0": {
@@ -676,7 +690,7 @@
                         "id": 594821790,
                         "title": "Title",
                         "content": "Content",
-                        "published_at": "2025-01-04T14:07:36.000Z",
+                        "published_at": "2025-01-12T17:26:52.000Z",
                         "read_count": 0
                       }
                     }
@@ -694,17 +708,50 @@
                 },
                 "examples": {
                   "0": {
-                    "value": {}
+                    "value": {
+
+                    }
                   }
                 }
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ]
+                    },
+                    "params": {
+                      "description": "An object containing error messages for all invalid params",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
           }
         }
       },
       "put": {
-        "tags": ["Articles"],
+        "tags": [
+          "Articles"
+        ],
         "summary": "Update article",
         "parameters": [
           {
@@ -713,7 +760,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "/Bearer [a-zA-Z0-9]{20}/"
+              "pattern": "Bearer [a-zA-Z0-9]{20}"
             },
             "style": "simple"
           },
@@ -722,8 +769,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "description": "* Must be positive"
+              "description": "* Must be positive",
+              "type": "integer"
             },
             "style": "simple"
           }
@@ -735,22 +782,25 @@
                 "type": "object",
                 "properties": {
                   "title": {
+                    "description": "* Must not be empty",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "* Must not be empty"
+                    "minLength": 1
                   },
                   "content": {
+                    "description": "* Must not be empty",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "* Must not be empty"
+                    "minLength": 1
                   },
                   "published_at": {
+                    "description": "* Must be valid according to ISO 8601",
                     "type": "string",
-                    "format": "date-time",
-                    "description": "* Must be valid according to ISO 8601"
+                    "format": "date-time"
                   }
                 },
-                "required": ["title", "content"]
+                "required": [
+                  "title",
+                  "content"
+                ]
               },
               "examples": {
                 "0": {
@@ -771,7 +821,7 @@
                   "value": {
                     "title": "Updated Title",
                     "content": "Updated Content",
-                    "published_at": "2025-01-04T14:07:37.000Z"
+                    "published_at": "2025-01-12T17:26:52.000Z"
                   }
                 },
                 "3": {
@@ -787,31 +837,6 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "enum": ["invalid_params"],
-                      "description": ""
-                    },
-                    "params": {
-                      "type": "object",
-                      "additionalProperties": {
-                        "type": "string"
-                      },
-                      "description": "An object containing error messages for all invalid params"
-                    }
-                  },
-                  "required": ["error", "params"]
-                }
-              }
-            },
-            "description": "Unprocessable Content"
-          },
           "403": {
             "content": {
               "application/json": {
@@ -820,11 +845,14 @@
                   "properties": {
                     "error": {
                       "type": "string",
-                      "enum": ["unauthorized"],
-                      "description": ""
+                      "enum": [
+                        "unauthorized"
+                      ]
                     }
                   },
-                  "required": ["error"]
+                  "required": [
+                    "error"
+                  ]
                 },
                 "examples": {
                   "0": {
@@ -847,33 +875,40 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "integer",
-                          "description": "* Must not be negative"
+                          "description": "* Must not be negative",
+                          "type": "integer"
                         },
                         "title": {
+                          "description": "* Must not be empty",
                           "type": "string",
-                          "minLength": 1,
-                          "description": "* Must not be empty"
+                          "minLength": 1
                         },
                         "content": {
+                          "description": "* Must not be empty",
                           "type": "string",
-                          "minLength": 1,
-                          "description": "* Must not be empty"
+                          "minLength": 1
                         },
                         "published_at": {
+                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601",
                           "type": "string",
-                          "format": "date-time",
-                          "description": "* When published_at is null it means the article is a draft.\n* When published_at is a moment in the future it means the article\n  is scheduled to be published.\n* When published_at is a moment in the past it means the article is\n  published and can be read by everyone.\n\n\n* Must be valid according to ISO 8601"
+                          "format": "date-time"
                         },
                         "read_count": {
-                          "type": "integer",
-                          "description": "* Must be positive"
+                          "description": "* Must be positive",
+                          "type": "integer"
                         }
                       },
-                      "required": ["id", "title", "content", "read_count"]
+                      "required": [
+                        "id",
+                        "title",
+                        "content",
+                        "read_count"
+                      ]
                     }
                   },
-                  "required": ["article"]
+                  "required": [
+                    "article"
+                  ]
                 },
                 "examples": {
                   "0": {
@@ -881,7 +916,7 @@
                       "article": {
                         "title": "Updated Title",
                         "content": "Updated Content",
-                        "published_at": "2025-01-04T14:07:37.000Z",
+                        "published_at": "2025-01-12T17:26:52.000Z",
                         "id": 594821790,
                         "read_count": 0
                       }
@@ -911,19 +946,52 @@
                 },
                 "examples": {
                   "0": {
-                    "value": {}
+                    "value": {
+
+                    }
                   }
                 }
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ]
+                    },
+                    "params": {
+                      "description": "An object containing error messages for all invalid params",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
           }
         }
       }
     },
     "/everything": {
       "post": {
-        "tags": ["Others"],
+        "tags": [
+          "Others"
+        ],
         "summary": "Everything",
         "description": "This request uses all available types in the Explicit gem to showcase and\ntest them.\n",
         "requestBody": {
@@ -933,17 +1001,19 @@
                 "type": "object",
                 "properties": {
                   "file1": {
+                    "description": "* Max size: 2 MB\n* Content types: image/jpeg, image/png",
                     "type": "string",
-                    "format": "binary",
-                    "description": "* Max size: 2 MB\n* Content types: image/jpeg, image/png"
+                    "format": "binary"
                   },
                   "string1": {
+                    "default": "Foo",
+                    "description": "* Must not be empty",
                     "type": "string",
                     "minLength": 1,
-                    "maxLength": 100,
-                    "description": "* Must not be empty"
+                    "maxLength": 100
                   },
                   "integer1": {
+                    "default": 5,
                     "type": "integer",
                     "minimum": 1,
                     "maximum": 100
@@ -951,46 +1021,66 @@
                   "hash1": {
                     "type": "object",
                     "additionalProperties": {
+                      "description": "A description of the hash values",
                       "type": "array",
                       "items": {
                         "type": "integer",
                         "minimum": 0,
                         "maximum": 10
                       },
-                      "minItems": 0,
-                      "description": "A description of the hash values"
-                    },
-                    "description": ""
+                      "minItems": 0
+                    }
                   },
                   "agreement1": {
-                    "type": "boolean",
-                    "description": "* Must be accepted (true)"
+                    "description": "* Must be accepted (true)",
+                    "type": "boolean"
                   },
                   "big_decimal1": {
+                    "description": "* Minimum: 0\n* Maximum: 100",
                     "type": "string",
-                    "pattern": "/^\\d*\\.?\\d*$/",
-                    "format": "decimal number",
-                    "description": "* Minimum: 0\n* Maximum: 100"
+                    "pattern": "^\\d*\\.?\\d*$",
+                    "format": "decimal number"
                   },
                   "boolean1": {
-                    "type": "boolean",
-                    "description": ""
+                    "type": "boolean"
+                  },
+                  "date1": {
+                    "type": "string",
+                    "pattern": "\\d{4}-\\d{2}-\\d{2}",
+                    "format": "date",
+                    "description_topics": [
+                      "Translation missing: en.explicit.swagger.date_format"
+                    ]
+                  },
+                  "date_range1": {
+                    "description": "* The value must be a range between two dates in the format of: \"YYYY-MM-DD..YYYY-MM-DD\"\n* The range must not be less than 1 day\n* The range must not be more than 30 days",
+                    "type": "string",
+                    "pattern": "^(\\d{4}-\\d{2}-\\d{2})\\.\\.(\\d{4}-\\d{2}-\\d{2})$",
+                    "format": "date range"
+                  },
+                  "date_time_iso8601_range": {
+                    "description": "* The value must be a range between two date times in the format of: \"YYYY-MM-DDTHH:MM:SS..YYYY-MM-DDTHH:MM:SS\"\n* The range must not be less than 1 hour\n* The range must not be more than 24 hours",
+                    "type": "string",
+                    "format": "date time range"
                   },
                   "date_time_iso8601": {
+                    "description": "* Must be valid according to ISO 8601",
                     "type": "string",
-                    "format": "date-time",
-                    "description": "* Must be valid according to ISO 8601"
+                    "format": "date-time"
                   },
                   "date_time_unix_epoch": {
+                    "description": "* POSIX time or Unix epoch is the amount of seconds since 1970-01-01",
                     "type": "integer",
                     "minimum": 1,
-                    "format": "POSIX time",
-                    "description": "* POSIX time or Unix epoch is the amount of seconds since 1970-01-01"
+                    "format": "POSIX time"
                   },
                   "enum1": {
                     "type": "string",
-                    "enum": ["one", "two", "three"],
-                    "description": ""
+                    "enum": [
+                      "one",
+                      "two",
+                      "three"
+                    ]
                   }
                 },
                 "required": [
@@ -1001,6 +1091,9 @@
                   "agreement1",
                   "big_decimal1",
                   "boolean1",
+                  "date1",
+                  "date_range1",
+                  "date_time_iso8601_range",
                   "date_time_iso8601",
                   "date_time_unix_epoch",
                   "enum1"
@@ -1011,31 +1104,6 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "enum": ["invalid_params"],
-                      "description": ""
-                    },
-                    "params": {
-                      "type": "object",
-                      "additionalProperties": {
-                        "type": "string"
-                      },
-                      "description": "An object containing error messages for all invalid params"
-                    }
-                  },
-                  "required": ["error", "params"]
-                }
-              }
-            },
-            "description": "Unprocessable Content"
-          },
           "200": {
             "content": {
               "application/json": {
@@ -1044,11 +1112,14 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "enum": ["ok"],
-                      "description": ""
+                      "enum": [
+                        "ok"
+                      ]
                     }
                   },
-                  "required": ["message"]
+                  "required": [
+                    "message"
+                  ]
                 },
                 "examples": {
                   "0": {
@@ -1060,6 +1131,35 @@
               }
             },
             "description": "OK"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "invalid_params"
+                      ]
+                    },
+                    "params": {
+                      "description": "An object containing error messages for all invalid params",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "params"
+                  ]
+                }
+              }
+            },
+            "description": "Unprocessable Content"
           }
         }
       }
