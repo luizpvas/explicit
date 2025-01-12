@@ -981,7 +981,7 @@
                     "format": "date-time",
                     "description": "* Must be valid according to ISO 8601"
                   },
-                  "date_time_posix": {
+                  "date_time_unix_epoch": {
                     "type": "integer",
                     "minimum": 1,
                     "format": "POSIX time",
@@ -1002,7 +1002,7 @@
                   "big_decimal1",
                   "boolean1",
                   "date_time_iso8601",
-                  "date_time_posix",
+                  "date_time_unix_epoch",
                   "enum1"
                 ]
               }

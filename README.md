@@ -467,9 +467,9 @@ A range between two date times in the format of
 ### Date Time Posix
 
 ```ruby
-:date_time_posix
-[:date_time_posix, min: -> { 2.months.ago }]
-[:date_time_posix, max: -> { Time.current.end_of_day }]
+:date_time_unix_epoch
+[:date_time_unix_epoch, min: -> { 2.months.ago }]
+[:date_time_unix_epoch, max: -> { Time.current.end_of_day }]
 ```
 
 The number of elapsed seconds since January 1, 1970 in timezone UTC. For

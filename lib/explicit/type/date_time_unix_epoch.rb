@@ -2,7 +2,7 @@
 
 require "time"
 
-class Explicit::Type::DateTimePosix < Explicit::Type
+class Explicit::Type::DateTimeUnixEpoch < Explicit::Type
   attr_reader :min, :max
 
   Eval = ->(expr) { expr.respond_to?(:call) ? expr.call : expr }
@@ -14,7 +14,7 @@ class Explicit::Type::DateTimePosix < Explicit::Type
 
   def validate(value)
     if !value.is_a?(::Integer) && !value.is_a?(::String)
-      return [:error, error_i18n("date_time_posix")]
+      return [:error, error_i18n("date_time_unix_epoch")]
     end
 
     datetime = DateTime.strptime(value.to_s, "%s")
@@ -23,7 +23,7 @@ class Explicit::Type::DateTimePosix < Explicit::Type
       min_value = Eval[min]
 
       if datetime.before?(min_value)
-        return [:error, error_i18n("date_time_posix_min", min: min_value)]
+        return [:error, error_i18n("date_time_unix_epoch_min", min: min_value)]
       end
     end
 
@@ -31,13 +31,13 @@ class Explicit::Type::DateTimePosix < Explicit::Type
       max_value = Eval[max]
 
       if datetime.after?(max_value)
-        return [:error, error_i18n("date_time_posix_max", max: max_value)]
+        return [:error, error_i18n("date_time_unix_epoch_max", max: max_value)]
       end
     end
 
     [:ok, datetime]
   rescue Date::Error
-    return [:error, error_i18n("date_time_posix")]
+    return [:error, error_i18n("date_time_unix_epoch")]
   end
 
   concerning :Webpage do
@@ -46,7 +46,7 @@ class Explicit::Type::DateTimePosix < Explicit::Type
     end
 
     def partial
-      "explicit/documentation/type/date_time_posix"
+      "explicit/documentation/type/date_time_unix_epoch"
     end
 
     def has_details?
@@ -61,7 +61,7 @@ class Explicit::Type::DateTimePosix < Explicit::Type
         minimum: 1,
         format: "POSIX time",
         description_topics: [
-          swagger_i18n("date_time_posix")
+          swagger_i18n("date_time_unix_epoch")
         ]
       })
     end

@@ -15,6 +15,7 @@
 - Omit default lambda value from swagger documentation (fixes #27).
 - Fix swagger regex format (fixes #28).
 - Add `min` and `max` options to `:date_time_iso8601` and `:date_time_posix`.
+- Rename `date_time_posix` to `date_time_unix_epoch`.
 
 # 0.2.2
 

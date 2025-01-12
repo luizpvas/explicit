@@ -20,7 +20,7 @@ class API::V1::EverythingControllerTest < ActionDispatch::IntegrationTest
         date_range1: "#{7.days.ago.strftime('%Y-%m-%d')}..#{Date.today.strftime('%Y-%m-%d')}",
         date_time_iso8601_range: "#{1.hour.ago.iso8601}..#{Time.current.iso8601}",
         date_time_iso8601: "2021-01-01T12:00:00Z",
-        date_time_posix: 1609459200,
+        date_time_unix_epoch: 1609459200,
         enum1: "one"
       },
       save_as_example: true

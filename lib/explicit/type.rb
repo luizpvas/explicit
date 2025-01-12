@@ -36,10 +36,10 @@ class Explicit::Type
     in [:date_time_iso8601, options]
       Explicit::Type::DateTimeISO8601.new(**options)
 
-    in :date_time_posix
-      Explicit::Type::DateTimePosix.new
-    in [:date_time_posix, options]
-      Explicit::Type::DateTimePosix.new(**options)
+    in :date_time_unix_epoch
+      Explicit::Type::DateTimeUnixEpoch.new
+    in [:date_time_unix_epoch, options]
+      Explicit::Type::DateTimeUnixEpoch.new(**options)
 
     in [:hash, key_type, value_type]
       Explicit::Type::Hash.new(key_type:, value_type:)
