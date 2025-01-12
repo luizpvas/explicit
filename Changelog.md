@@ -14,6 +14,7 @@
 - Fix route listing clutter output when running `rails routes`.
 - Omit default lambda value from swagger documentation (fixes #27).
 - Fix swagger regex format (fixes #28).
+- Add `min` and `max` options to `:date_time_iso8601` and `:date_time_posix`.
 
 # 0.2.2
 

@@ -443,6 +443,8 @@ The range is inclusive.
 
 ```ruby
 :date_time_iso8601
+[:date_time_iso8601, min: -> { 2.months.ago }]
+[:date_time_iso8601, max: -> { Time.current.end_of_day }]
 ```
 
 String encoded date time following the ISO 8601 spec. For example:
@@ -466,6 +468,8 @@ A range between two date times in the format of
 
 ```ruby
 :date_time_posix
+[:date_time_posix, min: -> { 2.months.ago }]
+[:date_time_posix, max: -> { Time.current.end_of_day }]
 ```
 
 The number of elapsed seconds since January 1, 1970 in timezone UTC. For

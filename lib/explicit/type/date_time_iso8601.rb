@@ -3,12 +3,37 @@
 require "time"
 
 class Explicit::Type::DateTimeISO8601 < Explicit::Type
+  attr_reader :min, :max
+
+  Eval = ->(expr) { expr.respond_to?(:call) ? expr.call : expr }
+
+  def initialize(min: nil, max: nil)
+    @min = min
+    @max = max
+  end
+
   def validate(value)
     return [:error, error_i18n("date_time_iso8601")] if !value.is_a?(::String)
 
-    timeval = Time.iso8601(value)
+    datetime = Time.iso8601(value)
 
-    [:ok, timeval]
+    if min
+      min_value = Eval[min]
+
+      if datetime.before?(min_value)
+        return [:error, error_i18n("date_time_iso8601_min", min: min_value)]
+      end
+    end
+
+    if max
+      max_value = Eval[max]
+
+      if datetime.after?(max_value)
+        return [:error, error_i18n("date_time_iso8601_max", max: max_value)]
+      end
+    end
+
+    [:ok, datetime]
   rescue ArgumentError
     [:error, error_i18n("date_time_iso8601")]
   end

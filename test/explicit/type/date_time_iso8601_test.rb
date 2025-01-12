@@ -5,8 +5,32 @@ require "test_helper"
 class Explicit::Type::DateTimeISO8601Test < ActiveSupport::TestCase
   test "ok" do
     assert_ok(
-      Time.new(2024, 12, 10, 14, 21, 0, 0),
+      "2024-12-10 14:21:00".to_datetime,
       validate("2024-12-10T14:21:00Z", :date_time_iso8601)
+    )
+  end
+
+  test "min" do
+    assert_ok(
+      "2024-12-10 14:21:00".to_datetime,
+      validate("2024-12-10T14:21:00Z", [:date_time_iso8601, min: "2024-12-10 14:21:00".to_datetime])
+    )
+
+    assert_error(
+      "must not be a moment before 2024-12-10T14:21:00+00:00",
+      validate("2024-12-10T14:20:00Z", [:date_time_iso8601, min: -> { "2024-12-10 14:21:00".to_datetime }])
+    )
+  end
+
+  test "max" do
+    assert_ok(
+      "2024-12-10 14:21:00".to_datetime,
+      validate("2024-12-10T14:21:00Z", [:date_time_iso8601, max: "2024-12-10 14:21:00".to_datetime])
+    )
+
+    assert_error(
+      "must not be a moment after 2024-12-10T14:21:00+00:00",
+      validate("2024-12-10T14:22:00Z", [:date_time_iso8601, max: -> { "2024-12-10 14:21:00".to_datetime }])
     )
   end
 

@@ -3,14 +3,39 @@
 require "time"
 
 class Explicit::Type::DateTimePosix < Explicit::Type
+  attr_reader :min, :max
+
+  Eval = ->(expr) { expr.respond_to?(:call) ? expr.call : expr }
+
+  def initialize(min: nil, max: nil)
+    @min = min
+    @max = max
+  end
+
   def validate(value)
     if !value.is_a?(::Integer) && !value.is_a?(::String)
       return [:error, error_i18n("date_time_posix")]
     end
 
-    datetimeval = DateTime.strptime(value.to_s, "%s")
+    datetime = DateTime.strptime(value.to_s, "%s")
 
-    [:ok, datetimeval]
+    if min
+      min_value = Eval[min]
+
+      if datetime.before?(min_value)
+        return [:error, error_i18n("date_time_posix_min", min: min_value)]
+      end
+    end
+
+    if max
+      max_value = Eval[max]
+
+      if datetime.after?(max_value)
+        return [:error, error_i18n("date_time_posix_max", max: max_value)]
+      end
+    end
+
+    [:ok, datetime]
   rescue Date::Error
     return [:error, error_i18n("date_time_posix")]
   end
