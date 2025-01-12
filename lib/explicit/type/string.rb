@@ -13,25 +13,25 @@ class Explicit::Type::String < Explicit::Type
   end
 
   def validate(value)
-    return [:error, error_i18n("string")] if !value.is_a?(::String)
+    return error_i18n("string") if !value.is_a?(::String)
 
     value = value.strip if strip
     value = value.downcase if downcase
 
     if empty == false && value.empty?
-      return [:error, error_i18n("empty")]
+      return error_i18n("empty")
     end
 
     if min_length && value.length < min_length
-      return [:error, error_i18n("min_length", min_length:)]
+      return error_i18n("min_length", min_length:)
     end
 
     if max_length && value.length > max_length
-      return [:error, error_i18n("max_length", max_length:)]
+      return error_i18n("max_length", max_length:)
     end
 
     if format && !format.match?(value)
-      return [:error, error_i18n("format", regex: format.inspect)]
+      return error_i18n("format", regex: format.inspect)
     end
 
     [:ok, value]

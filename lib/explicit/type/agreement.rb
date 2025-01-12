@@ -8,7 +8,7 @@ class Explicit::Type::Agreement < Explicit::Type
     if VALUES.include?(value)
       OK
     else
-      [:error, error_i18n("agreement")]
+      error_i18n("agreement")
     end
   end
 

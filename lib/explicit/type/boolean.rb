@@ -17,7 +17,7 @@ class Explicit::Type::Boolean < Explicit::Type
   def validate(value)
     value = VALUES[value]
 
-    return [:error, error_i18n("boolean")] if value.nil?
+    return error_i18n("boolean") if value.nil?
 
     [:ok, value]
   end

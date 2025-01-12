@@ -15,7 +15,7 @@ class Explicit::Type::Literal < Explicit::Type
     if value == @value
       [:ok, value]
     else
-      [:error, error_i18n("literal", value: @value.inspect)]
+      error_i18n("literal", value: @value.inspect)
     end
   end
 

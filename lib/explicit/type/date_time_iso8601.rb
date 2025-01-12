@@ -13,7 +13,7 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
   end
 
   def validate(value)
-    return [:error, error_i18n("date_time_iso8601")] if !value.is_a?(::String)
+    return error_i18n("date_time_iso8601") if !value.is_a?(::String)
 
     datetime = Time.iso8601(value)
 
@@ -21,7 +21,7 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
       min_value = Eval[min]
 
       if datetime.before?(min_value)
-        return [:error, error_i18n("date_time_iso8601_min", min: min_value)]
+        return error_i18n("date_time_iso8601_min", min: min_value)
       end
     end
 
@@ -29,13 +29,13 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
       max_value = Eval[max]
 
       if datetime.after?(max_value)
-        return [:error, error_i18n("date_time_iso8601_max", max: max_value)]
+        return error_i18n("date_time_iso8601_max", max: max_value)
       end
     end
 
     [:ok, datetime]
   rescue ArgumentError
-    [:error, error_i18n("date_time_iso8601")]
+    error_i18n("date_time_iso8601")
   end
 
   concerning :Webpage do

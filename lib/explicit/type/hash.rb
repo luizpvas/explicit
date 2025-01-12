@@ -10,8 +10,8 @@ class Explicit::Type::Hash < Explicit::Type
   end
 
   def validate(value)
-    return [:error, error_i18n("hash")] if !value.respond_to?(:[])
-    return [:error, error_i18n("empty")] if value.empty? && empty == false
+    return error_i18n("hash") if !value.respond_to?(:[])
+    return error_i18n("empty") if value.empty? && empty == false
 
     validated_hash = {}
 
@@ -20,9 +20,9 @@ class Explicit::Type::Hash < Explicit::Type
       in [[:ok, validated_key], [:ok, validated_value]]
         validated_hash[validated_key] = validated_value
       in [[:error, error], _]
-        return [:error, error_i18n("hash_key", key:, error:)]
+        return error_i18n("hash_key", key:, error:)
       in [_, [:error, error]]
-        return [:error, error_i18n("hash_value", key:, error:)]
+        return error_i18n("hash_value", key:, error:)
       end
     end
 

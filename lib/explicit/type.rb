@@ -104,7 +104,7 @@ class Explicit::Type
   def error_i18n(name, context = {})
     key = "explicit.errors.#{name}"
 
-    ::I18n.t(key, **context)
+    [:error, ::I18n.t(key, **context)]
   end
 
   def swagger_i18n(name, context = {})

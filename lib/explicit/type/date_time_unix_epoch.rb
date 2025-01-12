@@ -14,7 +14,7 @@ class Explicit::Type::DateTimeUnixEpoch < Explicit::Type
 
   def validate(value)
     if !value.is_a?(::Integer) && !value.is_a?(::String)
-      return [:error, error_i18n("date_time_unix_epoch")]
+      return error_i18n("date_time_unix_epoch")
     end
 
     datetime = DateTime.strptime(value.to_s, "%s")
@@ -23,7 +23,7 @@ class Explicit::Type::DateTimeUnixEpoch < Explicit::Type
       min_value = Eval[min]
 
       if datetime.before?(min_value)
-        return [:error, error_i18n("date_time_unix_epoch_min", min: min_value)]
+        return error_i18n("date_time_unix_epoch_min", min: min_value)
       end
     end
 
@@ -31,13 +31,13 @@ class Explicit::Type::DateTimeUnixEpoch < Explicit::Type
       max_value = Eval[max]
 
       if datetime.after?(max_value)
-        return [:error, error_i18n("date_time_unix_epoch_max", max: max_value)]
+        return error_i18n("date_time_unix_epoch_max", max: max_value)
       end
     end
 
     [:ok, datetime]
   rescue Date::Error
-    return [:error, error_i18n("date_time_unix_epoch")]
+    return error_i18n("date_time_unix_epoch")
   end
 
   concerning :Webpage do

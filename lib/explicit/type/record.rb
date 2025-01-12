@@ -12,7 +12,7 @@ class Explicit::Type::Record < Explicit::Type
   end
 
   def validate(data)
-    return [:error, error_i18n("hash")] if !data.respond_to?(:[])
+    return error_i18n("hash") if !data.respond_to?(:[])
 
     validated_data = {}
     errors = {}

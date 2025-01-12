@@ -43,9 +43,9 @@ class Explicit::Type::OneOf < Explicit::Type
 
     error =
       if @subtypes_are_records
-        errors.map { ::JSON.pretty_generate(_1) }.join("\n\n#{error_i18n("one_of_separator")}\n\n")
+        errors.map { ::JSON.pretty_generate(_1) }.join("\n\n#{ ::I18n.t('explicit.errors.one_of_separator')}\n\n")
       else
-        errors.join(" #{error_i18n('one_of_separator')} ")
+        errors.join(" #{I18n.t('explicit.errors.one_of_separator')} ")
       end
 
     [:error, error]

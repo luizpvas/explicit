@@ -17,15 +17,15 @@ class Explicit::Type::File < Explicit::Type
 
   def validate(value)
     if !FILE_CLASSES.any? { |klass| value.is_a?(klass) }
-      return [:error, error_i18n("file")] 
+      return error_i18n("file")
     end
 
     if max_size && value.size > max_size
-      return [:error, error_i18n("file_max_size", max_size: number_to_human_size(max_size))]
+      return error_i18n("file_max_size", max_size: number_to_human_size(max_size))
     end
 
     if content_types.any? && !content_types.include?(value.content_type)
-      return [:error, error_i18n("file_content_type", allowed_content_types: content_types.inspect)]
+      return error_i18n("file_content_type", allowed_content_types: content_types.inspect)
     end
 
     [:ok, value]

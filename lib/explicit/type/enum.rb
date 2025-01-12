@@ -11,7 +11,7 @@ class Explicit::Type::Enum < Explicit::Type
     if allowed_values.include?(value)
       [:ok, value]
     else
-      [:error, error_i18n("enum", allowed_values: allowed_values.inspect)]
+      error_i18n("enum", allowed_values: allowed_values.inspect)
     end
   end
 

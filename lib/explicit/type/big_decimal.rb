@@ -10,22 +10,22 @@ class Explicit::Type::BigDecimal < Explicit::Type
 
   def validate(value)
     if !value.is_a?(::BigDecimal) && !value.is_a?(::String) && !value.is_a?(::Integer)
-      return [:error, error_i18n("big_decimal")]
+      return error_i18n("big_decimal")
     end
 
     decimal_value = BigDecimal(value)
 
     if min && decimal_value < min
-      return [:error, error_i18n("min", min:)]
+      return error_i18n("min", min:)
     end
 
     if max && decimal_value > max
-      return [:error, error_i18n("max", max:)]
+      return error_i18n("max", max:)
     end
 
     [:ok, decimal_value]
   rescue ArgumentError
-    return [:error, error_i18n("big_decimal")]
+    return error_i18n("big_decimal")
   end
 
   concerning :Webpage do
