@@ -41,6 +41,11 @@ class Explicit::Type
     in [:date_time_unix_epoch, options]
       Explicit::Type::DateTimeUnixEpoch.new(**options)
 
+    in :date
+      Explicit::Type::Date.new
+    in [:date, options]
+      Explicit::Type::Date.new(**options)
+
     in [:hash, key_type, value_type]
       Explicit::Type::Hash.new(key_type:, value_type:)
     in [:hash, key_type, value_type, options]

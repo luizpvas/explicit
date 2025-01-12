@@ -17,6 +17,7 @@ documented types at runtime.
    - [Array](#array)
    - [BigDecimal](#big_decimal)
    - [Boolean](#boolean)
+   - [Date](#date)
    - [Date Range](#date-range)
    - [Date Time ISO8601](#date-time-iso8601)
    - [Date Time ISO8601 Range](#date-time-iso8601-range)
@@ -425,6 +426,16 @@ Value must be an integer or a string like `"0.2"` to avoid rounding errors.
 
 The following values are true: `true`, `"true"`, `"on"`, `"1"` and `1`, and the
 following values are false: `false`, `"false"`, `"off"`, `"0"` and `0`.
+
+### Date
+
+```ruby
+:date
+[:date, min: -> { 2.months.ago }]
+[:date, max: -> { 1.month.from_now }]
+```
+
+A date in the format of `"YYYY-MM-DD"`.
 
 ### Date Range
 

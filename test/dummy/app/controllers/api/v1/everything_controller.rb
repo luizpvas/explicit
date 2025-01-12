@@ -29,6 +29,8 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :boolean1, :boolean
 
+    param :date1, [:date, min: -> { 1.week.ago }, max: -> { Date.today }]
+
     param :date_range1, [
       :date_range,
       min_range: 1.day,

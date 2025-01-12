@@ -36,7 +36,7 @@ class Explicit::Type::DateTimeUnixEpoch < Explicit::Type
     end
 
     [:ok, datetime]
-  rescue Date::Error
+  rescue ::Date::Error
     return error_i18n("date_time_unix_epoch")
   end
 

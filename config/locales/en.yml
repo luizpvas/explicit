@@ -24,6 +24,9 @@ en:
       date_time_unix_epoch: "must be a valid posix timestamp"
       date_time_unix_epoch_min: "must not be a moment before %{min}"
       date_time_unix_epoch_max: "must not be a moment after %{max}"
+      date_format: 'must be a date in the format "YYYY-MM-DD"'
+      date_min: "must not be a date before %{min}"
+      date_max: "must not be a date after %{max}"
       hash: "must be an object"
       hash_key: "invalid key (%{key}): %{error}"
       hash_value: "invalid value at key (%{key}): %{error}"
