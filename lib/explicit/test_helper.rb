@@ -52,6 +52,12 @@ module Explicit::TestHelper
     method = route.method
     path = (request.get_base_path || "") + route.replace_path_params(params)
 
+    if missing_path_param?(route, params)
+      raise <<~DESC
+        The request #{route} needs the following path parameters: #{route.params.join(", ")}
+      DESC
+    end
+
     process(method, path, params:, headers:)
 
     if @response.headers["content-type"]&.include?("text/html")
@@ -86,6 +92,10 @@ module Explicit::TestHelper
     end
 
     response
+  end
+
+  def missing_path_param?(route, params)
+    route.params.any? { params.fetch(_1, nil).nil? }
   end
 
   def ensure_response_matches_documented_type!(request, response)
