@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   scope "/api/v1", module: "api/v1" do
     resources :registrations, only: %i[create]
     resource :sessions, only: %i[create destroy]
-    resources :articles, only: %i[create show update]
+    resources :articles, only: %i[create show update], param: :article_id
     post "/everything", to: "everything#create"
   end
 

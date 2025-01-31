@@ -50,7 +50,9 @@ module Explicit::TestHelper
     end
 
     method = route.method
+
     path = (request.get_base_path || "") + route.path
+    path = path.gsub(/:(\w+)/) { params.delete($1.to_sym).to_s }
 
     process(method, path, params:, headers:)
 
