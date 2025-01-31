@@ -59,6 +59,7 @@ module Explicit::Documentation
 
     def merge_request_examples_from_file!
       return if !Explicit.configuration.request_examples_file_path
+      return if !::File.exist?(Explicit.configuration.request_examples_file_path)
 
       encoded = ::File.read(Explicit.configuration.request_examples_file_path)
 
