@@ -255,6 +255,8 @@ documentation for your API. The following methods are available:
 
 - `page_title(text)` - Sets the web page title.
 - `company_logo_url(url)` - Shows the company logo in the navigation menu.
+  The url can also be a lambda that returns the url, useful for referencing
+  assets at runtime.
 - `favicon_url(url)` - Adds a favicon to the web page.
 - `version(semver)` - Sets the version of the API. Default: "1.0"
 - `section(name, &block)` - Adds a section to the navigation menu.
