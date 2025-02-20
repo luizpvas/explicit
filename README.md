@@ -141,6 +141,9 @@ request instead of `Explicit::Request`. For example:
 
 ```ruby
 AuthenticatedRequest = Explicit::Request.new do
+  base_url "https://my-app.com"
+  base_path "/api/v1"
+
   header "Authorization", [:string, format: /Bearer [a-zA-Z0-9]{20}/]
 
   response 403, { error: "unauthorized" }
