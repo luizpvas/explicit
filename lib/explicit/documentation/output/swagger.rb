@@ -100,9 +100,9 @@ module Explicit::Documentation::Output
 
             security =
               if request.requires_basic_authorization?
-                { basicAuth: [] }
+                [ { basicAuth: [] } ]
               elsif request.requires_bearer_authorization?
-                { bearerAuth: [] }
+                [ { bearerAuth: [] } ]
               else
                 nil
               end
