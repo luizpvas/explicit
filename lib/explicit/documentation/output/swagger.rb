@@ -12,6 +12,20 @@ module Explicit::Documentation::Output
     end
 
     def swagger_document
+      paths = build_paths_from_requests
+
+      securitySchemes = {}.tap do |hash|
+        requests = paths.flat_map { |path, methods| methods.values }
+
+        if requests.filter { _1.dig(:security, 0, :basicAuth) }.any?
+          hash[:basicAuth] = { type: "http", scheme: "basic" }
+        end
+
+        if requests.filter { _1.dig(:security, 0, :bearerAuth) }.any?
+          hash[:bearerAuth] = { type: "http", scheme: "bearer" }
+        end
+      end
+
       {
         openapi: "3.0.1",
         info: {
@@ -25,18 +39,7 @@ module Explicit::Documentation::Output
         ],
         tags: build_tags_from_sections,
         paths: build_paths_from_requests,
-        components: {
-          securitySchemes: {
-            basicAuth: {
-              type: "http",
-              scheme: "basic"
-            },
-            bearerAuth: {
-              type: "http",
-              scheme: "bearer"
-            }
-          }
-        }
+        components: { securitySchemes: }
       }
     end
 

@@ -51,7 +51,7 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
         style: "simple"
       }
 
-      assert_equal req.dig(:security), { bearerAuth: [] }
+      assert_equal req.dig(:security), [ { bearerAuth: [] } ]
 
       assert_nil req.dig(:requestBody)
     end
