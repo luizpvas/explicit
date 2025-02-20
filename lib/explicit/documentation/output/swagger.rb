@@ -12,6 +12,20 @@ module Explicit::Documentation::Output
     end
 
     def swagger_document
+      paths = build_paths_from_requests
+
+      securitySchemes = {}.tap do |hash|
+        requests = paths.flat_map { |path, methods| methods.values }
+
+        if requests.filter { _1.dig(:security, 0, :basicAuth) }.any?
+          hash[:basicAuth] = { type: "http", scheme: "basic" }
+        end
+
+        if requests.filter { _1.dig(:security, 0, :bearerAuth) }.any?
+          hash[:bearerAuth] = { type: "http", scheme: "bearer" }
+        end
+      end
+
       {
         openapi: "3.0.1",
         info: {
@@ -24,7 +38,8 @@ module Explicit::Documentation::Output
           }
         ],
         tags: build_tags_from_sections,
-        paths: build_paths_from_requests
+        paths: build_paths_from_requests,
+        components: { securitySchemes: }
       }
     end
 
@@ -86,13 +101,23 @@ module Explicit::Documentation::Output
             request = page.request
             route = request.routes.first
 
+            security =
+              if request.requires_basic_authorization?
+                [ { basicAuth: [] } ]
+              elsif request.requires_bearer_authorization?
+                [ { bearerAuth: [] } ]
+              else
+                nil
+              end
+
             paths[route.path_with_curly_syntax][route.method.to_s] = {
               tags: [ section.name ],
               summary: request.get_title,
               description: request.get_description,
               parameters: build_parameters(request),
               requestBody: build_request_body(request),
-              responses: build_responses(request)
+              responses: build_responses(request),
+              security:
             }.compact_blank
           end
         end
@@ -102,7 +127,11 @@ module Explicit::Documentation::Output
 
       def build_parameters(request)
         headers =
-          request.headers_type.attributes.map do |name, type|
+          request.headers_type.attributes.filter_map do |name, type|
+            # NOTE: skip Authorization header because swagger prefers the `security` directive for basic and bearer
+            # authorization schemas. If not basic or bearer, then we add the Authorization header.
+            next if name == "Authorization" && !request.custom_authorization_format?
+
             {
               name: name.to_s,
               in: "header",

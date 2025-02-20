@@ -1,3 +1,10 @@
+# 0.2.9
+
+- Automatically defines a `:string` param for path params if user did not define on in the request.
+- Fix string encoding problem in the documentation for literal types.
+- Fix swagger `Authorization` header.
+- In web documentation, link to `petstore.swagger.io` instead of JSON file.
+
 # 0.2.8
 
 - Fix translation errors when default locale is not `:en`
