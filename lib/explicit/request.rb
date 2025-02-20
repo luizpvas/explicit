@@ -12,13 +12,15 @@ class Explicit::Request
 
     instance_eval(&block)
 
+    define_missing_path_params!
+
     if Explicit.configuration.rescue_from_invalid_params? && @params.any?
       @responses[422] << {
         error: "invalid_params",
         params: [
           :description,
           "An object containing error messages for all invalid params",
-          [:hash, :string, :string]
+          [ :hash, :string, :string ]
         ]
       }
     end
@@ -76,19 +78,19 @@ class Explicit::Request
     raise ArgumentError("duplicated param #{name}") if @params.key?(name)
 
     if options[:optional]
-      type = [:nilable, type]
+      type = [ :nilable, type ]
     end
 
     if (defaultval = options[:default])
-      type = [:default, defaultval, type]
+      type = [ :default, defaultval, type ]
     end
 
     if (description = options[:description])
-      type = [:description, description, type]
+      type = [ :description, description, type ]
     end
 
     if @routes.first&.params&.include?(name)
-      type = [:_param_location, :path, type]
+      type = [ :_param_location, :path, type ]
     end
 
     @params[name] = type
@@ -140,6 +142,15 @@ class Explicit::Request
   end
 
   def responses_type(status:)
-    Explicit::Type.build([:one_of, *@responses[status]])
+    Explicit::Type.build([ :one_of, *@responses[status] ])
   end
+
+  private
+    def define_missing_path_params!
+      @routes.first&.params&.each do |path_param_name|
+        if @params[path_param_name.to_sym].blank?
+          param(path_param_name.to_sym, :string)
+        end
+      end
+    end
 end
