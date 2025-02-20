@@ -20,15 +20,19 @@ class Explicit::Type::FloatTest < ActiveSupport::TestCase
   end
 
   test "negative" do
-    assert_ok(-1, validate(-1, [ :float, negative: true ]))
+    assert_ok (-1), validate(-1, [ :float, negative: true ])
+    assert_ok 1, validate(1, [ :float, negative: false ])
 
     assert_error "must not be negative", validate(-1, [ :float, negative: false ])
+    assert_error "must be negative", validate(1, [ :float, negative: true ])
   end
 
   test "positive" do
     assert_ok 1, validate(1, [ :float, positive: true ])
+    assert_ok -1, validate(-1, [ :float, positive: false ])
 
     assert_error "must not be positive", validate(1, [ :float, positive: false ])
+    assert_error "must be positive", validate(0, [ :float, positive: true ])
   end
 
   test "error" do

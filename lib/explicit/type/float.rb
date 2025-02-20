@@ -40,8 +40,16 @@ class Explicit::Type::Float < Explicit::Type
       return error_i18n("not_negative")
     end
 
+    if negative == true && value >= 0
+      return error_i18n("only_negative")
+    end
+
     if positive == false && value > 0
       return error_i18n("not_positive")
+    end
+
+    if positive == true && value <= 0
+      return error_i18n("only_positive")
     end
 
     [ :ok, value ]

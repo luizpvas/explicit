@@ -2,9 +2,9 @@
 
 module API::V1::ArticlesController::Resource
   Type = {
-    id: [:integer, negative: false],
-    title: [:string, empty: false],
-    content: [:string, empty: false],
+    id: [ :integer, negative: false ],
+    title: [ :string, empty: false ],
+    content: [ :string, empty: false ],
     published_at: [
       :description,
       <<~MD,
@@ -14,9 +14,9 @@ module API::V1::ArticlesController::Resource
         * When published_at is a moment in the past it means the article is
           published and can be read by everyone.
       MD
-      [:nilable, :date_time_iso8601]
+      [ :nilable, :date_time_iso8601 ]
     ],
-    read_count: [:integer, positive: true]
+    read_count: [ :integer, negative: false ]
   }.freeze
 
   Serialize = ->(article) do

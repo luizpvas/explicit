@@ -4,6 +4,7 @@
 - Fix swagger `date` type swagger schema.
 - Fix swagger output when no requests in the documentation defines `base_url` and `base_path`.
 - Add `float` type with the same constraints as integers (min, max, negative and positive).
+- Fully support all variations of `negative: false`, `negative: true`, `positive: false` and `positive: true`.
 
 # 0.2.5
 
