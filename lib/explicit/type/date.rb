@@ -11,7 +11,7 @@ class Explicit::Type::Date < Explicit::Type
   end
 
   def validate(value)
-    return [:ok, value] if value.is_a?(::Date)
+    return [ :ok, value ] if value.is_a?(::Date)
     return error_i18n("string") if !value.is_a?(::String)
 
     date = ::Date.parse(value, false)
@@ -32,7 +32,7 @@ class Explicit::Type::Date < Explicit::Type
       end
     end
 
-    [:ok, date]
+    [ :ok, date ]
   rescue ::Date::Error
     error_i18n("date_format")
   end
@@ -53,14 +53,14 @@ class Explicit::Type::Date < Explicit::Type
 
   concerning :Swagger do
     def swagger_schema
-      {
+      merge_base_swagger_schema({
         type: "string",
         pattern: /\d{4}-\d{2}-\d{2}/.inspect[1..-2],
         format: "date",
         description_topics: [
           swagger_i18n("date_format")
         ]
-      }
+      })
     end
   end
 end

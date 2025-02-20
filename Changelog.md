@@ -1,6 +1,7 @@
 # 0.2.8
 
 - Fix translation errors when default locale is not `:en`
+- Fix swagger `date` type swagger schema.
 
 # 0.2.5
 
