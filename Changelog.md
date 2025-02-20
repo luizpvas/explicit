@@ -2,6 +2,7 @@
 
 - Fix translation errors when default locale is not `:en`
 - Fix swagger `date` type swagger schema.
+- Fix swagger output when no requests in the documentation defines `base_url` and `base_path`.
 
 # 0.2.5
 
