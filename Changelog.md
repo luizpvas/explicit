@@ -1,3 +1,7 @@
+# 0.2.8
+
+- Fix translation errors when default locale is not `:en`
+
 # 0.2.5
 
 - Change documentation web page font from `sans-serif` to `system-ui`.
