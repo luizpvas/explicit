@@ -27,28 +27,35 @@ class Explicit::Type::OneOf < Explicit::Type
     @subtypes.each do |subtype|
       case subtype.validate(value)
       in [:ok, validated_value]
-        return [:ok, validated_value]
+        return [ :ok, validated_value ]
       in [:error, err]
         errors << err
       end
     end
 
     if (err = guess_error_for_intended_subtype_via_matching_literal(value:, errors:))
-      return [:error, err]
+      return [ :error, err ]
     end
 
     if (err = guess_error_for_intended_subtype_via_matching_keys(value:, errors:))
-      return [:error, err]
+      return [ :error, err ]
     end
+
+    separator =
+      if ::I18n.exists?("explicit.errors.one_of_separator")
+        ::I18n.t("explicit.errors.one_of_separator")
+      else
+        ::I18n.t("explicit.errors.one_of_separator", locale: :en)
+      end
 
     error =
       if @subtypes_are_records
-        errors.map { ::JSON.pretty_generate(_1) }.join("\n\n#{ ::I18n.t('explicit.errors.one_of_separator')}\n\n")
+        errors.map { ::JSON.pretty_generate(_1) }.join("\n\n#{separator}\n\n")
       else
-        errors.join(" #{I18n.t('explicit.errors.one_of_separator')} ")
+        errors.join(" #{separator} ")
       end
 
-    [:error, error]
+    [ :error, error ]
   end
 
   def guess_error_for_intended_subtype_via_matching_literal(value:, errors:)

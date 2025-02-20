@@ -28,6 +28,7 @@ documented types at runtime.
    - [Description](#description)
    - [Enum](#enum)
    - [File](#file)
+   - [Float](#float)
    - [Hash](#hash)
    - [Integer](#integer)
    - [Literal](#literal)
@@ -141,6 +142,9 @@ request instead of `Explicit::Request`. For example:
 
 ```ruby
 AuthenticatedRequest = Explicit::Request.new do
+  base_url "https://my-app.com"
+  base_path "/api/v1"
+
   header "Authorization", [:string, format: /Bearer [a-zA-Z0-9]{20}/]
 
   response 403, { error: "unauthorized" }
@@ -550,6 +554,18 @@ match value_type. If you are expecting a hash with a specific set of keys use a
 
 Value must be an uploaded file using "multipart/form-data" encoding.
 
+### Float
+
+```ruby
+:float
+[:float, negative: false]
+[:float, positive: false]
+[:float, min: 0] # inclusive
+[:float, max: 10] # inclusive
+```
+
+Float encoded string alues such as "0.5" or "500.01" are automatically converted to `Float`.
+
 ### Integer
 
 ```ruby
@@ -561,7 +577,7 @@ Value must be an uploaded file using "multipart/form-data" encoding.
 ```
 
 Integer encoded string values such as "10" or "-2" are automatically converted
-to integer.
+to `Integer`.
 
 ### Literal
 

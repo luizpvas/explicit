@@ -10,9 +10,10 @@ class API::V1::EverythingControllerTest < ActionDispatch::IntegrationTest
         file1: file_fixture_upload("this_is_fine.png", "image/png"),
         string1: "hello#'\"",
         integer1: 42,
+        float1: 2.9,
         hash1: {
-          "key1" => [1, 2, 3],
-          "key2" => [4, 5, 6]
+          "key1" => [ 1, 2, 3 ],
+          "key2" => [ 4, 5, 6 ]
         },
         agreement1: true,
         big_decimal1: "10.5",

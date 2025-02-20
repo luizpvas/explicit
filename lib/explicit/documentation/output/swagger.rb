@@ -31,7 +31,7 @@ module Explicit::Documentation::Output
     def call(request)
       @swagger_document ||= swagger_document
 
-      [200, {"Content-Type" => "application/json"}, [@swagger_document.to_json]]
+      [ 200, { "Content-Type" => "application/json" }, [ @swagger_document.to_json ] ]
     end
 
     def inspect
@@ -43,7 +43,7 @@ module Explicit::Documentation::Output
         base_urls = builder.requests.map(&:get_base_url).uniq
         base_paths = builder.requests.map(&:get_base_path).uniq
 
-        if !base_urls.one?
+        if !base_urls.compact_blank.empty? && !base_urls.one?
           raise InconsistentBaseURLError.new <<~TXT
             There are requests with different base URLs in the same documentation,
             which is not supported by Swagger.
@@ -56,7 +56,7 @@ module Explicit::Documentation::Output
           TXT
         end
 
-        if !base_paths.one?
+        if !base_paths.compact_blank.empty? && !base_paths.one?
           raise InconsistentBasePathError.new <<~TXT
             There are requests with different base paths in the same documentation,
             which is not supported by Swagger.
@@ -69,7 +69,7 @@ module Explicit::Documentation::Output
           TXT
         end
 
-        base_urls.first + base_paths.first
+        (base_urls.first || "") + (base_paths.first || "")
       end
 
       def build_tags_from_sections
@@ -87,7 +87,7 @@ module Explicit::Documentation::Output
             route = request.routes.first
 
             paths[route.path_with_curly_syntax][route.method.to_s] = {
-              tags: [section.name],
+              tags: [ section.name ],
               summary: request.get_title,
               description: request.get_description,
               parameters: build_parameters(request),
@@ -132,7 +132,7 @@ module Explicit::Documentation::Output
 
         return nil if body_params_type.attributes.empty?
 
-        examples = 
+        examples =
           request.examples
             .flat_map { |_, examples| examples }
             .filter_map do |example|
@@ -141,7 +141,7 @@ module Explicit::Documentation::Output
               in [:error, _] then nil
               end
             end
-            .map.with_index { |example, index| [index, { value: example }] }
+            .map.with_index { |example, index| [ index, { value: example } ] }
             .to_h
 
         {
@@ -160,7 +160,7 @@ module Explicit::Documentation::Output
 
         request.responses.each do |status, _|
           examples = request.examples[status].map.with_index do |example, index|
-            [index.to_s, { value: example.response.data }]
+            [ index.to_s, { value: example.response.data } ]
           end.to_h
 
           responses[status] = {

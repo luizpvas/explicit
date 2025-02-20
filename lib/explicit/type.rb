@@ -59,6 +59,11 @@ class Explicit::Type
     in [:file, options]
       Explicit::Type::File.new(**options)
 
+    in :float
+      Explicit::Type::Float.new
+    in [:float, options]
+      Explicit::Type::Float.new(**options)
+
     in :integer
       Explicit::Type::Integer.new
     in [:integer, options]
@@ -109,13 +114,24 @@ class Explicit::Type
   def error_i18n(name, context = {})
     key = "explicit.errors.#{name}"
 
-    [:error, ::I18n.t(key, **context)]
+    translation =
+      if ::I18n.exists?(key)
+        ::I18n.t(key, **context)
+      else
+        ::I18n.t(key, **context.merge(locale: :en))
+      end
+
+    [ :error, translation ]
   end
 
   def swagger_i18n(name, context = {})
     key = "explicit.swagger.#{name}"
 
-    ::I18n.t(key, **context)
+    if ::I18n.exists?(key)
+      ::I18n.t(key, **context)
+    else
+      ::I18n.t(key, **context.merge(locale: :en))
+    end
   end
 
   def merge_base_swagger_schema(attributes)

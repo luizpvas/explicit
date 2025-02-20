@@ -11,23 +11,27 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
   end
 
   test "min max" do
-    assert_ok 1, validate(1, [:integer, min: 1, max: 2])
-    assert_ok 2, validate(2, [:integer, min: 1, max: 2])
+    assert_ok 1, validate(1, [ :integer, min: 1, max: 2 ])
+    assert_ok 2, validate(2, [ :integer, min: 1, max: 2 ])
 
-    assert_error "must be at least 1", validate(0, [:integer, min: 1, max: 2])
-    assert_error "must be at most 2", validate(3, [:integer, min: 1, max: 2])
+    assert_error "must be at least 1", validate(0, [ :integer, min: 1, max: 2 ])
+    assert_error "must be at most 2", validate(3, [ :integer, min: 1, max: 2 ])
   end
 
   test "negative" do
-    assert_ok(-1, validate(-1, [:integer, negative: true]))
+    assert_ok 1, validate(1, [ :integer, negative: false ])
+    assert_ok (-1), validate(-1, [ :integer, negative: true ])
 
-    assert_error "must not be negative", validate(-1, [:integer, negative: false])
+    assert_error "must not be negative", validate(-1, [ :integer, negative: false ])
+    assert_error "must be negative", validate(0, [ :integer, negative: true ])
   end
 
   test "positive" do
-    assert_ok 1, validate(1, [:integer, positive: true])
+    assert_ok 1, validate(1, [ :integer, positive: true ])
+    assert_ok (-1), validate(-1, [ :integer, positive: false ])
 
-    assert_error "must not be positive", validate(1, [:integer, positive: false])
+    assert_error "must not be positive", validate(1, [ :integer, positive: false ])
+    assert_error "must be positive", validate(-1, [ :integer, positive: true ])
   end
 
   test "error" do
@@ -42,7 +46,7 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
     type = type([
       :description,
       "hello",
-      [:default, 5, [:integer, min: 0, max: 10]]
+      [ :default, 5, [ :integer, min: 0, max: 10 ] ]
     ])
 
     assert_equal type.swagger_schema, {
@@ -53,22 +57,22 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
       description: "hello"
     }
 
-    assert_equal type([:integer, positive: false]).swagger_schema, {
+    assert_equal type([ :integer, positive: false ]).swagger_schema, {
       type: "integer",
       description: "* Must not be positive"
     }
 
-    assert_equal type([:integer, positive: true]).swagger_schema, {
+    assert_equal type([ :integer, positive: true ]).swagger_schema, {
       type: "integer",
       description: "* Must be positive"
     }
 
-    assert_equal type([:integer, negative: false]).swagger_schema, {
+    assert_equal type([ :integer, negative: false ]).swagger_schema, {
       type: "integer",
       description: "* Must not be negative"
     }
 
-    assert_equal type([:integer, negative: true]).swagger_schema, {
+    assert_equal type([ :integer, negative: true ]).swagger_schema, {
       type: "integer",
       description: "* Must be negative"
     }
