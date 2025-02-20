@@ -1,6 +1,8 @@
 # 0.2.9
 
 - Automatically defines a `:string` param for path params if user did not define on in the request.
+- Fix string encoding problem in the documentation for literal types.
+- Fix swagger `Authorization` header.
 
 # 0.2.8
 
