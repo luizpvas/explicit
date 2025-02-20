@@ -145,6 +145,22 @@ class Explicit::Request
     Explicit::Type.build([ :one_of, *@responses[status] ])
   end
 
+  def custom_authorization_format?
+    @headers.key?("Authorization") && !requires_basic_authorization? && !requires_bearer_authorization?
+  end
+
+  def requires_basic_authorization?
+    authorization = headers_type.attributes["Authorization"]
+
+    authorization&.format&.to_s&.include?("Basic")
+  end
+
+  def requires_bearer_authorization?
+    authorization = headers_type.attributes["Authorization"]
+
+    authorization&.format&.to_s&.include?("Bearer")
+  end
+
   private
     def define_missing_path_params!
       @routes.first&.params&.each do |path_param_name|
