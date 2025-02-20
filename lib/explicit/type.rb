@@ -59,6 +59,11 @@ class Explicit::Type
     in [:file, options]
       Explicit::Type::File.new(**options)
 
+    in :float
+      Explicit::Type::Float.new
+    in [:float, options]
+      Explicit::Type::Float.new(**options)
+
     in :integer
       Explicit::Type::Integer.new
     in [:integer, options]

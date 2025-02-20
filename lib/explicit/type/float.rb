@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Explicit::Type::Integer < Explicit::Type
+class Explicit::Type::Float < Explicit::Type
   attr_reader :min, :max, :negative, :positive
 
   def initialize(min: nil, max: nil, negative: nil, positive: nil)
@@ -11,14 +11,14 @@ class Explicit::Type::Integer < Explicit::Type
   end
 
   ParseFromString = ->(value) do
-    Integer(value)
+    Float(value)
   rescue ::ArgumentError
     nil
   end
 
   def validate(value)
     value =
-      if value.is_a?(::Integer)
+      if value.is_a?(::Integer) || value.is_a?(::Float) || value.is_a?(::BigDecimal)
         value
       elsif value.is_a?(::String)
         ParseFromString[value]
@@ -26,7 +26,7 @@ class Explicit::Type::Integer < Explicit::Type
         nil
       end
 
-    return error_i18n("integer") if value.nil?
+    return error_i18n("float") if value.nil?
 
     if min && value < min
       return error_i18n("min", min:)
@@ -49,11 +49,11 @@ class Explicit::Type::Integer < Explicit::Type
 
   concerning :Webpage do
     def summary
-      "integer"
+      "float"
     end
 
     def partial
-      "explicit/documentation/type/integer"
+      "explicit/documentation/type/float"
     end
 
     def has_details?
@@ -64,7 +64,7 @@ class Explicit::Type::Integer < Explicit::Type
   concerning :Swagger do
     def swagger_schema
       merge_base_swagger_schema({
-        type: "integer",
+        type: "number",
         minimum: min,
         maximum: max,
         description_topics: [

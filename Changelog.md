@@ -3,6 +3,7 @@
 - Fix translation errors when default locale is not `:en`
 - Fix swagger `date` type swagger schema.
 - Fix swagger output when no requests in the documentation defines `base_url` and `base_path`.
+- Add `float` type with the same constraints as integers (min, max, negative and positive).
 
 # 0.2.5
 
