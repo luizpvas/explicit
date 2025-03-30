@@ -15,7 +15,6 @@ class Explicit::Type::AnyTest < ActiveSupport::TestCase
     type = type([ :description, "hello", :any ])
 
     assert_equal type.swagger_schema, {
-      type: {},
       description: "hello"
     }
   end
