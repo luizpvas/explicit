@@ -3,6 +3,7 @@
 <head>
   <title><%= page_title || "API Documentation" %></title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <% if favicon_url %>
     <link rel="icon" href="<%= favicon_url %>" />
@@ -17,6 +18,10 @@
     .markdown code {
       background: var(--color-neutral-100);
       color: var(--color-neutral-900);
+    }
+    .markdown p {
+      margin-block-start: 0.5rem;
+      margin-block-end: 0.5rem;
     }
     .markdown p:first-of-type {
       margin-block-start: 0em;
@@ -80,6 +85,8 @@
 
     <main class="relative grow h-screen overflow-auto">
       <% sections.each do |section| %>
+        <h1 class="text-5xl font-bold p-8 bg-gray-50 border-t"><%= section.name %></h1>
+
         <% section.pages.each do |page| %>
           <div class="p-8 border-t">
             <%= render partial: page.partial, locals: { page: } %>

@@ -10,6 +10,9 @@ class API::V1::SessionsController
     Attempts to sign in a user to the system. If sign in succeeds an
     authentication token is returned. Use this token to authenticate requests
     with the header `Authorization: Bearer <token>`.
+
+    If the credentials are incorrect, an error response with status code 422
+    and the error message "invalid_credentials" is returned.
     MD
 
     param :email_address, [:string, format: URI::MailTo::EMAIL_REGEXP, strip: true, downcase: true]
