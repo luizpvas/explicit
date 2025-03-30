@@ -81,7 +81,7 @@ class Explicit::Type::Integer < Explicit::Type
           negative == false ? swagger_i18n("number_not_negative") : nil,
           negative == true ? swagger_i18n("number_only_negative") : nil
         ]
-      })
+      }.compact_blank)
     end
   end
 end

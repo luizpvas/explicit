@@ -16,6 +16,7 @@ documented types at runtime.
    - [Adding request examples](#adding-request-examples)
 7. Types
    - [Agreement](#agreement)
+   - [Any](#any)
    - [Array](#array)
    - [BigDecimal](#big_decimal)
    - [Boolean](#boolean)
@@ -403,6 +404,16 @@ examples from tests**
 A boolean that must always be true. Useful for terms of use or agreement
 acceptances. The following values are accepted: `true`, `"true"`, `"on"`, `"1"`
 and `1`.
+
+### Any
+
+```ruby
+:any
+```
+
+Allows all values, including null. Useful when documenting a proxy that
+responds with whatever value the other service returned.
+
 
 ### Array
 

@@ -25,6 +25,7 @@ require "explicit/request/route"
 
 require "explicit/type"
 require "explicit/type/agreement"
+require "explicit/type/any"
 require "explicit/type/array"
 require "explicit/type/big_decimal"
 require "explicit/type/boolean"

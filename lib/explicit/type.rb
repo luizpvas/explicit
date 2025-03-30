@@ -5,6 +5,9 @@ class Explicit::Type
 
   def self.build(type)
     case type
+    in :any
+      Explicit::Type::Any.new
+
     in :agreement
       Explicit::Type::Agreement.new
 
@@ -156,8 +159,8 @@ class Explicit::Type
     base_attributes = {
       default: default_value,
       description: formatted_description
-    }
+    }.compact_blank
 
-    base_attributes.merge(attributes).compact_blank
+    base_attributes.merge(attributes)
   end
 end
