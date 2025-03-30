@@ -1,3 +1,7 @@
+# 0.2.10
+
+- Add `any` type
+
 # 0.2.9
 
 - Automatically defines a `:string` param for path params if user did not define on in the request.

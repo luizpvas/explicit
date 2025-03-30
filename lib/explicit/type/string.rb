@@ -34,7 +34,7 @@ class Explicit::Type::String < Explicit::Type
       return error_i18n("format", regex: format.inspect)
     end
 
-    [:ok, value]
+    [ :ok, value ]
   end
 
   concerning :Webpage do
@@ -62,7 +62,7 @@ class Explicit::Type::String < Explicit::Type
           empty == false ? swagger_i18n("string_not_empty") : nil,
           downcase == true ? swagger_i18n("string_downcase") : nil
         ]
-      })
+      }.compact_blank)
     end
   end
 end
