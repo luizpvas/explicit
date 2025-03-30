@@ -7,7 +7,7 @@ class Explicit::Type::Record < Explicit::Type
     @attributes = attributes.to_h do |attribute_name, type|
       type = Explicit::Type.build(type) if !type.is_a?(Explicit::Type)
 
-      [attribute_name, type]
+      [ attribute_name, type ]
     end
   end
 
@@ -28,9 +28,9 @@ class Explicit::Type::Record < Explicit::Type
       end
     end
 
-    return [:error, errors] if errors.any?
+    return [ :error, errors ] if errors.any?
 
-    [:ok, validated_data]
+    [ :ok, validated_data ]
   end
 
   def path_params_type
@@ -78,7 +78,7 @@ class Explicit::Type::Record < Explicit::Type
 
     def swagger_schema
       properties = attributes.to_h do |name, type|
-        [name, type.swagger_schema]
+        [ name, type.swagger_schema ]
       end
 
       required = attributes.filter_map do |name, type|
@@ -89,7 +89,7 @@ class Explicit::Type::Record < Explicit::Type
         type: "object",
         properties:,
         required:
-      })
+      }.compact_blank)
     end
   end
 end
