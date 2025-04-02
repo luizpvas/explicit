@@ -1,3 +1,7 @@
+# 0.2.11
+
+- Fix: params in GET requests are now set in querystring instead of body.
+
 # 0.2.10
 
 - Add `any` type

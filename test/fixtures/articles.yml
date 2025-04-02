@@ -2,5 +2,5 @@ published_by_luiz:
   user: luiz
   title: Title
   content: Content
-  published_at: <%= Time.current %>
+  published_at: 2025-04-02
   read_count: 0
