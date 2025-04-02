@@ -41,6 +41,7 @@ documented types at runtime.
    - [Changing examples file path](#changing-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
+   - [Raise on inalid response example](#raise-on-invalid-response-example)
 
 # Installation
 
@@ -698,4 +699,11 @@ class ApplicationController < ActionController::API
     render json: { error: "invalid_params", params: err.errors }, status: 422
   end
 end
+```
+
+### Raise on invalid response example
+
+```ruby
+config.raise_on_invalid_response_example = true # default is false
+config.raise_on_invalid_response_example = ::Rails.env.development? # recommended
 ```

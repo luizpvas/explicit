@@ -1,6 +1,8 @@
 # 0.2.11
 
 - Fix: params in GET requests are now set in querystring instead of body.
+- Add config option, disabled by default, to raise errors when an example that
+  does not match the expected type is added to the request.
 
 # 0.2.10
 

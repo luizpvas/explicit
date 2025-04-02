@@ -24,6 +24,8 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
   end
 
   test "raises an error if example does not match response types" do
+    ::Explicit.configuration.raise_on_invalid_response_example = true
+
     assert_raises Explicit::Request::InvalidResponseError do
       Explicit::Request.new do
         response 200, {}
@@ -34,5 +36,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
         )
       end
     end
+  ensure
+    ::Explicit.configuration.raise_on_invalid_response_example = false
   end
 end

@@ -113,8 +113,15 @@ class Explicit::Request
     response = Response.new(status:, data:)
 
     case responses_type(status:).validate(data)
-    in [:ok, _] then nil
-    in [:error, err] then raise InvalidResponseError.new(response, err)
+    in [:ok, _]
+      nil
+
+    in [:error, err]
+      if ::Explicit.configuration.raise_on_invalid_response_example?
+        raise InvalidResponseError.new(response, err)
+      else
+        ::Rails.logger.error("[Explicit] Invalid response for #{gid} with status #{status}: #{err}")
+      end
     end
 
     @examples[response.status] << Example.new(request: self, params:, headers:, response:)
