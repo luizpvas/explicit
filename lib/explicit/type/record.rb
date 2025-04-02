@@ -41,9 +41,17 @@ class Explicit::Type::Record < Explicit::Type
     self.class.new(attributes: path_params)
   end
 
+  def query_params_type
+    query_params = @attributes.filter do |name, type|
+      type.param_location_query?
+    end
+
+    self.class.new(attributes: query_params)
+  end
+
   def body_params_type
     body_params = @attributes.filter do |name, type|
-      !type.param_location_path?
+      type.param_location_body?
     end
 
     self.class.new(attributes: body_params)

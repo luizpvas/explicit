@@ -18,6 +18,7 @@ module API::V1
     end
 
     section "Articles" do
+      add API::V1::ArticlesController::IndexRequest
       add API::V1::ArticlesController::CreateRequest
       add API::V1::ArticlesController::ShowRequest
       add API::V1::ArticlesController::UpdateRequest

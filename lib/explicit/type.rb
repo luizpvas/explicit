@@ -110,6 +110,14 @@ class Explicit::Type
     param_location == :path
   end
 
+  def param_location_query?
+    param_location == :query
+  end
+
+  def param_location_body?
+    param_location == :body
+  end
+
   def required?
     !nilable
   end

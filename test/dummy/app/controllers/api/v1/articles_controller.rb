@@ -7,6 +7,14 @@ class API::V1::ArticlesController < API::V1::BaseController
     render json: {}, status: 404
   end
 
+  def index
+    IndexRequest.validate!(params) => { published_between: }
+
+    articles = current_user.articles.where(published_at: published_between)
+
+    render json: { articles: articles.map(&Resource::Serialize) }, status: 200
+  end
+
   def create
     CreateRequest.validate!(params) => { title:, content:, published_at: }
 
@@ -14,7 +22,7 @@ class API::V1::ArticlesController < API::V1::BaseController
 
     render json: { article: Resource::Serialize[article] }, status: 201
   end
-  
+
   def show
     ShowRequest.validate!(params) => { article_id: }
 

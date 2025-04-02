@@ -35,6 +35,21 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
     end
   end
 
+  test "GET /articles" do
+    swagger.dig(:paths, "/articles", "get").tap do |req|
+      assert_equal [ "Articles" ], req.dig(:tags)
+      assert_equal "List articles", req.dig(:summary)
+
+      req.dig(:parameters, 0).tap do |param|
+        assert_equal "published_between", param.dig(:name)
+        assert_equal "query", param.dig(:in)
+        assert_equal "string", param.dig(:schema, :type)
+      end
+
+      assert_nil req.dig(:requestBody)
+    end
+  end
+
   test "GET /articles/:article_id" do
     swagger.dig(:paths, "/articles/{article_id}", "get").tap do |req|
       assert_equal [ "Articles" ], req.dig(:tags)

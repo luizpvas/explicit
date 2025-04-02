@@ -12,6 +12,10 @@ class Explicit::Request
       end
     end
 
+    def accepts_request_body?
+      method == :post || method == :put || method == :patch
+    end
+
     def replace_path_params(values)
       values.reduce(path) do |acc_path, (key, value)|
         acc_path.gsub(":#{key}", value.to_s)

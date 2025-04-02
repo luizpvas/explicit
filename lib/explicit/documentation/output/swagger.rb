@@ -152,7 +152,18 @@ module Explicit::Documentation::Output
             }
           end
 
-        headers + path_params
+        query_params =
+          request.params_type.query_params_type.attributes.map do |name, type|
+            {
+              name: name.to_s,
+              in: "query",
+              required: type.required?,
+              schema: type.swagger_schema,
+              style: "simple"
+            }
+          end
+
+        headers + path_params + query_params
       end
 
       def build_request_body(request)
