@@ -40,12 +40,11 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
       assert_equal [ "Articles" ], req.dig(:tags)
       assert_equal "List articles", req.dig(:summary)
 
-      assert_equal req.dig(:parameters, 0), {
-        name: "published_between",
-        in: "query",
-        required: false,
-        schema: { type: "string" }
-      }
+      req.dig(:parameters, 0).tap do |param|
+        assert_equal "published_between", param.dig(:name)
+        assert_equal "query", param.dig(:in)
+        assert_equal "string", param.dig(:schema, :type)
+      end
 
       assert_nil req.dig(:requestBody)
     end

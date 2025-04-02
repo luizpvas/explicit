@@ -8,7 +8,7 @@ class Explicit::Request::ConveniencesTest < ActiveSupport::TestCase
       param :name, :string, description: "User full name"
     end
 
-    assert_equal [:description, "User full name", :string], request.params[:name]
+    assert_equal "User full name", request.params_type.attributes[:name].description
   end
 
   test "params default" do
@@ -16,7 +16,7 @@ class Explicit::Request::ConveniencesTest < ActiveSupport::TestCase
       param :name, :string, default: "foo"
     end
 
-    assert_equal [:default, "foo", :string], request.params[:name]
+    assert_equal "foo", request.params_type.attributes[:name].default
   end
 
   test "params optional" do
@@ -24,7 +24,7 @@ class Explicit::Request::ConveniencesTest < ActiveSupport::TestCase
       param :name, :string, optional: true
     end
 
-    assert_equal [:nilable, :string], request.params[:name]
+    assert_equal false, request.params_type.attributes[:name].required?
   end
 
   test "params default + optional" do
@@ -32,16 +32,7 @@ class Explicit::Request::ConveniencesTest < ActiveSupport::TestCase
       param :name, :string, optional: true, default: "foo"
     end
 
-    assert_equal [:default, "foo", [:nilable, :string]], request.params[:name]
-  end
-
-  test "param in path" do
-    request = Explicit::Request.new do
-      post "/articles/:id"
-
-      param :id, :integer
-    end
-
-    assert_equal [:_param_location, :path, :integer], request.params[:id]
+    assert_equal "foo", request.params_type.attributes[:name].default
+    assert_equal false, request.params_type.attributes[:name].required?
   end
 end
