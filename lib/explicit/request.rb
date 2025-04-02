@@ -117,7 +117,7 @@ class Explicit::Request
       nil
 
     in [:error, err]
-      if ::Explicit.configuration.raise_on_invalid_response_example?
+      if ::Explicit.configuration.raise_on_invalid_example?
         raise InvalidResponseError.new(response, err)
       else
         ::Rails.logger.error("[Explicit] Invalid response for #{gid} with status #{status}: #{err}")

@@ -41,7 +41,7 @@ documented types at runtime.
    - [Changing examples file path](#changing-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
-   - [Raise on inalid response example](#raise-on-invalid-response-example)
+   - [Raise on invalid example](#raise-on-invalid-example)
 
 # Installation
 
@@ -701,9 +701,9 @@ class ApplicationController < ActionController::API
 end
 ```
 
-### Raise on invalid response example
+### Raise on invalid example
 
 ```ruby
-config.raise_on_invalid_response_example = true # default is false
-config.raise_on_invalid_response_example = ::Rails.env.development? # recommended
+config.raise_on_invalid_example = true # default is false
+config.raise_on_invalid_example = ::Rails.env.development? # recommended
 ```
