@@ -28,6 +28,14 @@ module Explicit
       @rescue_from_invalid_params
     end
 
+    def raise_on_invalid_example=(enabled)
+      @raise_on_invalid_example = enabled
+    end
+
+    def raise_on_invalid_example?
+      @raise_on_invalid_example
+    end
+
     def test_runner=(test_runner)
       @test_runner = test_runner
     end
