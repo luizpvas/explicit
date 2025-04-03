@@ -69,7 +69,7 @@ module Explicit::TestHelper
       raise <<~TXT
         Unexpected HTML response:
 
-        #{html.text}
+        #{html.text.gsub(/^\s+$\n/, '')}
       TXT
     end
 
