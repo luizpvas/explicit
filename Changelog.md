@@ -1,4 +1,4 @@
-# 0.2.11
+# 0.2.13
 
 - Fix: params in GET requests are now set in query string instead of body.
 - Add config option, disabled by default, to raise errors when an example that
@@ -8,9 +8,17 @@
   guessing logic based on the format's regex.
 - Fix cURL examples with query string params and body params.
 
+# 0.2.12
+
+- UI improvements in web documentation.
+
+# 0.2.11
+
+- Fix web documentation template for `any` type.
+
 # 0.2.10
 
-- Add `any` type
+- Add support for the type `any` that allows all values including `null`.
 
 # 0.2.9
 
