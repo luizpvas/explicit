@@ -68,8 +68,12 @@ class Explicit::Request
   def description(markdown) = (@description = markdown)
   def get_description = @description
 
-  def header(name, type)
+  def header(name, type,  **options)
     raise ArgumentError("duplicated header #{name}") if @headers.key?(name)
+
+    if (auth_type = options[:auth])
+      type = [ :_auth_type, auth_type, type ]
+    end
 
     @headers[name] = type
   end
@@ -163,13 +167,13 @@ class Explicit::Request
   def requires_basic_authorization?
     authorization = headers_type.attributes["Authorization"]
 
-    authorization&.format&.to_s&.include?("Basic")
+    authorization&.auth_basic? || authorization&.format&.to_s&.include?("Basic")
   end
 
   def requires_bearer_authorization?
     authorization = headers_type.attributes["Authorization"]
 
-    authorization&.format&.to_s&.include?("Bearer")
+    authorization&.auth_bearer? || authorization&.format&.to_s&.include?("Bearer")
   end
 
   private

@@ -44,6 +44,7 @@ require "explicit/type/one_of"
 require "explicit/type/record"
 require "explicit/type/string"
 
+require "explicit/type/modifiers/auth_type"
 require "explicit/type/modifiers/default"
 require "explicit/type/modifiers/description"
 require "explicit/type/modifiers/nilable"

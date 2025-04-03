@@ -99,12 +99,15 @@ class Explicit::Type
     in [:nilable, type]
       Explicit::Type::Modifiers::Nilable.apply(type)
 
+    in [:_auth_type, auth_type, type]
+      Explicit::Type::Modifiers::AuthType.apply(auth_type, type)
+
     in [:_param_location, param_location, type]
       Explicit::Type::Modifiers::ParamLocation.apply(param_location, type)
     end
   end
 
-  attr_accessor :description, :default, :nilable, :param_location
+  attr_accessor :description, :default, :nilable, :param_location, :auth_type
 
   def param_location_path?
     param_location == :path
@@ -116,6 +119,14 @@ class Explicit::Type
 
   def param_location_body?
     param_location == :body
+  end
+
+  def auth_basic?
+    auth_type == :basic
+  end
+
+  def auth_bearer?
+    auth_type == :bearer
   end
 
   def required?
