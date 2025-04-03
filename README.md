@@ -63,10 +63,13 @@ available:
 - `title(text)` - Adds a title to the request. Displayed in documentation.
 - `description(text)` - Adds a description to the endpoint. Displayed in
   documentation. Markdown supported.
-- `header(name, type)` - Adds a type to the request header.
+- `header(name, type, options = {})` - Adds a type to the request header.
+  - The following options are available:
+    - `auth: :bearer` - Sets the authentication to [bearer](https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/).
+    - `auth: :basic` - Sets the authentication to [basic](https://swagger.io/docs/specification/v3_0/authentication/basic-authentication/).
 - `param(name, type, options = {})` - Adds a type to the request param.
   It works for params in the request body, query string and path params.
-  - The following conveniences are available via options:
+  - The following options are available:
     - `optional: true` - Makes the param nilable.
     - `default: value` - Sets a default value to the param, which makes it optional.
     - `description: "text"` - Adds a documentation to the param. Markdown supported.
@@ -147,7 +150,7 @@ AuthenticatedRequest = Explicit::Request.new do
   base_url "https://my-app.com"
   base_path "/api/v1"
 
-  header "Authorization", [:string, format: /Bearer [a-zA-Z0-9]{20}/]
+  header "Authorization", [:string, format: /Bearer [a-zA-Z0-9]{20}/], auth: :bearer
 
   response 403, { error: "unauthorized" }
 end
