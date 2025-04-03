@@ -4,7 +4,7 @@ require "test_helper"
 
 class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
   test "curl request without headers, body and path params" do
-    request = Explicit::Request.new do
+    request = ::Explicit::Request.new do
       base_url "http://localhost:3000"
       get "/api"
 
@@ -26,7 +26,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
   end
 
   test "curl request with headers" do
-    request = Explicit::Request.new do
+    request = ::Explicit::Request.new do
       base_url "http://localhost:3000"
       get "/api"
 
@@ -49,9 +49,11 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
   end
 
   test "curl request with headers and body" do
-    request = Explicit::Request.new do
+    request = ::Explicit::Request.new do
       base_url "http://localhost:3000"
-      get "/api"
+      post "/api"
+
+      param :key, :string
 
       response 200, {}
 
@@ -66,15 +68,33 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
     end
 
     assert_equal request.examples[200].first.to_curl_lines, [
-      'curl -XGET "http://localhost:3000/api"',
+      'curl -XPOST "http://localhost:3000/api"',
       '-H "Content-Type: application/json"',
       '-H "Authorization: Bearer abcd-1234"',
       "-d @- << EOF\n#{JSON.pretty_generate(request.examples[200].first.params)}\nEOF"
     ]
   end
 
+  test "curl request with query params" do
+    request = ::Explicit::Request.new do
+      base_url "http://localhost:3000"
+      get "/users"
+
+      param :status, :string
+
+      add_example(
+        params: { status: "active" },
+        response: { status: 200, data: {} }
+      )
+    end
+
+    assert_equal request.examples[200].first.to_curl_lines, [
+      'curl -XGET "http://localhost:3000/users?status=active"'
+    ]
+  end
+
   test "curl request with path params" do
-    request = Explicit::Request.new do
+    request = ::Explicit::Request.new do
       base_url "http://localhost:3000"
       get "/api/:id"
 
@@ -97,7 +117,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
   end
 
   test "curl request with file upload" do
-    request = Explicit::Request.new do
+    request = ::Explicit::Request.new do
       base_url "http://localhost:3000"
       post "/api"
 

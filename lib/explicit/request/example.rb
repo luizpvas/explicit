@@ -6,10 +6,11 @@ class Explicit::Request
       route = request.routes.first
       method = route.method.to_s.upcase
       path = route.replace_path_params(params)
-      url = "#{request.get_base_url}#{request.get_base_path}#{path}"
-      curl_request = "curl -X#{method} \"#{url}\""
+      body_params = params.slice(*request.params_type.body_params_type.attributes.keys)
+      query_params = params.slice(*request.params_type.query_params_type.attributes.keys)
 
-      body_params = params.except(*route.params)
+      url = "#{request.get_base_url}#{request.get_base_path}#{path}#{query_params.present? ? "?#{query_params.to_query}" : ""}"
+      curl_request = "curl -X#{method} \"#{url}\""
 
       curl_headers =
         if body_params.empty?
@@ -37,7 +38,7 @@ class Explicit::Request
           curl_non_file_params = non_file_params.to_query.split("&").map do |key_value|
             "-F \"#{CGI.unescape(key_value).gsub('"', '\"')}\""
           end
-          
+
           curl_file_params = file_params.map do |name, _|
             "-F #{name}=\"#{body_params[name]}\""
           end
