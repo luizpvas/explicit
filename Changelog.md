@@ -1,11 +1,12 @@
 # 0.2.11
 
-- Fix: params in GET requests are now set in querystring instead of body.
+- Fix: params in GET requests are now set in query string instead of body.
 - Add config option, disabled by default, to raise errors when an example that
   does not match the expected type is added to the request.
 - Add a third argument `options` to the `header` method that accepts
   `auth: :basic` or `auth: bearer`. This improves upon the authorization
-  guessing logic using the format's regex.
+  guessing logic based on the format's regex.
+- Fix cURL examples with query string params and body params.
 
 # 0.2.10
 
