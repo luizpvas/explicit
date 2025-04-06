@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    explicit (0.2.13)
+    explicit (0.2.14)
       commonmarker (~> 2.0)
       rails (>= 7.2.1)
 
