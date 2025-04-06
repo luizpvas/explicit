@@ -36,6 +36,8 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
 
   test "error" do
     assert_error "must be an object", validate(nil, USER_SCHEMA)
+    assert_error "must be an object", validate("", USER_SCHEMA)
+    assert_error "must be an object", validate([], USER_SCHEMA)
 
     assert_error(
       { age: "must be an integer" },
