@@ -1,6 +1,7 @@
 # 0.2.14
 
 - Fix type checking in `hash` and `record` types when value is either a `String` or `Array`.
+- Display "nullable" visual indication in web docs.
 
 # 0.2.13
 
