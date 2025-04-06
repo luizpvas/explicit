@@ -10,7 +10,10 @@ class Explicit::Type::Hash < Explicit::Type
   end
 
   def validate(value)
-    return error_i18n("hash") if !value.respond_to?(:[])
+    if !value.respond_to?(:[]) || value.is_a?(::String) || value.is_a?(::Array)
+      return error_i18n("hash")
+    end
+
     return error_i18n("empty") if value.empty? && empty == false
 
     validated_hash = {}

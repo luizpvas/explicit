@@ -35,6 +35,10 @@ class Explicit::Type::HashTest < ActiveSupport::TestCase
   end
 
   test "error value" do
+    assert_error "must be an object", validate(nil, [:hash, :string, :string])
+    assert_error "must be an object", validate("", [:hash, :string, :string])
+    assert_error "must be an object", validate([], [:hash, :string, :string])
+
     assert_error(
       "invalid value at key (foo): must be an integer",
       validate({ "foo" => "bar" }, [:hash, :string, :integer])

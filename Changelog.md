@@ -1,3 +1,7 @@
+# 0.2.14
+
+- Fix type checking in `hash` and `record` types when value is either a `String` or `Array`.
+
 # 0.2.13
 
 - Fix: params in GET requests are now set in query string instead of body.
