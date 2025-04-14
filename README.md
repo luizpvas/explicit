@@ -402,12 +402,16 @@ examples from tests**
 
 # MCP
 
-You can expose Explicit requests as LLM tools via a MCP server. The MCP server runs as a proxy in front
-of the controllers, that is, your REST API remains the source of truth and the MCP server acts as a client.
+You can expose Explicit requests as tools using a MCP server. The MCP server
+runs as a proxy in front of the controllers, that is, your REST API remains the
+source of truth and the MCP server acts as a client.
 
-To expose a MCP server, instantiate `::Explicit::MCPServer` and add the requests you wish to expose. It is
-important that the requests are compatible with MCP tool format spec, otherwise an error is raised. For example,
-all params should be primitives such as `:string`, `:integer` or `:boolean`.
+To build a MCP server, instantiate `::Explicit::MCPServer` and add the requests
+you wish to expose. It is important that the requests are compatible with MCP
+tool format spec, otherwise an error is raised. For example, all params should
+be primitives such as `:string`, `:integer` or `:boolean`.
+
+For example:
 
 ```ruby
 module MyApp::API::V1
@@ -416,14 +420,14 @@ module MyApp::API::V1
     add ArticlesController::UpdateRequest
     add ArticlesController::DestroyRequest
 
-    def authenticate
-      nil
+    def authorize
+      true
     end
   end
 end
 ```
 
-Then, mount the MCPServer in `routes.rb`:
+Then, mount the MCP Server in `routes.rb`:
 
 ```ruby
 Rails.application.routes.draw do
@@ -431,50 +435,61 @@ Rails.application.routes.draw do
 end
 ```
 
-If your app boots with no errors, it means you have a working MCP server that you can connect from any MCP client
-(Claude Desktop, Cursor Agent, etc.)
+If your app boots with no errors, it means you have a working MCP server that
+you can connect from any MCP client (Claude Desktop, Cursor Agent, etc.)
 
 ### Request options
 
 The following methods are available in `Explicit::Request` to configure the MCP tool:
 
-- `mcp_tool_name(name)` - Sets the unique identifier for the tool. Should be a string with only ASCII letters, numbers
-  and underscore. If unspecified, the route's path is used.
-- `mcp_tool_description(description)` - Sets the description of the tool. Markdown supported. If unspecified, the
-  request description is used.
+- `mcp_tool_name(name)` - Sets the unique identifier for the tool. Should be a
+  string with only ASCII letters, numbers and underscore. If unspecified, the
+  route's path is used.
+- `mcp_tool_description(description)` - Sets the description of the tool.
+  Markdown supported. If unspecified, the request description is used.
 - `mcp_tool_title(title)` - Sets the human readable name for the tool.
-- `mcp_tool_read_only(true/false)` - If true, the tool does not modify its environment
-- `mcp_tool_destructive(true/false)` - If true, the tool may perform destructive updates
-- `mcp_tool_idempotent(true/false)` - If true, repeated calls with same args have no additional effect
-- `mcp_tool_open_world(true/false)` - If true, tool interacts with external entities
+- `mcp_tool_read_only(true/false)` - If true, the tool does not modify its
+  environment.
+- `mcp_tool_destructive(true/false)` - If true, the tool may perform destructive
+  updates.
+- `mcp_tool_idempotent(true/false)` - If true, repeated calls with same args
+  have no additional effect.
+- `mcp_tool_open_world(true/false)` - If true, tool interacts with external
+  entities.
 
 ### Security
 
-Inside your `Explicit::MCPServer` you need to perform two actions:
+There are two considerations for securing your MCP server:
 
-1. **Authenticate the MCP tool call.**
-   The current authentication works with unique
+1. **Authenticate the MCP tool call**
+   You should find a user based on a unique attribute present in the connection
+   url's query string. For example:
+   `https://myapp.com/api/v1/mcp?key=d17c08d5-968c-497f-8db2-ec958d45b447`.
 2. **Authenticate the REST API**
-   Your API probably has an authentication mechanism that is different from the MCP server, such as bearer tokens
-   specified in request headers or HTTP Basic authentication with username+password.
+   Your API probably has an authentication mechanism that is different from the
+   MCP server, such as bearer tokens specified in request headers. To
+   authenticate the API you can either 1) call `proxy_with(headers:)` in the
+   `authorize` method, or 2) share the user using
+   `ActiveSupport::CurrentAttributes`.
+
+For example:
 
 ```ruby
 module MyApp::API::V1
   MCPServer = Explicit::MCPServer.new do
-    # ... requests ...
-
-    def authenticate
-      ::User.find_by(api_key: params[:key])
-
+    def authorize
+      user = ::User.find_by(api_key: params[:key])
       return false if user.blank?
 
-      true
+      # 1) proxy the request to controllers with headers
+      proxy_with headers: { "Authorization" => "Bearer #{user.api_key}" }
+      
+      # 2) or share the user using ActiveSupport::CurrentAttributes
+      Current.user = user
     end
   end
 end
 ```
-
-> Support for the new OAuth
 
 # Types
 
