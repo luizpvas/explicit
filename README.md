@@ -402,11 +402,13 @@ examples from tests**
 
 # MCP
 
-You can expose Explicit requests as tools using a MCP server. The MCP server
-runs as a proxy in front of the controllers, that is, your REST API remains the
-source of truth and the MCP server acts as a client.
+You can expose your API endpoints as tools for external systems (like AI agents)
+by mounting an MCP server. The MCP server acts as a proxy, receiving tool calls
+and forwarding them to your existing REST API controllers. Your controllers
+remain the source of truth, with the MCP server simply providing a
+tool-compatible interface.
 
-To build a MCP server, instantiate `::Explicit::MCPServer` and add the requests
+To build an MCP server, instantiate `::Explicit::MCPServer` and add the requests
 you wish to expose. It is important that the requests are compatible with MCP
 tool format spec, otherwise an error is raised. For example, all params should
 be primitives such as `:string`, `:integer` or `:boolean`.
@@ -443,10 +445,10 @@ you can connect from any MCP client (Claude Desktop, Cursor Agent, etc.)
 The following methods are available in `Explicit::Request` to configure the MCP tool:
 
 - `mcp_tool_name(name)` - Sets the unique identifier for the tool. Should be a
-  string with only ASCII letters, numbers and underscore. If unspecified, the
-  route's path is used.
+  string with only ASCII letters, numbers and underscore. By default it is set
+  to a normalized version of the route's path.
 - `mcp_tool_description(description)` - Sets the description of the tool.
-  Markdown supported. If unspecified, the request description is used.
+  Markdown supported. By default it is set to the request description.
 - `mcp_tool_title(title)` - Sets the human readable name for the tool.
 - `mcp_tool_read_only(true/false)` - If true, the tool does not modify its
   environment.
