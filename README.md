@@ -485,12 +485,12 @@ end
 There are two considerations for securing your MCP server:
 
 1. **Authenticate the MCP tool call**
-   You should find the user/account/customer based on a unique attribute present
-   in the MCP server's url querystring. For example, you should share a URL
+   You should authenticate the user/account/customer based on a unique attribute
+   present in the MCP server's url. For example, you should share a URL
    similar to this one to your users:
    `https://myapp.com/api/v1/mcp?key=d17c08d5-968c-497f-8db2-ec958d45b447`.
-   Then, in the `authorize` method, you'd use this key to find the user
-   using the tool.
+   Then, in the `authorize` method, you'd use the `key` to authenticate the
+   user.
 2. **Authenticate the REST API**
    Your API probably has an authentication mechanism that is different from the
    MCP server, such as bearer tokens specified in request headers. To
