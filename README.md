@@ -410,8 +410,8 @@ tool-compatible interface.
 
 To build an MCP server, instantiate `::Explicit::MCPServer` and add the requests
 you wish to expose. It is important that the requests are compatible with MCP
-tool format spec, otherwise an error is raised. For example, all params should
-be primitives such as `:string`, `:integer` or `:boolean`.
+tool format spec, otherwise an error is raised. All params should be primitives
+such as `:string`, `:integer` or `:boolean`.
 
 For example:
 
