@@ -402,10 +402,10 @@ examples from tests**
 
 # MCP
 
-You can expose your API endpoints as tools for external systems (like AI agents)
-by mounting an MCP server. The MCP server acts as a proxy, receiving tool calls
-and forwarding them to your existing REST API controllers. Your controllers
-remain the source of truth, with the MCP server simply providing a
+You can expose your API endpoints as tools for external systems, like AI agents,
+by mounting an MCP server. The MCP server acts as a proxy receiving tool calls
+and forwarding them to your existing REST API controllers. In other words,
+your controllers remain the source of truth and the MCP server simply provides a
 tool-compatible interface.
 
 To build an MCP server, instantiate `::Explicit::MCPServer` and add the requests
@@ -449,7 +449,8 @@ The following methods are available in `Explicit::Request` to configure the MCP 
   to a normalized version of the route's path.
 - `mcp_tool_description(description)` - Sets the description of the tool.
   Markdown supported. By default it is set to the request description.
-- `mcp_tool_title(title)` - Sets the human readable name for the tool.
+- `mcp_tool_title(title)` - Sets the human readable name for the tool. By
+  default it is set to the request's title.
 - `mcp_tool_read_only(true/false)` - If true, the tool does not modify its
   environment.
 - `mcp_tool_destructive(true/false)` - If true, the tool may perform destructive
@@ -458,6 +459,26 @@ The following methods are available in `Explicit::Request` to configure the MCP 
   have no additional effect.
 - `mcp_tool_open_world(true/false)` - If true, tool interacts with external
   entities.
+
+For example:
+
+```ruby
+Request = Explicit::Request.new do
+  # ... other request config
+
+  mcp_tool_name "get_article_by_id"
+  mcp_tool_title "Get article by id"
+  mcp_tool_read_only true
+  mcp_tool_destructive false
+  mcp_tool_idempotent true
+  mcp_tool_open_world false
+
+  mcp_tool_description <<~TEXT
+    Finds the article by the specified id and returns the title, body and
+    published_at date.
+  TEXT
+end
+```
 
 ### Security
 
