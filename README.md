@@ -15,7 +15,7 @@ documented types at runtime.
 6. [Publishing documentation](#publishing-documentation)
    - [Adding request examples](#adding-request-examples)
 7. [MCP](#mcp)
-   - [Request options](#request-options)
+   - [Tool configuration](#tool-configuration)
    - [Security](#security-and-authorization)
 8. Types
    - [Agreement](#agreement)
@@ -440,9 +440,11 @@ end
 If your app boots with no errors, it means you have a working MCP server that
 you can connect from any MCP client (Claude Desktop, Cursor Agent, etc.)
 
-### Request options
+### Tool configuration
 
-The following methods are available in `Explicit::Request` to configure the MCP tool:
+The following methods are available in `Explicit::Request` to configure the MCP
+tool. They're all optional and the MCP server still works correctly using the
+request's default title, description and params.
 
 - `mcp_tool_name(name)` - Sets the unique identifier for the tool. Should be a
   string with only ASCII letters, numbers and underscore. By default it is set
