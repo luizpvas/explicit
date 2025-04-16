@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   end
 
   mount API::V1::Documentation => "/api/v1/docs"
+  mount API::V1::MCPServer => "/api/v1/mcp"
 end
