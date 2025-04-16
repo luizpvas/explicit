@@ -14,5 +14,14 @@ class Explicit::MCPServer::ToolTest < ::ActiveSupport::TestCase
     assert_equal "get_users_by_id", tool.name
     assert_equal "GET /users/:id", tool.title
     assert_nil tool.description
+
+    assert_equal tool.input_schema, {
+      type: "object",
+      properties: {
+        id: { type: "string" }
+      },
+      required: ["id"],
+      additionalProperties: false
+    }
   end
 end
