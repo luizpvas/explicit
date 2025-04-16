@@ -11,10 +11,19 @@ class Explicit::Type::AnyTest < ActiveSupport::TestCase
     assert_ok [ 1, 2, 3 ], validate([ 1, 2, 3 ], :any)
   end
 
-  test "swagger" do
+  test "swagger_schema" do
     type = type([ :description, "hello", :any ])
 
     assert_equal type.swagger_schema, {
+      description: "hello"
+    }
+  end
+
+  test "json_schema" do
+    type = type([ :description, "hello", :any ])
+
+    assert_equal type.json_schema, {
+      type: "string",
       description: "hello"
     }
   end
