@@ -6,7 +6,11 @@ require "explicit/version"
 
 require "explicit/mcp_server"
 require "explicit/mcp_server/builder"
+require "explicit/mcp_server/router"
 require "explicit/mcp_server/tool"
+require "explicit/mcp_server/transport"
+require "explicit/mcp_server/transport/fake"
+require "explicit/mcp_server/transport/rack"
 
 require "explicit/documentation"
 require "explicit/documentation/builder"
