@@ -15,23 +15,12 @@ class Explicit::Type::LiteralTest < ActiveSupport::TestCase
     assert_error 'must be "bar"', validate(" bar ", [:literal, "bar"])
   end
 
-  test "swagger_schema" do
-    type = type([:description, "desc", "foo"])
-
-    assert_equal type.swagger_schema, {
-      type: "string",
-      enum: ["foo"],
-      description: "desc"
-    }
-  end
-
   test "json_schema" do
-    type = type([:description, "desc", "foo"])
+    type = type([:literal, "foo"])
 
-    assert_equal type.mcp_schema, {
+    assert_equal type.json_schema(nil), {
       type: "string",
-      enum: ["foo"],
-      description: "desc"
+      enum: ["foo"]
     }
   end
 end

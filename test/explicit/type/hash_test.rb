@@ -45,37 +45,17 @@ class Explicit::Type::HashTest < ActiveSupport::TestCase
     )
   end
 
-  test "swagger_schema" do
-    type = type([
-      :description,
-      "hello",
-      [:default, { "foo" => "bar" }, [:hash, :string, :string, empty: false]]
-    ])
-
-    assert_equal type.swagger_schema, {
-      type: "object",
-      additionalProperties: {
-        type: "string"
-      },
-      default: { "foo" => "bar" },
-      description: "hello\n\n* Must have at least one value"
-    }
-  end
-
   test "json_schema" do
-    type = type([
-      :description,
-      "desc",
-      [:default, { "foo" => "bar" }, [:hash, :string, :string, empty: false]]
-    ])
+    type = type([:hash, :string, :string, empty: false])
 
-    assert_equal type.mcp_schema, {
+    assert_equal type.json_schema(nil), {
       type: "object",
       additionalProperties: {
         type: "string"
       },
-      default: { "foo" => "bar" },
-      description: "desc\n\n* Must have at least one value"
+      description_topics: [
+        "* Must have at least one value"
+      ]
     }
   end
 end
