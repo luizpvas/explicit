@@ -67,7 +67,7 @@ class Explicit::Type::DateTimeUnixEpochTest < ActiveSupport::TestCase
       [:default, 1733917063, :date_time_unix_epoch]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "integer",
       minimum: 1,
       format: "POSIX time",

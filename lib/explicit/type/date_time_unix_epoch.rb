@@ -65,8 +65,8 @@ class Explicit::Type::DateTimeUnixEpoch < Explicit::Type
     })
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "integer",
       minimum: 1,
       format: "POSIX time",

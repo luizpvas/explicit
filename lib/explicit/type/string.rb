@@ -67,8 +67,8 @@ class Explicit::Type::String < Explicit::Type
   end
 
   concerning :MCP do
-    def json_schema
-      merge_base_json_schema({
+    def mcp_schema
+      merge_base_mcp_schema({
         type: "string",
         description_topics: [
           empty == false ? swagger_i18n("string_not_empty") : nil,

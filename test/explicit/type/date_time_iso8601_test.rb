@@ -62,7 +62,7 @@ class Explicit::Type::DateTimeISO8601Test < ActiveSupport::TestCase
       [:default, "2024-12-10T14:21:00Z", :date_time_iso8601]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       format: "date-time",
       default: "2024-12-10T14:21:00Z",

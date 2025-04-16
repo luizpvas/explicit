@@ -51,7 +51,7 @@ class Explicit::Type::ArrayTest < ActiveSupport::TestCase
       [:array, :string, empty: false]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "array",
       description: "hello",
       minItems: 1,

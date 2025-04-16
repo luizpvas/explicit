@@ -60,7 +60,7 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
       [:big_decimal, min: 0, max: 10]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       pattern: /^\d*\.?\d*$/.inspect[1..-2],
       format: "decimal number",

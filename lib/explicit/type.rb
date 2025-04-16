@@ -156,6 +156,14 @@ class Explicit::Type
     end
   end
 
+  def swagger_schema
+    merge_base_swagger_schema(json_schema(:swagger))
+  end
+
+  def mcp_schema
+    merge_base_mcp_schema(json_schema(:mcp))
+  end
+
   def merge_base_swagger_schema(attributes)
     topics = attributes.delete(:description_topics)&.compact_blank || []
 
@@ -183,7 +191,7 @@ class Explicit::Type
     base_attributes.merge(attributes)
   end
 
-  def merge_base_json_schema(attributes)
+  def merge_base_mcp_schema(attributes)
     topics = attributes.delete(:description_topics)&.compact_blank || []
 
     formatted_description =

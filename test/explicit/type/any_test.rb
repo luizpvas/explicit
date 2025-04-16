@@ -22,7 +22,7 @@ class Explicit::Type::AnyTest < ActiveSupport::TestCase
   test "json_schema" do
     type = type([ :description, "hello", :any ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       description: "hello"
     }

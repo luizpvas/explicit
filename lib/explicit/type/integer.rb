@@ -83,8 +83,8 @@ class Explicit::Type::Integer < Explicit::Type
     }.compact_blank)
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "integer",
       minimum: min,
       maximum: max,

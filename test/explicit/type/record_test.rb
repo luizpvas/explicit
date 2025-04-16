@@ -80,7 +80,7 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
       }
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "object",
       description: "desc",
       properties: {

@@ -119,7 +119,7 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
       ]
     )
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       pattern: Explicit::Type::DateRange::FORMAT.inspect[1..-2],
       format: "date range",

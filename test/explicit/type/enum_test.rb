@@ -40,7 +40,7 @@ class Explicit::Type::EnumTest < ActiveSupport::TestCase
       [:default, "red", [:enum, RGB]]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       enum: RGB,
       default: "red",

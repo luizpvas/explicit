@@ -56,8 +56,8 @@ class Explicit::Type::File < Explicit::Type
     })
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "string",
       format: "binary",
       description_topics: [

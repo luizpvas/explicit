@@ -10,7 +10,7 @@ module ValidationHelper
 
     assert_webpage!(type)
     assert_swagger_schema!(type)
-    assert_json_schema!(type)
+    assert_mcp_schema!(type)
 
     type.validate(value)
   end
@@ -31,8 +31,8 @@ module ValidationHelper
     assert type.swagger_schema.is_a?(::Hash)
   end
 
-  def assert_json_schema!(type)
-    assert type.json_schema.is_a?(::Hash)
+  def assert_mcp_schema!(type)
+    assert type.mcp_schema.is_a?(::Hash)
   rescue ::NotImplementedError
     :ok
   end

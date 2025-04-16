@@ -31,10 +31,10 @@ class Explicit::Type::AgreementTest < ActiveSupport::TestCase
     }
   end
 
-  test "json_schema" do
+  test "mcp_schema" do
     type = type([:description, "hello", :agreement])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "boolean",
       description: "hello\n\n* Must be accepted (true)"
     }
