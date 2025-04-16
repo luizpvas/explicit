@@ -88,17 +88,17 @@ class Explicit::Request
     def mcp_tool_title(title) = (@mcp_tool_title = title)
     def get_mcp_tool_title = @mcp_tool_title || get_title
 
-    def mcp_tool_read_only(bool) = (@mcp_tool_read_only = bool)
-    def get_mcp_tool_read_only = @mcp_tool_read_only
+    def mcp_tool_read_only_hint(bool) = (@mcp_tool_read_only_hint = bool)
+    def get_mcp_tool_read_only_hint = @mcp_tool_read_only_hint
 
-    def mcp_tool_destructive(bool) = (@mcp_tool_destructive = bool)
-    def get_mcp_tool_destructive = @mcp_tool_destructive
+    def mcp_tool_destructive_hint(bool) = (@mcp_tool_destructive_hint = bool)
+    def get_mcp_tool_destructive_hint = @mcp_tool_destructive_hint
 
-    def mcp_tool_idempotent(bool) = (@mcp_tool_idempotent = bool)
-    def get_mcp_tool_idempotent = @mcp_tool_idempotent
+    def mcp_tool_idempotent_hint(bool) = (@mcp_tool_idempotent_hint = bool)
+    def get_mcp_tool_idempotent_hint = @mcp_tool_idempotent_hint
 
-    def mcp_tool_open_world(bool) = (@mcp_tool_open_world = bool)
-    def get_mcp_tool_open_world = @mcp_tool_open_world
+    def mcp_tool_open_world_hint(bool) = (@mcp_tool_open_world_hint = bool)
+    def get_mcp_tool_open_world_hint = @mcp_tool_open_world_hint
   end
 
   def header(name, type,  **options)

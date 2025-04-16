@@ -43,4 +43,12 @@ class Explicit::Type::Boolean < Explicit::Type
       })
     end
   end
+
+  concerning :MCP do
+    def json_schema
+      merge_base_json_schema({
+        type: "boolean"
+      })
+    end
+  end
 end

@@ -45,16 +45,25 @@ class Explicit::Type::File < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "string",
-        format: "binary",
-        description_topics: [
-          max_size&.then { swagger_i18n("file_max_size", max_size: number_to_human_size(_1)) },
-          content_types.any? ? swagger_i18n("file_content_types", content_types: content_types.join(', ')) : nil
-        ]
-      })
-    end
+  def swagger_schema
+    merge_base_swagger_schema({
+      type: "string",
+      format: "binary",
+      description_topics: [
+        max_size&.then { swagger_i18n("file_max_size", max_size: number_to_human_size(_1)) },
+        content_types.any? ? swagger_i18n("file_content_types", content_types: content_types.join(', ')) : nil
+      ]
+    })
+  end
+
+  def json_schema
+    merge_base_json_schema({
+      type: "string",
+      format: "binary",
+      description_topics: [
+        max_size&.then { swagger_i18n("file_max_size", max_size: number_to_human_size(_1)) },
+        content_types.any? ? swagger_i18n("file_content_types", content_types: content_types.join(', ')) : nil
+      ]
+    })
   end
 end

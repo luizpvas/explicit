@@ -37,7 +37,7 @@ class Explicit::Type::DateTest < ActiveSupport::TestCase
     assert_error "must be a date in the format \"YYYY-MM-DD\"", validate("foo", :date)
   end
 
-  test "swagger" do
+  test "swagger_schema" do
     type = type([
       :description,
       "desc",
@@ -45,6 +45,25 @@ class Explicit::Type::DateTest < ActiveSupport::TestCase
     ])
 
     assert type.swagger_schema, {
+      type: "string",
+      pattern: /\d{4}-\d{2}-\d{2}/.inspect[1..-2],
+      format: "date",
+      description: <<~TXT.strip
+        desc
+
+        * A date in the format of "YYYY-MM-DD"
+      TXT
+    }
+  end
+
+  test "json_schema" do
+    type = type([
+      :description,
+      "desc",
+      [:default, "2024-01-15", :date]
+    ])
+
+    assert type.json_schema, {
       type: "string",
       pattern: /\d{4}-\d{2}-\d{2}/.inspect[1..-2],
       format: "date",

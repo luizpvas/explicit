@@ -24,7 +24,7 @@ class Explicit::Type::ArrayTest < ActiveSupport::TestCase
     assert_error "invalid item at index(0): must be a string", validate([["foo"]], [:array, :string])
   end
 
-  test "swagger" do
+  test "swagger_schema" do
     type = type(
       [
         :description,
@@ -41,6 +41,23 @@ class Explicit::Type::ArrayTest < ActiveSupport::TestCase
       minItems: 1,
       default: ["foo"],
       description: "hello"
+    }
+  end
+
+  test "json_schema" do
+    type = type([
+      :description,
+      "hello",
+      [:array, :string, empty: false]
+    ])
+
+    assert_equal type.json_schema, {
+      type: "array",
+      description: "hello",
+      minItems: 1,
+      items: {
+        type: "string"
+      }
     }
   end
 end

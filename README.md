@@ -453,13 +453,13 @@ request's default title, description and params.
   Markdown supported. By default it is set to the request description.
 - `mcp_tool_title(title)` - Sets the human readable name for the tool. By
   default it is set to the request's title.
-- `mcp_tool_read_only(true/false)` - If true, the tool does not modify its
+- `mcp_tool_read_only_hint(true/false)` - If true, the tool does not modify its
   environment.
-- `mcp_tool_destructive(true/false)` - If true, the tool may perform destructive
+- `mcp_tool_destructive_hint(true/false)` - If true, the tool may perform destructive
   updates.
-- `mcp_tool_idempotent(true/false)` - If true, repeated calls with same args
+- `mcp_tool_idempotent_hint(true/false)` - If true, repeated calls with same args
   have no additional effect.
-- `mcp_tool_open_world(true/false)` - If true, tool interacts with external
+- `mcp_tool_open_world_hint(true/false)` - If true, tool interacts with external
   entities.
 
 For example:
@@ -470,10 +470,10 @@ Request = Explicit::Request.new do
 
   mcp_tool_name "get_article_by_id"
   mcp_tool_title "Get article by id"
-  mcp_tool_read_only true
-  mcp_tool_destructive false
-  mcp_tool_idempotent true
-  mcp_tool_open_world false
+  mcp_tool_read_only_hint true
+  mcp_tool_destructive_hint false
+  mcp_tool_idempotent_hint true
+  mcp_tool_open_world_hint false
 
   mcp_tool_description <<~TEXT
     Finds the article by the specified id and returns the title, body and
@@ -511,7 +511,7 @@ module MyApp::API::V1
 
       # 1) proxy the request to controllers with headers
       proxy_with headers: { "Authorization" => "Bearer #{user.api_key}" }
-      
+
       # 2) or share the user using ActiveSupport::CurrentAttributes
       Current.user = user
     end

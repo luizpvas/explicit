@@ -65,4 +65,16 @@ class Explicit::Type::String < Explicit::Type
       }.compact_blank)
     end
   end
+
+  concerning :MCP do
+    def json_schema
+      merge_base_json_schema({
+        type: "string",
+        description_topics: [
+          empty == false ? swagger_i18n("string_not_empty") : nil,
+          downcase == true ? swagger_i18n("string_downcase") : nil
+        ]
+      })
+    end
+  end
 end

@@ -83,4 +83,13 @@ class Explicit::Type::StringTest < ActiveSupport::TestCase
       description: "* Case insensitive"
     }
   end
+
+  test "json_schema" do
+    type = type([:description, "desc", :string])
+
+    assert_equal type.json_schema, {
+      type: "string",
+      description: "desc"
+    }
+  end
 end

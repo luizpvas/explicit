@@ -37,4 +37,12 @@ class Explicit::Type::TestBoolean < ActiveSupport::TestCase
       description: "hello"
     }
   end
+
+  test "json_schema" do
+    type = type([
+      :description,
+      "hello",
+      [:default, true, :boolean]
+    ])
+  end
 end

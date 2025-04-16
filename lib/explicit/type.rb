@@ -130,7 +130,7 @@ class Explicit::Type
   end
 
   def required?
-    !nilable
+    !nilable && default.blank?
   end
 
   def error_i18n(name, context = {})
@@ -157,6 +157,33 @@ class Explicit::Type
   end
 
   def merge_base_swagger_schema(attributes)
+    topics = attributes.delete(:description_topics)&.compact_blank || []
+
+    formatted_description =
+      if description.present? && topics.empty?
+        description
+      elsif description.present? && topics.any?
+        description + "\n\n" + topics.join("\n")
+      else
+        topics.join("\n")
+      end
+
+    default_value =
+      if default&.respond_to?(:call)
+        nil
+      else
+        default
+      end
+
+    base_attributes = {
+      default: default_value,
+      description: formatted_description
+    }.compact_blank
+
+    base_attributes.merge(attributes)
+  end
+
+  def merge_base_json_schema(attributes)
     topics = attributes.delete(:description_topics)&.compact_blank || []
 
     formatted_description =

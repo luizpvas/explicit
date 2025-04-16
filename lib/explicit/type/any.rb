@@ -24,4 +24,12 @@ class Explicit::Type::Any < Explicit::Type
       merge_base_swagger_schema({})
     end
   end
+
+  concerning :MCP do
+    def json_schema
+      merge_base_json_schema({
+        type: "string"
+      })
+    end
+  end
 end

@@ -44,10 +44,10 @@ class Explicit::Type::DateTimeUnixEpochTest < ActiveSupport::TestCase
     assert_error "must be a valid posix timestamp", validate(nil, :date_time_unix_epoch)
   end
 
-  test "swagger" do
+  test "swagger_schema" do
     type = type([
       :description,
-      "hello",
+      "desc",
       [:default, 1733917063, :date_time_unix_epoch]
     ])
 
@@ -56,7 +56,23 @@ class Explicit::Type::DateTimeUnixEpochTest < ActiveSupport::TestCase
       minimum: 1,
       format: "POSIX time",
       default: 1733917063,
-      description: "hello\n\n* POSIX time or Unix epoch is the amount of seconds since 1970-01-01"
+      description: "desc\n\n* POSIX time or Unix epoch is the amount of seconds since 1970-01-01"
+    }
+  end
+
+  test "json_schema" do
+    type = type([
+      :description,
+      "desc",
+      [:default, 1733917063, :date_time_unix_epoch]
+    ])
+
+    assert_equal type.json_schema, {
+      type: "integer",
+      minimum: 1,
+      format: "POSIX time",
+      default: 1733917063,
+      description: "desc\n\n* POSIX time or Unix epoch is the amount of seconds since 1970-01-01"
     }
   end
 end

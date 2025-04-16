@@ -69,19 +69,31 @@ class Explicit::Type::Float < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "number",
-        minimum: min,
-        maximum: max,
-        description_topics: [
-          positive == false ? swagger_i18n("number_not_positive") : nil,
-          positive == true ? swagger_i18n("number_only_positive") : nil,
-          negative == false ? swagger_i18n("number_not_negative") : nil,
-          negative == true ? swagger_i18n("number_only_negative") : nil
-        ]
-      }.compact_blank)
-    end
+  def swagger_schema
+    merge_base_swagger_schema({
+      type: "number",
+      minimum: min,
+      maximum: max,
+      description_topics: [
+        positive == false ? swagger_i18n("number_not_positive") : nil,
+        positive == true ? swagger_i18n("number_only_positive") : nil,
+        negative == false ? swagger_i18n("number_not_negative") : nil,
+        negative == true ? swagger_i18n("number_only_negative") : nil
+      ]
+    }.compact_blank)
+  end
+
+  def json_schema
+    merge_base_json_schema({
+      type: "number",
+      minimum: min,
+      maximum: max,
+      description_topics: [
+        positive == false ? swagger_i18n("number_not_positive") : nil,
+        positive == true ? swagger_i18n("number_only_positive") : nil,
+        negative == false ? swagger_i18n("number_not_negative") : nil,
+        negative == true ? swagger_i18n("number_only_negative") : nil
+      ]
+    }.compact_blank)
   end
 end

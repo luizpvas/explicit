@@ -82,7 +82,7 @@ class Explicit::Type::DateTimeISO8601RangeTest < ActiveSupport::TestCase
     )
   end
 
-  test "swagger" do
+  test "swagger_schema" do
     type = type(
       [
         :description,
@@ -96,6 +96,33 @@ class Explicit::Type::DateTimeISO8601RangeTest < ActiveSupport::TestCase
     )
 
     assert_equal type.swagger_schema, {
+      type: "string",
+      format: "date time range",
+      default: "2025-01-10T23:00:32Z..2025-01-11T00:00:32Z",
+      description: <<~TXT.strip
+        desc
+
+        * The value must be a range between two date times in the format of: "YYYY-MM-DDTHH:MM:SS..YYYY-MM-DDTHH:MM:SS"
+        * The range must not be less than 1 day
+        * The range must not be more than 30 days
+      TXT
+    }
+  end
+
+  test "json_schema" do
+    type = type(
+      [
+        :description,
+        "desc",
+        [
+          :default,
+          "2025-01-10T23:00:32Z..2025-01-11T00:00:32Z",
+          [:date_time_iso8601_range, min_range: 1.day, max_range: 30.days]
+        ]
+      ]
+    )
+
+    assert_equal type.json_schema, {
       type: "string",
       format: "date time range",
       default: "2025-01-10T23:00:32Z..2025-01-11T00:00:32Z",

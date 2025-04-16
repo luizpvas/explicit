@@ -92,4 +92,19 @@ class Explicit::Type::DateRange < Explicit::Type
       })
     end
   end
+
+  concerning :MCP do
+    def json_schema
+      merge_base_json_schema({
+        type: "string",
+        pattern: FORMAT.inspect[1..-2],
+        format: "date range",
+        description_topics: [
+          swagger_i18n("date_range"),
+          min_range&.then { swagger_i18n("date_range_min_range", min_range: _1.inspect) },
+          max_range&.then { swagger_i18n("date_range_max_range", max_range: _1.inspect) },
+        ]
+      })
+    end
+  end
 end

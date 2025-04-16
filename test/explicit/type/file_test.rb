@@ -38,7 +38,7 @@ class Explicit::Type::FileTest < ActiveSupport::TestCase
     assert_error "must be a file", validate("/path/to/file.png", :file)
   end
 
-  test "swagger" do
+  test "swagger_schema" do
     type = type([
       :description,
       "hello",
@@ -46,6 +46,20 @@ class Explicit::Type::FileTest < ActiveSupport::TestCase
     ])
 
     assert_equal type.swagger_schema, {
+      type: "string",
+      format: "binary",
+      description: "hello\n\n* Max size: 10 KB\n* Content types: image/jpeg, application/pdf"
+    }
+  end
+
+  test "json_schema" do
+    type = type([
+      :description,
+      "hello",
+      [:file, max_size: 10.kilobytes, content_types: %w[image/jpeg application/pdf]]
+    ])
+
+    assert_equal type.json_schema, {
       type: "string",
       format: "binary",
       description: "hello\n\n* Max size: 10 KB\n* Content types: image/jpeg, application/pdf"

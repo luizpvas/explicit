@@ -8,25 +8,32 @@ module ValidationHelper
   def validate(value, typespec)
     type = type(typespec)
 
-    assert_type_render_webpage!(type)
-    assert_type_render_swagger!(type)
+    assert_webpage!(type)
+    assert_swagger_schema!(type)
+    assert_json_schema!(type)
 
     type.validate(value)
   end
 
-  def assert_type_render_webpage!(type)
+  def assert_webpage!(type)
     assert [ true, false ].include?(type.has_details?)
     assert type.summary.present?
 
     if type.has_details?
-      Explicit::ApplicationController.render(
+      ::Explicit::ApplicationController.render(
         partial: type.partial,
         locals: { type: }
       )
     end
   end
 
-  def assert_type_render_swagger!(type)
+  def assert_swagger_schema!(type)
     assert type.swagger_schema.is_a?(::Hash)
+  end
+
+  def assert_json_schema!(type)
+    assert type.json_schema.is_a?(::Hash)
+  rescue ::NotImplementedError
+    :ok
   end
 end

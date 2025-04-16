@@ -36,4 +36,15 @@ class Explicit::Type::Agreement < Explicit::Type
       })
     end
   end
+
+  concerning :MCP do
+    def json_schema
+      merge_base_json_schema({
+        type: "boolean",
+        description_topics: [
+          swagger_i18n("agreement")
+        ]
+      })
+    end
+  end
 end

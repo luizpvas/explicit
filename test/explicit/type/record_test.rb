@@ -69,4 +69,26 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
       description: "desc"
     }
   end
+
+  test "json_schema" do
+    type = type([
+      :description,
+      "desc",
+      {
+        name: :string,
+        email: :string
+      }
+    ])
+
+    assert_equal type.json_schema, {
+      type: "object",
+      description: "desc",
+      properties: {
+        name: { type: "string" },
+        email: { type: "string" }
+      },
+      required: %w[name email],
+      additionalProperties: false
+    }
+  end
 end

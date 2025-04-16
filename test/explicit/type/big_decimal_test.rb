@@ -34,7 +34,7 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
   test "swagger" do
     type = type([
       :description,
-      "hello",
+      "desc",
       [:default, "10.5", [:big_decimal, min: 0, max: 10]]
     ])
 
@@ -43,7 +43,34 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
       pattern: /^\d*\.?\d*$/.inspect[1..-2],
       format: "decimal number",
       default: "10.5",
-      description: "hello\n\n* Minimum: 0\n* Maximum: 10"
+      description: <<~TXT.strip
+        desc
+
+        * String-encoded decimal number. For example: '123.45'
+        * Minimum: 0
+        * Maximum: 10
+      TXT
+    }
+  end
+
+  test "json_schema" do
+    type = type([
+      :description,
+      "desc",
+      [:big_decimal, min: 0, max: 10]
+    ])
+
+    assert_equal type.json_schema, {
+      type: "string",
+      pattern: /^\d*\.?\d*$/.inspect[1..-2],
+      format: "decimal number",
+      description: <<~TXT.strip
+        desc
+
+        * String-encoded decimal number. For example: '123.45'
+        * Minimum: 0
+        * Maximum: 10
+      TXT
     }
   end
 end

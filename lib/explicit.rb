@@ -4,6 +4,10 @@ require "explicit/configuration"
 require "explicit/engine"
 require "explicit/version"
 
+require "explicit/mcp_server"
+require "explicit/mcp_server/builder"
+require "explicit/mcp_server/tool"
+
 require "explicit/documentation"
 require "explicit/documentation/builder"
 require "explicit/documentation/markdown"

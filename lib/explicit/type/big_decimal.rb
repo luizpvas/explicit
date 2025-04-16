@@ -49,6 +49,22 @@ class Explicit::Type::BigDecimal < Explicit::Type
         pattern: /^\d*\.?\d*$/.inspect[1..-2],
         format: "decimal number",
         description_topics: [
+          swagger_i18n("big_decimal_format"),
+          min&.then { swagger_i18n("big_decimal_min", min: _1) },
+          max&.then { swagger_i18n("big_decimal_max", max: _1) }
+        ]
+      })
+    end
+  end
+
+  concerning :MCP do
+    def json_schema
+      merge_base_json_schema({
+        type: "string",
+        pattern: /^\d*\.?\d*$/.inspect[1..-2],
+        format: "decimal number",
+        description_topics: [
+          swagger_i18n("big_decimal_format"),
           min&.then { swagger_i18n("big_decimal_min", min: _1) },
           max&.then { swagger_i18n("big_decimal_max", max: _1) }
         ]
