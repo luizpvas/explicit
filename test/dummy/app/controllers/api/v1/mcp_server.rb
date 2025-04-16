@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API::V1
-  MCPServer = ::Explicit::MCPServer.new
+  MCPServer = ::Explicit::MCPServer.new do
     add API::V1::ArticlesController::IndexRequest
     add API::V1::ArticlesController::CreateRequest
     add API::V1::ArticlesController::ShowRequest
