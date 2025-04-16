@@ -60,7 +60,7 @@ class Explicit::Type::String < Explicit::Type
       description_topics: [
         empty == false ? swagger_i18n("string_not_empty") : nil,
         downcase == true ? swagger_i18n("string_downcase") : nil
-      ]
+      ].compact_blank
     }.compact_blank
   end
 end

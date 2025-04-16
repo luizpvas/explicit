@@ -13,17 +13,6 @@ class Explicit::Type::OneOfTest < ActiveSupport::TestCase
     assert_error "must not be empty OR must be an integer", validate("", [:one_of, [:string, empty: false], :integer])
   end
 
-  test "swagger" do
-    type = type([:one_of, :string, :integer])
-
-    assert_equal type.swagger_schema, {
-      oneOf: [
-        { type: "string" },
-        { type: "integer" }
-      ]
-    }
-  end
-
   test "subtype error guesssing via matching keys" do
     contact_info = [:one_of, { phone: :string }, { email: :string }]
 
@@ -108,5 +97,18 @@ class Explicit::Type::OneOfTest < ActiveSupport::TestCase
       TXT
       validate({}, [:one_of, { type: "foo", foo: :string }, { bar: :string }])
     )
+  end
+
+  test "json_schema" do
+    type = type([:one_of, :string, :integer])
+
+    assert_equal type.json_schema(:swagger), {
+      oneOf: [
+        { type: "string" },
+        { type: "integer" }
+      ]
+    }
+
+    assert_raises(::NotImplementedError) { type.json_schema(:mcp) }
   end
 end

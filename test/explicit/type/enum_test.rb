@@ -18,33 +18,12 @@ class Explicit::Type::EnumTest < ActiveSupport::TestCase
     assert_error 'must be one of: ["red", "green", "blue"]', validate(["red"], [:enum, RGB])
   end
 
-  test "swagger_schema" do
-    type = type([
-      :description,
-      "hello",
-      [:default, "red", [:enum, RGB]]
-    ])
-
-    assert_equal type.swagger_schema, {
-      type: "string",
-      enum: RGB,
-      default: "red",
-      description: "hello"
-    }
-  end
-
   test "json_schema" do
-    type = type([
-      :description,
-      "hello",
-      [:default, "red", [:enum, RGB]]
-    ])
+    type = type([:enum, RGB])
 
-    assert_equal type.mcp_schema, {
+    assert_equal type.json_schema(nil), {
       type: "string",
-      enum: RGB,
-      default: "red",
-      description: "hello"
+      enum: RGB
     }
   end
 end

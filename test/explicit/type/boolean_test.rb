@@ -24,25 +24,9 @@ class Explicit::Type::TestBoolean < ActiveSupport::TestCase
     assert_error "must be a boolean", validate([], :boolean)
   end
 
-  test "swagger" do
-    type = type([
-      :description,
-      "hello",
-      [:default, true, :boolean]
-    ])
-
-    assert_equal type.swagger_schema, {
-      type: "boolean",
-      default: true,
-      description: "hello"
-    }
-  end
-
   test "json_schema" do
-    type = type([
-      :description,
-      "hello",
-      [:default, true, :boolean]
-    ])
+    type = type(:boolean)
+
+    assert_equal type.json_schema(nil), { type: "boolean", }
   end
 end

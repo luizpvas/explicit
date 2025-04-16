@@ -59,37 +59,26 @@ class Explicit::Type::StringTest < ActiveSupport::TestCase
     assert_error "must be a string", validate(nil, :string)
   end
 
-  test "swagger" do
-    type = type([
-      :description,
-      "desc",
-      [:default, "foo", :string]
-    ])
+  test "json_schema" do
+    type = type(:string)
 
-    assert_equal type.swagger_schema, {
-      type: "string",
-      default: "foo",
-      description: "desc"
+    assert_equal type.json_schema(nil), {
+      type: "string"
     }
 
-    assert_equal type([:string, empty: false]).swagger_schema, {
+    assert_equal type([:string, empty: false]).json_schema(nil), {
       type: "string",
       minLength: 1,
-      description: "* Must not be empty"
+      description_topics: [
+        "* Must not be empty"
+      ]
     }
 
-    assert_equal type([:string, downcase: true]).swagger_schema, {
+    assert_equal type([:string, downcase: true]).json_schema(nil), {
       type: "string",
-      description: "* Case insensitive"
-    }
-  end
-
-  test "json_schema" do
-    type = type([:description, "desc", :string])
-
-    assert_equal type.mcp_schema, {
-      type: "string",
-      description: "desc"
+      description_topics: [
+        "* Case insensitive"
+      ]
     }
   end
 end
