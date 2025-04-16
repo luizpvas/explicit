@@ -43,19 +43,11 @@ class Explicit::Type::Array < Explicit::Type
     end
   end
 
-  def swagger_schema
-    merge_base_swagger_schema({
-      type: "array",
-      items: item_type.swagger_schema,
-      minItems: empty ? 0 : 1
-    })
-  end
-
-  def mcp_schema
-    merge_base_mcp_schema({
+  def json_schema(flavour)
+    {
       type: "array",
       items: item_type.mcp_schema,
       minItems: empty ? 0 : 1
-    })
+    }
   end
 end

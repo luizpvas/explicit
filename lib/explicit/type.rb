@@ -157,41 +157,14 @@ class Explicit::Type
   end
 
   def swagger_schema
-    merge_base_swagger_schema(json_schema(:swagger))
+    merge_base_json_schema(json_schema(:swagger))
   end
 
   def mcp_schema
-    merge_base_mcp_schema(json_schema(:mcp))
+    merge_base_json_schema(json_schema(:mcp))
   end
 
-  def merge_base_swagger_schema(attributes)
-    topics = attributes.delete(:description_topics)&.compact_blank || []
-
-    formatted_description =
-      if description.present? && topics.empty?
-        description
-      elsif description.present? && topics.any?
-        description + "\n\n" + topics.join("\n")
-      else
-        topics.join("\n")
-      end
-
-    default_value =
-      if default&.respond_to?(:call)
-        nil
-      else
-        default
-      end
-
-    base_attributes = {
-      default: default_value,
-      description: formatted_description
-    }.compact_blank
-
-    base_attributes.merge(attributes)
-  end
-
-  def merge_base_mcp_schema(attributes)
+  def merge_base_json_schema(attributes)
     topics = attributes.delete(:description_topics)&.compact_blank || []
 
     formatted_description =

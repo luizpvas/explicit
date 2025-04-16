@@ -52,23 +52,13 @@ class Explicit::Type::DateTimeISO8601 < Explicit::Type
     end
   end
 
-  def swagger_schema
-    merge_base_swagger_schema({
+  def json_schema(flavour)
+    {
       type: "string",
       format: "date-time",
       description_topics: [
         swagger_i18n("date_time_iso8601")
       ]
-    })
-  end
-
-  def mcp_schema
-    merge_base_mcp_schema({
-      type: "string",
-      format: "date-time",
-      description_topics: [
-        swagger_i18n("date_time_iso8601")
-      ]
-    })
+    }
   end
 end

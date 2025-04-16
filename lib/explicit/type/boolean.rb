@@ -36,15 +36,9 @@ class Explicit::Type::Boolean < Explicit::Type
     end
   end
 
-  def swagger_schema
-    merge_base_swagger_schema({
+  def json_schema(flavour)
+    {
       type: "boolean"
-    })
-  end
-
-  def mcp_schema
-    merge_base_mcp_schema({
-      type: "boolean"
-    })
+    }
   end
 end

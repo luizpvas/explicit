@@ -45,25 +45,14 @@ class Explicit::Type::File < Explicit::Type
     end
   end
 
-  def swagger_schema
-    merge_base_swagger_schema({
+  def json_schema(flavour)
+    {
       type: "string",
       format: "binary",
       description_topics: [
         max_size&.then { swagger_i18n("file_max_size", max_size: number_to_human_size(_1)) },
         content_types.any? ? swagger_i18n("file_content_types", content_types: content_types.join(', ')) : nil
       ]
-    })
-  end
-
-  def mcp_schema
-    merge_base_mcp_schema({
-      type: "string",
-      format: "binary",
-      description_topics: [
-        max_size&.then { swagger_i18n("file_max_size", max_size: number_to_human_size(_1)) },
-        content_types.any? ? swagger_i18n("file_content_types", content_types: content_types.join(', ')) : nil
-      ]
-    })
+    }
   end
 end

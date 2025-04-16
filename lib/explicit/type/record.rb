@@ -73,52 +73,20 @@ class Explicit::Type::Record < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_parameters
-      attributes.map do |name, type|
-        {
-          name:,
-          in: type.param_location_path? ? "path" : "body",
-          description: type.description,
-          required: !type.nilable,
-          schema: type.swagger_schema
-        }
-      end
+  def json_schema(flavour)
+    properties = attributes.to_h do |name, type|
+      [ name, flavour == :mcp ? type.mcp_schema : type.swagger_schema ]
     end
 
-    def swagger_schema
-      properties = attributes.to_h do |name, type|
-        [ name, type.swagger_schema ]
-      end
-
-      required = attributes.filter_map do |name, type|
-        type.required? ? name.to_s : nil
-      end
-
-      merge_base_swagger_schema({
-        type: "object",
-        properties:,
-        required:
-      }.compact_blank)
+    required = attributes.filter_map do |name, type|
+      type.required? ? name.to_s : nil
     end
-  end
 
-  concerning :MCP do
-    def mcp_schema
-      properties = attributes.to_h do |name, type|
-        [ name, type.mcp_schema ]
-      end
-
-      required = attributes.filter_map do |name, type|
-        type.required? ? name.to_s : nil
-      end
-
-      merge_base_mcp_schema({
-        type: "object",
-        properties:,
-        required:,
-        additionalProperties: false
-      }.compact)
-    end
+    {
+      type: "object",
+      properties:,
+      required:,
+      additionalProperties: false
+    }.compact
   end
 end
