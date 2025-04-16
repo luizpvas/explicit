@@ -19,17 +19,13 @@ class Explicit::Type::Any < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({})
-    end
+  def swagger_schema
+    merge_base_swagger_schema({})
   end
 
-  concerning :MCP do
-    def json_schema
-      merge_base_json_schema({
-        type: "string"
-      })
-    end
+  def json_schema
+    merge_base_json_schema({
+      type: "string"
+    })
   end
 end
