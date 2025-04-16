@@ -6,6 +6,7 @@ require "explicit/version"
 
 require "explicit/mcp_server"
 require "explicit/mcp_server/builder"
+require "explicit/mcp_server/request"
 require "explicit/mcp_server/router"
 require "explicit/mcp_server/tool"
 require "explicit/mcp_server/transport"
