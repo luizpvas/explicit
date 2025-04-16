@@ -19,13 +19,9 @@ class Explicit::Type::Any < Explicit::Type
     end
   end
 
-  def swagger_schema
-    merge_base_swagger_schema({})
-  end
+  def json_schema(flavour)
+    return {} if flavour == :swagger
 
-  def mcp_schema
-    merge_base_mcp_schema({
-      type: "string"
-    })
+    { type: "string" }
   end
 end

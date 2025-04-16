@@ -51,30 +51,16 @@ class Explicit::Type::String < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "string",
-        pattern: format&.inspect&.then { _1[1..-2] },
-        minLength: min_length || (empty == false ? 1 : nil),
-        maxLength: max_length,
-        description_topics: [
-          empty == false ? swagger_i18n("string_not_empty") : nil,
-          downcase == true ? swagger_i18n("string_downcase") : nil
-        ]
-      }.compact_blank)
-    end
-  end
-
-  concerning :MCP do
-    def mcp_schema
-      merge_base_mcp_schema({
-        type: "string",
-        description_topics: [
-          empty == false ? swagger_i18n("string_not_empty") : nil,
-          downcase == true ? swagger_i18n("string_downcase") : nil
-        ]
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: "string",
+      pattern: format&.inspect&.then { _1[1..-2] },
+      minLength: min_length || (empty == false ? 1 : nil),
+      maxLength: max_length,
+      description_topics: [
+        empty == false ? swagger_i18n("string_not_empty") : nil,
+        downcase == true ? swagger_i18n("string_downcase") : nil
+      ]
+    }.compact_blank
   end
 end

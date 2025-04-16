@@ -66,7 +66,8 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
       },
       required: %w[name],
       default: { name: "foo" },
-      description: "desc"
+      description: "desc",
+      additionalProperties: false
     }
   end
 

@@ -78,8 +78,8 @@ class Explicit::Type::DateRange < Explicit::Type
     end
   end
 
-  def swagger_schema
-    merge_base_swagger_schema({
+  def json_schema(flavour)
+    {
       type: "string",
       pattern: FORMAT.inspect[1..-2],
       format: "date range",
@@ -88,19 +88,6 @@ class Explicit::Type::DateRange < Explicit::Type
         min_range&.then { swagger_i18n("date_range_min_range", min_range: _1.inspect) },
         max_range&.then { swagger_i18n("date_range_max_range", max_range: _1.inspect) },
       ]
-    })
-  end
-
-  def mcp_schema
-    merge_base_mcp_schema({
-      type: "string",
-      pattern: FORMAT.inspect[1..-2],
-      format: "date range",
-      description_topics: [
-        swagger_i18n("date_range"),
-        min_range&.then { swagger_i18n("date_range_min_range", min_range: _1.inspect) },
-        max_range&.then { swagger_i18n("date_range_max_range", max_range: _1.inspect) },
-      ]
-    })
+    }
   end
 end

@@ -51,25 +51,14 @@ class Explicit::Type::Date < Explicit::Type
     end
   end
 
-  def swagger_schema
-    merge_base_swagger_schema({
+  def json_schema(flavour)
+    {
       type: "string",
       pattern: /\d{4}-\d{2}-\d{2}/.inspect[1..-2],
       format: "date",
       description_topics: [
         swagger_i18n("date_format")
       ]
-    })
-  end
-
-  def mcp_schema
-    merge_base_mcp_schema({
-      type: "string",
-      pattern: /\d{4}-\d{2}-\d{2}/.inspect[1..-2],
-      format: "date",
-      description_topics: [
-        swagger_i18n("date_format")
-      ]
-    })
+    }
   end
 end
