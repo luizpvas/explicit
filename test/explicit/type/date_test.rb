@@ -63,7 +63,7 @@ class Explicit::Type::DateTest < ActiveSupport::TestCase
       [:default, "2024-01-15", :date]
     ])
 
-    assert type.json_schema, {
+    assert type.mcp_schema, {
       type: "string",
       pattern: /\d{4}-\d{2}-\d{2}/.inspect[1..-2],
       format: "date",

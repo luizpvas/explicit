@@ -104,16 +104,16 @@ class Explicit::Type::Record < Explicit::Type
   end
 
   concerning :MCP do
-    def json_schema
+    def mcp_schema
       properties = attributes.to_h do |name, type|
-        [ name, type.json_schema ]
+        [ name, type.mcp_schema ]
       end
 
       required = attributes.filter_map do |name, type|
         type.required? ? name.to_s : nil
       end
 
-      merge_base_json_schema({
+      merge_base_mcp_schema({
         type: "object",
         properties:,
         required:,

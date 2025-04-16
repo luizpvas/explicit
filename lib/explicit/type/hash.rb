@@ -56,10 +56,10 @@ class Explicit::Type::Hash < Explicit::Type
     })
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "object",
-      additionalProperties: value_type.json_schema,
+      additionalProperties: value_type.mcp_schema,
       description_topics: [
         empty == false ? swagger_i18n("hash_not_empty") : nil
       ]

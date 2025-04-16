@@ -107,7 +107,7 @@ class Explicit::Type::OneOf < Explicit::Type
     { oneOf: subtypes.map(&:swagger_schema) }
   end
 
-  def json_schema
+  def mcp_schema
     raise ::NotImplementedError
   end
 end

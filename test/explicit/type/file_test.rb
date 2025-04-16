@@ -59,7 +59,7 @@ class Explicit::Type::FileTest < ActiveSupport::TestCase
       [:file, max_size: 10.kilobytes, content_types: %w[image/jpeg application/pdf]]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       format: "binary",
       description: "hello\n\n* Max size: 10 KB\n* Content types: image/jpeg, application/pdf"

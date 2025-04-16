@@ -91,8 +91,8 @@ class Explicit::Type::DateRange < Explicit::Type
     })
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "string",
       pattern: FORMAT.inspect[1..-2],
       format: "date range",

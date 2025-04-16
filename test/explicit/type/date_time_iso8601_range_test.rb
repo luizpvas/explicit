@@ -122,7 +122,7 @@ class Explicit::Type::DateTimeISO8601RangeTest < ActiveSupport::TestCase
       ]
     )
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       format: "date time range",
       default: "2025-01-10T23:00:32Z..2025-01-11T00:00:32Z",

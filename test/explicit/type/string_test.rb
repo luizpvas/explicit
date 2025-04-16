@@ -87,7 +87,7 @@ class Explicit::Type::StringTest < ActiveSupport::TestCase
   test "json_schema" do
     type = type([:description, "desc", :string])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "string",
       description: "desc"
     }

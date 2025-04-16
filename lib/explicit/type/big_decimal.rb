@@ -55,8 +55,8 @@ class Explicit::Type::BigDecimal < Explicit::Type
     })
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "string",
       pattern: /^\d*\.?\d*$/.inspect[1..-2],
       format: "decimal number",

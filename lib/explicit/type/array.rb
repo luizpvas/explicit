@@ -51,10 +51,10 @@ class Explicit::Type::Array < Explicit::Type
     })
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "array",
-      items: item_type.json_schema,
+      items: item_type.mcp_schema,
       minItems: empty ? 0 : 1
     })
   end

@@ -85,7 +85,7 @@ class Explicit::Type::FloatTest < ActiveSupport::TestCase
       [ :default, 5, [ :float, min: 0, max: 10 ] ]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "number",
       minimum: 0,
       maximum: 10,
@@ -93,22 +93,22 @@ class Explicit::Type::FloatTest < ActiveSupport::TestCase
       description: "hello"
     }
 
-    assert_equal type([ :float, positive: false ]).json_schema, {
+    assert_equal type([ :float, positive: false ]).mcp_schema, {
       type: "number",
       description: "* Must not be positive"
     }
 
-    assert_equal type([ :float, positive: true ]).json_schema, {
+    assert_equal type([ :float, positive: true ]).mcp_schema, {
       type: "number",
       description: "* Must be positive"
     }
 
-    assert_equal type([ :float, negative: false ]).json_schema, {
+    assert_equal type([ :float, negative: false ]).mcp_schema, {
       type: "number",
       description: "* Must not be negative"
     }
 
-    assert_equal type([ :float, negative: true ]).json_schema, {
+    assert_equal type([ :float, negative: true ]).mcp_schema, {
       type: "number",
       description: "* Must be negative"
     }

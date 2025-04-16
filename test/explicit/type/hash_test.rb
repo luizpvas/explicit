@@ -69,7 +69,7 @@ class Explicit::Type::HashTest < ActiveSupport::TestCase
       [:default, { "foo" => "bar" }, [:hash, :string, :string, empty: false]]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "object",
       additionalProperties: {
         type: "string"

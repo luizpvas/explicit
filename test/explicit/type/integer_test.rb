@@ -85,7 +85,7 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
       [ :default, 5, [ :integer, min: 0, max: 10 ] ]
     ])
 
-    assert_equal type.json_schema, {
+    assert_equal type.mcp_schema, {
       type: "integer",
       minimum: 0,
       maximum: 10,
@@ -93,22 +93,22 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
       description: "hello"
     }
 
-    assert_equal type([ :integer, positive: false ]).json_schema, {
+    assert_equal type([ :integer, positive: false ]).mcp_schema, {
       type: "integer",
       description: "* Must not be positive"
     }
 
-    assert_equal type([ :integer, positive: true ]).json_schema, {
+    assert_equal type([ :integer, positive: true ]).mcp_schema, {
       type: "integer",
       description: "* Must be positive"
     }
 
-    assert_equal type([ :integer, negative: false ]).json_schema, {
+    assert_equal type([ :integer, negative: false ]).mcp_schema, {
       type: "integer",
       description: "* Must not be negative"
     }
 
-    assert_equal type([ :integer, negative: true ]).json_schema, {
+    assert_equal type([ :integer, negative: true ]).mcp_schema, {
       type: "integer",
       description: "* Must be negative"
     }

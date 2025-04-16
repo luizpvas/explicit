@@ -23,8 +23,8 @@ class Explicit::Type::Any < Explicit::Type
     merge_base_swagger_schema({})
   end
 
-  def json_schema
-    merge_base_json_schema({
+  def mcp_schema
+    merge_base_mcp_schema({
       type: "string"
     })
   end
