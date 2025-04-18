@@ -413,6 +413,14 @@ you wish to expose. It is important that the requests are compatible with MCP
 tool format spec, otherwise an error is raised. All params should be primitives
 such as `:string`, `:integer` or `:boolean`.
 
+The following methods are available:
+
+- `name(str)` - Sets the name of the MCP Server which is displayed in the MCP
+  client.
+- `version(str)` - Sets the version of the MCP server which is displayed in the
+  MCP client
+- `tool(request)` - Exposes a request as a tool in the MCP server.
+
 For example:
 
 ```ruby
@@ -421,9 +429,9 @@ module MyApp::API::V1
     name "My app"
     version "1.0.0"
 
-    add ArticlesController::CreateRequest
-    add ArticlesController::UpdateRequest
-    add ArticlesController::DestroyRequest
+    tool ArticlesController::CreateRequest
+    tool ArticlesController::UpdateRequest
+    tool ArticlesController::DestroyRequest
 
     def authorize
       true

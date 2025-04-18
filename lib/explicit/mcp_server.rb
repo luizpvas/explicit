@@ -11,7 +11,7 @@ module Explicit::MCPServer
     end
 
     engine.routes.draw do
-      get "/", to: builder, as: :explicit_mcp
+      match "/", to: builder, as: :explicit_mcp, via: :all
     end
 
     engine
