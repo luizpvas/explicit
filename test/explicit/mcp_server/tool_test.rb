@@ -9,19 +9,23 @@ class Explicit::MCPServer::ToolTest < ::ActiveSupport::TestCase
       param :id, :string
     end
 
-    tool = ::Explicit::MCPServer::Tool.from_request(request)
+    tool = ::Explicit::MCPServer::Tool.new(request)
 
-    assert_equal "get_users_by_id", tool.name
-    assert_equal "GET /users/:id", tool.title
-    assert_nil tool.description
-
-    assert_equal tool.input_schema, {
-      type: "object",
-      properties: {
-        id: { type: "string" }
+    expected_output = {
+      name: "get_users_by_id",
+      inputSchema: {
+        type: "object",
+        properties: {
+          id: { type: "string" }
+        },
+        required: ["id"],
+        additionalProperties: false
       },
-      required: ["id"],
-      additionalProperties: false
+      annotations: {
+        title: "GET /users/:id"
+      }
     }
+
+    assert_equal expected_output, tool.serialize
   end
 end
