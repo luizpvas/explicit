@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-module Explicit::MCPServer::Router
-  extend self
+class Explicit::MCPServer::Router
+  def initialize(name:, version:)
+    @name = name
+    @version = version
+  end
 
   def handle(request)
     case request.method
@@ -29,8 +32,8 @@ module Explicit::MCPServer::Router
         }
       },
       serverInfo: {
-        name: "",
-        version: ""
+        name: @name,
+        version: @version
       }
     })
   end
