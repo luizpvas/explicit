@@ -2,10 +2,13 @@
 
 module API::V1
   MCPServer = ::Explicit::MCPServer.new do
-    add API::V1::ArticlesController::IndexRequest
-    add API::V1::ArticlesController::CreateRequest
-    add API::V1::ArticlesController::ShowRequest
-    add API::V1::ArticlesController::UpdateRequest
+    name "Dummy App"
+    version "1.0.0"
+
+    tool API::V1::ArticlesController::IndexRequest
+    tool API::V1::ArticlesController::CreateRequest
+    tool API::V1::ArticlesController::ShowRequest
+    tool API::V1::ArticlesController::UpdateRequest
 
     def authorize
       true

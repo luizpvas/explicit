@@ -2,7 +2,7 @@
 
 class Explicit::MCPServer::Builder
   def initialize
-    @requests = []
+    @tools = []
   end
 
   def name(name)
@@ -13,19 +13,31 @@ class Explicit::MCPServer::Builder
     @version = version
   end
 
-  def add(request)
-    @requests << request
+  def tool(request)
+    @tools << ::Explicit::MCPServer::Tool.from_request(request)
   end
 
-  def call(request)
-    [200, {}, ["Hello, world!"]]
+  def call(env)
+    request = ::Explicit::MCPServer::Request.from_rack_env(env)
+
+    puts request.inspect
+
+    response = router.handle(request)
+
+    puts response.inspect
+
+    headers = {
+      "Content-Type" => "application/json"
+    }
+
+    [200, headers, [response.to_json]]
   end
 
   def router
     @router ||= ::Explicit::MCPServer::Router.new(
       name: @name,
       version: @version,
-      tools: @requests.map { Tool.from_request(it) }
+      tools: @tools
     )
   end
 end
