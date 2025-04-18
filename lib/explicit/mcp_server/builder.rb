@@ -22,6 +22,10 @@ class Explicit::MCPServer::Builder
   end
 
   def router
-    @router ||= ::Explicit::MCPServer::Router.new(name: @name, version: @version)
+    @router ||= ::Explicit::MCPServer::Router.new(
+      name: @name,
+      version: @version,
+      tools: @requests.map { Tool.from_request(it) }
+    )
   end
 end

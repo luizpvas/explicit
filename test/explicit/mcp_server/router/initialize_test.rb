@@ -5,7 +5,7 @@ require "test_helper"
 class Explicit::MCPServer::Router::InitializeTest < ActiveSupport::TestCase
   test "initialize request returns the correct response structure" do
     request = Explicit::MCPServer::Request.new(id: 1, method: "initialize", params: {})
-    router = Explicit::MCPServer::Router.new(name: "My app", version: "1.0.0")
+    router = Explicit::MCPServer::Router.new(name: "My app", version: "1.0.0", tools: [])
     response = router.handle(request)
 
     assert response.result?

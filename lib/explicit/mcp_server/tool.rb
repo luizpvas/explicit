@@ -23,5 +23,20 @@ module Explicit::MCPServer
         open_world_hint: request.get_mcp_tool_open_world_hint
       )
     end
+
+    def serialize
+      {
+        name:,
+        description:,
+        inputSchema: input_schema,
+        annotations: {
+          title:,
+          readOnlyHint: read_only_hint,
+          destructiveHint: destructive_hint,
+          idempotentHint: idempotent_hint,
+          openWorldHint: open_world_hint
+        }.compact
+      }.compact
+    end
   end
 end
