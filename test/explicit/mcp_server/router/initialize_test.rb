@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+require "test_helper"
+
+class Explicit::MCPServer::Router::InitializeTest < ActiveSupport::TestCase
+  test "initialize request returns the correct response structure" do
+    request = Explicit::MCPServer::Request.new(id: 1, method: "initialize", params: {})
+    response = Explicit::MCPServer::Router.handle(request)
+
+    assert response.result?
+    assert_equal 1, response.id
+
+    expected_value = {
+      protocolVersion: "2.0",
+      capabilities: {
+        tools: {
+          listChanged: false
+        }
+      },
+      serverInfo: {
+        name: "",
+        version: ""
+      }
+    }
+
+    assert_equal expected_value, response.value
+  end
+end 
