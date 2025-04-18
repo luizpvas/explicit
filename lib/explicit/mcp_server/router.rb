@@ -9,8 +9,8 @@ class Explicit::MCPServer::Router
   def handle(request)
     case request.method
     when "ping" then ping(request)
-    when "initialize" then initialize_request(request)
-    when "notifications/initialized" then raise ::NotImplementedError
+    when "initialize" then do_initialize(request)
+    when "notifications/initialized" then noop(request)
     when "tools/list" then raise ::NotImplementedError
     when "tools/call" then raise ::NotImplementedError
     else raise ::NotImplementedError
@@ -19,11 +19,15 @@ class Explicit::MCPServer::Router
 
   private
 
+  def noop(request)
+    request.result(nil)
+  end
+
   def ping(request)
     request.result("pong")
   end
 
-  def initialize_request(request)
+  def do_initialize(request)
     request.result({
       protocolVersion: "2.0",
       capabilities: {
