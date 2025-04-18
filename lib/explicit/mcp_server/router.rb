@@ -1,19 +1,22 @@
 # frozen_string_literal: true
 
-class Explicit::MCPServer::Router
-  def initialize(transport, request)
-    @transport = transport
-    @request = request
-  end
+module Explicit::MCPServer::Router
+  extend self
 
-  def handle
-    case @request.method
-    when "ping" then raise ::NotImplementedError
+  def handle(request)
+    case request.method
+    when "ping" then ping(request)
     when "initialize" then raise ::NotImplementedError
     when "notifications/initialized" then raise ::NotImplementedError
     when "tools/list" then raise ::NotImplementedError
     when "tools/call" then raise ::NotImplementedError
     else raise ::NotImplementedError
     end
+  end
+
+  private
+
+  def ping(request)
+    request.result("pong")
   end
 end
