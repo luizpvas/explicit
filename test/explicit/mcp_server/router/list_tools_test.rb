@@ -9,7 +9,7 @@ class Explicit::MCPServer::Router::ListToolsTest < ::ActiveSupport::TestCase
       name: "test-server",
       version: "1.0",
       tools: [
-        ::Explicit::MCPServer::Tool.from_request(::API::V1::ArticlesController::IndexRequest)
+        ::Explicit::MCPServer::Tool.new(::API::V1::ArticlesController::IndexRequest)
       ]
     )
 

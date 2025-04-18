@@ -14,7 +14,7 @@ class Explicit::MCPServer::Builder
   end
 
   def tool(request)
-    @tools << ::Explicit::MCPServer::Tool.from_request(request)
+    @tools << ::Explicit::MCPServer::Tool.new(request)
   end
 
   def call(env)
