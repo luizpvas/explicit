@@ -418,6 +418,9 @@ For example:
 ```ruby
 module MyApp::API::V1
   MCPServer = Explicit::MCPServer.new do
+    name "My app"
+    version "1.0.0"
+
     add ArticlesController::CreateRequest
     add ArticlesController::UpdateRequest
     add ArticlesController::DestroyRequest

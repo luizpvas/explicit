@@ -5,11 +5,23 @@ class Explicit::MCPServer::Builder
     @requests = []
   end
 
+  def name(name)
+    @name = name
+  end
+
+  def version(version)
+    @version = version
+  end
+
   def add(request)
     @requests << request
   end
 
   def call(request)
     [200, {}, ["Hello, world!"]]
+  end
+
+  def router
+    @router ||= ::Explicit::MCPServer::Router.new(name: @name, version: @version)
   end
 end
