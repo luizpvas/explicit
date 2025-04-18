@@ -46,15 +46,13 @@ class Explicit::Type::Hash < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "object",
-        additionalProperties: value_type.swagger_schema,
-        description_topics: [
-          empty == false ? swagger_i18n("hash_not_empty") : nil
-        ]
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: "object",
+      additionalProperties: value_type.mcp_schema,
+      description_topics: [
+        empty == false ? swagger_i18n("hash_not_empty") : nil
+      ]
+    }
   end
 end

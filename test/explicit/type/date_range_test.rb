@@ -78,31 +78,18 @@ class Explicit::Type::DateRangeTest < ActiveSupport::TestCase
     )
   end
 
-  test "swagger" do
-    type = type(
-      [
-        :description,
-        "desc",
-        [
-          :default,
-          "2025-01-07..2025-01-10",
-          [:date_range, min_range: 1.day, max_range: 30.days]
-        ]
-      ]
-    )
+  test "json_schema" do
+    type = type([:date_range, min_range: 1.day, max_range: 30.days])
 
-    assert_equal type.swagger_schema, {
+    assert_equal type.json_schema(nil), {
       type: "string",
       pattern: Explicit::Type::DateRange::FORMAT.inspect[1..-2],
       format: "date range",
-      default: "2025-01-07..2025-01-10",
-      description: <<~TXT.strip
-        desc
-
-        * The value must be a range between two dates in the format of: "YYYY-MM-DD..YYYY-MM-DD"
-        * The range must not be less than 1 day
-        * The range must not be more than 30 days
-      TXT
+      description_topics: [
+        "* The value must be a range between two dates in the format of: \"YYYY-MM-DD..YYYY-MM-DD\"",
+        "* The range must not be less than 1 day",
+        "* The range must not be more than 30 days"
+      ]
     }
   end
 end

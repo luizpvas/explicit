@@ -14,7 +14,10 @@ documented types at runtime.
 5. [Writing tests](#writing-tests)
 6. [Publishing documentation](#publishing-documentation)
    - [Adding request examples](#adding-request-examples)
-7. Types
+7. [MCP](#mcp)
+   - [Tool configuration](#tool-configuration)
+   - [Security](#security-and-authorization)
+8. Types
    - [Agreement](#agreement)
    - [Any](#any)
    - [Array](#array)
@@ -37,7 +40,7 @@ documented types at runtime.
    - [One of](#one-of)
    - [Record](#record)
    - [String](#string)
-8. [Configuration](#configuration)
+9. [Configuration](#configuration)
    - [Changing examples file path](#changing-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
@@ -397,6 +400,136 @@ Whenever you wish to refresh the examples file run the test suite with the ENV
 **Important: be careful not to leak any sensitive data when persisting
 examples from tests**
 
+# MCP
+
+You can expose your API endpoints as tools for external systems, like AI agents,
+by mounting an MCP server. The MCP server acts as a proxy receiving tool calls
+and forwarding them to your existing REST API controllers. In other words,
+your controllers remain the source of truth and the MCP server simply provides a
+tool-compatible interface.
+
+To build an MCP server, instantiate `::Explicit::MCPServer` and add the requests
+you wish to expose. It is important that the requests are compatible with MCP
+tool format spec, otherwise an error is raised. All params should be primitives
+such as `:string`, `:integer` or `:boolean`.
+
+The following methods are available:
+
+- `name(str)` - Sets the name of the MCP Server which is displayed in the MCP
+  client.
+- `version(str)` - Sets the version of the MCP server which is displayed in the
+  MCP client
+- `tool(request)` - Exposes a request as a tool in the MCP server.
+
+For example:
+
+```ruby
+module MyApp::API::V1
+  MCPServer = Explicit::MCPServer.new do
+    name "My app"
+    version "1.0.0"
+
+    tool ArticlesController::CreateRequest
+    tool ArticlesController::UpdateRequest
+    tool ArticlesController::DestroyRequest
+
+    def authorize
+      true
+    end
+  end
+end
+```
+
+Then, mount the MCP Server in `routes.rb`:
+
+```ruby
+Rails.application.routes.draw do
+  mount MyApp::API::V1::MCPServer => "/api/v1/mcp"
+end
+```
+
+If your app boots with no errors, it means you have a working MCP server that
+you can connect from any MCP client (Claude Desktop, Cursor Agent, etc.)
+
+### Tool configuration
+
+The following methods are available in `Explicit::Request` to configure the MCP
+tool. They're all optional and the MCP server still works correctly using the
+request's default title, description and params.
+
+- `mcp_tool_name(name)` - Sets the unique identifier for the tool. Should be a
+  string with only ASCII letters, numbers and underscore. By default it is set
+  to a normalized version of the route's path.
+- `mcp_tool_description(description)` - Sets the description of the tool.
+  Markdown supported. By default it is set to the request description.
+- `mcp_tool_title(title)` - Sets the human readable name for the tool. By
+  default it is set to the request's title.
+- `mcp_tool_read_only_hint(true/false)` - If true, the tool does not modify its
+  environment.
+- `mcp_tool_destructive_hint(true/false)` - If true, the tool may perform destructive
+  updates.
+- `mcp_tool_idempotent_hint(true/false)` - If true, repeated calls with same args
+  have no additional effect.
+- `mcp_tool_open_world_hint(true/false)` - If true, tool interacts with external
+  entities.
+
+For example:
+
+```ruby
+Request = Explicit::Request.new do
+  # ... other request config
+
+  mcp_tool_name "get_article_by_id"
+  mcp_tool_title "Get article by id"
+  mcp_tool_read_only_hint true
+  mcp_tool_destructive_hint false
+  mcp_tool_idempotent_hint true
+  mcp_tool_open_world_hint false
+
+  mcp_tool_description <<~TEXT
+    Finds the article by the specified id and returns the title, body and
+    published_at date.
+  TEXT
+end
+```
+
+### Security
+
+There are two considerations for securing your MCP server:
+
+1. **Authenticate the MCP tool call**
+   You should authenticate the user/account/customer based on a unique attribute
+   present in the MCP server's url. For example, you should share a URL
+   similar to this one to your users:
+   `https://myapp.com/api/v1/mcp?key=d17c08d5-968c-497f-8db2-ec958d45b447`.
+   Then, in the `authorize` method, you'd use the `key` to authenticate the
+   user.
+2. **Authenticate the REST API**
+   Your API probably has an authentication mechanism that is different from the
+   MCP server, such as bearer tokens specified in request headers. To
+   authenticate the API you can either 1) call `proxy_with(headers:)` in the
+   `authorize` method, or 2) share the user using
+   `ActiveSupport::CurrentAttributes`.
+
+For example:
+
+```ruby
+module MyApp::API::V1
+  MCPServer = Explicit::MCPServer.new do
+    def authorize
+      user = ::User.find_by(api_key: params[:key])
+      return false if user.blank?
+
+      # 1) proxy the request to controllers with headers
+      proxy_with headers: { "Authorization" => "Bearer #{user.api_key}" }
+
+      # 2) or share the user using ActiveSupport::CurrentAttributes
+      Current.user = user
+    end
+  end
+end
+```
+
 # Types
 
 ### Agreement
@@ -417,7 +550,6 @@ and `1`.
 
 Allows all values, including null. Useful when documenting a proxy that
 responds with whatever value the other service returned.
-
 
 ### Array
 

@@ -50,14 +50,10 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
     )
   end
 
-  test "swagger" do
-    type = type([
-      :description,
-      "desc",
-      [:default, { name: "foo" }, { name: :string }]
-    ])
+  test "json_schema" do
+    type = type({ name: :string })
 
-    assert_equal type.swagger_schema, {
+    assert_equal type.json_schema(nil), {
       type: "object",
       properties: {
         name: {
@@ -65,8 +61,7 @@ class Explicit::Type::RecordTest < ActiveSupport::TestCase
         }
       },
       required: %w[name],
-      default: { name: "foo" },
-      description: "desc"
+      additionalProperties: false
     }
   end
 end

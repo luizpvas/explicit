@@ -19,9 +19,9 @@ class Explicit::Type::Any < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({})
-    end
+  def json_schema(flavour)
+    return {} if flavour == :swagger
+
+    { type: "string" }
   end
 end

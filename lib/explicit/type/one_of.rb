@@ -101,11 +101,9 @@ class Explicit::Type::OneOf < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      return subtypes.first.swagger_schema if subtypes.one?
+  def json_schema(flavour)
+    raise ::NotImplementedError if flavour == :mcp
 
-      { oneOf: subtypes.map(&:swagger_schema) }
-    end
+    { oneOf: subtypes.map(&:swagger_schema) }
   end
 end

@@ -68,6 +68,39 @@ class Explicit::Request
   def description(markdown) = (@description = markdown)
   def get_description = @description
 
+  concerning :MCP do
+    def mcp_tool_name(name) = (@mcp_tool_name = name)
+    def get_mcp_tool_name
+      return @mcp_tool_name if @mcp_tool_name.present?
+
+      normalized = @routes.first.method.to_s + @routes.first.path.gsub(/\//, "_")
+
+      @routes.first.params.each do |param_name|
+        normalized = normalized.gsub(":#{param_name}", "by_#{param_name}")
+      end
+
+      normalized
+    end
+
+    def mcp_tool_description(markdown) = (@mcp_tool_description = markdown)
+    def get_mcp_tool_description = @mcp_tool_description || get_description
+
+    def mcp_tool_title(title) = (@mcp_tool_title = title)
+    def get_mcp_tool_title = @mcp_tool_title || get_title
+
+    def mcp_tool_read_only_hint(bool) = (@mcp_tool_read_only_hint = bool)
+    def get_mcp_tool_read_only_hint = @mcp_tool_read_only_hint
+
+    def mcp_tool_destructive_hint(bool) = (@mcp_tool_destructive_hint = bool)
+    def get_mcp_tool_destructive_hint = @mcp_tool_destructive_hint
+
+    def mcp_tool_idempotent_hint(bool) = (@mcp_tool_idempotent_hint = bool)
+    def get_mcp_tool_idempotent_hint = @mcp_tool_idempotent_hint
+
+    def mcp_tool_open_world_hint(bool) = (@mcp_tool_open_world_hint = bool)
+    def get_mcp_tool_open_world_hint = @mcp_tool_open_world_hint
+  end
+
   def header(name, type,  **options)
     raise ArgumentError("duplicated header #{name}") if @headers.key?(name)
 

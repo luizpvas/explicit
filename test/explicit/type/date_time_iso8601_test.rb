@@ -40,18 +40,15 @@ class Explicit::Type::DateTimeISO8601Test < ActiveSupport::TestCase
     assert_error "must be a valid datetime according to ISO8601", validate(1733844129, :date_time_iso8601)
   end
 
-  test "swagger" do
-    type = type([
-      :description,
-      "hello",
-      [:default, "2024-12-10T14:21:00Z", :date_time_iso8601]
-    ])
+  test "json_schema" do
+    type = type(:date_time_iso8601)
 
-    assert_equal type.swagger_schema, {
+    assert_equal type.json_schema(nil), {
       type: "string",
       format: "date-time",
-      default: "2024-12-10T14:21:00Z",
-      description: "hello\n\n* Must be valid according to ISO 8601"
+      description_topics: [
+        "* Must be valid according to ISO 8601"
+      ]
     }
   end
 end
