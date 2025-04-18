@@ -12,7 +12,7 @@ class Explicit::MCPServer::Router::InitializeTest < ActiveSupport::TestCase
     assert_equal 1, response.id
 
     expected_value = {
-      protocolVersion: "2.0",
+      protocolVersion: "2024-11-05",
       capabilities: {
         tools: {
           listChanged: false

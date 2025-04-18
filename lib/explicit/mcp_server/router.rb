@@ -34,7 +34,7 @@ class Explicit::MCPServer::Router
 
   def do_initialize(request)
     request.result({
-      protocolVersion: "2.0",
+      protocolVersion: "2024-11-05",
       capabilities: {
         tools: {
           listChanged: false
