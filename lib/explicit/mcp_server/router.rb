@@ -4,7 +4,7 @@ class Explicit::MCPServer::Router
   def initialize(name:, version:, tools:)
     @name = name
     @version = version
-    @tools = tools
+    @tools = tools.index_by { it.request.get_mcp_tool_name }
   end
 
   def handle(request)
@@ -21,7 +21,7 @@ class Explicit::MCPServer::Router
   private
 
   def noop(request)
-    request.result(nil)
+    request.result({})
   end
 
   def initialize_(request)
@@ -47,8 +47,7 @@ class Explicit::MCPServer::Router
     tool_name = request.params["name"]
     arguments = request.params["arguments"]
 
-    # TODO: lookup O(1)
-    tool = @tools.find { |t| t.request.get_mcp_tool_name == tool_name }
+    tool = @tools[tool_name]
 
     if !tool
       return request.error({ code: -32602, message: "tool not found" })
