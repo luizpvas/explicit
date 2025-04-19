@@ -10,8 +10,8 @@ module API::V1
     tool API::V1::ArticlesController::ShowRequest
     tool API::V1::ArticlesController::UpdateRequest
 
-    def authorize
-      true
+    def authorize(params:)
+      proxy_with headers: { "Authorization" => "Bearer #{params[:token]}" }
     end
   end
 end

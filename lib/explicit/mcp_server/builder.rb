@@ -5,13 +5,11 @@ class Explicit::MCPServer::Builder
     @tools = []
   end
 
-  def name(name)
-    @name = name
-  end
+  def name(name) = (@name = name)
+  def get_name = @name
 
-  def version(version)
-    @version = version
-  end
+  def version(version) = (@version = version)
+  def get_version = @version
 
   def tool(request)
     @tools << ::Explicit::MCPServer::Tool.new(request)
