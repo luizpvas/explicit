@@ -12,7 +12,8 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
         "arguments" => {
           "published_between" => "2023-01-01..2023-12-31"
         }
-      }
+      },
+      query: {}
     )
     
     router = ::Explicit::MCPServer::Router.new(
@@ -37,7 +38,8 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
       params: {
         "name" => "non_existing_tool",
         "arguments" => {}
-      }
+      },
+      query: {}
     )
     
     router = ::Explicit::MCPServer::Router.new(

@@ -40,7 +40,7 @@ class Explicit::MCPServer::Router
   end
 
   def tools_list(request)
-    request.result({ tools: @tools.map(&:serialize) })
+    request.result({ tools: @tools.values.map(&:serialize) })
   end
 
   def tools_call(request)

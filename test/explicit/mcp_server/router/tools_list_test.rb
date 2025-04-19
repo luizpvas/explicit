@@ -4,7 +4,13 @@ require "test_helper"
 
 class Explicit::MCPServer::Router::ListToolsTest < ::ActiveSupport::TestCase
   test "lists all available tools" do
-    request = ::Explicit::MCPServer::Request.new(id: 1, method: "tools/list", params: {})
+    request = ::Explicit::MCPServer::Request.new(
+      id: 1,
+      method: "tools/list",
+      params: {},
+      query: {}
+    )
+
     router = ::Explicit::MCPServer::Router.new(
       name: "test-server",
       version: "1.0",
