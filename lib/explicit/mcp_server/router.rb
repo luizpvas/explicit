@@ -9,11 +9,11 @@ class Explicit::MCPServer::Router
 
   def handle(request)
     case request.method
-    when "ping" then ping(request)
-    when "initialize" then do_initialize(request)
+    when "ping" then noop(request)
+    when "initialize" then initialize_(request)
     when "notifications/initialized" then noop(request)
-    when "tools/list" then list_tools(request)
-    when "tools/call" then raise ::NotImplementedError
+    when "tools/list" then tools_list(request)
+    when "tools/call" then tools_call(request)
     else raise ::NotImplementedError
     end
   end
@@ -24,15 +24,7 @@ class Explicit::MCPServer::Router
     request.result(nil)
   end
 
-  def ping(request)
-    request.result("pong")
-  end
-
-  def list_tools(request)
-    request.result({ tools: @tools.map(&:serialize) })
-  end
-
-  def do_initialize(request)
+  def initialize_(request)
     request.result({
       protocolVersion: "2024-11-05",
       capabilities: {
@@ -45,5 +37,31 @@ class Explicit::MCPServer::Router
         version: @version
       }
     })
+  end
+
+  def tools_list(request)
+    request.result({ tools: @tools.map(&:serialize) })
+  end
+
+  def tools_call(request)
+    tool_name = request.params["name"]
+    arguments = request.params["arguments"]
+
+    # TODO: lookup O(1)
+    tool = @tools.find { |t| t.request.get_mcp_tool_name == tool_name }
+
+    if !tool
+      return request.error({ code: -32602, message: "tool not found" })
+    end
+
+    session = ::ActionDispatch::Integration::Session.new(::Rails.application)
+
+    if tool.request.routes.first.method == :get
+      session.get(tool.request.get_base_path + tool.request.routes.first.path + "?" + arguments.to_query)
+    else
+      session.post(tool.request.get_base_path + tool.request.routes.first.path, params: arguments)
+    end
+
+    request.result(session.response.body)
   end
 end
