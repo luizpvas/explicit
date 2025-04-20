@@ -8,6 +8,7 @@ class Explicit::MCPServer::Router::InitializeTest < ActiveSupport::TestCase
       id: 1,
       method: "initialize",
       params: {},
+      host: "localhost",
       headers: {}
     )
 

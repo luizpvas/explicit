@@ -8,6 +8,7 @@ class Explicit::MCPServer::Router::ListToolsTest < ::ActiveSupport::TestCase
       id: 1,
       method: "tools/list",
       params: {},
+      host: "localhost",
       headers: {}
     )
 

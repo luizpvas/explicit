@@ -3,7 +3,7 @@
 require "rack/utils"
 
 module Explicit::MCPServer
-  Request = ::Data.define(:id, :method, :params, :headers) do
+  Request = ::Data.define(:id, :method, :params, :host, :headers) do
     def self.from_rack_env(env)
       body = ::JSON.parse(env["rack.input"].read)
 
@@ -11,6 +11,7 @@ module Explicit::MCPServer
         id: body["id"],
         method: body["method"],
         params: body["params"],
+        host: env["HTTP_HOST"],
         headers: {}
       )
     end

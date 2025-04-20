@@ -54,13 +54,34 @@ class Explicit::MCPServer::Router
     end
 
     session = ::ActionDispatch::Integration::Session.new(::Rails.application)
+    session.host = request.host
 
     if tool.request.routes.first.method == :get
-      session.get(tool.request.get_base_path + tool.request.routes.first.path + "?" + arguments.to_query, headers: request.headers)
+      url = [
+        tool.request.get_base_path,
+        tool.request.routes.first.path,
+        "?",
+        arguments.to_query
+      ].compact_blank.join
+
+      session.get(url, headers: request.headers)
     else
-      session.post(tool.request.get_base_path + tool.request.routes.first.path, params: arguments, headers: request.headers)
+      url = [
+        tool.request.get_base_path,
+        tool.request.routes.first.path,
+      ].compact_blank.join
+
+      session.post(url, params: arguments, headers: request.headers)
     end
 
-    request.result(session.response.body)
+    request.result({
+      content: [
+        {
+          type: "text",
+          text: session.response.body
+        }
+      ],
+      isError: session.response.status < 200 || session.response.status > 299
+    })
   end
 end

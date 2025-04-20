@@ -16,6 +16,7 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
           "published_between" => "2025-04-01..2025-04-03"
         }
       },
+      host: "localhost",
       headers: {
         "Authorization" => "Bearer #{token.value}"
       }
@@ -35,16 +36,24 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
     assert_equal 1, response.id
 
     expected_response = {
-      articles: [
+      content: [
         {
-          id: article.id,
-          title: article.title,
-          content: article.content,
-          published_at: article.published_at,
-          read_count: article.read_count
+          type: "text",
+          text: {
+            articles: [
+              {
+                id: article.id,
+                title: article.title,
+                content: article.content,
+                published_at: article.published_at,
+                read_count: article.read_count
+              }
+            ]
+          }.to_json
         }
-      ]
-    }.to_json
+      ],
+      isError: false
+    }
 
     assert_equal expected_response, response.value
   end
@@ -57,6 +66,7 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
         "name" => "non_existing_tool",
         "arguments" => {}
       },
+      host: "localhost",
       headers: {}
     )
     
