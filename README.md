@@ -516,7 +516,7 @@ For example:
 ```ruby
 module MyApp::API::V1
   MCPServer = Explicit::MCPServer.new do
-    def authorize(params:)
+    def authorize(params:, **)
       user = ::User.find_by(api_key: params[:key])
       return false if user.blank?
 

@@ -3,16 +3,15 @@
 require "rack/utils"
 
 module Explicit::MCPServer
-  Request = ::Data.define(:id, :method, :params, :query) do
+  Request = ::Data.define(:id, :method, :params, :headers) do
     def self.from_rack_env(env)
       body = ::JSON.parse(env["rack.input"].read)
-      query = ::Rack::Utils.parse_nested_query(env["QUERY_STRING"])
 
       new(
         id: body["id"],
         method: body["method"],
         params: body["params"],
-        query: query
+        headers: {}
       )
     end
 

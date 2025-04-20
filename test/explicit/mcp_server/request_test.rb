@@ -11,8 +11,7 @@ class ExplicitMCPServerRequestTest < ActiveSupport::TestCase
     }.to_json
 
     env = {
-      "rack.input" => StringIO.new(request_body),
-      "QUERY_STRING" => "query_key=query_value&another_key=another_value"
+      "rack.input" => StringIO.new(request_body)
     }
 
     request = Explicit::MCPServer::Request.from_rack_env(env)
@@ -20,6 +19,6 @@ class ExplicitMCPServerRequestTest < ActiveSupport::TestCase
     assert_equal "123", request.id
     assert_equal "test_method", request.method
     assert_equal({ "body_key" => "body_value" }, request.params)
-    assert_equal({ "query_key" => "query_value", "another_key" => "another_value" }, request.query)
+    assert_equal({}, request.headers)
   end
 end 

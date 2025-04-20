@@ -18,17 +18,24 @@ class Explicit::MCPServer::Builder
   def call(env)
     request = ::Explicit::MCPServer::Request.from_rack_env(env)
 
+    if respond_to?(:authorize)
+      params = ::Rack::Utils.parse_nested_query(env["QUERY_STRING"]).with_indifferent_access
+
+      case authorize(params:)
+      in { headers: }
+        request = request.with(headers:)
+      else
+        nil
+      end
+    end
+
     puts request.inspect
 
     response = router.handle(request)
 
     puts response.inspect
 
-    headers = {
-      "Content-Type" => "application/json"
-    }
-
-    [200, headers, [response.to_json]]
+    [200, { "Content-Type" => "application/json" }, [response.to_json]]
   end
 
   def router
@@ -37,5 +44,9 @@ class Explicit::MCPServer::Builder
       version: @version,
       tools: @tools
     )
+  end
+
+  def proxy_with(headers:)
+    { headers: }
   end
 end

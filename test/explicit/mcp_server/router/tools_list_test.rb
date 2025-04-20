@@ -8,7 +8,7 @@ class Explicit::MCPServer::Router::ListToolsTest < ::ActiveSupport::TestCase
       id: 1,
       method: "tools/list",
       params: {},
-      query: {}
+      headers: {}
     )
 
     router = ::Explicit::MCPServer::Router.new(
