@@ -4,7 +4,7 @@ class Explicit::MCPServer::Router
   def initialize(name:, version:, tools:)
     @name = name
     @version = version
-    @tools = tools.index_by { it.request.get_mcp_tool_name }
+    @tools = tools.index_by { _1.request.get_mcp_tool_name }
   end
 
   def handle(request)
