@@ -29,11 +29,7 @@ class Explicit::MCPServer::Builder
       end
     end
 
-    puts request.inspect
-
     response = router.handle(request)
-
-    puts response.inspect
 
     [200, { "Content-Type" => "application/json" }, [response.to_json]]
   end
