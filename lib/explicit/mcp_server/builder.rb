@@ -11,7 +11,7 @@ class Explicit::MCPServer::Builder
   def version(version) = (@version = version)
   def get_version = @version
 
-  def tool(request)
+  def add(request)
     @tools << ::Explicit::MCPServer::Tool.new(request)
   end
 

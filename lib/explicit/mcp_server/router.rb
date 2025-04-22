@@ -14,7 +14,7 @@ class Explicit::MCPServer::Router
     when "notifications/initialized" then noop(request)
     when "tools/list" then tools_list(request)
     when "tools/call" then tools_call(request)
-    else raise ::NotImplementedError
+    else noop(request)
     end
   end
 

@@ -5,10 +5,10 @@ module API::V1
     name "Dummy App"
     version "1.0.0"
 
-    tool API::V1::ArticlesController::IndexRequest
-    tool API::V1::ArticlesController::CreateRequest
-    tool API::V1::ArticlesController::ShowRequest
-    tool API::V1::ArticlesController::UpdateRequest
+    add API::V1::ArticlesController::IndexRequest
+    add API::V1::ArticlesController::CreateRequest
+    add API::V1::ArticlesController::ShowRequest
+    add API::V1::ArticlesController::UpdateRequest
 
     def authorize(params:, **)
       proxy_with headers: { "Authorization" => "Bearer #{params[:token]}" }

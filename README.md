@@ -419,7 +419,7 @@ The following methods are available:
   client.
 - `version(str)` - Sets the version of the MCP server which is displayed in the
   MCP client
-- `tool(request)` - Exposes a request as a tool in the MCP server.
+- `add(request)` - Exposes a request as a tool in the MCP server.
 
 For example:
 
@@ -429,9 +429,9 @@ module MyApp::API::V1
     name "My app"
     version "1.0.0"
 
-    tool ArticlesController::CreateRequest
-    tool ArticlesController::UpdateRequest
-    tool ArticlesController::DestroyRequest
+    add ArticlesController::CreateRequest
+    add ArticlesController::UpdateRequest
+    add ArticlesController::DestroyRequest
 
     def authorize(**)
       true
