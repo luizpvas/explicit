@@ -43,10 +43,16 @@ module Explicit::Documentation::Output
       }
     end
 
-    def call(request)
+    def call(env)
+      return respond_cors_preflight_request if env["REQUEST_METHOD"] == "OPTIONS"
+
       @swagger_document ||= swagger_document
 
-      [ 200, { "Content-Type" => "application/json" }, [ @swagger_document.to_json ] ]
+      headers = cors_access_control_headers.merge({
+        "Content-Type" => "application/json"
+      })
+
+      [ 200, headers, [ @swagger_document.to_json ] ]
     end
 
     def inspect
@@ -54,6 +60,19 @@ module Explicit::Documentation::Output
     end
 
     private
+      def respond_cors_preflight_request
+        [ 200, cors_access_control_headers, [] ]
+      end
+
+      def cors_access_control_headers
+        {
+          "Access-Control-Allow-Origin" => "*",
+          "Access-Control-Allow-Methods" => "GET, OPTIONS",
+          "Access-Control-Allow-Headers" => "Content-Type", 
+          "Access-Control-Max-Age" => "86400"
+        }
+      end
+
       def get_base_url
         base_urls = builder.requests.map(&:get_base_url).uniq
         base_paths = builder.requests.map(&:get_base_path).uniq
