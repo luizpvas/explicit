@@ -1,8 +1,9 @@
 # 0.2.15
 
 - Add preflight request to /swagger endpoint to fix CORS issues with swagger UI.
-- Use same host present in the webpage request instead of the hots defined in
+- Use same host present in the webpage request instead of the host defined in
   `routes.default_url_options`
+- Little improvements in the web documentation for `big_decimal` type.
 
 # 0.2.14
 
