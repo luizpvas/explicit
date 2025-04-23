@@ -30,7 +30,7 @@ class Explicit::Type::BigDecimal < Explicit::Type
 
   concerning :Webpage do
     def summary
-      "string"
+      "decimal string"
     end
 
     def partial
