@@ -17,7 +17,7 @@ module Explicit::Documentation
 
     engine.routes.draw do
       get "/", to: builder.webpage, as: :explicit_documentation_webpage
-      get "/swagger", to: builder.swagger, as: :explicit_documentation_swagger
+      match "/swagger", to: builder.swagger, as: :explicit_documentation_swagger, via: [:get, :options]
     end
 
     engine

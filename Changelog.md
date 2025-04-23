@@ -1,3 +1,9 @@
+# 0.2.15
+
+- Add preflight request to /swagger endpoint to fix CORS issues with swagger UI.
+- Use same host present in the webpage request instead of the hots defined in
+  `routes.default_url_options`
+
 # 0.2.14
 
 - Fix type checking in `hash` and `record` types when value is either a `String` or `Array`.
