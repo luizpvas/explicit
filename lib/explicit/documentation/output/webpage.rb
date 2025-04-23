@@ -8,8 +8,8 @@ module Explicit::Documentation::Output
       @builder = builder
     end
 
-    def call(request)
-      @html ||= render_documentation_page
+    def call(env)
+      @html ||= render_documentation_page(host: env["HTTP_HOST"])
 
       [200, {}, [@html]]
     end
@@ -21,10 +21,11 @@ module Explicit::Documentation::Output
     private
       Eval = ->(value) { value.respond_to?(:call) ? value.call : value }
 
-      def render_documentation_page
+      def render_documentation_page(host:)
         Explicit::ApplicationController.render(
           partial: "explicit/documentation/page",
           locals: {
+            host:,
             url_helpers: @builder.rails_engine.routes.url_helpers,
             page_title: Eval[builder.get_page_title],
             company_logo_url: Eval[builder.get_company_logo_url],
