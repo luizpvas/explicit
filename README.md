@@ -408,11 +408,7 @@ to your existing REST API controllers. Your controllers remain the source of
 truth and the MCP server simply provides a tool-compatible interface.
 
 To build an MCP server, instantiate `::Explicit::MCPServer` and add the requests
-you wish to expose. It is important that the requests are compatible with MCP
-tool format spec, otherwise an error is raised. All params should be primitives
-such as `:string`, `:integer` or `:boolean`.
-
-The following methods are available:
+you wish to expose. The following methods are available:
 
 - `name(str)` - Sets the name of the MCP Server which is displayed in the MCP
   client.
@@ -439,16 +435,13 @@ module MyApp::API::V1
 end
 ```
 
-Then, mount the MCP Server in `routes.rb`:
+Then, mount the MCP Server in your `routes.rb`:
 
 ```ruby
 Rails.application.routes.draw do
   mount MyApp::API::V1::MCPServer => "/api/v1/mcp"
 end
 ```
-
-If your app boots with no errors, it means you have a working MCP server that
-you can connect from any MCP client (Claude Desktop, Cursor Agent, etc.)
 
 ### Tool configuration
 
