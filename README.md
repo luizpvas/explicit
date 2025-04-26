@@ -402,11 +402,10 @@ examples from tests**
 
 # MCP
 
-You can expose your API endpoints as tools for external systems, like AI agents,
-by mounting an MCP server. The MCP server acts as a proxy receiving tool calls
-and forwarding them to your existing REST API controllers. In other words,
-your controllers remain the source of truth and the MCP server simply provides a
-tool-compatible interface.
+You can expose your API endpoints as tools for chat clients by mounting an MCP
+server. The MCP server acts as a proxy receiving tool calls and forwarding them
+to your existing REST API controllers. Your controllers remain the source of
+truth and the MCP server simply provides a tool-compatible interface.
 
 To build an MCP server, instantiate `::Explicit::MCPServer` and add the requests
 you wish to expose. It is important that the requests are compatible with MCP
@@ -495,12 +494,12 @@ end
 
 ### Security
 
-There are two considerations for securing your MCP server:
+There are two considerations when securing your MCP server:
 
 1. **Authorize the MCP tool call**
    You should authorize the action based on a unique attribute present in the
-   request's params or headers. For example, you should share a URL
-   similar to this one to your customers:
+   request's params or headers. For example, you should share a URL with your
+   customers similar to this one:
    `https://myapp.com/api/v1/mcp?key=d17c08d5-968c-497f-8db2-ec958d45b447`.
    Then, in the `authorize` method, you'd use the `key` to find the
    user/customer/account.
@@ -510,17 +509,20 @@ There are two considerations for securing your MCP server:
    authenticate the API you can either 1) use `proxy_with(headers:)` or 2)
    share the current user using `ActiveSupport::CurrentAttributes`.
 
-To secure your MCPServer you must implement the method `authorize` inside
-`Explicit::MCPServer`. This method will be invoked for all requests received
-by the MCP server. This method receives `params`, which are the key-value pairs
-present in the request's query string, and `headers`, which are the HTTP headers
-present in the request's headers. If you return `false` then the request
-will be rejected immediatly without hitting your API controllers.
+To secure your MCPServer you must implement the `authorize` method inside the
+`Explicit::MCPServer` declaration. This method is invoked on all requests
+received by the MCP server. The following arguments are given to `authorize`:
+
+* `params`, which are the key-value pairs present in the request's query string
+* `headers`, which are the HTTP headers present in the request's headers.
+
+If you return `false` then the request will be rejected immediatly without ever
+hitting your API controllers. For example:
 
 ```ruby
 module MyApp::API::V1
   MCPServer = Explicit::MCPServer.new do
-    def authorize(params:, headers:, **)
+    def authorize(params:, headers:)
       user = ::User.find_by(api_key: params[:key])
       return false if user.blank?
 
