@@ -56,7 +56,11 @@ class Explicit::MCPServer::Router
     session = ::ActionDispatch::Integration::Session.new(::Rails.application)
     session.host = request.host
     route = tool.request.routes.first
-    path = [tool.request.get_base_path, route.path].compact_blank.join
+
+    path = [
+      tool.request.get_base_path,
+      route.replace_path_params(arguments)
+    ].compact_blank.join
 
     path, params =
       if route.accepts_request_body?
