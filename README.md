@@ -567,6 +567,8 @@ value is invalid then the array is invalid.
 
 ```ruby
 :big_decimal
+[:big_decimal, negative: false]
+[:big_decimal, positive: true]
 [:big_decimal, min: 0] # inclusive
 [:big_decimal, max: 100] # inclusive
 ```

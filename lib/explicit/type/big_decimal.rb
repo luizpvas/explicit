@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 class Explicit::Type::BigDecimal < Explicit::Type
-  attr_reader :min, :max
+  attr_reader :min, :max, :negative, :positive
 
-  def initialize(min: nil, max: nil)
+  def initialize(min: nil, max: nil, negative: nil, positive: nil)
     @min = min
     @max = max
+    @negative = negative
+    @positive = positive
   end
 
   def validate(value)
@@ -21,6 +23,22 @@ class Explicit::Type::BigDecimal < Explicit::Type
 
     if max && decimal_value > max
       return error_i18n("max", max:)
+    end
+
+    if negative == false && decimal_value < 0
+      return error_i18n("not_negative")
+    end
+
+    if negative == true && decimal_value >= 0
+      return error_i18n("only_negative")
+    end
+
+    if positive == false && decimal_value > 0
+      return error_i18n("not_positive")
+    end
+
+    if positive == true && decimal_value <= 0
+      return error_i18n("only_positive")
     end
 
     [:ok, decimal_value]
@@ -50,8 +68,12 @@ class Explicit::Type::BigDecimal < Explicit::Type
       description_topics: [
         swagger_i18n("big_decimal_format"),
         min&.then { swagger_i18n("big_decimal_min", min: _1) },
-        max&.then { swagger_i18n("big_decimal_max", max: _1) }
-      ]
+        max&.then { swagger_i18n("big_decimal_max", max: _1) },
+        positive == false ? swagger_i18n("number_not_positive") : nil,
+        positive == true ? swagger_i18n("number_only_positive") : nil,
+        negative == false ? swagger_i18n("number_not_negative") : nil,
+        negative == true ? swagger_i18n("number_only_negative") : nil
+      ].compact
     }
   end
 end

@@ -3,6 +3,9 @@
 - Add MCP server compatible with [Streamable HTTP transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http).
 - Rename `add_example` to `example` to make it consistent with other method names.
   `add_example` still works as an alias to avoid breaking changes.
+- Add support for `positive` and `negative` constraints for `big_decimal` type.
+  All numeric types (`big_decimal`, `integer` and `float`) now support the
+  same constraints.
 
 # 0.2.15
 

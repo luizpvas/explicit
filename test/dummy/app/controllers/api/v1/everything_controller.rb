@@ -29,7 +29,7 @@ class API::V1::EverythingController < API::V1::BaseController
 
     param :agreement1, :agreement
 
-    param :big_decimal1, [ :big_decimal, min: 0, max: 100 ]
+    param :big_decimal1, [ :big_decimal, min: 0, max: 100, negative: false ]
 
     param :boolean1, :boolean
 
