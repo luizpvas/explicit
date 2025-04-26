@@ -8,7 +8,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
       param :name, :string
       response 200, { name: :string }
 
-      add_example(
+      example(
         params: { name: "Luiz" },
         response: { status: 200, data: { name: "Luiz" } }
       )
@@ -30,7 +30,7 @@ class Explicit::Request::ExamplesTest < ActiveSupport::TestCase
       Explicit::Request.new do
         response 200, {}
 
-        add_example(
+        example(
           params: {},
           response: { status: 201, data: {} }
         )

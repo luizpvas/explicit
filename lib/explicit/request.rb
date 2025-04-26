@@ -141,7 +141,7 @@ class Explicit::Request
     @responses[status] << typespec
   end
 
-  def add_example(params:, response:, headers: {})
+  def example(params:, response:, headers: {})
     raise ArgumentError.new("missing :status in response") if !response.key?(:status)
     raise ArgumentError.new("missing :data in response")   if !response.key?(:data)
 
@@ -163,6 +163,7 @@ class Explicit::Request
 
     @examples[response.status] << Example.new(request: self, params:, headers:, response:)
   end
+  alias add_example example
 
   def validate!(values)
     case params_type.validate(values)
