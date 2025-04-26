@@ -515,6 +515,8 @@ hitting your API controllers. For example:
 ```ruby
 module MyApp::API::V1
   MCPServer = Explicit::MCPServer.new do
+    # ... other configurations
+
     def authorize(params:, headers:)
       user = ::User.find_by(api_key: params[:key])
       return false if user.blank?
