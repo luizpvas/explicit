@@ -67,7 +67,7 @@ module Explicit::Documentation
 
       requests.each do |request|
         examples[request.gid]&.each do |example|
-          request.add_example(
+          request.example(
             params: example["params"].with_indifferent_access,
             headers: example["headers"],
             response: {

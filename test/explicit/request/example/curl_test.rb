@@ -10,7 +10,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
 
       response 200, {}
 
-      add_example(
+      example(
         params: {},
         headers: {},
         response: {
@@ -32,7 +32,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
 
       response 200, {}
 
-      add_example(
+      example(
         params: {},
         headers: { "Authorization" => "Bearer abcd-1234" },
         response: {
@@ -57,7 +57,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
 
       response 200, {}
 
-      add_example(
+      example(
         params: { key: "value" },
         headers: { "Authorization" => "Bearer abcd-1234" },
         response: {
@@ -82,7 +82,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
 
       param :status, :string
 
-      add_example(
+      example(
         params: { status: "active" },
         response: { status: 200, data: {} }
       )
@@ -100,7 +100,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
 
       response 200, {}
 
-      add_example(
+      example(
         params: { id: "10" },
         headers: { "Authorization" => "Bearer abcd-1234" },
         response: {
@@ -126,7 +126,7 @@ class Explicit::Request::Example::CurlTest < ActiveSupport::TestCase
 
       response 200, {}
 
-      add_example(
+      example(
         params: { name: "foo", file: "@my_file.png" },
         response: { status: 200,  data: {} }
       )

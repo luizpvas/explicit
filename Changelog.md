@@ -1,6 +1,8 @@
 # 0.2.16
 
 - Add MCP server compatible with [Streamable HTTP transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http).
+- Rename `add_example` to `example` to make it consistent with other method names.
+  `add_example` still works as an alias to avoid breaking changes.
 
 # 0.2.15
 

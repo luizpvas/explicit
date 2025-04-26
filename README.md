@@ -78,7 +78,7 @@ available:
     - `description: "text"` - Adds a documentation to the param. Markdown supported.
 - `response(status, type)` - Adds a response type. You can add multiple
   responses with different formats.
-- `add_example(params:, headers:, response:)` - Adds an example to the
+- `example(params:, headers:, response:)` - Adds an example to the
   documentation. [See more details here](#adding-request-examples).
 - `base_url(url)` - Sets the host for this API. For example: "https://api.myapp.com".
   Meant to be used with [request composition](#reusing-requests).
@@ -317,12 +317,12 @@ end
 
 You can add request examples in two different ways:
 
-1. Manually add an example with `add_example(params:, headers:, response:)`
+1. Manually add an example with `example(params:, headers:, response:)`
 2. Automatically save examples from tests
 
 ### 1. Manually adding examples
 
-In a request, call `add_example(params:, headers:, response:)` after declaring
+In a request, call `example(params:, headers:, response:)` after declaring
 params and responses. It's important the example comes after params and
 responses to make sure it actually follows the type definition.
 
@@ -332,7 +332,7 @@ For example:
 Request = Explicit::Request.new do
   # ... other configs, params and responses
 
-  add_example(
+  example(
     params: {
       name: "Bilbo baggins",
       email: "bilbo@shire.com",
@@ -359,8 +359,8 @@ way you like. For example:
 Request = Explicit::Request.new do
   # ... other configs, params and responses
 
-  add_example MyApp::Examples::REQUEST_1
-  add_example MyApp::Examples::REQUEST_2
+  example MyApp::Examples::REQUEST_1
+  example MyApp::Examples::REQUEST_2
 end
 ```
 
