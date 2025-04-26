@@ -24,6 +24,8 @@ class Explicit::MCPServer::Builder
       case authorize(params:)
       in { headers: }
         request = request.with(headers:)
+      in false
+        return [403, {}, []]
       else
         nil
       end
