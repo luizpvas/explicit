@@ -502,12 +502,12 @@ There are two considerations when securing your MCP server:
    authenticate the API you can either 1) use `proxy_with(headers:)` or 2)
    share the current user using `ActiveSupport::CurrentAttributes`.
 
-To secure your MCPServer you must implement the `authorize` method inside the
-`Explicit::MCPServer` declaration. This method is invoked on all requests
-received by the MCP server. The following arguments are given to `authorize`:
+To secure your MCPServer you must implement the `authorize` method in your
+`Explicit::MCPServer`. This method is invoked on all requests received by the
+MCP server. The following arguments are given to `authorize`:
 
-* `params`, which are the key-value pairs present in the request's query string
-* `headers`, which are the HTTP headers present in the request's headers.
+* `params` - hash with request's query string values
+* `headers` - hash with the request's HTTP headers
 
 If you return `false` then the request will be rejected immediatly without ever
 hitting your API controllers. For example:
