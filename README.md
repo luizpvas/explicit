@@ -497,33 +497,37 @@ end
 
 There are two considerations for securing your MCP server:
 
-1. **Authenticate the MCP tool call**
-   You should authenticate the user/account/customer based on a unique attribute
-   present in the MCP server's url. For example, you should share a URL
-   similar to this one to your users:
+1. **Authorize the MCP tool call**
+   You should authorize the action based on a unique attribute present in the
+   request's params or headers. For example, you should share a URL
+   similar to this one to your customers:
    `https://myapp.com/api/v1/mcp?key=d17c08d5-968c-497f-8db2-ec958d45b447`.
-   Then, in the `authorize` method, you'd use the `key` to authenticate the
-   user.
+   Then, in the `authorize` method, you'd use the `key` to find the
+   user/customer/account.
 2. **Authenticate the REST API**
    Your API probably has an authentication mechanism that is different from the
    MCP server, such as bearer tokens specified in request headers. To
-   authenticate the API you can either 1) call `proxy_with(headers:)` in the
-   `authorize` method, or 2) share the user using
-   `ActiveSupport::CurrentAttributes`.
+   authenticate the API you can either 1) use `proxy_with(headers:)` or 2)
+   share the current user using `ActiveSupport::CurrentAttributes`.
 
-For example:
+To secure your MCPServer you must implement the method `authorize` inside
+`Explicit::MCPServer`. This method will be invoked for all requests received
+by the MCP server. This method receives `params`, which are the key-value pairs
+present in the request's query string, and `headers`, which are the HTTP headers
+present in the request's headers. If you return `false` then the request
+will be rejected immediatly without hitting your API controllers.
 
 ```ruby
 module MyApp::API::V1
   MCPServer = Explicit::MCPServer.new do
-    def authorize(params:, **)
+    def authorize(params:, headers:, **)
       user = ::User.find_by(api_key: params[:key])
       return false if user.blank?
 
       # 1) proxy the request to controllers with headers
       proxy_with headers: { "Authorization" => "Bearer #{user.api_key}" }
 
-      # 2) or share the user using ActiveSupport::CurrentAttributes
+      # 2) or share the user with controllers using ActiveSupport::CurrentAttributes
       Current.user = user
     end
   end

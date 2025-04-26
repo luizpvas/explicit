@@ -21,9 +21,9 @@ class Explicit::MCPServer::Builder
     if respond_to?(:authorize)
       params = ::Rack::Utils.parse_nested_query(env["QUERY_STRING"]).with_indifferent_access
 
-      case authorize(params:)
+      case authorize(params:, headers: request.headers)
       in { headers: }
-        request = request.with(headers:)
+        request.headers.merge!(headers)
       in false
         return [403, {}, []]
       else
