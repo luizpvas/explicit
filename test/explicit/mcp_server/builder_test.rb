@@ -21,8 +21,8 @@ class Explicit::MCPServer::BuilderTest < ::ActiveSupport::TestCase
     builder = ::Explicit::MCPServer::Builder.new
     fake_router = FakeRouter.new
 
-    def builder.authorize(params:)
-      proxy_with headers: { "Foo" => "Bar" }
+    builder.define_singleton_method(:authorize) do |**|
+      proxy_with(headers: { "Foo" => "Bar" })
     end
 
     builder.define_singleton_method(:router) { fake_router }
