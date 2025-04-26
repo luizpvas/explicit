@@ -33,12 +33,10 @@ class Explicit::Type::Literal < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: @value.is_a?(::String) ? "string" : "integer",
-        enum: [@value]
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: @value.is_a?(::String) ? "string" : "integer",
+      enum: [@value]
+    }
   end
 end

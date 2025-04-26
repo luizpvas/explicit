@@ -54,16 +54,14 @@ class Explicit::Type::DateTimeUnixEpoch < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "integer",
-        minimum: 1,
-        format: "POSIX time",
-        description_topics: [
-          swagger_i18n("date_time_unix_epoch")
-        ]
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: "integer",
+      minimum: 1,
+      format: "POSIX time",
+      description_topics: [
+        swagger_i18n("date_time_unix_epoch")
+      ]
+    }
   end
 end

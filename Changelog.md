@@ -1,3 +1,7 @@
+# 0.2.16
+
+- Add MCP server compatible with [Streamable HTTP transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http).
+
 # 0.2.15
 
 - Add preflight request to /swagger endpoint to fix CORS issues with swagger UI.

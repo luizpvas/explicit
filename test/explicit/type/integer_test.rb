@@ -42,39 +42,41 @@ class Explicit::Type::IntegerTest < ActiveSupport::TestCase
     assert_error "must be an integer", validate(9.5, :integer)
   end
 
-  test "swagger" do
-    type = type([
-      :description,
-      "hello",
-      [ :default, 5, [ :integer, min: 0, max: 10 ] ]
-    ])
+  test "json_schema" do
+    type = type([:integer, min: 0, max: 10])
 
-    assert_equal type.swagger_schema, {
+    assert_equal type.json_schema(nil), {
       type: "integer",
       minimum: 0,
-      maximum: 10,
-      default: 5,
-      description: "hello"
+      maximum: 10
     }
 
-    assert_equal type([ :integer, positive: false ]).swagger_schema, {
+    assert_equal type([ :integer, positive: false ]).json_schema(nil), {
       type: "integer",
-      description: "* Must not be positive"
+      description_topics: [
+        "* Must not be positive"
+      ]
     }
 
-    assert_equal type([ :integer, positive: true ]).swagger_schema, {
+    assert_equal type([ :integer, positive: true ]).json_schema(nil), {
       type: "integer",
-      description: "* Must be positive"
+      description_topics: [
+        "* Must be positive"
+      ]
     }
 
-    assert_equal type([ :integer, negative: false ]).swagger_schema, {
+    assert_equal type([ :integer, negative: false ]).json_schema(nil), {
       type: "integer",
-      description: "* Must not be negative"
+      description_topics: [
+        "* Must not be negative"
+      ]
     }
 
-    assert_equal type([ :integer, negative: true ]).swagger_schema, {
+    assert_equal type([ :integer, negative: true ]).json_schema(nil), {
       type: "integer",
-      description: "* Must be negative"
+      description_topics: [
+        "* Must be negative"
+      ]
     }
   end
 end

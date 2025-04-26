@@ -92,17 +92,15 @@ class Explicit::Type::DateTimeISO8601Range < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "string",
-        format: "date time range",
-        description_topics: [
-          swagger_i18n("date_time_iso8601_range"),
-          min_range&.then { swagger_i18n("date_time_iso8601_range_min_range", min_range: _1.inspect) },
-          max_range&.then { swagger_i18n("date_time_iso8601_range_max_range", max_range: _1.inspect) },
-        ]
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: "string",
+      format: "date time range",
+      description_topics: [
+        swagger_i18n("date_time_iso8601_range"),
+        min_range&.then { swagger_i18n("date_time_iso8601_range_min_range", min_range: _1.inspect) },
+        max_range&.then { swagger_i18n("date_time_iso8601_range_max_range", max_range: _1.inspect) },
+      ]
+    }
   end
 end

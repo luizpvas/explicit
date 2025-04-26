@@ -26,14 +26,12 @@ class Explicit::Type::Agreement < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "boolean",
-        description_topics: [
-          swagger_i18n("agreement")
-        ]
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: "boolean",
+      description_topics: [
+        swagger_i18n("agreement")
+      ]
+    }
   end
 end

@@ -43,13 +43,11 @@ class Explicit::Type::Array < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "array",
-        items: item_type.swagger_schema,
-        minItems: empty ? 0 : 1
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: "array",
+      items: item_type.mcp_schema,
+      minItems: empty ? 0 : 1
+    }
   end
 end

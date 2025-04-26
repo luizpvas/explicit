@@ -31,19 +31,18 @@ class Explicit::Type::BigdecimalTest < ActiveSupport::TestCase
     assert_error "must be a string-encoded decimal number", validate(nil, :big_decimal)
   end
 
-  test "swagger" do
-    type = type([
-      :description,
-      "hello",
-      [:default, "10.5", [:big_decimal, min: 0, max: 10]]
-    ])
+  test "json_schema" do
+    type = type([:big_decimal, min: 0, max: 10])
 
-    assert_equal type.swagger_schema, {
+    assert_equal type.json_schema(nil), {
       type: "string",
       pattern: /^\d*\.?\d*$/.inspect[1..-2],
       format: "decimal number",
-      default: "10.5",
-      description: "hello\n\n* Minimum: 0\n* Maximum: 10"
+      description_topics: [
+        "* String-encoded decimal number. For example: '123.45'",
+        "* Minimum: 0",
+        "* Maximum: 10"
+      ]
     }
   end
 end

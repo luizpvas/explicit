@@ -29,12 +29,10 @@ class Explicit::Type::Enum < Explicit::Type
     end
   end
 
-  concerning :Swagger do
-    def swagger_schema
-      merge_base_swagger_schema({
-        type: "string",
-        enum: allowed_values
-      })
-    end
+  def json_schema(flavour)
+    {
+      type: "string",
+      enum: allowed_values
+    }
   end
 end
