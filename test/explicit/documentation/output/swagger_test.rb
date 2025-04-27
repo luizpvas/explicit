@@ -63,7 +63,7 @@ class Explicit::Documentation::Output::SwaggerTest < ActiveSupport::TestCase
           type: "integer",
           description: "* Must be positive"
         },
-        style: "simple"
+        style: "form"
       }
 
       assert_equal req.dig(:security), [ { bearerAuth: [] } ]

@@ -1,3 +1,8 @@
+# 0.2.18
+
+- Change headers, query params and path params serialization style from simple
+  to form.
+
 # 0.2.17
 
 - Add config option to enable or disable CORS support in swagger endpoint.

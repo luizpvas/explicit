@@ -158,7 +158,7 @@ module Explicit::Documentation::Output
               in: "header",
               required: type.required?,
               schema: type.swagger_schema,
-              style: "simple"
+              style: "form"
             }
           end
 
@@ -169,7 +169,7 @@ module Explicit::Documentation::Output
               in: "path",
               required: type.required?,
               schema: type.swagger_schema,
-              style: "simple"
+              style: "form"
             }
           end
 
@@ -180,7 +180,7 @@ module Explicit::Documentation::Output
               in: "query",
               required: type.required?,
               schema: type.swagger_schema,
-              style: "simple"
+              style: "form"
             }
           end
 
