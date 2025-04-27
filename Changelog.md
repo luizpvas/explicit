@@ -1,3 +1,9 @@
+# 0.2.17
+
+- Add config option to enable or disable CORS support in swagger endpoint.
+  The config looks for the presence of `Rack::Cors` by default, which should
+  fix conflicts with most applications.
+
 # 0.2.16
 
 - Add MCP server compatible with [Streamable HTTP transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http).

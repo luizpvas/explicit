@@ -45,6 +45,7 @@ documented types at runtime.
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
    - [Raise on invalid example](#raise-on-invalid-example)
+   - [CORS](#cors)
 
 # Installation
 
@@ -841,7 +842,20 @@ end
 
 ### Raise on invalid example
 
+When adding a request example with `example(params:, response:)`, the response
+must match the documented types. If it doesn't match, Explicit logs a warning,
+but you can choose a more strict behaviour that raises an error instead.
+
 ```ruby
 config.raise_on_invalid_example = true # default is false
 config.raise_on_invalid_example = ::Rails.env.development? # recommended
+```
+
+### CORS
+
+Enable/disable [CORS headers](https://github.com/luizpvas/explicit/blob/main/lib/explicit/documentation/output/swagger.rb#L67-L74)
+support.
+
+```ruby
+config.cors_enabled = true
 ```

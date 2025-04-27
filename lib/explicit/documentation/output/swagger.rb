@@ -65,6 +65,8 @@ module Explicit::Documentation::Output
       end
 
       def cors_access_control_headers
+        return {} if !::Explicit.configuration.cors_enabled?
+
         {
           "Access-Control-Allow-Origin" => "*",
           "Access-Control-Allow-Methods" => "GET, OPTIONS",

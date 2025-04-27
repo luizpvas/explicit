@@ -6,6 +6,7 @@ module Explicit
   class Configuration
     def initialize
       @rescue_from_invalid_params = true
+      @cors_enabled = !defined?(::Rack::Cors)
     end
 
     def request_examples_file_path=(path)
@@ -34,6 +35,14 @@ module Explicit
 
     def raise_on_invalid_example?
       @raise_on_invalid_example
+    end
+
+    def cors_enabled=(enabled)
+      @cors_enabled = enabled
+    end
+
+    def cors_enabled?
+      @cors_enabled
     end
 
     def test_runner=(test_runner)
