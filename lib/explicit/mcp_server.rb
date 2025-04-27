@@ -6,9 +6,7 @@ module Explicit::MCPServer
   def new(&block)
     engine = ::Class.new(::Rails::Engine)
 
-    builder = Builder.new.tap do |builder|
-      builder.instance_eval(&block)
-    end
+    builder = Builder.new.tap { _1.instance_eval(&block) }
 
     if builder.get_name.blank?
       raise <<~TEXT
