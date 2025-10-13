@@ -8,8 +8,8 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
     article = articles(:published_by_luiz)
 
     request = ::Explicit::MCPServer::Request.new(
-      id: 1, 
-      method: "tools/call", 
+      id: 1,
+      method: "tools/call",
       params: {
         "name" => "get_articles",
         "arguments" => {
@@ -19,9 +19,10 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
       host: "localhost",
       headers: {
         "Authorization" => "Bearer #{token.value}"
-      }
+      },
+      rack_env: {}
     )
-    
+
     router = ::Explicit::MCPServer::Router.new(
       name: "test-server",
       version: "1.0",
@@ -61,7 +62,7 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
   test "tool call with path params" do
     token = users(:luiz).tokens.first
     article = articles(:published_by_luiz)
-    
+
     request = ::Explicit::MCPServer::Request.new(
       id: 1,
       method: "tools/call",
@@ -76,7 +77,8 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
       host: "localhost",
       headers: {
         "Authorization" => "Bearer #{token.value}"
-      }
+      },
+      rack_env: {}
     )
 
     router = ::Explicit::MCPServer::Router.new(
@@ -115,16 +117,17 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
 
   test "returns error when tool is not found" do
     request = ::Explicit::MCPServer::Request.new(
-      id: 1, 
-      method: "tools/call", 
+      id: 1,
+      method: "tools/call",
       params: {
         "name" => "non_existing_tool",
         "arguments" => {}
       },
       host: "localhost",
-      headers: {}
+      headers: {},
+      rack_env: {}
     )
-    
+
     router = ::Explicit::MCPServer::Router.new(
       name: "test-server",
       version: "1.0",
@@ -143,4 +146,4 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
 
     assert_equal expected_error, response.value
   end
-end 
+end

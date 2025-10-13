@@ -9,7 +9,8 @@ class Explicit::MCPServer::Router::ListToolsTest < ::ActiveSupport::TestCase
       method: "tools/list",
       params: {},
       host: "localhost",
-      headers: {}
+      headers: {},
+      rack_env: {}
     )
 
     router = ::Explicit::MCPServer::Router.new(
@@ -51,4 +52,4 @@ class Explicit::MCPServer::Router::ListToolsTest < ::ActiveSupport::TestCase
 
     assert_equal expect_value, response.value
   end
-end 
+end

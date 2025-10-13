@@ -53,8 +53,6 @@ class Explicit::MCPServer::Router
       return request.error({ code: -32602, message: "tool not found" })
     end
 
-    session = ::ActionDispatch::Integration::Session.new(::Rails.application)
-    session.host = request.host
     route = tool.request.routes.first
 
     path = [
@@ -62,23 +60,40 @@ class Explicit::MCPServer::Router
       route.replace_path_params(arguments)
     ].compact_blank.join
 
-    path, params =
+    body_content, querystring =
       if route.accepts_request_body?
-        [path, arguments]
+        [arguments.to_json, ""]
       else
-        ["#{path}?#{arguments.to_query}", nil]
+        ["", arguments.to_query]
       end
 
-    session.process(route.method, path, params:, headers: request.headers)
+    rack_input = ::StringIO.new(body_content)
+    rack_input.rewind
+
+    env = request.rack_env.merge({
+      "REQUEST_METHOD" => route.method.to_s.upcase,
+      "PATH_INFO" => path,
+      "rack.input" => rack_input,
+      "CONTENT_TYPE" => "application/json",
+      "CONTENT_LENGTH" => body_content.bytesize.to_s,
+      "QUERY_STRING" => querystring
+    })
+
+    request.headers.each do |key, value|
+      env["HTTP_#{key.upcase.tr('-', '_')}"] = value
+    end
+
+    status, headers, body = Rails.application.call(env)
+    response = ::ActionDispatch::Response.new(status, headers, body)
 
     request.result({
       content: [
         {
           type: "text",
-          text: session.response.body
+          text: response.body
         }
       ],
-      isError: session.response.status < 200 || session.response.status > 299
+      isError: response.status < 200 || response.status > 299
     })
   end
 end

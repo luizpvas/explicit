@@ -3,7 +3,7 @@
 require "rack/utils"
 
 module Explicit::MCPServer
-  Request = ::Data.define(:id, :method, :params, :host, :headers) do
+  Request = ::Data.define(:id, :method, :params, :host, :headers, :rack_env) do
     def self.from_rack_env(env)
       headers = env.each_with_object({}) do |(key, value), hash|
         if key.start_with?("HTTP_") && key != "HTTP_HOST"
@@ -19,7 +19,8 @@ module Explicit::MCPServer
         method: body["method"],
         params: body["params"],
         host: env["HTTP_HOST"],
-        headers:
+        headers:,
+        rack_env: env
       )
     rescue ::JSON::ParserError
       new(
@@ -27,7 +28,8 @@ module Explicit::MCPServer
         method: nil,
         params: nil,
         host: env["HTTP_HOST"],
-        headers: headers
+        headers:,
+        rack_env: env
       )
     end
 
