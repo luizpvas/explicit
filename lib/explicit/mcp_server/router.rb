@@ -70,22 +70,14 @@ class Explicit::MCPServer::Router
     rack_input = ::StringIO.new(body_content)
     rack_input.rewind
 
-    env = {
+    env = request.rack_env.merge({
       "REQUEST_METHOD" => route.method.to_s.upcase,
       "PATH_INFO" => path,
       "rack.input" => rack_input,
       "CONTENT_TYPE" => "application/json",
       "CONTENT_LENGTH" => body_content.bytesize.to_s,
-      "HTTP_HOST" => request.host,
-      "QUERY_STRING" => querystring,
-      "rack.url_scheme" => "https",
-      "rack.errors" => $stderr,
-      "rack.multithread" => true,
-      "rack.multiprocess" => true,
-      "rack.run_once" => false,
-      "SERVER_NAME" => request.host,
-      "SERVER_PORT" => "443"
-    }
+      "QUERY_STRING" => querystring
+    })
 
     request.headers.each do |key, value|
       env["HTTP_#{key.upcase.tr('-', '_')}"] = value

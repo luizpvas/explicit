@@ -9,7 +9,8 @@ class Explicit::MCPServer::Router::InitializeTest < ActiveSupport::TestCase
       method: "initialize",
       params: {},
       host: "localhost",
-      headers: {}
+      headers: {},
+      rack_env: {}
     )
 
     router = Explicit::MCPServer::Router.new(
@@ -38,4 +39,4 @@ class Explicit::MCPServer::Router::InitializeTest < ActiveSupport::TestCase
 
     assert_equal expected_value, response.value
   end
-end 
+end

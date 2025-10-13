@@ -9,17 +9,18 @@ class Explicit::MCPServer::Router::PingTest < ActiveSupport::TestCase
       method: "ping",
       params: {},
       host: "localhost",
-      headers: {}
+      headers: {},
+      rack_env: {}
     )
 
     router = ::Explicit::MCPServer::Router.new(
       name: "My app",
-      version: "1.0.0", 
+      version: "1.0.0",
       tools: []
     )
 
     response = router.handle(request)
-    
+
     assert response.result?
     assert_equal({}, response.value)
   end

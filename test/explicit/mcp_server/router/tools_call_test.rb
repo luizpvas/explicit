@@ -19,7 +19,8 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
       host: "localhost",
       headers: {
         "Authorization" => "Bearer #{token.value}"
-      }
+      },
+      rack_env: {}
     )
 
     router = ::Explicit::MCPServer::Router.new(
@@ -76,7 +77,8 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
       host: "localhost",
       headers: {
         "Authorization" => "Bearer #{token.value}"
-      }
+      },
+      rack_env: {}
     )
 
     router = ::Explicit::MCPServer::Router.new(
@@ -122,7 +124,8 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
         "arguments" => {}
       },
       host: "localhost",
-      headers: {}
+      headers: {},
+      rack_env: {}
     )
 
     router = ::Explicit::MCPServer::Router.new(
