@@ -100,10 +100,10 @@ class Explicit::MCPServer::Router::ToolsCallTest < ::ActiveSupport::TestCase
           type: "text",
           text: {
             article: {
+              id: article.id,
               title: "New Title",
               content: "New Content",
               published_at: nil,
-              id: article.id,
               read_count: 0
             }
           }.to_json
