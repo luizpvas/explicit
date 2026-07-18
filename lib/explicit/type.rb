@@ -3,6 +3,8 @@
 class Explicit::Type
   module Modifiers; end
 
+  InvalidTypeError = ::Class.new(::RuntimeError)
+
   def self.build(type)
     case type
     in :any
@@ -105,6 +107,8 @@ class Explicit::Type
     in [:_param_location, param_location, type]
       Explicit::Type::Modifiers::ParamLocation.apply(param_location, type)
     end
+  rescue ::NoMatchingPatternError
+    raise InvalidTypeError.new("#{type.inspect} is not a valid type")
   end
 
   attr_accessor :description, :default, :nilable, :param_location, :auth_type
