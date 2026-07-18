@@ -1,37 +1,25 @@
 # Explicit
 
-Explicit is a validation and documentation library for REST APIs that enforces
-documented types at runtime.
-
 | ![Documentation example screenshot](https://raw.githubusercontent.com/luizpvas/explicit/refs/heads/main/assets/webapp_screenshot.png) |
 | :-----------------------------------------------------------------------------------------------------------------------------------: |
 |             [Click here](https://luizpvas.github.io/explicit_documentation.html) to visit the example documentation page              |
 
-1. [Installation](#installation)
-2. [Defining requests](#defining-requests)
-3. [Reusing types](#reusing-types)
-4. [Reusing requests](#reusing-requests)
-5. [Writing tests](#writing-tests)
-6. [Publishing documentation](#publishing-documentation)
+1. [Defining requests](#defining-requests)
+2. [Reusing types](#reusing-types)
+3. [Reusing requests](#reusing-requests)
+4. [Writing tests](#writing-tests)
+5. [Publishing documentation](#publishing-documentation)
    - [Adding request examples](#adding-request-examples)
-7. [MCP](#mcp)
+6. [MCP](#mcp)
    - [Tool configuration](#tool-configuration)
    - [Security](#security-and-authorization)
-8. [Types](types.md)
-9. [Configuration](#configuration)
+7. [Types](types.md)
+8. [Configuration](#configuration)
    - [Changing examples file path](#changing-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
    - [Customizing error serialization](#customizing-error-serialization)
    - [Raise on invalid example](#raise-on-invalid-example)
    - [CORS](#cors)
-
-# Installation
-
-Add the following line to your Gemfile and then run `bundle install`:
-
-```ruby
-gem "explicit", "~> 0.2"
-```
 
 # Defining requests
 

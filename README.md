@@ -9,6 +9,14 @@ tests it.
 | :-----------------------------------------------------------------------------------------------------------------------------------: |
 |             [Click here](https://luizpvas.github.io/explicit_documentation.html) to visit the example documentation page              |
 
+## Installation
+
+Add the following line to your Gemfile and then run `bundle install`:
+
+```ruby
+gem "explicit", "~> 0.2"
+```
+
 ## Features
 
 - **[Requests and documentation](docs/requests.md)** — Define the params,
