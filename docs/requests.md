@@ -17,29 +17,7 @@ documented types at runtime.
 7. [MCP](#mcp)
    - [Tool configuration](#tool-configuration)
    - [Security](#security-and-authorization)
-8. Types
-   - [Agreement](#agreement)
-   - [Any](#any)
-   - [Array](#array)
-   - [BigDecimal](#big_decimal)
-   - [Boolean](#boolean)
-   - [Date](#date)
-   - [Date Range](#date-range)
-   - [Date Time ISO8601](#date-time-iso8601)
-   - [Date Time ISO8601 Range](#date-time-iso8601-range)
-   - [Date Time Posix](#date-time-posix)
-   - [Default](#default)
-   - [Description](#description)
-   - [Enum](#enum)
-   - [File](#file)
-   - [Float](#float)
-   - [Hash](#hash)
-   - [Integer](#integer)
-   - [Literal](#literal)
-   - [Nilable](#nilable)
-   - [One of](#one-of)
-   - [Record](#record)
-   - [String](#string)
+8. [Types](types.md)
 9. [Configuration](#configuration)
    - [Changing examples file path](#changing-examples-file-path)
    - [Customizing error messages](#customizing-error-messages)
@@ -67,12 +45,13 @@ available:
 - `title(text)` - Adds a title to the request. Displayed in documentation.
 - `description(text)` - Adds a description to the endpoint. Displayed in
   documentation. Markdown supported.
-- `header(name, type, options = {})` - Adds a type to the request header.
+- `header(name, type, options = {})` - Adds a [type](types.md) to the request
+  header.
   - The following options are available:
     - `auth: :bearer` - Sets the authentication to [bearer](https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/).
     - `auth: :basic` - Sets the authentication to [basic](https://swagger.io/docs/specification/v3_0/authentication/basic-authentication/).
-- `param(name, type, options = {})` - Adds a type to the request param.
-  It works for params in the request body, query string and path params.
+- `param(name, type, options = {})` - Adds a [type](types.md) to the request
+  param. It works for params in the request body, query string and path params.
   - The following options are available:
     - `optional: true` - Makes the param nilable.
     - `default: value` - Sets a default value to the param, which makes it optional.
@@ -142,6 +121,8 @@ Request = Explicit::Request.new do
   param :address, MyApp::Type::ADDRESS
 end
 ```
+
+The full list of available types is documented in [types.md](types.md).
 
 # Reusing requests
 
@@ -396,7 +377,7 @@ Whenever you wish to refresh the examples file run the test suite with the ENV
 `UPDATE_REQUEST_EXAMPLES=true bin/rails test` or
 `UPDATE_REQUEST_EXAMPLES=true bundle exec rspec`. The file is located at
 `#{Rails.root}/public/explicit_request_examples.json` by default, but you can
-[change it here](#request-examples-file-path).
+[change it here](#changing-examples-file-path).
 
 **Important: be careful not to leak any sensitive data when persisting
 examples from tests**
@@ -534,270 +515,9 @@ end
 
 # Types
 
-### Agreement
-
-```ruby
-:agreement
-```
-
-A boolean that must always be true. Useful for terms of use or agreement
-acceptances. The following values are accepted: `true`, `"true"`, `"on"`, `"1"`
-and `1`.
-
-### Any
-
-```ruby
-:any
-```
-
-Allows all values, including null. Useful when documenting a proxy that
-responds with whatever value the other service returned.
-
-### Array
-
-```ruby
-[:array, subtype, options = {}]
-[:array, :string]
-[:array, :integer, empty: false]
-```
-
-All items in the array must be valid according to the subtype. If at least one
-value is invalid then the array is invalid.
-
-### BigDecimal
-
-```ruby
-:big_decimal
-[:big_decimal, negative: false]
-[:big_decimal, positive: true]
-[:big_decimal, min: 0] # inclusive
-[:big_decimal, max: 100] # inclusive
-```
-
-Value must be an integer or a string like `"0.2"` to avoid rounding errors.
-[Reference](https://ruby-doc.org/stdlib-3.1.0/libdoc/bigdecimal/rdoc/BigDecimal.html)
-
-### Boolean
-
-```ruby
-:boolean
-```
-
-The following values are true: `true`, `"true"`, `"on"`, `"1"` and `1`, and the
-following values are false: `false`, `"false"`, `"off"`, `"0"` and `0`.
-
-### Date
-
-```ruby
-:date
-[:date, min: -> { 2.months.ago }]
-[:date, max: -> { 1.month.from_now }]
-```
-
-A date in the format of `"YYYY-MM-DD"`.
-
-### Date Range
-
-```ruby
-:date_range
-[:date_range, min_range: 2.days]
-[:date_range, max_range: 30.days]
-[:date_range, min_date: -> { 2.months.ago }]
-[:date_range, max_date: -> { 1.day.from_now }]
-```
-
-A range between two dates in the format of `"YYYY-MM-DD..YYYY-MM-DD"`.
-The range is inclusive.
-
-### Date Time ISO8601
-
-```ruby
-:date_time_iso8601
-[:date_time_iso8601, min: -> { 2.months.ago }]
-[:date_time_iso8601, max: -> { Time.current.end_of_day }]
-```
-
-String encoded date time following the ISO 8601 spec. For example:
-`"2024-12-10T14:21:00Z"`
-
-### Date Time ISO8601 Range
-
-```ruby
-:date_time_iso8601_range
-[:date_time_iso8601_range, min_range: 30.minutes]
-[:date_time_iso8601_range, max_range: 2.months]
-[:date_time_iso8601_range, min_date_time: -> { 2.months.ago }]
-[:date_time_iso8601_range, max_date_time: -> { 1.hour.from_now }]
-```
-
-A range between two date times in the format of
-`"start_date_time..end_date_time"`. For example:
-`"2024-12-10T14:00:00Z..2024-12-11T15:00:00Z"`. The range is inclusive.
-
-### Date Time Posix
-
-```ruby
-:date_time_unix_epoch
-[:date_time_unix_epoch, min: -> { 2.months.ago }]
-[:date_time_unix_epoch, max: -> { Time.current.end_of_day }]
-```
-
-The number of elapsed seconds since January 1, 1970 in timezone UTC. For
-example: `1733923153`
-
-### Default
-
-```ruby
-[:default, default_value, subtype]
-[:default, "USD", :string]
-[:default, 0, :integer]
-[:default, -> { Time.current.iso8601 }, :date_time_iso8601]
-```
-
-Provides a default value for the param if the value is not present or it is
-`nil`. Other falsy values such as empty string or zero have precedence over
-the default value.
-
-If you provide a lambda it will execute every time `Request.validate!` is
-called.
-
-### Description
-
-```ruby
-[:description, markdown_text, subtype]
-[:description, "Customer full name", :string]
-[:description, "Rating score from 0 (bad) to 5 (good)", :integer]
-```
-
-Adds a description to the type. Descriptions are displayed in documentation
-and do not affect validation in any way with. There is no overhead at runtime.
-Markdown supported.
-
-### Hash
-
-```ruby
-[:hash, key_type, value_type, options = {}]
-[:hash, :string, :string]
-[:hash, :string, :integer]
-[:hash, :string, :integer, empty: false]
-[:hash, :string, [:array, :date_time_iso8601]]
-```
-
-Hashes are key value pairs where all keys must match key_type and all values must
-match value_type. If you are expecting a hash with a specific set of keys use a
-[record](#record) instead.
-
-### Enum
-
-```ruby
-[:enum, allowed_values]
-[:enum, ["user", "admin"]]
-[:enum, [10, 20, 30, 40, 50]]
-```
-
-### File
-
-```ruby
-:file
-[:file, max_size: 2.megabytes]
-[:file, content_types: %w[image/png image/jpeg]]
-```
-
-Value must be an uploaded file using "multipart/form-data" encoding.
-
-### Float
-
-```ruby
-:float
-[:float, negative: false]
-[:float, positive: false]
-[:float, min: 0] # inclusive
-[:float, max: 10] # inclusive
-```
-
-Float encoded string alues such as "0.5" or "500.01" are automatically converted to `Float`.
-
-### Integer
-
-```ruby
-:integer
-[:integer, negative: false]
-[:integer, positive: false]
-[:integer, min: 0] # inclusive
-[:integer, max: 10] # inclusive
-```
-
-Integer encoded string values such as "10" or "-2" are automatically converted
-to `Integer`.
-
-### Literal
-
-```ruby
-[:literal, value]
-[:literal, 6379]
-[:literal, "value"]
-"value" # strings are literal types, so you can use the shorter syntax.
-```
-
-A literal value behaves similar to an enum with a single value. Useful for
-matching against multiple types in [`one_of`](#one-of).
-
-### Nilable
-
-```ruby
-[:nilable, subtype]
-[:nilable, :string]
-[:nilable, [:array, :integer]]
-```
-
-Value must either match the subtype or be nil.
-
-### One of
-
-```ruby
-[:one_of, type1, type2, ..., typeN]
-[:one_of, :string, :integer]
-[:one_of, { email: :string }, { phone_number: :string }]
-```
-
-Attempts to validate against each type in order stopping at the first type that
-successfully matches the value. If none of the types match, an error is
-returned.
-
-### Record
-
-```ruby
-user_type = {
-  name: :string,
-  email: [:string, format: URI::MailTo::EMAIL_REGEXP]
-}
-
-address_type = {
-  country_name: :string,
-  zipcode: [:string, { format: /\d{6}-\d{3}/, strip: true }]
-}
-
-payment_type = {
-  currency: [:nilable, :string], # use :nilable for optional attribute
-  amount: :big_decimal
-}
-```
-
-Records are hashes with predefined attributes. Records support recursive
-definitions, that is, you can have records inside records, array of records,
-records with array of records, etc.
-
-### String
-
-```ruby
-:string
-[:string, strip: true] # " foo " gets transformed to "foo"
-[:string, empty: false]
-[:string, downcase: true] # "FOO" gets transformed to "foo"
-[:string, format: URI::MailTo::EMAIL_REGEXP]
-[:string, min_length: 8] # inclusive
-[:string, max_length: 20] # inclusive
-```
+Params, headers and responses are all validated against types. See the
+[dedicated types documentation](types.md) for the list of available types and
+how to use them on their own.
 
 # Configuration
 
