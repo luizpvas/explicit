@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Explicit::TestHelper::ExampleRecorder
+class Explicit::Request::TestHelper::ExampleRecorder
   class << self
     def start_service
       ::DRb.start_service("drbunix:", instance).uri
@@ -24,7 +24,7 @@ class Explicit::TestHelper::ExampleRecorder
   end
 
   def add(request_gid:, params:, headers:, response:)
-    @examples[request_gid] << Explicit::Request::Example.new(
+    @examples[request_gid] << ::Explicit::Request::Example.new(
       request: nil,
       params:,
       headers:,

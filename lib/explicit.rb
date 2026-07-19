@@ -20,15 +20,14 @@ require "explicit/documentation/output/webpage"
 require "explicit/documentation/page/partial"
 require "explicit/documentation/page/request"
 
-require "explicit/test_helper"
-require "explicit/test_helper/example_recorder"
-
 require "explicit/request"
 require "explicit/request/example"
 require "explicit/request/invalid_params_error"
 require "explicit/request/invalid_response_error"
 require "explicit/request/response"
 require "explicit/request/route"
+require "explicit/request/test_helper"
+require "explicit/request/test_helper/example_recorder"
 
 require "explicit/type"
 require "explicit/type/agreement"
@@ -56,3 +55,5 @@ require "explicit/type/modifiers/default"
 require "explicit/type/modifiers/description"
 require "explicit/type/modifiers/nilable"
 require "explicit/type/modifiers/param_location"
+
+require "explicit/test_helper"
