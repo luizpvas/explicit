@@ -44,13 +44,19 @@ conflicts. If fewer generators are touched, no problem. If more, we push to the 
 
 ### The shrinking algorithm
 
+A note on terminology: although the design is inspired by Hedgehog's shrink trees, what we
+keep per generator is not really a tree. Each generator holds a committed value plus a lazy
+sequence of shrink candidates for it: `next` enumerates candidates for the current committed
+value, and `commit` re-derives the candidate sequence from the newly committed value. Walking
+candidates-of-candidates this way traverses the same search space as a rose tree without
+ever materializing one.
+
 The generators state has this shape:
 
-`{ type_1 => [T0, T1], type_2 => [T0] }`
+`{ type_1 => [G0, G1], type_2 => [G0] }`
 
-
-T stands for tree. It starts empty and gets filled on the first run. If the run is a failure,
-we need to shrink one tree at a time. The shrinking algorithm search space should look something like this:
+G stands for generator. It starts empty and gets filled on the first run. If the run is a failure,
+we need to shrink one generator at a time. The shrinking algorithm search space should look something like this:
 
 ```
 loop do
@@ -108,6 +114,9 @@ end
 Let's talk about primitive generators:
 
 * Integer: accepts a range and origin as argument that is fully used when size is 100.
+  Below 100, the maximum distance from origin scales proportionally with size. Shrinking
+  binary-searches toward the origin: try the origin itself first, then midpoints between
+  the origin and the current value.
 * Float: accepts a range and origin as argument that is fully used when size is 100.
 * List: they could be defined as a combination of int for length plus the subgenerator,
   but in order to make shrinking more effective, we can implement a custom primitive that
@@ -118,14 +127,75 @@ Let's talk about primitive generators:
 
 Those are the only primitives we need. We can derive other generators using them.
 
+### Seeds
+
+Ruby's Random is not splittable like Haskell's SplitMix, and we don't want to add a
+dependency, so we implement SplitMix64 ourselves (the same algorithm used by Hedgehog and
+Java's SplittableRandom). It's ~20 lines of pure 64-bit integer arithmetic: an add-gamma
+step plus two xor-shift-multiply mixes, where split derives a new seed and a new odd gamma
+from the current state.
+
+Splitting matters here (vs. deriving seeds sequentially from a single shared Random)
+because each `gen` position gets its own split seed. A shrink run that takes a different
+code path and calls more or fewer generators doesn't perturb the values of unrelated
+positions, which keeps the "push to the list" expansion case stable.
+
+The master seed is printed on failure and can be set via `EXPLICIT_SEED` to replay a
+failing run deterministically.
+
+### Failure reporting
+
+After shrinking finishes, we re-raise the final shrunk run's `Minitest::Assertion` with a
+prefixed message instead of building a report from scratch. The user keeps the real
+assertion output — including Minitest's Expected/Actual diff, often the most informative
+line — and it integrates with every reporter and CI formatter for free. Example:
+
+```
+Property failed after 13 runs and 47 shrink steps.
+
+Minimal counterexample:
+  gen(:integer)  [0] = 0
+  gen(:integer)  [1] = -1
+
+Reproduce with: EXPLICIT_SEED=3f9a2c bin/rails test test/models/bill_test.rb
+
+--- original failure ---
+Expected: 100
+  Actual: 99
+```
+
+The ingredients, in order of usefulness:
+
+1. The minimal counterexample, one line per `gen` call in call order, showing the type and
+   args the user passed. Position + type is the closest we can get to naming the variable.
+   Values printed with `inspect`.
+2. The assertion message from the minimal run (not the original run) — it describes the
+   failure at the values the user will actually debug with.
+3. A copy-pasteable reproduction command with the seed.
+4. Run/shrink counts — a trust signal that the example really is minimal.
+
+We deliberately do not include the original pre-shrink values: nobody debugs with the
+unshrunk example and it doubles the noise. Could sit behind a verbose flag later.
+
+### Configuration
+
+* Max runs: 100 by default, configurable via `Explicit.configure { _1.property_max_runs = ... }`
+  with `EXPLICIT_PROPERTY_MAX_RUNS` taking precedence — same shape as
+  `request_examples_persistance_enabled?`. Kept flat on `Explicit::Configuration` to match
+  the current style; revisit nesting if we accumulate 3+ property settings.
+* `EXPLICIT_SEED`: env only, no settings counterpart — it's a reproduction tool printed by
+  the failure report. When set, the master seed replays the same sequence of values.
+
 ### Code design
 
 The surface area to use this library should be small from the user's perspective.
 People are used to the `test` in Minitest. Let's introduce a new function named
 `example`, which is an alias to `test` (to have contrast with property) and a new
 function `property` with the same signature as test. We already have `Explicit::TestHelper`
-defined, so we need to.
+defined (it includes `Explicit::Request::TestHelper`), so the new property module gets
+included there as well.
 
+* `Explicit::Testing::Property::Seed`: SplitMix64 implementation (see Seeds section).
 * `Explicit::Testing::Property::Generator`: base class that implements reset, apply
   commit and revert.
 * `Explicit::Testing::Property::Generator::Integer`: inherits from base class and
@@ -161,4 +231,18 @@ defined, so we need to.
     @_property_executor.gen(type, **opts)
   end
   ```
+
+  Note that `property` must be a class method — Minitest's `test` is a class-level
+  macro — while `gen` is an instance method, so the concern defines them in separate
+  blocks (`class_methods do` for `property`).
+
+### POC scope
+
+The first iteration is integer-only:
+
+* `gen(:integer, ...)` takes the same kwargs as `Explicit::Type::Integer`
+  (min/max/negative/positive), plus a generator-specific `origin:` for shrinking.
+  The generator derives its range from those constraints.
+* Minitest only.
+* Float, list and string generators, plus Rails model generators, come later.
 
